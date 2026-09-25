@@ -1,3 +1,2 @@
-# PawVago Investor-Ready Landing Page
-Static responsive website for PawVago. The waitlist form is a front-end demo until connected to a form/database service.
-PawVago website
+# PawVago App v1
+Working product shell: authentication UI, dashboard, pet profile, responsive landing page, and Supabase-ready auth. Without Supabase credentials it uses a local browser demo account.
