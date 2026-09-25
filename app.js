@@ -1,222 +1,553 @@
 const C = window.PAWVAGO_CONFIG || {};
-const sb = C.SUPABASE_URL && !C.SUPABASE_URL.includes('YOUR_') && window.supabase
-  ? supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY)
-  : null;
+
+const sb =
+  C.SUPABASE_URL &&
+  C.SUPABASE_ANON_KEY &&
+  window.supabase
+    ? window.supabase.createClient(
+        C.SUPABASE_URL,
+        C.SUPABASE_ANON_KEY
+      )
+    : null;
 
 const $ = id => document.getElementById(id);
-let user = JSON.parse(localStorage.getItem('pawvago_user') || 'null');
-let pet = JSON.parse(localStorage.getItem('pawvago_pet') || 'null');
-let trip = JSON.parse(localStorage.getItem('pawvago_trip') || 'null');
+
+let user = null;
+let pet = null;
+let trip = null;
 let mode = 'signup';
 
-const AIRLINES = [
-  {
-    name:'Vueling',
-    cabin:true,
-    totalKg:10,
-    dims:'45 × 39 × 21 cm',
-    booking:'Pet must be added to the booking',
-    source:'Vueling official pet policy'
-  },
-  {
-    name:'Lufthansa',
-    cabin:true,
-    totalKg:8,
-    dims:'55 × 40 × 23 cm',
-    booking:'Pet registration is subject to confirmation; recommend 72h+',
-    source:'Lufthansa official pet policy'
-  },
-  {
-    name:'Air France',
-    cabin:true,
-    totalKg:8,
-    dims:'Airline-specific carrier requirements',
-    booking:'Pet must be added to the booking; availability applies',
-    source:'Air France official pet policy'
-  }
-];
+let airlineData = [];
+let countryRuleData = [];
+let serviceData = [];
 
 const COUNTRY_ALIASES = {
-  hungary:'Hungary',
-  budapest:'Hungary',
-  france:'France',
-  paris:'France',
-  spain:'Spain',
-  madrid:'Spain',
-  barcelona:'Spain',
-  germany:'Germany',
-  berlin:'Germany',
-  italy:'Italy',
-  rome:'Italy',
-  milan:'Italy',
-  portugal:'Portugal',
-  lisbon:'Portugal',
-  austria:'Austria',
-  vienna:'Austria',
-  poland:'Poland',
-  warsaw:'Poland',
-  belgium:'Belgium',
-  brussels:'Belgium',
-  netherlands:'Netherlands',
-  amsterdam:'Netherlands',
-  finland:'Finland',
-  ireland:'Ireland',
-  malta:'Malta',
-  norway:'Norway',
-  'northern ireland':'Northern Ireland',
-  switzerland:'Switzerland',
-  uk:'United Kingdom',
-  'united kingdom':'United Kingdom',
-  'czech republic':'Czechia',
-  czechia:'Czechia',
-  croatia:'Croatia',
-  greece:'Greece'
+  france: 'France',
+  france: 'France',
+  paris: 'France',
+  nantes: 'France',
+  'la chapelle-sur-erdre': 'France',
+  'saint-herblain': 'France',
+
+  hungary: 'Hungary',
+  budapest: 'Hungary',
+
+  spain: 'Spain',
+  madrid: 'Spain',
+  barcelona: 'Spain',
+
+  germany: 'Germany',
+  berlin: 'Germany',
+  munich: 'Germany',
+  frankfurt: 'Germany',
+
+  italy: 'Italy',
+  rome: 'Italy',
+  milan: 'Italy',
+
+  portugal: 'Portugal',
+  lisbon: 'Portugal',
+
+  austria: 'Austria',
+  vienna: 'Austria',
+
+  poland: 'Poland',
+  warsaw: 'Poland',
+  krakow: 'Poland',
+
+  belgium: 'Belgium',
+  brussels: 'Belgium',
+
+  netherlands: 'Netherlands',
+  amsterdam: 'Netherlands',
+
+  finland: 'Finland',
+  ireland: 'Ireland',
+  malta: 'Malta',
+  norway: 'Norway',
+
+  'northern ireland': 'Northern Ireland',
+
+  switzerland: 'Switzerland',
+
+  uk: 'United Kingdom',
+  'united kingdom': 'United Kingdom',
+
+  czechia: 'Czechia',
+  'czech republic': 'Czechia',
+
+  croatia: 'Croatia',
+  greece: 'Greece'
 };
 
-function ensureStyles(){
+const COUNTRY_CODES = {
+  France: 'FR',
+  Hungary: 'HU',
+  Spain: 'ES',
+  Germany: 'DE',
+  Italy: 'IT',
+  Portugal: 'PT',
+  Austria: 'AT',
+  Poland: 'PL',
+  Belgium: 'BE',
+  Netherlands: 'NL',
+  Finland: 'FI',
+  Ireland: 'IE',
+  Malta: 'MT',
+  Norway: 'NO',
+  'Northern Ireland': 'GB-NIR',
+  Switzerland: 'CH',
+  'United Kingdom': 'GB',
+  Czechia: 'CZ',
+  Croatia: 'HR',
+  Greece: 'GR'
+};
 
-  if($('pawvagoEngineStyles')) return;
 
-  const s=document.createElement('style');
+/* =========================================================
+   HELPERS
+========================================================= */
 
-  s.id='pawvagoEngineStyles';
-
-  s.textContent=`
-
-  .pv-engine{
-    display:grid;
-    gap:18px;
-    margin-top:18px
-  }
-
-  .pv-card{
-    padding:20px;
-    border:1px solid rgba(15,23,42,.1);
-    border-radius:18px;
-    background:#fff
-  }
-
-  .pv-card h3{
-    margin:0 0 12px
-  }
-
-  .pv-grid{
-    display:grid;
-    grid-template-columns:
-      repeat(auto-fit,minmax(230px,1fr));
-    gap:12px
-  }
-
-  .pv-airline{
-    padding:16px;
-    border:1px solid rgba(15,23,42,.1);
-    border-radius:14px
-  }
-
-  .pv-airline strong{
-    font-size:1.05rem
-  }
-
-  .pv-pill{
-    display:inline-block;
-    padding:5px 9px;
-    border-radius:999px;
-    font-size:.78rem;
-    font-weight:700;
-    background:#eef2f7;
-    margin-top:8px
-  }
-
-  .pv-ok{
-    background:#dcfce7;
-    color:#166534
-  }
-
-  .pv-warn{
-    background:#fef3c7;
-    color:#92400e
-  }
-
-  .pv-bad{
-    background:#fee2e2;
-    color:#991b1b
-  }
-
-  .pv-row{
-    display:flex;
-    gap:10px;
-    align-items:flex-start;
-    padding:10px 0;
-    border-bottom:1px solid rgba(15,23,42,.07)
-  }
-
-  .pv-row:last-child{
-    border-bottom:0
-  }
-
-  .pv-icon{
-    width:25px;
-    height:25px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:800;
-    flex:0 0 25px
-  }
-
-  .pv-muted{
-    opacity:.68;
-    font-size:.9rem
-  }
-
-  .pv-timeline{
-    display:grid;
-    gap:10px
-  }
-
-  .pv-timeline-item{
-    padding:12px 14px;
-    border-left:3px solid rgba(15,23,42,.18);
-    background:#f8fafc;
-    border-radius:0 10px 10px 0
-  }
-
-  .pv-timeline-item strong{
-    display:block
-  }
-
-  .pv-disclaimer{
-    font-size:.82rem;
-    line-height:1.5;
-    opacity:.7
-  }
-
-  .pv-searching{
-    padding:16px;
-    border-radius:14px;
-    background:#f8fafc
-  }
-
-  `;
-
-  document.head.appendChild(s);
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
 }
 
 
-function ensureTripModal(){
+function fmtDate(value) {
+  if (!value) return '';
 
-  ensureStyles();
+  const d = new Date(value + 'T00:00:00');
 
-  if($('tripModal')) return;
+  if (Number.isNaN(d.getTime())) {
+    return value;
+  }
 
-  const m=document.createElement('div');
+  return d.toLocaleDateString(undefined, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  });
+}
 
-  m.className='modal hidden';
 
-  m.id='tripModal';
+function todayISO() {
+  return new Date().toISOString().slice(0, 10);
+}
 
-  m.innerHTML=`
+
+function addDays(dateString, days) {
+  const d = new Date(dateString + 'T00:00:00');
+  d.setDate(d.getDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
+
+function countryFromDestination(value) {
+  const s = String(value || '')
+    .trim()
+    .toLowerCase();
+
+  for (const [alias, country] of Object.entries(COUNTRY_ALIASES)) {
+    if (
+      s === alias ||
+      s.includes(alias)
+    ) {
+      return country;
+    }
+  }
+
+  return null;
+}
+
+
+function countryCode(country) {
+  return COUNTRY_CODES[country] || null;
+}
+
+
+function petWeight() {
+  return Number(
+    pet?.weight_kg ??
+    pet?.weight ??
+    0
+  );
+}
+
+
+/* =========================================================
+   STYLES FOR PAWVAGO ENGINE
+========================================================= */
+
+function ensureStyles() {
+
+  if ($('pawvagoEngineStyles')) return;
+
+  const style = document.createElement('style');
+
+  style.id = 'pawvagoEngineStyles';
+
+  style.textContent = `
+
+    .pv-engine {
+      display:grid;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .pv-card {
+      padding:20px;
+      border:1px solid rgba(15,23,42,.10);
+      border-radius:18px;
+      background:#fff;
+    }
+
+    .pv-card h3 {
+      margin:0 0 12px;
+    }
+
+    .pv-grid {
+      display:grid;
+      grid-template-columns:repeat(
+        auto-fit,
+        minmax(230px,1fr)
+      );
+      gap:12px;
+    }
+
+    .pv-airline {
+      padding:16px;
+      border:1px solid rgba(15,23,42,.10);
+      border-radius:14px;
+    }
+
+    .pv-airline strong {
+      font-size:1.05rem;
+    }
+
+    .pv-pill {
+      display:inline-block;
+      padding:5px 9px;
+      border-radius:999px;
+      font-size:.78rem;
+      font-weight:700;
+      background:#eef2f7;
+      margin-top:8px;
+    }
+
+    .pv-ok {
+      background:#dcfce7;
+      color:#166534;
+    }
+
+    .pv-warn {
+      background:#fef3c7;
+      color:#92400e;
+    }
+
+    .pv-bad {
+      background:#fee2e2;
+      color:#991b1b;
+    }
+
+    .pv-row {
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:10px 0;
+      border-bottom:1px solid rgba(15,23,42,.07);
+    }
+
+    .pv-row:last-child {
+      border-bottom:0;
+    }
+
+    .pv-icon {
+      width:25px;
+      height:25px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      flex:0 0 25px;
+    }
+
+    .pv-muted {
+      opacity:.68;
+      font-size:.9rem;
+    }
+
+    .pv-timeline {
+      display:grid;
+      gap:10px;
+    }
+
+    .pv-timeline-item {
+      padding:12px 14px;
+      border-left:3px solid rgba(15,23,42,.18);
+      background:#f8fafc;
+      border-radius:0 10px 10px 0;
+    }
+
+    .pv-timeline-item strong {
+      display:block;
+    }
+
+    .pv-service {
+      padding:14px;
+      border:1px solid rgba(15,23,42,.10);
+      border-radius:14px;
+    }
+
+    .pv-service h4 {
+      margin:0 0 6px;
+    }
+
+    .pv-disclaimer {
+      font-size:.82rem;
+      line-height:1.5;
+      opacity:.7;
+    }
+
+    .pv-empty {
+      padding:16px;
+      border-radius:14px;
+      background:#f8fafc;
+    }
+
+  `;
+
+  document.head.appendChild(style);
+}
+
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+function auth(newMode) {
+
+  mode = newMode;
+
+  $('authTitle').textContent =
+    mode === 'signup'
+      ? 'Create your account'
+      : 'Welcome back';
+
+  $('authSubtitle').textContent =
+    mode === 'signup'
+      ? 'Start building your pet travel plan.'
+      : 'Log in to continue your PawVago journey.';
+
+  $('authSubmit').textContent =
+    mode === 'signup'
+      ? 'Create account'
+      : 'Log in';
+
+  const switchButton =
+    $('switchAuth')?.querySelector('button');
+
+  if (switchButton) {
+
+    switchButton.textContent =
+      mode === 'signup'
+        ? 'Log in'
+        : 'Create account';
+
+  }
+
+  if ($('switchAuth')) {
+
+    $('switchAuth').firstChild.textContent =
+      mode === 'signup'
+        ? 'Already have an account? '
+        : "Don't have an account? ";
+
+  }
+
+  $('authNotice').textContent = '';
+  $('authNotice').className = 'notice';
+
+  $('authModal').classList.remove('hidden');
+}
+
+
+function closeAuth() {
+  $('authModal')?.classList.add('hidden');
+}
+
+
+/* =========================================================
+   PET
+========================================================= */
+
+function openPet() {
+
+  if (!user) {
+    auth('login');
+    return;
+  }
+
+  if (pet) {
+
+    $('petName').value =
+      pet.name || '';
+
+    $('species').value =
+      pet.species || 'Dog';
+
+    $('weight').value =
+      pet.weight_kg ??
+      pet.weight ??
+      '';
+
+    $('breed').value =
+      pet.breed || '';
+
+  } else {
+
+    $('petName').value = '';
+    $('species').value = 'Dog';
+    $('weight').value = '';
+    $('breed').value = '';
+
+  }
+
+  $('petModal').classList.remove('hidden');
+}
+
+
+function closePet() {
+  $('petModal')?.classList.add('hidden');
+}
+
+
+async function savePet(event) {
+
+  event.preventDefault();
+
+  if (!sb || !user?.id) {
+
+    showPetError(
+      'Please log in before saving your pet.'
+    );
+
+    return;
+  }
+
+  const petData = {
+
+    user_id: user.id,
+
+    name:
+      $('petName').value.trim(),
+
+    species:
+      $('species').value,
+
+    weight_kg:
+      Number($('weight').value),
+
+    breed:
+      $('breed').value.trim()
+
+  };
+
+  let result;
+
+  if (pet?.id) {
+
+    result = await sb
+      .from('pets')
+      .update(petData)
+      .eq('id', pet.id)
+      .eq('user_id', user.id)
+      .select()
+      .single();
+
+  } else {
+
+    result = await sb
+      .from('pets')
+      .insert(petData)
+      .select()
+      .single();
+
+  }
+
+  if (result.error) {
+
+    console.error(
+      'Pet save error:',
+      result.error
+    );
+
+    showPetError(
+      result.error.message
+    );
+
+    return;
+  }
+
+  pet = result.data;
+
+  closePet();
+
+  await loadUserData();
+
+  render();
+}
+
+
+function showPetError(message) {
+
+  const box =
+    $('petModal')?.querySelector('.modal-box');
+
+  if (!box) return;
+
+  let notice =
+    box.querySelector('.pv-error');
+
+  if (!notice) {
+
+    notice =
+      document.createElement('div');
+
+    notice.className =
+      'notice error pv-error';
+
+    box.appendChild(notice);
+
+  }
+
+  notice.textContent = message;
+}
+
+
+/* =========================================================
+   TRIP MODAL
+========================================================= */
+
+function ensureTripModal() {
+
+  if ($('tripModal')) return;
+
+  const modal =
+    document.createElement('div');
+
+  modal.className =
+    'modal hidden';
+
+  modal.id =
+    'tripModal';
+
+  modal.innerHTML = `
 
     <div class="modal-box">
 
@@ -233,37 +564,43 @@ function ensureTripModal(){
       </p>
 
       <h2>
-        Where are you going?
+        Plan your pet journey
       </h2>
 
       <p>
-        PawVago will use your pet profile,
-        destination and travel date to build
-        your first travel plan.
+        PawVago will use your saved pet profile,
+        route, travel date and database rules
+        to build your travel plan.
       </p>
 
       <form id="tripForm">
 
         <label>
-          Destination
+          From
+          <input
+            id="tripFrom"
+            required
+            placeholder="e.g. Nantes, France"
+          >
+        </label>
 
+        <label>
+          To
           <input
             id="tripTo"
             required
-            placeholder="e.g. Budapest"
+            placeholder="e.g. Budapest, Hungary"
           >
-
         </label>
 
         <label>
           Travel date
-
           <input
             id="tripDate"
             type="date"
             required
+            min="${todayISO()}"
           >
-
         </label>
 
         <button
@@ -284,699 +621,1174 @@ function ensureTripModal(){
 
   `;
 
-  document.body.appendChild(m);
+  document.body.appendChild(modal);
 
-  $('closeTrip').onclick=closeTrip;
+  $('closeTrip').onclick =
+    closeTrip;
 
-  $('tripForm').onsubmit=saveTrip;
+  $('tripForm').onsubmit =
+    saveTrip;
 }
 
 
-function auth(m){
-
-  mode=m;
-
-  $('authTitle').textContent=
-    m==='signup'
-      ? 'Create your account'
-      : 'Welcome back';
-
-  $('authSubtitle').textContent=
-    m==='signup'
-      ? 'Start building your pet travel plan.'
-      : 'Log in to continue your PawVago journey.';
-
-  $('authSubmit').textContent=
-    m==='signup'
-      ? 'Create account'
-      : 'Log in';
-
-  $('authNotice').textContent='';
-
-  $('authModal').classList.remove('hidden');
-}
-
-
-function closeAuth(){
-
-  $('authModal').classList.add('hidden');
-
-}
-
-
-function openPet(){
-
-  if(pet){
-
-    $('petName').value=
-      pet.name||'';
-
-    $('species').value=
-      pet.species||'Dog';
-
-    $('weight').value=
-      pet.weight||'';
-
-    $('breed').value=
-      pet.breed||'';
-
-  }
-
-  $('petModal').classList.remove('hidden');
-
-}
-
-
-function closePet(){
-
-  $('petModal').classList.add('hidden');
-
-}
-
-
-function openTrip(){
+function openTrip() {
 
   ensureTripModal();
 
-  if(!user){
-
+  if (!user) {
     auth('login');
-
     return;
-
   }
 
-  if(!pet){
-
+  if (!pet) {
     openPet();
-
     return;
-
   }
 
-  if(trip){
+  if (trip) {
 
-    $('tripTo').value=
-      trip.to||'';
+    $('tripFrom').value =
+      trip.from || '';
 
-    $('tripDate').value=
-      trip.date||'';
+    $('tripTo').value =
+      trip.to || '';
+
+    $('tripDate').value =
+      trip.date || '';
+
+  } else {
+
+    $('tripFrom').value = '';
+    $('tripTo').value = '';
+    $('tripDate').value = '';
 
   }
 
   $('tripModal').classList.remove('hidden');
-
 }
 
 
-function closeTrip(){
-
+function closeTrip() {
   $('tripModal')?.classList.add('hidden');
-
 }
 
 
-function savePet(e){
+async function saveTrip(event) {
 
-  e.preventDefault();
+  event.preventDefault();
 
-  pet={
-    name:$('petName').value.trim(),
-    species:$('species').value,
-    weight:$('weight').value,
-    breed:$('breed').value.trim()
+  if (!sb || !user?.id) {
+
+    showTripError(
+      'Please log in first.'
+    );
+
+    return;
+  }
+
+  if (!pet?.id) {
+
+    showTripError(
+      'Please save your pet profile first.'
+    );
+
+    return;
+  }
+
+  const from =
+    $('tripFrom').value.trim();
+
+  const to =
+    $('tripTo').value.trim();
+
+  const date =
+    $('tripDate').value;
+
+  if (!from || !to || !date) {
+
+    showTripError(
+      'Please complete all trip fields.'
+    );
+
+    return;
+  }
+
+  const originCountry =
+    countryFromDestination(from) ||
+    from;
+
+  const destinationCountry =
+    countryFromDestination(to) ||
+    to;
+
+  const data = {
+
+    user_id:
+      user.id,
+
+    pet_id:
+      pet.id,
+
+    origin_country:
+      originCountry,
+
+    origin_city:
+      from,
+
+    destination_country:
+      destinationCountry,
+
+    destination_city:
+      to,
+
+    travel_date:
+      date,
+
+    status:
+      'planned'
+
   };
 
-  localStorage.setItem(
-    'pawvago_pet',
-    JSON.stringify(pet)
-  );
+  let result;
 
-  closePet();
+  if (trip?.id) {
 
-  render();
+    result = await sb
+      .from('trips')
+      .update(data)
+      .eq('id', trip.id)
+      .eq('user_id', user.id)
+      .select()
+      .single();
 
-}
+  } else {
 
+    result = await sb
+      .from('trips')
+      .insert(data)
+      .select()
+      .single();
 
-function saveTrip(e){
+  }
 
-  e.preventDefault();
+  if (result.error) {
 
-  trip={
-    to:$('tripTo').value.trim(),
-    date:$('tripDate').value,
-    from:'France'
+    console.error(
+      'Trip save error:',
+      result.error
+    );
+
+    showTripError(
+      result.error.message
+    );
+
+    return;
+  }
+
+  trip = {
+
+    ...result.data,
+
+    from:
+      from,
+
+    to:
+      to,
+
+    date:
+      date
+
   };
 
-  localStorage.setItem(
-    'pawvago_trip',
-    JSON.stringify(trip)
-  );
+  await loadTravelData();
 
   closeTrip();
 
   render();
-
 }
 
 
-async function submitAuth(e){
+function showTripError(message) {
 
-  e.preventDefault();
+  const notice =
+    $('tripNotice');
 
-  const email=
-    $('email').value.trim();
+  if (!notice) return;
 
-  const password=
-    $('password').value;
+  notice.textContent =
+    message;
 
-  if(sb){
+  notice.className =
+    'notice error';
+}
 
-    const r=
-      mode==='signup'
 
-        ? await sb.auth.signUp({
-            email,
-            password
-          })
+/* =========================================================
+   DATABASE
+========================================================= */
 
-        : await sb.auth.signInWithPassword({
-            email,
-            password
-          });
+async function loadUserData() {
 
-    if(r.error){
+  pet = null;
+  trip = null;
 
-      $('authNotice').textContent=
-        r.error.message;
+  if (!sb || !user?.id) {
+    return;
+  }
 
-      $('authNotice').className=
-        'notice error';
+  const petResult =
+    await sb
+      .from('pets')
+      .select('*')
+      .eq('user_id', user.id)
+      .order(
+        'created_at',
+        { ascending: true }
+      )
+      .limit(1)
+      .maybeSingle();
 
-      return;
+  if (petResult.error) {
 
-    }
+    console.error(
+      'Pet loading error:',
+      petResult.error
+    );
 
-    user=
-      r.data.user||
-      r.data.session?.user||
-      null;
+  } else {
 
-    if(
-      mode==='signup' &&
-      !user
-    ){
+    pet =
+      petResult.data || null;
 
-      $('authNotice').textContent=
-        'Account created. Check your email to confirm your account, then log in.';
+  }
 
-      return;
 
-    }
+  const tripResult =
+    await sb
+      .from('trips')
+      .select('*')
+      .eq('user_id', user.id)
+      .order(
+        'created_at',
+        { ascending: false }
+      )
+      .limit(1)
+      .maybeSingle();
 
-  }else{
+  if (tripResult.error) {
 
-    user={
-      email
+    console.error(
+      'Trip loading error:',
+      tripResult.error
+    );
+
+  } else if (tripResult.data) {
+
+    const t =
+      tripResult.data;
+
+    trip = {
+
+      ...t,
+
+      from:
+        t.origin_city
+          ? t.origin_city
+          : t.origin_country,
+
+      to:
+        t.destination_city
+          ? t.destination_city
+          : t.destination_country,
+
+      date:
+        t.travel_date
+
     };
 
-    localStorage.setItem(
-      'pawvago_user',
-      JSON.stringify(user)
+  }
+}
+
+
+async function loadTravelData() {
+
+  airlineData = [];
+  countryRuleData = [];
+  serviceData = [];
+
+  if (!sb || !trip) {
+    return;
+  }
+
+  const destinationCountry =
+    countryFromDestination(trip.to) ||
+    trip.destination_country ||
+    null;
+
+  if (!destinationCountry) {
+    return;
+  }
+
+  const destinationCode =
+    countryCode(destinationCountry);
+
+
+  /* AIRLINES + RULES */
+
+  const airlineResult =
+    await sb
+      .from('airlines')
+      .select(`
+        *,
+        airline_rules(*)
+      `)
+      .eq('active', true);
+
+  if (airlineResult.error) {
+
+    console.error(
+      'Airline loading error:',
+      airlineResult.error
     );
 
-  }
+  } else {
 
-  await refresh();
-
-  closeAuth();
-
-  show('dashboard');
-
-}
-
-
-async function refresh(){
-
-  if(sb){
-
-    const {data}=
-      await sb.auth.getSession();
-
-    user=
-      data.session?.user||
-      null;
+    airlineData =
+      airlineResult.data || [];
 
   }
 
-  const a=
-    $('authActions');
 
-  if(!a) return;
+  /* COUNTRY RULES */
 
-  a.innerHTML=
-    user
+  let rulesQuery =
+    sb
+      .from('country_rules')
+      .select('*')
+      .eq(
+        'country_name',
+        destinationCountry
+      )
+      .eq(
+        'is_active',
+        true
+      );
 
-      ? `
-        <button
-          class="btn dark"
-          id="dashBtn"
-        >
-          Dashboard
-        </button>
-      `
+  if (destinationCode) {
 
-      : `
-        <button
-          class="btn ghost"
-          id="loginBtn"
-        >
-          Log in
-        </button>
-
-        <button
-          class="btn dark"
-          id="signupBtn"
-        >
-          Create account
-        </button>
-      `;
-
-  $('loginBtn')?.addEventListener(
-    'click',
-    ()=>auth('login')
-  );
-
-  $('signupBtn')?.addEventListener(
-    'click',
-    ()=>auth('signup')
-  );
-
-  $('dashBtn')?.addEventListener(
-    'click',
-    ()=>show('dashboard')
-  );
-
-}
-
-
-function countryFromDestination(value){
-
-  const s=
-    String(value||'')
-      .trim()
-      .toLowerCase();
-
-  for(
-    const [alias,country]
-    of Object.entries(COUNTRY_ALIASES)
-  ){
-
-    if(
-      s===alias ||
-      s.includes(alias)
-    ){
-
-      return country;
-
-    }
+    rulesQuery =
+      sb
+        .from('country_rules')
+        .select('*')
+        .eq(
+          'country_code',
+          destinationCode
+        )
+        .eq(
+          'is_active',
+          true
+        );
 
   }
 
-  return null;
+  const rulesResult =
+    await rulesQuery;
 
-}
+  if (rulesResult.error) {
 
-
-function isEU(country){
-
-  return [
-    'France',
-    'Hungary',
-    'Spain',
-    'Germany',
-    'Italy',
-    'Portugal',
-    'Austria',
-    'Poland',
-    'Belgium',
-    'Netherlands',
-    'Finland',
-    'Ireland',
-    'Malta',
-    'Czechia',
-    'Croatia',
-    'Greece'
-  ].includes(country);
-
-}
-
-
-function daysBetween(a,b){
-
-  return Math.ceil(
-    (
-      new Date(a)-
-      new Date(b)
-    )/86400000
-  );
-
-}
-
-
-function fmtDate(d){
-
-  return new Date(
-    d+'T00:00:00'
-  ).toLocaleDateString(
-    undefined,
-    {
-      day:'numeric',
-      month:'short',
-      year:'numeric'
-    }
-  );
-
-}
-
-
-function airlineResult(a){
-
-  const w=
-    Number(
-      pet?.weight||0
+    console.error(
+      'Country rules error:',
+      rulesResult.error
     );
 
-  if(!w){
+  } else {
+
+    countryRuleData =
+      rulesResult.data || [];
+
+  }
+
+
+  /* DESTINATION SERVICES */
+
+  const servicesResult =
+    await sb
+      .from('service_providers')
+      .select('*')
+      .eq(
+        'country_name',
+        destinationCountry
+      )
+      .eq(
+        'is_active',
+        true
+      )
+      .limit(20);
+
+  if (servicesResult.error) {
+
+    console.error(
+      'Service loading error:',
+      servicesResult.error
+    );
+
+  } else {
+
+    serviceData =
+      servicesResult.data || [];
+
+  }
+
+}
+
+
+/* =========================================================
+   AIRLINE ENGINE
+========================================================= */
+
+function getActiveRule(airline) {
+
+  const rules =
+    Array.isArray(
+      airline.airline_rules
+    )
+      ? airline.airline_rules
+      : [];
+
+  const species =
+    pet?.species ||
+    'Dog';
+
+  return (
+    rules.find(
+      r =>
+        r.is_active !== false &&
+        (
+          !r.species ||
+          r.species.toLowerCase() ===
+          species.toLowerCase()
+        )
+    ) ||
+    rules.find(
+      r =>
+        r.is_active !== false
+    ) ||
+    null
+  );
+}
+
+
+function airlineResult(
+  airline,
+  rule
+) {
+
+  const weight =
+    petWeight();
+
+  if (!rule) {
 
     return {
-      status:'Check',
-      cls:'pv-warn',
+
+      status:
+        'Rule not stored',
+
+      cls:
+        'pv-warn',
+
       reason:
-        'Add your pet weight to calculate compatibility.'
+        'PawVago does not yet have a current rule for this airline.'
+
     };
 
   }
 
+  if (!rule.cabin_allowed) {
 
-  if(a.name==='Vueling'){
+    return {
 
-    const remaining=
-      10-w;
+      status:
+        'Cabin not available',
 
-    return w<10
+      cls:
+        'pv-bad',
 
-      ? {
-          status:'Compatible',
-          cls:'pv-ok',
-          reason:
-            `Up to ${Math.max(
-              0,
-              remaining
-            ).toFixed(1)} kg remains for the carrier. Max carrier: 45 × 39 × 21 cm.`
-        }
+      reason:
+        'The stored airline rule does not allow this pet type in the cabin.'
 
-      : {
-          status:'Not compatible',
-          cls:'pv-bad',
-          reason:
-            'Pet alone reaches the 10 kg cabin limit.'
-        };
+    };
 
   }
 
+  if (!weight) {
 
-  if(a.name==='Lufthansa')
+    return {
 
-    return w<8
+      status:
+        'Check',
 
-      ? {
-          status:'Compatible',
-          cls:'pv-ok',
-          reason:
-            `Carrier + pet must stay at or below 8 kg. Remaining carrier allowance: ${Math.max(
-              0,
-              8-w
-            ).toFixed(1)} kg.`
-        }
+      cls:
+        'pv-warn',
 
-      : {
-          status:'Not compatible',
-          cls:'pv-bad',
-          reason:
-            'Pet weight leaves no practical carrier allowance under the 8 kg cabin limit.'
-        };
+      reason:
+        'Add your pet weight to calculate compatibility.'
 
+    };
 
-  if(a.name==='Air France')
+  }
 
-    return w<8
+  const maxCombined =
+    Number(
+      rule.max_combined_weight_kg || 0
+    );
 
-      ? {
-          status:'Compatible',
-          cls:'pv-ok',
-          reason:
-            `Cabin total must remain at or below 8 kg. Remaining carrier allowance: ${Math.max(
-              0,
-              8-w
-            ).toFixed(1)} kg.`
-        }
+  const maxPet =
+    Number(
+      rule.max_pet_weight_kg || 0
+    );
 
-      : {
-          status:'Not compatible',
-          cls:'pv-bad',
-          reason:
-            'At 8 kg or more, the pet + carrier cannot meet the cabin threshold.'
-        };
+  const max =
+    maxCombined ||
+    maxPet ||
+    0;
 
+  if (
+    max &&
+    weight > max
+  ) {
+
+    return {
+
+      status:
+        'Not compatible',
+
+      cls:
+        'pv-bad',
+
+      reason:
+        `Pet weight is ${weight} kg, above the stored ${max} kg limit.`
+
+    };
+
+  }
+
+  let remainingText = '';
+
+  if (maxCombined) {
+
+    const remaining =
+      Math.max(
+        0,
+        maxCombined - weight
+      );
+
+    remainingText =
+      `Remaining allowance for the carrier: ${remaining.toFixed(1)} kg.`;
+
+  }
+
+  const dimensions = [
+
+    rule.carrier_length_cm,
+
+    rule.carrier_width_cm,
+
+    rule.carrier_height_cm
+
+  ].every(
+    Number.isFinite
+  )
+    ? `${rule.carrier_length_cm} × ${rule.carrier_width_cm} × ${rule.carrier_height_cm} cm`
+    : '';
 
   return {
-    status:'Check',
-    cls:'pv-warn',
+
+    status:
+      'Compatible with stored rule',
+
+    cls:
+      'pv-ok',
+
     reason:
-      'Airline-specific rule needs verification.'
+      remainingText ||
+      'Pet meets the stored cabin rule.',
+
+    dimensions
+
   };
 
 }
 
 
-function documentsFor(country){
+/* =========================================================
+   COUNTRY DOCUMENT ENGINE
+========================================================= */
 
-  const eu=
-    isEU(country);
+function buildDocuments() {
 
-  const special=[
-    'Finland',
-    'Ireland',
-    'Malta',
-    'Norway',
-    'Northern Ireland'
-  ].includes(country);
+  if (!countryRuleData.length) {
 
-  if(eu){
+    return [
 
-    const docs=[
-      'Microchip',
-      'Valid rabies vaccination',
-      'EU pet passport'
+      {
+        title:
+          'Destination rules not loaded',
+
+        detail:
+          'PawVago does not yet have a current database rule for this destination.'
+
+      }
+
     ];
 
-    if(special){
+  }
 
-      docs.push(
-        'Echinococcus treatment 24–120 hours before entry (dogs)'
-      );
+  const docs = [];
+
+  const rule =
+    countryRuleData[0];
+
+
+  if (rule.requires_microchip) {
+
+    docs.push({
+
+      title:
+        'Microchip',
+
+      detail:
+        'Required according to the stored destination rule.'
+
+    });
+
+  }
+
+
+  if (rule.requires_rabies) {
+
+    docs.push({
+
+      title:
+        'Valid rabies vaccination',
+
+      detail:
+        rule.rabies_waiting_days
+          ? `Stored waiting period: ${rule.rabies_waiting_days} days.`
+          : 'Required according to the stored destination rule.'
+
+    });
+
+  }
+
+
+  if (rule.requires_eu_pet_passport) {
+
+    docs.push({
+
+      title:
+        'EU pet passport',
+
+      detail:
+        'Required according to the stored destination rule.'
+
+    });
+
+  }
+
+
+  if (
+    rule.requires_health_certificate
+  ) {
+
+    docs.push({
+
+      title:
+        'Health certificate',
+
+      detail:
+        'Required according to the stored destination rule.'
+
+    });
+
+  }
+
+
+  if (
+    rule.requires_rabies_titre
+  ) {
+
+    docs.push({
+
+      title:
+        'Rabies antibody titre',
+
+      detail:
+        rule.titre_waiting_days
+          ? `Stored waiting period: ${rule.titre_waiting_days} days.`
+          : 'Required according to the stored destination rule.'
+
+    });
+
+  }
+
+
+  if (
+    rule.requires_deworming
+  ) {
+
+    docs.push({
+
+      title:
+        'Echinococcus / deworming treatment',
+
+      detail:
+        `Stored treatment window: ${rule.deworming_min_hours || '?'}–${rule.deworming_max_hours || '?'} hours before entry.`
+
+    });
+
+  }
+
+
+  if (
+    rule.additional_requirements &&
+    typeof rule.additional_requirements === 'object'
+  ) {
+
+    for (
+      const [key, value]
+      of Object.entries(
+        rule.additional_requirements
+      )
+    ) {
+
+      docs.push({
+
+        title:
+          key,
+
+        detail:
+          String(value)
+
+      });
 
     }
 
-    return docs;
+  }
+
+
+  if (!docs.length) {
+
+    docs.push({
+
+      title:
+        'Destination rule found',
+
+      detail:
+        'The destination has a database rule, but no document requirements have been entered yet.'
+
+    });
 
   }
 
-  return [
-
-    'Microchip',
-
-    'Rabies vaccination',
-
-    'Destination-specific health certificate / import documents',
-
-    'Check whether rabies antibody titration is required',
-
-    'Check destination national rules'
-
-  ];
-
+  return docs;
 }
 
 
-function timelineFor(country,date){
+/* =========================================================
+   TIMELINE
+========================================================= */
 
-  const out=[];
+function buildTimeline() {
 
-  const travel=
-    new Date(
-      date+'T00:00:00'
-    );
+  if (!trip?.date) {
+    return [];
+  }
 
-  const add=
-    (
-      label,
-      when,
-      detail
-    )=>{
+  const result = [];
 
-      const d=
-        when
-          .toISOString()
-          .slice(0,10);
+  const travel =
+    trip.date;
 
-      out.push({
-        date:d,
-        label,
-        detail
-      });
+  result.push({
 
-    };
+    date:
+      travel,
 
+    title:
+      'Travel day',
 
-  add(
-    'Travel day',
-    travel,
-    'Flight / journey'
-  );
+    detail:
+      'Your planned travel date.'
+
+  });
 
 
-  const special=[
-    'Finland',
-    'Ireland',
-    'Malta',
-    'Norway',
-    'Northern Ireland'
-  ].includes(country);
+  const rule =
+    countryRuleData[0];
 
+  if (
+    rule?.requires_rabies &&
+    rule?.rabies_waiting_days
+  ) {
 
-  if(special){
+    result.push({
 
-    const t=
-      new Date(travel);
+      date:
+        addDays(
+          travel,
+          -Number(
+            rule.rabies_waiting_days
+          )
+        ),
 
-    t.setDate(
-      t.getDate()-2
-    );
+      title:
+        'Rabies timing checkpoint',
 
-    add(
-      'Echinococcus treatment window opens',
-      t,
-      'For dogs entering the listed destinations, treatment must be administered 24–120 hours before entry.'
-    );
+      detail:
+        `The stored destination rule specifies a ${rule.rabies_waiting_days}-day waiting period.`
+
+    });
 
   }
 
 
-  const rabies=
-    new Date(travel);
+  if (
+    rule?.requires_deworming &&
+    rule?.deworming_max_hours
+  ) {
 
-  rabies.setDate(
-    rabies.getDate()-21
-  );
+    const days =
+      Math.ceil(
+        Number(
+          rule.deworming_max_hours
+        ) / 24
+      );
 
-  add(
-    'Rabies timing checkpoint',
-    rabies,
-    'If this is a primary rabies vaccination, the EU requires at least 21 days before travel.'
-  );
+    result.push({
+
+      date:
+        addDays(
+          travel,
+          -days
+        ),
+
+      title:
+        'Deworming treatment window',
+
+      detail:
+        `Treatment must fall within the stored ${rule.deworming_min_hours || '?'}–${rule.deworming_max_hours} hour window before entry.`
+
+    });
+
+  }
 
 
-  const booking=
-    new Date(travel);
+  result.push({
 
-  booking.setDate(
-    booking.getDate()-7
-  );
+    date:
+      addDays(
+        travel,
+        -7
+      ),
 
-  add(
-    'Airline pet booking check',
-    booking,
-    'Confirm pet space and route-specific acceptance with the airline.'
-  );
+    title:
+      'Airline booking check',
+
+    detail:
+      'Confirm pet space, operating carrier and route acceptance before travel.'
+
+  });
 
 
-  return out.sort(
-    (a,b)=>
-      a.date.localeCompare(b.date)
-  );
+  return result
+    .sort(
+      (a, b) =>
+        a.date.localeCompare(
+          b.date
+        )
+    );
 
 }
 
 
-function renderEngine(){
+/* =========================================================
+   SERVICES
+========================================================= */
 
-  if(!trip) return '';
+function renderServices() {
 
-  const country=
-    countryFromDestination(
-      trip.to
-    );
+  if (!serviceData.length) {
 
-  const docs=
-    documentsFor(country);
+    return `
 
-  const timeline=
-    timelineFor(
-      country,
-      trip.date
-    );
+      <div class="pv-empty">
 
+        No destination services are stored yet.
 
-  const airlineCards=
-    AIRLINES
-      .map(a=>{
+        <div class="pv-muted">
+          PawVago will show verified vets,
+          pet sitters, pet taxis, hotels and shops
+          here when they are available in the database.
+        </div>
 
-        const r=
-          airlineResult(a);
+      </div>
 
-        return `
+    `;
 
-          <div class="pv-airline">
+  }
 
-            <strong>
-              ${escapeHtml(a.name)}
-            </strong>
+  return `
 
-            <br>
+    <div class="pv-grid">
 
-            <span
-              class="pv-pill ${r.cls}"
-            >
-              ${r.status}
-            </span>
+      ${serviceData
+        .slice(0, 12)
+        .map(service => `
 
-            <p>
-              ${escapeHtml(r.reason)}
-            </p>
+          <div class="pv-service">
 
-            <div class="pv-muted">
-              Carrier rule:
-              ${escapeHtml(a.dims)}
+            <h4>
+              ${escapeHtml(
+                service.name
+              )}
+            </h4>
+
+            <div class="pv-pill">
+              ${escapeHtml(
+                service.category ||
+                'Pet service'
+              )}
             </div>
 
-            <div class="pv-muted">
-              ${escapeHtml(a.booking)}
-            </div>
+            ${
+              service.city_name
+                ? `
+                  <p class="pv-muted">
+                    ${escapeHtml(
+                      service.city_name
+                    )}
+                  </p>
+                `
+                : ''
+            }
+
+            ${
+              service.address
+                ? `
+                  <p class="pv-muted">
+                    ${escapeHtml(
+                      service.address
+                    )}
+                  </p>
+                `
+                : ''
+            }
+
+            ${
+              service.phone
+                ? `
+                  <p>
+                    ${escapeHtml(
+                      service.phone
+                    )}
+                  </p>
+                `
+                : ''
+            }
+
+            ${
+              service.website_url
+                ? `
+                  <a
+                    href="${escapeHtml(
+                      service.website_url
+                    )}"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    Website →
+                  </a>
+                `
+                : ''
+            }
+
+            ${
+              service.is_verified
+                ? `
+                  <span class="pv-pill pv-ok">
+                    Verified
+                  </span>
+                `
+                : ''
+            }
 
           </div>
 
-        `;
+        `)
+        .join('')}
 
-      })
-      .join('');
+    </div>
+
+  `;
+}
 
 
-  const docRows=
-    docs
-      .map(d=>`
+/* =========================================================
+   TRIP ENGINE RENDER
+========================================================= */
+
+function renderEngine() {
+
+  if (!trip) {
+    return '';
+  }
+
+  const destination =
+    countryFromDestination(
+      trip.to
+    ) ||
+    trip.destination_country ||
+    trip.to;
+
+
+  /* AIRLINE CARDS */
+
+  let airlineCards = '';
+
+  if (!airlineData.length) {
+
+    airlineCards = `
+
+      <div class="pv-empty">
+
+        No airline data is available yet.
+
+        <div class="pv-muted">
+          PawVago will calculate airline compatibility
+          after airline rules are stored in the database.
+        </div>
+
+      </div>
+
+    `;
+
+  } else {
+
+    airlineCards =
+      airlineData
+        .map(airline => {
+
+          const rule =
+            getActiveRule(
+              airline
+            );
+
+          const result =
+            airlineResult(
+              airline,
+              rule
+            );
+
+          return `
+
+            <div class="pv-airline">
+
+              <strong>
+                ${escapeHtml(
+                  airline.name
+                )}
+              </strong>
+
+              <br>
+
+              <span
+                class="pv-pill ${result.cls}"
+              >
+                ${escapeHtml(
+                  result.status
+                )}
+              </span>
+
+              <p>
+                ${escapeHtml(
+                  result.reason
+                )}
+              </p>
+
+              ${
+                result.dimensions
+                  ? `
+                    <div class="pv-muted">
+                      Carrier:
+                      ${escapeHtml(
+                        result.dimensions
+                      )}
+                    </div>
+                  `
+                  : ''
+              }
+
+              ${
+                rule?.carrier_type
+                  ? `
+                    <div class="pv-muted">
+                      Carrier type:
+                      ${escapeHtml(
+                        rule.carrier_type
+                      )}
+                    </div>
+                  `
+                  : ''
+              }
+
+              ${
+                rule?.rule_description
+                  ? `
+                    <div class="pv-muted">
+                      ${escapeHtml(
+                        rule.rule_description
+                      )}
+                    </div>
+                  `
+                  : ''
+              }
+
+              ${
+                rule?.source_url
+                  ? `
+                    <div style="margin-top:8px">
+                      <a
+                        href="${escapeHtml(
+                          rule.source_url
+                        )}"
+                        target="_blank"
+                        rel="noopener"
+                      >
+                        Source →
+                      </a>
+                    </div>
+                  `
+                  : ''
+              }
+
+            </div>
+
+          `;
+
+        })
+        .join('');
+
+  }
+
+
+  /* DOCUMENTS */
+
+  const documents =
+    buildDocuments();
+
+  const documentRows =
+    documents
+      .map(doc => `
 
         <div class="pv-row">
 
@@ -989,11 +1801,15 @@ function renderEngine(){
           <div>
 
             <strong>
-              ${escapeHtml(d)}
+              ${escapeHtml(
+                doc.title
+              )}
             </strong>
 
             <div class="pv-muted">
-              PawVago will verify the document status from your pet records or uploaded documents.
+              ${escapeHtml(
+                doc.detail
+              )}
             </div>
 
           </div>
@@ -1004,20 +1820,33 @@ function renderEngine(){
       .join('');
 
 
-  const timeRows=
-    timeline
-      .map(x=>`
+  /* TIMELINE */
 
-        <div class="pv-timeline-item">
+  const timeline =
+    buildTimeline();
+
+  const timelineRows =
+    timeline
+      .map(item => `
+
+        <div
+          class="pv-timeline-item"
+        >
 
           <strong>
-            ${fmtDate(x.date)}
+            ${fmtDate(
+              item.date
+            )}
             —
-            ${escapeHtml(x.label)}
+            ${escapeHtml(
+              item.title
+            )}
           </strong>
 
           <span class="pv-muted">
-            ${escapeHtml(x.detail)}
+            ${escapeHtml(
+              item.detail
+            )}
           </span>
 
         </div>
@@ -1026,9 +1855,59 @@ function renderEngine(){
       .join('');
 
 
+  const weight =
+    petWeight();
+
+
   return `
 
     <div class="pv-engine">
+
+      <div class="pv-card">
+
+        <h3>
+          Route intelligence
+        </h3>
+
+        <p>
+
+          <strong>
+            ${escapeHtml(
+              trip.from
+            )}
+          </strong>
+
+          →
+
+          <strong>
+            ${escapeHtml(
+              trip.to
+            )}
+          </strong>
+
+        </p>
+
+        <p class="pv-muted">
+
+          Travel date:
+          ${escapeHtml(
+            fmtDate(
+              trip.date
+            )
+          )}
+
+        </p>
+
+        <p class="pv-muted">
+
+          Destination detected:
+          ${escapeHtml(
+            destination
+          )}
+
+        </p>
+
+      </div>
 
 
       <div class="pv-card">
@@ -1041,18 +1920,19 @@ function renderEngine(){
 
           Based on
           ${escapeHtml(
-            pet?.name||'your pet'
+            pet?.name ||
+            'your pet'
           )}
 
-          (
-          ${escapeHtml(
-            pet?.weight||'?'
-          )}
-          kg
-          ).
+          ${
+            weight
+              ? `(${weight} kg)`
+              : ''
+          }.
 
-          This is airline-rule compatibility,
-          not live seat availability.
+          PawVago checks stored airline
+          rules. This is not live flight
+          or seat availability.
 
         </p>
 
@@ -1073,20 +1953,12 @@ function renderEngine(){
 
         <p class="pv-muted">
 
-          ${
-            country
-
-              ? `Route detected:
-                 ${escapeHtml(trip.from)}
-                 →
-                 ${escapeHtml(country)}.`
-
-              : `Destination country not confidently detected yet; national rules need verification.`
-          }
+          Requirements come from the
+          PawVago destination-rules database.
 
         </p>
 
-        ${docRows}
+        ${documentRows}
 
       </div>
 
@@ -1097,11 +1969,19 @@ function renderEngine(){
           Smart timeline
         </h3>
 
-        <div class="pv-timeline">
-
-          ${timeRows}
-
-        </div>
+        ${
+          timelineRows
+            ? `
+              <div class="pv-timeline">
+                ${timelineRows}
+              </div>
+            `
+            : `
+              <div class="pv-empty">
+                No timeline rules are stored yet.
+              </div>
+            `
+        }
 
       </div>
 
@@ -1109,55 +1989,39 @@ function renderEngine(){
       <div class="pv-card">
 
         <h3>
-          Carrier recommendation
+          Destination services
         </h3>
 
-        <p>
+        <p class="pv-muted">
 
-          Choose a soft,
-          airline-approved carrier.
-
-          For Vueling the maximum is
-
-          <strong>
-            45 × 39 × 21 cm
-          </strong>
-
-          and the combined pet + carrier weight is
-
-          <strong>
-            10 kg
-          </strong>.
-
-          For a
-          ${escapeHtml(
-            pet?.weight||'?'
-          )}
-          kg pet, the theoretical remaining
-          weight allowance is
-
-          <strong>
-            ${Math.max(
-              0,
-              10-Number(
-                pet?.weight||0
-              )
-            ).toFixed(1)}
-            kg
-          </strong>.
+          Vets, pet sitters, pet taxis,
+          hotels and shops stored for this
+          destination.
 
         </p>
 
+        ${renderServices()}
+
+      </div>
+
+
+      <div class="pv-card">
+
+        <h3>
+          PawVago data status
+        </h3>
+
         <p class="pv-disclaimer">
 
-          PawVago should verify the exact
-          operating carrier, route and current
-          airline policy before a booking is made.
+          Airline rules, destination rules and
+          service providers are database-driven.
+          PawVago should verify the applicable
+          official rules and operating carrier
+          before a booking or international journey.
 
         </p>
 
       </div>
-
 
     </div>
 
@@ -1166,17 +2030,21 @@ function renderEngine(){
 }
 
 
-function render(){
+/* =========================================================
+   DASHBOARD
+========================================================= */
 
-  const content=
+function render() {
+
+  const content =
     $('dashboardContent');
 
-  if(!content) return;
+  if (!content) return;
 
 
-  if(!user){
+  if (!user) {
 
-    content.innerHTML=`
+    content.innerHTML = `
 
       <div class="empty">
 
@@ -1199,15 +2067,14 @@ function render(){
 
     `;
 
-    $('dlogin').onclick=
-      ()=>auth('login');
+    $('dlogin').onclick =
+      () => auth('login');
 
     return;
-
   }
 
 
-  content.innerHTML=`
+  content.innerHTML = `
 
     <div class="dash-card">
 
@@ -1217,7 +2084,7 @@ function render(){
 
       <p>
         ${escapeHtml(
-          user.email||''
+          user.email || ''
         )}
       </p>
 
@@ -1252,18 +2119,21 @@ function render(){
               ·
 
               ${escapeHtml(
-                pet.weight
+                pet.weight_kg ??
+                pet.weight ??
+                ''
               )}
 
               kg
 
               ${
                 pet.breed
-
-                  ? `· ${escapeHtml(
+                  ? `
+                    ·
+                    ${escapeHtml(
                       pet.breed
-                    )}`
-
+                    )}
+                  `
                   : ''
               }
 
@@ -1296,7 +2166,6 @@ function render(){
             </div>
 
           `
-
       }
 
     </div>
@@ -1325,7 +2194,6 @@ function render(){
                 ${escapeHtml(
                   trip.to
                 )}
-
               </strong>
 
               ·
@@ -1342,7 +2210,7 @@ function render(){
               class="btn outline"
               id="editTrip"
             >
-              Change destination/date
+              Change trip
             </button>
 
           `
@@ -1355,7 +2223,8 @@ function render(){
                 Tell PawVago where and when
                 you are travelling. The app will
                 generate airline compatibility,
-                documents and a timeline automatically.
+                documents, rules and destination
+                services from the database.
               </p>
 
               <button
@@ -1368,7 +2237,6 @@ function render(){
             </div>
 
           `
-
       }
 
     </div>
@@ -1399,124 +2267,347 @@ function render(){
 }
 
 
-function show(view){
+/* =========================================================
+   AUTH SUBMIT
+========================================================= */
 
-  document
-    .querySelectorAll('.view')
-    .forEach(
-      x=>
-        x.classList.remove(
-          'active'
-        )
+async function submitAuth(event) {
+
+  event.preventDefault();
+
+  if (!sb) {
+
+    $('authNotice').textContent =
+      'Supabase is not configured.';
+
+    $('authNotice').className =
+      'notice error';
+
+    return;
+  }
+
+  const email =
+    $('email').value.trim();
+
+  const password =
+    $('password').value;
+
+
+  let result;
+
+
+  if (mode === 'signup') {
+
+    result =
+      await sb.auth.signUp({
+        email,
+        password
+      });
+
+  } else {
+
+    result =
+      await sb.auth.signInWithPassword({
+        email,
+        password
+      });
+
+  }
+
+
+  if (result.error) {
+
+    console.error(
+      'Authentication error:',
+      result.error
     );
 
-  const t=
-    $(view+'View');
+    $('authNotice').textContent =
+      result.error.message;
 
-  if(t)
-    t.classList.add(
-      'active'
-    );
+    $('authNotice').className =
+      'notice error';
 
-  if(view==='dashboard')
-    render();
+    return;
+  }
 
-  window.scrollTo({
-    top:0,
-    behavior:'smooth'
-  });
 
+  user =
+    result.data.user ||
+    result.data.session?.user ||
+    null;
+
+
+  if (
+    mode === 'signup' &&
+    !result.data.session
+  ) {
+
+    $('authNotice').textContent =
+      'Account created. Please check your email to confirm your account, then log in.';
+
+    $('authNotice').className =
+      'notice';
+
+    return;
+  }
+
+
+  await loadUserData();
+
+  await loadTravelData();
+
+  closeAuth();
+
+  await refresh();
+
+  show('dashboard');
 }
 
 
-function escapeHtml(v){
+/* =========================================================
+   REFRESH AUTH UI
+========================================================= */
 
-  return String(v??'')
+async function refresh() {
 
-    .replaceAll(
-      '&',
-      '&amp;'
-    )
+  if (sb) {
 
-    .replaceAll(
-      '<',
-      '&lt;'
-    )
+    const sessionResult =
+      await sb.auth.getSession();
 
-    .replaceAll(
-      '>',
-      '&gt;'
-    )
+    user =
+      sessionResult.data.session?.user ||
+      null;
 
-    .replaceAll(
-      '"',
-      '&quot;'
-    )
-
-    .replaceAll(
-      "'",
-      '&#039;'
-    );
-
-}
+  }
 
 
-function bindStaticEvents(){
+  if (user) {
 
-  ensureTripModal();
+    await loadUserData();
+
+    await loadTravelData();
+
+  }
+
+
+  const actions =
+    $('authActions');
+
+  if (!actions) return;
+
+
+  actions.innerHTML =
+
+    user
+
+      ? `
+
+        <button
+          class="btn dark"
+          id="dashBtn"
+        >
+          Dashboard
+        </button>
+
+      `
+
+      : `
+
+        <button
+          class="btn ghost"
+          id="loginBtn"
+        >
+          Log in
+        </button>
+
+        <button
+          class="btn dark"
+          id="signupBtn"
+        >
+          Create account
+        </button>
+
+      `;
+
 
   $('loginBtn')?.addEventListener(
     'click',
-    ()=>auth('login')
+    () => auth('login')
   );
 
   $('signupBtn')?.addEventListener(
     'click',
-    ()=>auth('signup')
+    () => auth('signup')
   );
+
+  $('dashBtn')?.addEventListener(
+    'click',
+    () => show('dashboard')
+  );
+
+
+  if (
+    $('dashboardView')?.classList.contains(
+      'active'
+    )
+  ) {
+
+    render();
+
+  }
+
+}
+
+
+/* =========================================================
+   VIEW NAVIGATION
+========================================================= */
+
+function show(view) {
+
+  document
+    .querySelectorAll('.view')
+    .forEach(element => {
+
+      element.classList.remove(
+        'active'
+      );
+
+    });
+
+
+  const target =
+    $(view + 'View');
+
+  if (target) {
+
+    target.classList.add(
+      'active'
+    );
+
+  }
+
+
+  if (view === 'dashboard') {
+
+    render();
+
+  }
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+
+/* =========================================================
+   STATIC EVENTS
+========================================================= */
+
+function bindStaticEvents() {
+
+  ensureStyles();
+
+  ensureTripModal();
+
+
+  $('loginBtn')?.addEventListener(
+    'click',
+    () => auth('login')
+  );
+
+
+  $('signupBtn')?.addEventListener(
+    'click',
+    () => auth('signup')
+  );
+
 
   $('heroSignup')?.addEventListener(
     'click',
-    ()=>auth('signup')
+    () => auth('signup')
   );
+
 
   $('ctaSignup')?.addEventListener(
     'click',
-    ()=>auth('signup')
+    () => auth('signup')
   );
+
+
+  $('heroDemo')?.addEventListener(
+    'click',
+    () => {
+
+      $('features')?.scrollIntoView({
+        behavior: 'smooth'
+      });
+
+    }
+  );
+
 
   $('closeModal')?.addEventListener(
     'click',
     closeAuth
   );
 
+
   $('closePet')?.addEventListener(
     'click',
     closePet
   );
+
 
   $('authForm')?.addEventListener(
     'submit',
     submitAuth
   );
 
+
   $('petForm')?.addEventListener(
     'submit',
     savePet
   );
 
+
+  $('switchAuth')?.querySelector(
+    'button'
+  )?.addEventListener(
+    'click',
+    () => {
+
+      auth(
+        mode === 'signup'
+          ? 'login'
+          : 'signup'
+      );
+
+    }
+  );
+
+
   $('logoutBtn')?.addEventListener(
     'click',
-    async()=>{
+    async () => {
 
-      if(sb)
+      if (sb) {
+
         await sb.auth.signOut();
 
-      user=null;
+      }
 
-      localStorage.removeItem(
-        'pawvago_user'
-      );
+      user = null;
+      pet = null;
+      trip = null;
+
+      airlineData = [];
+      countryRuleData = [];
+      serviceData = [];
 
       await refresh();
 
@@ -1530,26 +2621,59 @@ function bindStaticEvents(){
     .querySelectorAll(
       '[data-view]'
     )
-    .forEach(
-      a=>
+    .forEach(link => {
 
-        a.addEventListener(
-          'click',
-          e=>{
+      link.addEventListener(
+        'click',
+        event => {
 
-            e.preventDefault();
+          event.preventDefault();
 
-            show(
-              a.dataset.view
-            );
+          show(
+            link.dataset.view
+          );
 
-          }
-        )
+        }
+      );
 
+    });
+
+
+  if (sb) {
+
+    sb.auth.onAuthStateChange(
+      async (_event, session) => {
+
+        user =
+          session?.user ||
+          null;
+
+        if (user) {
+
+          await loadUserData();
+
+          await loadTravelData();
+
+        } else {
+
+          pet = null;
+          trip = null;
+
+        }
+
+        await refresh();
+
+      }
     );
+
+  }
 
 }
 
+
+/* =========================================================
+   START
+========================================================= */
 
 ensureStyles();
 
