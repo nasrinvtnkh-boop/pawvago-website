@@ -1297,7 +1297,18 @@ function buildDocuments() {
   }
 
   if (rule.additional_requirements && typeof rule.additional_requirements === 'object') {
+    const representedKeys = new Set([
+      'rabies_waiting_days',
+      'echinococcus_required',
+      'microchip_before_rabies',
+      'eu_pet_passport_required',
+      'maximum_non_commercial_pets',
+      'primary_rabies_minimum_age_weeks'
+    ]);
+
     for (const [key, value] of Object.entries(rule.additional_requirements)) {
+      if (representedKeys.has(key)) continue;
+
       docs.push({
         title: humanizeRuleKey(key),
         detail: humanizeRuleValue(key, value)
