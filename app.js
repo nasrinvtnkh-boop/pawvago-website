@@ -320,6 +320,31 @@ function ensureStyles() {
       background:#f8fafc;
     }
 
+    .pv-summary {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+      gap:10px;
+      margin:14px 0 18px;
+    }
+
+    .pv-summary-item {
+      padding:13px 14px;
+      border:1px solid rgba(15,23,42,.08);
+      border-radius:12px;
+      background:#f8fafc;
+    }
+
+    .pv-summary-item strong {
+      display:block;
+      font-size:1.05rem;
+      margin-bottom:3px;
+    }
+
+    .pv-summary-item span {
+      font-size:.78rem;
+      opacity:.68;
+    }
+
   `;
 
   document.head.appendChild(style);
@@ -1187,170 +1212,104 @@ function airlineResult(airline, rule) {
    COUNTRY DOCUMENT ENGINE
 ========================================================= */
 
+function humanizeRuleKey(key) {
+  const labels = {
+    rabies_waiting_days: 'Rabies waiting period',
+    echinococcus_required: 'Echinococcus treatment',
+    microchip_before_rabies: 'Microchip before rabies vaccination',
+    eu_pet_passport_required: 'EU pet passport required',
+    maximum_non_commercial_pets: 'Maximum non-commercial pets',
+    primary_rabies_minimum_age_weeks: 'Minimum age for primary rabies vaccination'
+  };
+  if (labels[key]) return labels[key];
+  return String(key || '').replaceAll('_', ' ').replace(/\b\w/g, char => char.toUpperCase());
+}
+
+function humanizeRuleValue(key, value) {
+  if (typeof value === 'boolean') return value ? 'Required' : 'Not required';
+  if (value === null || value === undefined || value === '') return 'Not specified';
+  if (key === 'maximum_non_commercial_pets') return `Up to ${value} pets`;
+  if (key === 'primary_rabies_minimum_age_weeks') return `${value} weeks`;
+  return String(value);
+}
+
+function cleanRuleDescription(value) {
+  return String(value || '')
+    .replace(/\bnull\b\s*[×x]\s*\bnull\b\s*[×x]\s*\bnull\b/gi, 'airline-approved carrier dimensions')
+    .replace(/\bnull\b/gi, 'not specified');
+}
+
 function buildDocuments() {
-
   if (!countryRuleData.length) {
-
-    return [
-
-      {
-        title:
-          'Destination rules not loaded',
-
-        detail:
-          'PawVago does not yet have a current database rule for this destination.'
-
-      }
-
-    ];
-
+    return [{
+      title: 'Destination rules not loaded',
+      detail: 'PawVago does not yet have a current database rule for this destination.'
+    }];
   }
 
   const docs = [];
-
-  const rule =
-    countryRuleData[0];
-
+  const rule = countryRuleData[0];
 
   if (rule.requires_microchip) {
-
     docs.push({
-
-      title:
-        'Microchip',
-
-      detail:
-        'Required according to the stored destination rule.'
-
+      title: 'Microchip',
+      detail: 'Required according to the stored destination rule.'
     });
-
   }
-
 
   if (rule.requires_rabies) {
-
     docs.push({
-
-      title:
-        'Valid rabies vaccination',
-
-      detail:
-        rule.rabies_waiting_days
-          ? `Stored waiting period: ${rule.rabies_waiting_days} days.`
-          : 'Required according to the stored destination rule.'
-
+      title: 'Valid rabies vaccination',
+      detail: rule.rabies_waiting_days
+        ? `Primary vaccination must be valid for at least ${rule.rabies_waiting_days} days before travel.`
+        : 'Required according to the stored destination rule.'
     });
-
   }
-
 
   if (rule.requires_eu_pet_passport) {
-
     docs.push({
-
-      title:
-        'EU pet passport',
-
-      detail:
-        'Required according to the stored destination rule.'
-
+      title: 'EU pet passport',
+      detail: 'Required according to the stored destination rule.'
     });
-
   }
 
-
-  if (
-    rule.requires_health_certificate
-  ) {
-
+  if (rule.requires_health_certificate) {
     docs.push({
-
-      title:
-        'Health certificate',
-
-      detail:
-        'Required according to the stored destination rule.'
-
+      title: 'Health certificate',
+      detail: 'Required according to the stored destination rule.'
     });
-
   }
 
-
-  if (
-    rule.requires_rabies_titre
-  ) {
-
+  if (rule.requires_rabies_titre) {
     docs.push({
-
-      title:
-        'Rabies antibody titre',
-
-      detail:
-        rule.titre_waiting_days
-          ? `Stored waiting period: ${rule.titre_waiting_days} days.`
-          : 'Required according to the stored destination rule.'
-
+      title: 'Rabies antibody titre',
+      detail: rule.titre_waiting_days
+        ? `Waiting period: ${rule.titre_waiting_days} days.`
+        : 'Required according to the stored destination rule.'
     });
-
   }
 
-
-  if (
-    rule.requires_deworming
-  ) {
-
+  if (rule.requires_deworming) {
     docs.push({
-
-      title:
-        'Echinococcus / deworming treatment',
-
-      detail:
-        `Stored treatment window: ${rule.deworming_min_hours || '?'}–${rule.deworming_max_hours || '?'} hours before entry.`
-
+      title: 'Echinococcus treatment',
+      detail: `Treatment window: ${rule.deworming_min_hours || '?'}–${rule.deworming_max_hours || '?'} hours before entry.`
     });
-
   }
 
-
-  if (
-    rule.additional_requirements &&
-    typeof rule.additional_requirements === 'object'
-  ) {
-
-    for (
-      const [key, value]
-      of Object.entries(
-        rule.additional_requirements
-      )
-    ) {
-
+  if (rule.additional_requirements && typeof rule.additional_requirements === 'object') {
+    for (const [key, value] of Object.entries(rule.additional_requirements)) {
       docs.push({
-
-        title:
-          key,
-
-        detail:
-          String(value)
-
+        title: humanizeRuleKey(key),
+        detail: humanizeRuleValue(key, value)
       });
-
     }
-
   }
-
 
   if (!docs.length) {
-
     docs.push({
-
-      title:
-        'Destination rule found',
-
-      detail:
-        'The destination has a database rule, but no document requirements have been entered yet.'
-
+      title: 'Destination rule found',
+      detail: 'The destination has a current database rule. No additional document requirements are stored.'
     });
-
   }
 
   return docs;
@@ -1704,7 +1663,7 @@ function renderEngine() {
             ${rule?.rule_description
               ? `
                 <div class="pv-muted">
-                  ${escapeHtml(rule.rule_description)}
+                  ${escapeHtml(cleanRuleDescription(rule.rule_description))}
                 </div>
               `
               : ''}
@@ -1864,6 +1823,27 @@ function renderEngine() {
         <h3>
           Airlines matching your pet
         </h3>
+
+        <div class="pv-summary">
+          <div class="pv-summary-item">
+            <strong>${airlineData.length}</strong>
+            <span>Stored airline rules</span>
+          </div>
+          <div class="pv-summary-item">
+            <strong>${airlineData.filter(a => {
+              const r = getActiveRule(a);
+              return airlineResult(a, r).status === 'Compatible';
+            }).length}</strong>
+            <span>Compatible</span>
+          </div>
+          <div class="pv-summary-item">
+            <strong>${airlineData.filter(a => {
+              const r = getActiveRule(a);
+              return airlineResult(a, r).status === 'Conditional';
+            }).length}</strong>
+            <span>Needs verification</span>
+          </div>
+        </div>
 
         <p class="pv-muted">
 
