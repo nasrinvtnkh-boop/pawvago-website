@@ -1078,146 +1078,157 @@ function getActiveRule(airline) {
 }
 
 
-function airlineResult(
-  airline,
-  rule
-) {
+function parseRestrictionList(value) {
+  if (!value) return [];
 
-  const weight =
-    petWeight();
+  if (Array.isArray(value)) {
+    return value
+      .map(item => String(item || '').trim().toLowerCase())
+      .filter(Boolean);
+  }
+
+  if (typeof value === 'object') {
+    return Object.values(value)
+      .flatMap(item => Array.isArray(item) ? item : [item])
+      .map(item => String(item || '').trim().toLowerCase())
+      .filter(Boolean);
+  }
+
+  return String(value)
+    .split(/[,;|]/)
+    .map(item => item.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+function breedRestrictionText(restrictions) {
+  const items = parseRestrictionList(restrictions);
+  return items.length ? items.join(', ') : '';
+}
+
+function breedIsRestricted(breed, restrictions) {
+  const normalizedBreed = String(breed || '').trim().toLowerCase();
+  if (!normalizedBreed) return false;
+
+  const items = parseRestrictionList(restrictions);
+
+  return items.some(item => {
+    if (!item || item === '*' || item === 'all') return false;
+
+    return (
+      normalizedBreed === item ||
+      normalizedBreed.includes(item) ||
+      item.includes(normalizedBreed)
+    );
+  });
+}
+
+function airlineResult(airline, rule) {
+  const weight = petWeight();
+  const breed = String(pet?.breed || '').trim();
 
   if (!rule) {
-
     return {
-
-      status:
-        'Rule not stored',
-
-      cls:
-        'pv-warn',
-
-      reason:
-        'PawVago does not yet have a current rule for this airline.'
-
+      status: 'Rule not stored',
+      cls: 'pv-warn',
+      reason: 'PawVago does not yet have a current rule for this airline.'
     };
-
   }
 
   if (!rule.cabin_allowed) {
-
     return {
-
-      status:
-        'Cabin not available',
-
-      cls:
-        'pv-bad',
-
-      reason:
-        'The stored airline rule does not allow this pet type in the cabin.'
-
+      status: 'Not compatible',
+      cls: 'pv-bad',
+      reason: 'This stored rule does not allow this pet type in the cabin.'
     };
-
   }
 
   if (!weight) {
-
     return {
-
-      status:
-        'Check',
-
-      cls:
-        'pv-warn',
-
-      reason:
-        'Add your pet weight to calculate compatibility.'
-
+      status: 'Check',
+      cls: 'pv-warn',
+      reason: 'Add your pet weight to calculate compatibility.'
     };
-
   }
 
-  const maxCombined =
-    Number(
-      rule.max_combined_weight_kg || 0
-    );
-
-  const maxPet =
-    Number(
-      rule.max_pet_weight_kg || 0
-    );
-
-  const max =
-    maxCombined ||
-    maxPet ||
-    0;
-
-  if (
-    max &&
-    weight > max
-  ) {
-
+  if (breedIsRestricted(breed, rule.breed_restrictions)) {
     return {
-
-      status:
-        'Not compatible',
-
-      cls:
-        'pv-bad',
-
-      reason:
-        `Pet weight is ${weight} kg, above the stored ${max} kg limit.`
-
+      status: 'Not compatible',
+      cls: 'pv-bad',
+      reason: `The stored airline rule lists restrictions that match this breed.`
     };
-
   }
 
-  let remainingText = '';
+  const maxCombined = Number(rule.max_combined_weight_kg ?? 0);
+  const maxPet = Number(rule.max_pet_weight_kg ?? 0);
 
-  if (maxCombined) {
+  if (maxPet > 0 && weight > maxPet) {
+    return {
+      status: 'Not compatible',
+      cls: 'pv-bad',
+      reason: `Pet weight is ${weight} kg, above the stored pet limit of ${maxPet} kg.`
+    };
+  }
 
-    const remaining =
-      Math.max(
-        0,
-        maxCombined - weight
-      );
+  let status = 'Compatible';
+  let cls = 'pv-ok';
+  let reason = 'Your pet meets the stored cabin rule.';
 
-    remainingText =
-      `Remaining allowance for the carrier: ${remaining.toFixed(1)} kg.`;
+  if (maxCombined > 0) {
+    const remaining = maxCombined - weight;
 
+    if (remaining < 0) {
+      return {
+        status: 'Not compatible',
+        cls: 'pv-bad',
+        reason: `Pet weight is ${weight} kg, above the stored combined limit of ${maxCombined} kg.`
+      };
+    }
+
+    if (remaining === 0) {
+      status = 'Conditional';
+      cls = 'pv-warn';
+      reason = 'The pet is exactly at the stored combined limit. The carrier must add no weight, so verify with the airline before booking.';
+    } else {
+      status = 'Conditional';
+      cls = 'pv-warn';
+      reason = `The pet is ${weight} kg. Up to ${remaining.toFixed(1)} kg remains for the carrier under the stored combined limit.`;
+    }
+  }
+
+  if (rule.route_restrictions) {
+    status = 'Conditional';
+    cls = 'pv-warn';
+
+    const restrictionText = breedRestrictionText(rule.route_restrictions);
+
+    if (restrictionText) {
+      reason += ` Route restrictions are stored (${restrictionText}); the exact itinerary must be verified.`;
+    } else {
+      reason += ' Route restrictions are stored; the exact itinerary must be verified.';
+    }
   }
 
   const dimensions = [
-
-    rule.carrier_length_cm,
-
-    rule.carrier_width_cm,
-
-    rule.carrier_height_cm
-
-  ].every(
-    Number.isFinite
-  )
+    Number(rule.carrier_length_cm),
+    Number(rule.carrier_width_cm),
+    Number(rule.carrier_height_cm)
+  ].every(Number.isFinite)
     ? `${rule.carrier_length_cm} × ${rule.carrier_width_cm} × ${rule.carrier_height_cm} cm`
     : '';
 
   return {
-
-    status:
-      'Compatible with stored rule',
-
-    cls:
-      'pv-ok',
-
-    reason:
-      remainingText ||
-      'Pet meets the stored cabin rule.',
-
-    dimensions
-
+    status,
+    cls,
+    reason,
+    dimensions,
+    carrierType: rule.carrier_type || '',
+    remainingKg: maxCombined > 0
+      ? Math.max(0, maxCombined - weight)
+      : null,
+    reservationRequired: rule.requires_reservation === true
   };
-
 }
+
 
 
 /* =========================================================
@@ -1656,129 +1667,115 @@ function renderEngine() {
   let airlineCards = '';
 
   if (!airlineData.length) {
+    airlineCards = `
+      <div class="pv-empty">
+        No airline data is available yet.
+        <div class="pv-muted">
+          PawVago will calculate airline compatibility after airline rules are stored in the database.
+        </div>
+      </div>
+    `;
+  } else {
+    const evaluatedAirlines = airlineData.map(airline => {
+      const rule = getActiveRule(airline);
+      return {
+        airline,
+        rule,
+        result: airlineResult(airline, rule)
+      };
+    });
+
+    const compatibleCount = evaluatedAirlines.filter(item =>
+      item.result.status === 'Compatible' || item.result.status === 'Conditional'
+    ).length;
 
     airlineCards = `
-
-      <div class="pv-empty">
-
-        No airline data is available yet.
-
-        <div class="pv-muted">
-          PawVago will calculate airline compatibility
-          after airline rules are stored in the database.
-        </div>
-
+      <div style="margin-bottom:12px" class="pv-muted">
+        ${compatibleCount} airline option${compatibleCount === 1 ? '' : 's'} found from stored rules.
+        Results are based on your saved pet profile and route data; live seat availability is not checked.
       </div>
 
+      ${evaluatedAirlines
+        .map(({ airline, rule, result }) => `
+          <div class="pv-airline">
+            <strong>${escapeHtml(airline.name)}</strong>
+            <br>
+
+            <span class="pv-pill ${result.cls}">
+              ${escapeHtml(result.status)}
+            </span>
+
+            <p>${escapeHtml(result.reason)}</p>
+
+            ${result.dimensions
+              ? `
+                <div class="pv-muted">
+                  Carrier size:
+                  ${escapeHtml(result.dimensions)}
+                </div>
+              `
+              : ''}
+
+            ${result.carrierType
+              ? `
+                <div class="pv-muted">
+                  Carrier type:
+                  ${escapeHtml(result.carrierType)}
+                </div>
+              `
+              : ''}
+
+            ${result.reservationRequired
+              ? `
+                <div class="pv-muted">
+                  Reservation required: yes
+                </div>
+              `
+              : ''}
+
+            ${rule?.breed_restrictions
+              ? `
+                <div class="pv-muted">
+                  Breed restrictions stored: ${escapeHtml(breedRestrictionText(rule.breed_restrictions))}
+                </div>
+              `
+              : ''}
+
+            ${rule?.route_restrictions
+              ? `
+                <div class="pv-muted">
+                  Route restrictions stored — itinerary verification required.
+                </div>
+              `
+              : ''}
+
+            ${rule?.rule_description
+              ? `
+                <div class="pv-muted">
+                  ${escapeHtml(rule.rule_description)}
+                </div>
+              `
+              : ''}
+
+            ${rule?.source_url
+              ? `
+                <div style="margin-top:8px">
+                  <a
+                    href="${escapeHtml(rule.source_url)}"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    Official source →
+                  </a>
+                </div>
+              `
+              : ''}
+          </div>
+        `)
+        .join('')}
     `;
-
-  } else {
-
-    airlineCards =
-      airlineData
-        .map(airline => {
-
-          const rule =
-            getActiveRule(
-              airline
-            );
-
-          const result =
-            airlineResult(
-              airline,
-              rule
-            );
-
-          return `
-
-            <div class="pv-airline">
-
-              <strong>
-                ${escapeHtml(
-                  airline.name
-                )}
-              </strong>
-
-              <br>
-
-              <span
-                class="pv-pill ${result.cls}"
-              >
-                ${escapeHtml(
-                  result.status
-                )}
-              </span>
-
-              <p>
-                ${escapeHtml(
-                  result.reason
-                )}
-              </p>
-
-              ${
-                result.dimensions
-                  ? `
-                    <div class="pv-muted">
-                      Carrier:
-                      ${escapeHtml(
-                        result.dimensions
-                      )}
-                    </div>
-                  `
-                  : ''
-              }
-
-              ${
-                rule?.carrier_type
-                  ? `
-                    <div class="pv-muted">
-                      Carrier type:
-                      ${escapeHtml(
-                        rule.carrier_type
-                      )}
-                    </div>
-                  `
-                  : ''
-              }
-
-              ${
-                rule?.rule_description
-                  ? `
-                    <div class="pv-muted">
-                      ${escapeHtml(
-                        rule.rule_description
-                      )}
-                    </div>
-                  `
-                  : ''
-              }
-
-              ${
-                rule?.source_url
-                  ? `
-                    <div style="margin-top:8px">
-                      <a
-                        href="${escapeHtml(
-                          rule.source_url
-                        )}"
-                        target="_blank"
-                        rel="noopener"
-                      >
-                        Source →
-                      </a>
-                    </div>
-                  `
-                  : ''
-              }
-
-            </div>
-
-          `;
-
-        })
-        .join('');
-
   }
+
 
 
   /* DOCUMENTS */
