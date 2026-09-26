@@ -1,8 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <defs><linearGradient id="g" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse"><stop stop-color="#5B5CE2"/><stop offset="1" stop-color="#8B6CF6"/></linearGradient></defs>
-  <rect width="64" height="64" rx="19" fill="#10172A"/>
-  <path d="M18 37.5c0-8.7 7.1-15.8 15.8-15.8 3.1 0 6 .9 8.4 2.5l5.5-5.5c1-1 2.7-.3 2.7 1.1v9.8c0 1.5-1.7 2.1-2.7 1.1l-2.1-2.1a15.8 15.8 0 1 1-11.8 27.1c-7.6-.1-13.8-6.3-13.8-14.2Z" fill="url(#g)"/>
-  <circle cx="27" cy="33" r="2.2" fill="white"/><circle cx="37" cy="33" r="2.2" fill="white"/>
-  <path d="M28 41c2.8 2.2 6.3 2.2 9 0" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
-  <path d="M42 16l6-6 2 8-8-2Z" fill="#B9B7FF"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 190" role="img" aria-labelledby="title desc">
+  <title id="title">PawVago</title>
+  <desc id="desc">PawVago pet travel logo with a dog profile, location shape and airplane.</desc>
+  <defs>
+    <linearGradient id="pv" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6675F5"/>
+      <stop offset="1" stop-color="#7457E8"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(8 8)">
+    <path d="M78 25 C34 42 8 76 14 116 C20 151 48 170 78 176 C107 169 135 148 141 115 C147 78 121 43 78 25Z"
+      fill="none" stroke="url(#pv)" stroke-width="13" stroke-linecap="round"/>
+    <path d="M103 18 C128 11 151 13 166 24 C153 22 143 26 135 34"
+      fill="none" stroke="url(#pv)" stroke-width="11" stroke-linecap="round"/>
+    <path d="M59 70 C50 58 52 46 62 40 C70 35 78 40 80 49 C82 40 90 35 98 40 C108 46 109 58 100 70 L91 80 C86 87 83 98 83 112 L82 136 C69 130 59 121 53 109 C47 97 48 84 59 70Z"
+      fill="#10172A"/>
+    <path d="M83 62 C90 58 99 60 104 67" fill="none" stroke="#10172A" stroke-width="5" stroke-linecap="round"/>
+    <path d="M104 70 C111 67 116 70 117 75 C118 81 113 85 107 85" fill="#10172A"/>
+    <path d="M116 75 C122 76 127 80 130 86" fill="none" stroke="#10172A" stroke-width="4" stroke-linecap="round"/>
+    <path d="M105 92 C112 98 118 99 124 96" fill="none" stroke="#10172A" stroke-width="4" stroke-linecap="round"/>
+    <path d="M103 103 C116 106 127 103 135 96" fill="none" stroke="url(#pv)" stroke-width="6" stroke-linecap="round"/>
+    <path d="M135 96 C155 77 168 59 180 39" fill="none" stroke="url(#pv)" stroke-width="6" stroke-linecap="round"/>
+    <path d="M170 43 L188 31 L179 51 Z" fill="url(#pv)"/>
+  </g>
+  <text x="205" y="118" font-family="Inter,Arial,sans-serif" font-size="78" font-weight="800" letter-spacing="-4">
+    <tspan fill="#10172A">Paw</tspan><tspan fill="url(#pv)">Vago</tspan>
+  </text>
+  <text x="209" y="151" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="4" fill="#697286">PET TRAVEL, REIMAGINED</text>
 </svg>
