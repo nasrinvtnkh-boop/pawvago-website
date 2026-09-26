@@ -932,115 +932,67 @@ async function loadTravelData() {
   const destinationCode =
     countryCode(destinationCountry);
 
-
   /* AIRLINES + RULES */
+  let airlineQuery = await sb
+    .from('airlines')
+    .select(`
+      *,
+      airline_rules(*)
+    `);
 
-  const airlineResult =
-    await sb
-      .from('airlines')
-      .select(`
-        *,
-        airline_rules(*)
-      `)
-      .eq('active', true);
-
-  if (airlineResult.error) {
-
-    console.error(
-      'Airline loading error:',
-      airlineResult.error
-    );
-
+  if (airlineQuery.error) {
+    console.error('Airline loading error:', airlineQuery.error);
   } else {
-
-    airlineData =
-      airlineResult.data || [];
-
+    airlineData = (airlineQuery.data || [])
+      .filter(a => a.active !== false && a.is_active !== false);
   }
 
-
-  /* COUNTRY RULES */
-
-  let rulesQuery =
-    sb
-      .from('country_rules')
-      .select('*')
-      .eq(
-        'country_name',
-        destinationCountry
-      )
-      .eq(
-        'is_active',
-        true
-      );
+  /* COUNTRY RULES
+     First try the country code, then fall back to country name.
+     This keeps the engine resilient if a deployment/database row
+     uses one identifier but not the other. */
+  let rulesResult = null;
 
   if (destinationCode) {
-
-    rulesQuery =
-      sb
-        .from('country_rules')
-        .select('*')
-        .eq(
-          'country_code',
-          destinationCode
-        )
-        .eq(
-          'is_active',
-          true
-        );
-
+    rulesResult = await sb
+      .from('country_rules')
+      .select('*')
+      .eq('country_code', destinationCode)
+      .eq('is_active', true);
   }
 
-  const rulesResult =
-    await rulesQuery;
+  if (
+    rulesResult?.error ||
+    !rulesResult?.data?.length
+  ) {
+    rulesResult = await sb
+      .from('country_rules')
+      .select('*')
+      .eq('country_name', destinationCountry)
+      .eq('is_active', true);
+  }
 
   if (rulesResult.error) {
-
-    console.error(
-      'Country rules error:',
-      rulesResult.error
-    );
-
+    console.error('Country rules error:', rulesResult.error);
   } else {
-
-    countryRuleData =
-      rulesResult.data || [];
-
+    countryRuleData = rulesResult.data || [];
   }
 
-
   /* DESTINATION SERVICES */
-
   const servicesResult =
     await sb
       .from('service_providers')
       .select('*')
-      .eq(
-        'country_name',
-        destinationCountry
-      )
-      .eq(
-        'is_active',
-        true
-      )
+      .eq('country_name', destinationCountry)
+      .eq('is_active', true)
       .limit(20);
 
   if (servicesResult.error) {
-
-    console.error(
-      'Service loading error:',
-      servicesResult.error
-    );
-
+    console.error('Service loading error:', servicesResult.error);
   } else {
-
-    serviceData =
-      servicesResult.data || [];
-
+    serviceData = servicesResult.data || [];
   }
-
 }
-
 
 /* =========================================================
    AIRLINE ENGINE
