@@ -42,7 +42,8 @@ a{text-decoration:none;color:inherit}
   z-index:20;
 }
 .brand{display:flex;align-items:center;text-decoration:none}
-.brand img{display:block!important;width:158px!important;height:42px!important;max-width:158px!important;max-height:42px!important;object-fit:contain}
+.brand-wordmark{font-size:25px;font-weight:850;letter-spacing:-.055em;line-height:1;color:#10172A}
+.brand-wordmark b{font-weight:850;color:#705CF3}
 .desktop-nav{display:flex;gap:30px;color:#60697c;font-size:14px}
 .desktop-nav a:hover{color:var(--ink)}
 .auth-actions{display:flex;align-items:center;gap:18px}
