@@ -3,10 +3,10 @@ window.PAWVAGO_CONFIG = {
   SUPABASE_ANON_KEY: "sb_publishable_xMRGDw5Z8nLRBDLOMFTCFw_Yu3yB7BV"
 };
 
-// Load the multimodal trip-planning enhancement on this feature branch.
+// Load the MVP interaction fixes once. The multimodal planner itself is loaded by index.html.
 (() => {
   const script = document.createElement('script');
-  script.src = 'multimodal-planner.js';
-  script.async = false;
+  script.src = 'mvp-fix.js';
+  script.defer = true;
   document.head.appendChild(script);
 })();
