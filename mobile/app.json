@@ -1,0 +1,1 @@
+{"expo":{"name":"PawVago","slug":"pawvago","version":"0.1.0","orientation":"portrait","scheme":"pawvago","userInterfaceStyle":"light","android":{"package":"com.pawvago.app","adaptiveIcon":{"backgroundColor":"#17223d"}},"plugins":["expo-router","expo-secure-store"],"experiments":{"typedRoutes":true}}}
