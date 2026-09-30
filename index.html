@@ -3,156 +3,32 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PawVago — The smarter way to travel with your pet</title>
-  <meta name="description" content="PawVago turns pet travel rules, documents, timelines and destination services into one personalized journey.">
+  <title>PawVago — Multimodal pet travel, simplified</title>
+  <meta name="description" content="PawVago turns air, rail, road and sea pet travel rules, documents, timelines and destination services into one personalized journey.">
   <meta name="theme-color" content="#10172A">
   <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .transport-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:1080px;margin:28px auto 0;padding:0 24px}.transport-strip div{padding:14px 10px;border:1px solid rgba(15,23,42,.1);border-radius:16px;background:#fff;text-align:center}.transport-strip b{display:block;font-size:1.35rem}.transport-strip strong{display:block;font-size:.82rem;margin-top:4px}.transport-strip small{display:block;opacity:.55;font-size:.68rem;margin-top:2px}.transport-strip .multi{background:#10172A;color:#fff}.mode-inline{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}.mode-inline span{padding:8px 11px;border-radius:999px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);font-size:.78rem;font-weight:700}@media(max-width:760px){.transport-strip{grid-template-columns:repeat(2,1fr)}.transport-strip .multi{grid-column:1/-1}}
+  </style>
 </head>
 <body>
-  <header class="site-nav">
-    <a class="brand" href="#top" aria-label="PawVago"><span class="brand-wordmark"><span>Paw</span><b>Vago</b></span></a>
-    <nav class="desktop-nav">
-      <a href="#how">How it works</a>
-      <a href="#features">Features</a>
-      <a href="#preview">Product</a>
-      <a href="#vision">Vision</a>
-    </nav>
-    <div id="authActions" class="auth-actions">
-      <button class="nav-link-btn" id="loginBtn">Log in</button>
-      <button class="nav-cta" id="signupBtn">Get started</button>
-    </div>
-  </header>
-
+  <header class="site-nav"><a class="brand" href="#top" aria-label="PawVago"><span class="brand-wordmark"><span>Paw</span><b>Vago</b></span></a><nav class="desktop-nav"><a href="#how">How it works</a><a href="#features">Features</a><a href="#preview">Product</a><a href="#vision">Vision</a></nav><div id="authActions" class="auth-actions"><button class="nav-link-btn" id="loginBtn">Log in</button><button class="nav-cta" id="signupBtn">Get started</button></div></header>
   <main id="top">
     <section id="homeView" class="view active">
-      <section class="hero">
-        <div class="hero-copy">
-          <div class="eyebrow"><span class="eyebrow-dot"></span> Pet travel, reimagined</div>
-          <h1>The smarter way<br>to <span>travel with your pet.</span></h1>
-          <p class="hero-lead">PawVago uses AI and structured travel rules to turn a complicated pet journey into one clear, personalized plan.</p>
-          <div class="hero-actions">
-            <button class="primary-btn" id="heroSignup">Plan your pet's trip <b>→</b></button>
-            <button class="secondary-btn" id="heroDemo">Watch demo <span>▶</span></button>
-          </div>
-          <div class="hero-trust"><span>✓</span> AI-powered guidance <span>✓</span> Up-to-date rules <span>✓</span> Built for real pet owners</div>
-        </div>
-        <div class="hero-stage">
-          <div class="orb orb-one"></div>
-          <div class="orb orb-two"></div>
-
-          <div class="hero-panel">
-            <div class="hero-panel-top">
-              <span>PAWVAGO TRIP INTELLIGENCE</span>
-              <span class="hero-live"><i></i> READY</span>
-            </div>
-
-            <div class="journey-route">
-              <div class="journey-place">
-                <small>FROM</small>
-                <strong>Nantes</strong>
-                <span>France</span>
-              </div>
-              <div class="journey-path">
-                <span class="route-dot"></span>
-                <div class="route-dash"></div>
-                <b>✈</b>
-                <div class="route-dash"></div>
-                <span class="route-dot"></span>
-              </div>
-              <div class="journey-place right">
-                <small>TO</small>
-                <strong>Barcelona</strong>
-                <span>Spain</span>
-              </div>
-            </div>
-
-            <div class="journey-date">
-              <span>31 OCT 2026</span>
-              <span>International pet journey</span>
-            </div>
-
-            <div class="hero-insights">
-              <div class="insight-card">
-                <div class="insight-icon pet-icon">🐾</div>
-                <div>
-                  <small>PET PROFILE</small>
-                  <strong>Titi · Shih Tzu</strong>
-                  <span>8 kg · Ready to plan</span>
-                </div>
-                <b class="insight-check">✓</b>
-              </div>
-
-              <div class="insight-card">
-                <div class="insight-icon airline-icon">✈</div>
-                <div>
-                  <small>AIRLINE CHECK</small>
-                  <strong>Cabin compatibility</strong>
-                  <span>Based on stored airline rules</span>
-                </div>
-                <b class="insight-arrow">→</b>
-              </div>
-
-              <div class="insight-card">
-                <div class="insight-icon docs-icon">▣</div>
-                <div>
-                  <small>DOCUMENTS</small>
-                  <strong>3 key requirements</strong>
-                  <span>Microchip · rabies · passport</span>
-                </div>
-                <b class="insight-check">✓</b>
-              </div>
-            </div>
-
-            <div class="hero-panel-footer">
-              <span><i></i> Rules checked from PawVago database</span>
-              <span>Personalized for Titi</span>
-            </div>
-          </div>
-        </div></div>
-      </section>
-
-      <section class="proof-strip"><div><span>01</span><strong>Airline rules</strong><small>Route-specific requirements</small></div><div><span>02</span><strong>Travel documents</strong><small>Step-by-step checklist</small></div><div><span>03</span><strong>Pet-friendly places</strong><small>Vets, sitters, hotels, shops</small></div><div><span>04</span><strong>Pet community</strong><small>Connect with fellow travellers</small></div></section>
-
-      <section class="section" id="how">
-        <div class="section-intro"><div><div class="eyebrow">01 / How it works</div><h2>One pet.<br><span>One intelligent journey.</span></h2></div><p>Tell PawVago who your pet is, where you're going and when. The platform organizes the requirements around that exact journey.</p></div>
-        <div class="flow-grid">
-          <article><em>01</em><div class="flow-icon">🐾</div><h3>Create a pet profile</h3><p>Save breed, weight and travel details once. Your profile becomes the context for every trip.</p></article>
-          <article><em>02</em><div class="flow-icon">✦</div><h3>Plan the route</h3><p>Enter origin, destination and date. PawVago checks the relevant airline and destination rules.</p></article>
-          <article><em>03</em><div class="flow-icon">✓</div><h3>Follow the plan</h3><p>See documents, deadlines, risks and useful destination services in one workflow.</p></article>
-        </div>
-      </section>
-
-      <section class="feature-band" id="features">
-        <div class="feature-copy"><div class="eyebrow light">02 / The platform</div><h2>From fragmented rules<br>to <span>one clear plan.</span></h2><p>International pet travel touches airlines, government requirements, veterinarians and local services. PawVago connects those pieces around one pet and one trip.</p>
-          <div class="feature-items"><div><b>✈</b><span><strong>Airline intelligence</strong><small>Pet + carrier weight, dimensions and route rules.</small></span></div><div><b>▣</b><span><strong>Documents & timeline</strong><small>What you need and when you need it.</small></span></div><div><b>⌖</b><span><strong>Destination intelligence</strong><small>Vets, sitters, hotels, shops and transport.</small></span></div></div>
-        </div>
-        <div class="feature-visual"><div class="mini-window"><div class="mini-top"><span>PAWVAGO AI</span><span class="ready">TRIP READY</span></div><div class="mini-route"><div><small>FROM</small><strong>Nantes</strong></div><span>→</span><div><small>TO</small><strong>Barcelona</strong></div></div><div class="mini-result"><div class="result-icon">✓</div><div><strong>Travel plan generated</strong><small>Airline · documents · timeline · services</small></div></div><div class="mini-bars"><span></span><span></span><span></span></div></div></div>
-      </section>
-
-      <section class="preview-section" id="preview">
-        <div class="preview-copy"><div class="eyebrow">03 / Product preview</div><h2>Plan, check and travel<br><span>with confidence.</span></h2><p>The live PawVago app is built around the same simple experience: profile → route → intelligence → action.</p><button class="primary-btn" id="ctaSignup">Try the product <b>→</b></button></div>
-        <div class="preview-image-wrap"><img src="assets/pawvago-preview.png" alt="PawVago product preview"><div class="image-caption">Product direction · investor demo</div></div>
-      </section>
-
-      <section class="vision-section" id="vision"><div class="vision-inner"><div class="eyebrow light">04 / The vision</div><h2>Because a pet is not<br><span>extra baggage.</span></h2><p>PawVago is building the operating layer for pet travel — connecting compliance, planning, destination services and the people who make every journey possible.</p><div class="vision-pills"><span>Smart planning</span><span>Global rules</span><span>Local services</span><span>Pet community</span></div></div></section>
-
-      <section class="final-cta"><div><div class="eyebrow">Early access</div><h2>Make pet travel<br><span>simpler.</span></h2><p>Explore the PawVago product and follow the journey from preparation to destination.</p></div><button class="primary-btn" id="footerSignup" onclick="auth('signup')">Get started <b>→</b></button></section>
+      <section class="hero"><div class="hero-copy"><div class="eyebrow"><span class="eyebrow-dot"></span> Multimodal pet travel, reimagined</div><h1>Travel anywhere.<br><span>Together.</span></h1><p class="hero-lead">PawVago uses AI and structured transport rules to turn air, rail, road and sea journeys with your pet into one clear, personalized travel plan.</p><div class="hero-actions"><button class="primary-btn" id="heroSignup">Plan your pet's trip <b>→</b></button><button class="secondary-btn" id="heroDemo">Watch demo <span>▶</span></button></div><div class="hero-trust"><span>✓</span> AI-powered guidance <span>✓</span> Multimodal rules <span>✓</span> Built for real pet owners</div></div><div class="hero-stage"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="hero-panel"><div class="hero-panel-top"><span>PAWVAGO TRIP INTELLIGENCE</span><span class="hero-live"><i></i> READY</span></div><div class="journey-route"><div class="journey-place"><small>FROM</small><strong>Nantes</strong><span>France</span></div><div class="journey-path"><span class="route-dot"></span><div class="route-dash"></div><b>⇄</b><div class="route-dash"></div><span class="route-dot"></span></div><div class="journey-place right"><small>TO</small><strong>Budapest</strong><span>Hungary</span></div></div><div class="journey-date"><span>31 OCT 2026</span><span>Multimodal pet journey</span></div><div class="hero-insights"><div class="insight-card"><div class="insight-icon pet-icon">🐾</div><div><small>PET PROFILE</small><strong>Titi · Shih Tzu</strong><span>8 kg · Ready to plan</span></div><b class="insight-check">✓</b></div><div class="insight-card"><div class="insight-icon airline-icon">⇄</div><div><small>TRANSPORT CHECK</small><strong>Air · Rail · Road · Sea</strong><span>Operator and route-specific rules</span></div><b class="insight-arrow">→</b></div><div class="insight-card"><div class="insight-icon docs-icon">▣</div><div><small>DOCUMENTS</small><strong>Personalized requirements</strong><span>Health · border · operator rules</span></div><b class="insight-check">✓</b></div></div><div class="hero-panel-footer"><span><i></i> Rules checked from PawVago database</span><span>Personalized for Titi</span></div></div></div></section>
+      <section class="transport-strip" aria-label="Supported travel modes"><div><b>✈</b><strong>Air</strong><small>Airlines & cabin rules</small></div><div><b>🚆</b><strong>Rail</strong><small>Train operator policies</small></div><div><b>🚗</b><strong>Road</strong><small>Cross-border journeys</small></div><div><b>⛴</b><strong>Sea</strong><small>Ferries & pet cabins</small></div><div class="multi"><b>⇄</b><strong>Multimodal</strong><small>One connected journey</small></div></section>
+      <section class="proof-strip"><div><span>01</span><strong>Transport rules</strong><small>Operator & route requirements</small></div><div><span>02</span><strong>Travel documents</strong><small>Step-by-step checklist</small></div><div><span>03</span><strong>Pet-friendly places</strong><small>Vets, sitters, hotels, shops</small></div><div><span>04</span><strong>Pet community</strong><small>Connect with fellow travellers</small></div></section>
+      <section class="section" id="how"><div class="section-intro"><div><div class="eyebrow">01 / How it works</div><h2>One pet.<br><span>One intelligent journey.</span></h2></div><p>Tell PawVago who your pet is, where you're going, when and how you plan to travel. The platform organizes requirements around that exact journey.</p></div><div class="flow-grid"><article><em>01</em><div class="flow-icon">🐾</div><h3>Create a pet profile</h3><p>Save breed, weight and travel details once. Your profile becomes the context for every trip.</p></article><article><em>02</em><div class="flow-icon">⇄</div><h3>Choose the route & mode</h3><p>Travel by flight, train, car, ferry or combine multiple modes in one journey.</p></article><article><em>03</em><div class="flow-icon">✓</div><h3>Follow the plan</h3><p>See operator rules, documents, deadlines, border requirements and useful destination services in one workflow.</p></article></div></section>
+      <section class="feature-band" id="features"><div class="feature-copy"><div class="eyebrow light">02 / The platform</div><h2>From fragmented rules<br>to <span>one clear plan.</span></h2><p>Pet travel touches transport operators, border requirements, veterinarians and local services. PawVago connects those pieces around one pet and one journey.</p><div class="feature-items"><div><b>⇄</b><span><strong>Transport intelligence</strong><small>Airlines, rail operators, ferries and cross-border road travel.</small></span></div><div><b>▣</b><span><strong>Documents & timeline</strong><small>What you need and when you need it.</small></span></div><div><b>⌖</b><span><strong>Destination intelligence</strong><small>Vets, sitters, hotels, shops and local transport.</small></span></div></div><div class="mode-inline"><span>✈ Air</span><span>🚆 Rail</span><span>🚗 Road</span><span>⛴ Sea</span><span>⇄ Multimodal</span></div></div><div class="feature-visual"><div class="mini-window"><div class="mini-top"><span>PAWVAGO AI</span><span class="ready">TRIP READY</span></div><div class="mini-route"><div><small>FROM</small><strong>Nantes</strong></div><span>→</span><div><small>TO</small><strong>Budapest</strong></div></div><div class="mini-result"><div class="result-icon">✓</div><div><strong>Multimodal plan generated</strong><small>Transport · documents · timeline · services</small></div></div><div class="mini-bars"><span></span><span></span><span></span></div></div></div></section>
+      <section class="preview-section" id="preview"><div class="preview-copy"><div class="eyebrow">03 / Product preview</div><h2>Plan, check and travel<br><span>with confidence.</span></h2><p>The PawVago experience connects pet profile → route → transport mode → compliance intelligence → action.</p><button class="primary-btn" id="ctaSignup">Try the product <b>→</b></button></div><div class="preview-image-wrap"><img src="assets/pawvago-preview.png" alt="PawVago product preview"><div class="image-caption">Product direction · investor demo</div></div></section>
+      <section class="vision-section" id="vision"><div class="vision-inner"><div class="eyebrow light">04 / The vision</div><h2>The operating layer<br><span>for pet mobility.</span></h2><p>PawVago is building digital travel infrastructure for pets — connecting identity, health and travel documents, multimodal compliance, planning and destination services across borders.</p><div class="vision-pills"><span>Digital pet identity</span><span>Multimodal planning</span><span>Global rules</span><span>Local services</span><span>Pet community</span></div></div></section>
+      <section class="final-cta"><div><div class="eyebrow">Early access</div><h2>Make pet travel<br><span>simpler.</span></h2><p>Plan one connected journey across air, rail, road and sea.</p></div><button class="primary-btn" id="footerSignup" onclick="auth('signup')">Get started <b>→</b></button></section>
     </section>
-
-    <section id="dashboardView" class="view dashboard-view">
-      <div class="dashboard-shell">
-        <aside class="dashboard-side"><a class="brand" href="#top"><img src="assets/logo.svg" alt=""><span>PawVago</span></a><div class="side-nav"><button class="side-active">⌂ <span>Dashboard</span></button><button>🐾 <span>My pets</span></button><button>✈ <span>Plan a trip</span></button><button>▣ <span>Documents</span></button><button>⌖ <span>Saved places</span></button><button>◎ <span>Community</span></button></div><button id="logoutBtn" class="logout-btn">Log out</button></aside>
-        <div class="dashboard-main"><div class="dash-top"><div><div class="eyebrow">YOUR PET TRAVEL ASSISTANT</div><h2>Dashboard</h2></div><button class="secondary-btn" onclick="location.hash='#top'">Back to website</button></div><div id="dashboardContent"></div></div>
-      </div>
-    </section>
+    <section id="dashboardView" class="view dashboard-view"><div class="dashboard-shell"><aside class="dashboard-side"><a class="brand" href="#top"><img src="assets/logo.svg" alt=""><span>PawVago</span></a><div class="side-nav"><button class="side-active">⌂ <span>Dashboard</span></button><button>🐾 <span>My pets</span></button><button>⇄ <span>Plan a trip</span></button><button>▣ <span>Documents</span></button><button>⌖ <span>Saved places</span></button><button>◎ <span>Community</span></button></div><button id="logoutBtn" class="logout-btn">Log out</button></aside><div class="dashboard-main"><div class="dash-top"><div><div class="eyebrow">YOUR PET TRAVEL ASSISTANT</div><h2>Dashboard</h2></div><button class="secondary-btn" onclick="location.hash='#top'">Back to website</button></div><div id="dashboardContent"></div></div></div></section>
   </main>
-
   <div class="modal hidden" id="authModal"><div class="modal-box"><button class="modal-close" id="closeModal">×</button><div class="eyebrow">PAWVAGO ACCOUNT</div><h2 id="authTitle">Create your account</h2><p id="authSubtitle">Start building your pet travel plan.</p><form id="authForm"><label>Email<input id="email" type="email" required autocomplete="email"></label><label>Password<input id="password" type="password" required minlength="6" autocomplete="current-password"></label><button class="primary-btn full" id="authSubmit" type="submit">Create account</button><div id="authNotice" class="notice"></div></form><button class="switch-btn" id="switchAuth" type="button">Already have an account? Log in</button></div></div>
   <div class="modal hidden" id="petModal"><div class="modal-box"><button class="modal-close" id="closePet">×</button><div class="eyebrow">PET PROFILE</div><h2>Add your travel companion</h2><form id="petForm"><label>Pet name<input id="petName" required></label><div class="form-row"><label>Species<select id="species"><option>Dog</option><option>Cat</option><option>Other</option></select></label><label>Weight (kg)<input id="weight" type="number" step="0.1" required></label></div><label>Breed<input id="breed"></label><button class="primary-btn full" type="submit">Save pet profile</button></form></div></div>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="config.js"></script>
-  <script src="app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="app.js"></script><script src="multimodal-planner.js"></script><script src="performance-patch.js"></script>
 </body>
 </html>
