@@ -13,7 +13,7 @@
 <body>
   <header class="site-nav">
     <a class="brand" href="#top" aria-label="PawVago"><span class="brand-wordmark"><span>Paw</span><b>Vago</b></span></a>
-    <nav class="desktop-nav"><a href="#how">How it works</a><a href="#features">Features</a><a href="#preview">Product</a><a href="#vision">Vision</a></nav>
+    <nav class="desktop-nav"><a href="#how">How it works</a><a href="#features">Features</a><a href="#preview">Product</a><a href="#vision">Vision</a><a href="#contact">Contact</a></nav>
     <div id="authActions" class="auth-actions"><button class="nav-link-btn" id="loginBtn">Log in</button><button class="nav-cta" id="signupBtn">Get started</button></div>
   </header>
   <main id="top">
@@ -25,6 +25,19 @@
       <section class="preview-section" id="preview"><div class="preview-copy"><div class="eyebrow">03 / Product preview</div><h2>Plan, check and travel<br><span>with confidence.</span></h2><p>The live PawVago app is built around the same simple experience: profile → route → intelligence → action.</p><button class="primary-btn" id="ctaSignup">Try the product <b>→</b></button></div><div class="preview-image-wrap"><img src="assets/pawvago-preview.png" alt="PawVago product preview"><div class="image-caption">Product direction · investor demo</div></div></section>
       <section class="vision-section" id="vision"><div class="vision-inner"><div class="eyebrow light">04 / The vision</div><h2>Because a pet is not<br><span>extra baggage.</span></h2><p>PawVago is building the operating layer for pet travel — connecting compliance, planning, destination services and the people who make every journey possible.</p><div class="vision-pills"><span>Smart planning</span><span>Global rules</span><span>Local services</span><span>Pet community</span></div></div></section>
       <section class="final-cta"><div><div class="eyebrow">Early access</div><h2>Make pet travel<br><span>simpler.</span></h2><p>Explore the PawVago product and follow the journey from preparation to destination.</p></div><button class="primary-btn" id="footerSignup" onclick="auth('signup')">Get started <b>→</b></button></section>
+      <section class="contact-section" id="contact" aria-labelledby="contact-title">
+        <div class="contact-card">
+          <div class="contact-copy">
+            <div class="eyebrow">05 / Contact</div>
+            <h2 id="contact-title">Have a question?<br><span>Get in touch.</span></h2>
+            <p>For pet travel questions, partnership opportunities, or general enquiries, contact the PawVago team.</p>
+          </div>
+          <div class="contact-actions">
+            <a class="contact-email" href="mailto:contact@pawvago.com">contact@pawvago.com</a>
+            <a class="primary-btn contact-button" href="mailto:contact@pawvago.com?subject=PawVago%20enquiry">Email us <b>→</b></a>
+          </div>
+        </div>
+      </section>
     </section>
     <section id="dashboardView" class="view dashboard-view"><div class="dashboard-shell"><aside class="dashboard-side"><a class="brand" href="#top"><img src="assets/logo.svg" alt=""><span>PawVago</span></a><div class="side-nav"><button class="side-active">⌂ <span>Dashboard</span></button><button>🐾 <span>My pets</span></button><button>✈ <span>Plan a trip</span></button><button>▣ <span>Documents</span></button><button>⌖ <span>Saved places</span></button><button>◎ <span>Community</span></button></div><button id="logoutBtn" class="logout-btn">Log out</button></aside><div class="dashboard-main"><div class="dash-top"><div><div class="eyebrow">YOUR PET TRAVEL ASSISTANT</div><h2>Dashboard</h2></div><button class="secondary-btn" onclick="location.hash='#top'">Back to website</button></div><div id="dashboardContent"></div></div></div></section>
   </main>
