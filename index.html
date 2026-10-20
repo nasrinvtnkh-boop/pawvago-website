@@ -12,11 +12,12 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="dashboard-premium.css">
+  <link rel="stylesheet" href="mobile-preview.css">
 </head>
 <body>
   <header class="site-nav">
     <a class="brand" href="#top" aria-label="PawVago"><img class="brand-mark" src="assets/logo.svg" alt="" width="50" height="42"><span class="brand-wordmark"><span>Paw</span><b>Vago</b></span></a>
-    <nav class="desktop-nav"><a href="#how">How it works</a><a href="#features">Features</a><a href="#preview">Product</a><a href="#vision">Vision</a><a href="#contact">Contact</a></nav>
+    <nav class="desktop-nav"><a href="#how">How it works</a><a href="#features">Features</a><a href="#preview">Product</a><a href="#mobile-app">Mobile app</a><a href="#vision">Vision</a><a href="#contact">Contact</a></nav>
     <div id="authActions" class="auth-actions"><button class="nav-link-btn" id="loginBtn">Log in</button><button class="nav-cta" id="signupBtn">Get started</button></div>
   </header>
   <main id="top">
@@ -26,6 +27,83 @@
       <section class="section" id="how"><div class="section-intro"><div><div class="eyebrow">01 / How it works</div><h2>One pet.<br><span>One intelligent journey.</span></h2></div><p>Tell PawVago who your pet is, where you're going and when. The platform organizes the requirements around that exact journey.</p></div><div class="flow-grid"><article><em>01</em><div class="flow-icon">🐾</div><h3>Create a pet profile</h3><p>Save breed, weight and travel details once. Your profile becomes the context for every trip.</p></article><article><em>02</em><div class="flow-icon">✦</div><h3>Plan the route</h3><p>Enter origin, destination and date. PawVago checks the relevant airline and destination rules.</p></article><article><em>03</em><div class="flow-icon">✓</div><h3>Follow the plan</h3><p>See documents, deadlines, risks and useful destination services in one workflow.</p></article></div></section>
       <section class="feature-band" id="features"><div class="feature-copy"><div class="eyebrow light">02 / The platform</div><h2>From fragmented rules<br>to <span>one clear plan.</span></h2><p>International pet travel touches airlines, government requirements, veterinarians and local services. PawVago connects those pieces around one pet and one trip.</p><div class="feature-items"><div><b>✈</b><span><strong>Airline intelligence</strong><small>Pet + carrier weight, dimensions and route rules.</small></span></div><div><b>▣</b><span><strong>Documents & timeline</strong><small>What you need and when you need it.</small></span></div><div><b>⌖</b><span><strong>Destination intelligence</strong><small>Vets, sitters, hotels, shops and transport.</small></span></div></div></div><div class="feature-visual"><div class="mini-window"><div class="mini-top"><span>PAWVAGO AI</span><span class="ready">TRIP READY</span></div><div class="mini-route"><div><small>FROM</small><strong>Nantes</strong></div><span>→</span><div><small>TO</small><strong>Barcelona</strong></div></div><div class="mini-result"><div class="result-icon">✓</div><div><strong>Travel plan generated</strong><small>Airline · documents · timeline · services</small></div></div><div class="mini-bars"><span></span><span></span><span></span></div></div></div></section>
       <section class="preview-section" id="preview"><div class="preview-copy"><div class="eyebrow">03 / Product preview</div><h2>Plan, check and travel<br><span>with confidence.</span></h2><p>The live PawVago app is built around the same simple experience: profile → route → intelligence → action.</p><button class="primary-btn" id="ctaSignup">Try the product <b>→</b></button></div><div class="preview-image-wrap"><img src="assets/pawvago-preview.png" alt="PawVago product preview"><div class="image-caption">Product direction · investor demo</div></div></section>
+
+      <section class="mp-section" id="mobile-app" aria-labelledby="mp-heading">
+        <div class="mp-intro">
+          <div class="mp-copy">
+            <div class="eyebrow">04 / PAWVAGO MOBILE</div>
+            <h2 id="mp-heading">A better pet journey.<br><span>Right in your pocket.</span></h2>
+            <p>Meet the PawVago mobile experience, designed around your pets, journeys, documents and next steps. Explore an interactive concept below.</p>
+            <div class="mp-highlights">
+              <span>Personal pet profiles</span><span>Trip preparation</span><span>Document tracking</span>
+            </div>
+            <p class="mp-disclaimer">Interactive UI preview with illustrative sample data — not a live account, booking tool or published app.</p>
+            <a class="primary-btn mp-action" href="mailto:contact@pawvago.com?subject=PawVago%20mobile%20early%20access">Request early access <b>→</b></a>
+          </div>
+          <div class="mp-stage">
+            <div class="mp-ambient mp-ambient-one" aria-hidden="true"></div>
+            <div class="mp-ambient mp-ambient-two" aria-hidden="true"></div>
+            <div class="mp-phone" aria-label="Interactive preview of the PawVago mobile interface">
+              <div class="mp-notch" aria-hidden="true"></div>
+              <div class="mp-status" aria-hidden="true"><span>9:41</span><span>●●● ▰</span></div>
+              <div class="mp-phone-head">
+                <img src="assets/logo.svg" width="42" height="42" alt="" loading="lazy">
+                <div><strong>PawVago</strong><span>Pet travel, made clearer.</span></div>
+                <span class="mp-avatar" aria-hidden="true">P</span>
+              </div>
+              <div class="mp-demo-label">DEMO · ILLUSTRATIVE DATA</div>
+              <div class="mp-phone-content" id="mpPhoneContent" aria-live="polite">
+                <section class="mp-screen" data-mp-panel="home">
+                  <p class="mp-overline">YOUR JOURNEY COMPANION</p>
+                  <h3>Every journey<br>starts together.</h3>
+                  <p class="mp-muted">Keep the next step in sight, wherever you go.</p>
+                  <div class="mp-trip-card">
+                    <span class="mp-card-top">UPCOMING TRIP <em>SAMPLE</em></span>
+                    <div class="mp-route"><span>Nantes<small>France</small></span><span class="mp-route-arrow">→</span><span>Barcelona<small>Spain</small></span></div>
+                    <div class="mp-trip-footer"><span>Pet: Milo</span><span>Checklist in progress</span></div>
+                  </div>
+                  <div class="mp-small-card"><span class="mp-mini-icon">✓</span><span><strong>Get trip-ready</strong><small>Review the documents and requirements for your route.</small></span><button type="button" data-mp-go="documents" aria-label="Open documents preview">→</button></div>
+                  <button type="button" class="mp-inline-cta" data-mp-go="trips">View trip planner <span>→</span></button>
+                </section>
+                <section class="mp-screen" data-mp-panel="pets" hidden>
+                  <p class="mp-overline">PET PROFILES</p><h3>Meet your<br>travel companions.</h3><p class="mp-muted">One profile for every adventure.</p>
+                  <div class="mp-pet-card"><span class="mp-pet-symbol">🐕</span><div><strong>Milo</strong><small>Dog · Sample profile</small></div><span class="mp-ok">✓</span></div>
+                  <div class="mp-small-card"><span class="mp-mini-icon">♧</span><span><strong>Pet information</strong><small>Breed, weight, identification and travel notes in one place.</small></span></div>
+                  <div class="mp-tip">A saved pet profile helps personalise future trip checklists.</div>
+                </section>
+                <section class="mp-screen" data-mp-panel="trips" hidden>
+                  <p class="mp-overline">TRIP PLANNER</p><h3>One route.<br>One clear plan.</h3><p class="mp-muted">Travel preparation tailored to your journey.</p>
+                  <div class="mp-trip-card"><span class="mp-card-top">SAMPLE ROUTE</span><div class="mp-route"><span>Nantes<small>France</small></span><span class="mp-route-arrow">→</span><span>Barcelona<small>Spain</small></span></div><div class="mp-trip-footer"><span>Mode: Air</span><span>Pet: Milo</span></div></div>
+                  <div class="mp-steps"><div><span>1</span><strong>Create a pet profile</strong><b>✓</b></div><div><span>2</span><strong>Check carrier rules</strong><b>○</b></div><div><span>3</span><strong>Prepare documents</strong><b>○</b></div></div>
+                  <button type="button" class="mp-inline-cta" data-mp-go="documents">Explore documents <span>→</span></button>
+                </section>
+                <section class="mp-screen" data-mp-panel="documents" hidden>
+                  <p class="mp-overline">DOCUMENT CENTRE</p><h3>Everything<br>in one place.</h3><p class="mp-muted">Follow your travel document checklist.</p>
+                  <div class="mp-doc"><span>✓</span><div><strong>Microchip record</strong><small>Sample checklist · Reviewed</small></div></div>
+                  <div class="mp-doc"><span>○</span><div><strong>Vaccination details</strong><small>Sample checklist · To review</small></div></div>
+                  <div class="mp-doc"><span>○</span><div><strong>Entry requirements</strong><small>Requirements depend on your route</small></div></div>
+                  <div class="mp-tip">Always confirm official country and carrier rules before travel.</div>
+                </section>
+                <section class="mp-screen" data-mp-panel="profile" hidden>
+                  <p class="mp-overline">YOUR SPACE</p><h3>All your travel<br>essentials.</h3><p class="mp-muted">A single place to keep the journey organised.</p>
+                  <div class="mp-small-card"><span class="mp-mini-icon">♙</span><span><strong>Account & preferences</strong><small>Your travel profile and settings</small></span></div>
+                  <div class="mp-small-card"><span class="mp-mini-icon">♢</span><span><strong>Travel reminders</strong><small>Keep key preparation dates visible</small></span></div>
+                  <div class="mp-small-card"><span class="mp-mini-icon">?</span><span><strong>Help & support</strong><small>Find guidance when you need it</small></span></div>
+                </section>
+              </div>
+              <nav class="mp-tabs" aria-label="Mobile preview pages">
+                <button class="mp-tab mp-tab-active" type="button" data-mp-tab="home" aria-current="page"><span aria-hidden="true">⌂</span>Home</button>
+                <button class="mp-tab" type="button" data-mp-tab="pets"><span aria-hidden="true">♡</span>My Pets</button>
+                <button class="mp-tab" type="button" data-mp-tab="trips"><span aria-hidden="true">⌖</span>Trips</button>
+                <button class="mp-tab" type="button" data-mp-tab="documents"><span aria-hidden="true">▤</span>Docs</button>
+                <button class="mp-tab" type="button" data-mp-tab="profile"><span aria-hidden="true">○</span>Profile</button>
+              </nav>
+              <div class="mp-home-indicator" aria-hidden="true"></div>
+            </div>
+            <span class="mp-stage-note">Tap the phone tabs to explore the demo</span>
+          </div>
+        </div>
+      </section>
       <section class="vision-section" id="vision"><div class="vision-inner"><div class="eyebrow light">04 / The vision</div><h2>Because a pet is not<br><span>extra baggage.</span></h2><p>PawVago is building the operating layer for pet travel — connecting compliance, planning, destination services and the people who make every journey possible.</p><div class="vision-pills"><span>Smart planning</span><span>Global rules</span><span>Local services</span><span>Pet community</span></div></div></section>
       <section class="final-cta"><div><div class="eyebrow">Early access</div><h2>Make pet travel<br><span>simpler.</span></h2><p>Explore the PawVago product and follow the journey from preparation to destination.</p></div><button class="primary-btn" id="footerSignup" onclick="auth('signup')">Get started <b>→</b></button></section>
       <section class="contact-section" id="contact" aria-labelledby="contact-title">
@@ -46,5 +124,5 @@
   </main>
   <div class="modal hidden" id="authModal"><div class="modal-box"><button class="modal-close" id="closeModal">×</button><div class="eyebrow">PAWVAGO ACCOUNT</div><h2 id="authTitle">Create your account</h2><p id="authSubtitle">Start building your pet travel plan.</p><form id="authForm"><label>Email<input id="email" type="email" required autocomplete="email"></label><label>Password<input id="password" type="password" required minlength="6" autocomplete="current-password"></label><button class="primary-btn full" id="authSubmit" type="submit">Create account</button><div id="authNotice" class="notice"></div></form><button class="switch-btn" id="switchAuth" type="button">Already have an account? Log in</button></div></div>
   <div class="modal hidden" id="petModal"><div class="modal-box"><button class="modal-close" id="closePet">×</button><div class="eyebrow">PET PROFILE</div><h2>Add your travel companion</h2><form id="petForm"><label>Pet name<input id="petName" required></label><div class="form-row"><label>Species<select id="species"><option>Dog</option><option>Cat</option><option>Other</option></select></label><label>Weight (kg)<input id="weight" type="number" step="0.1" required></label></div><label>Breed<input id="breed"></label><button class="primary-btn full" type="submit">Save pet profile</button></form></div></div>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="app.js"></script><script src="ui-fixes.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="app.js"></script><script src="ui-fixes.js"></script><script src="mobile-preview.js" defer></script>
 </body></html>
