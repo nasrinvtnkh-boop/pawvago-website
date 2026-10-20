@@ -57,6 +57,14 @@ a{text-decoration:none;color:inherit}
 .brand{display:flex;align-items:center;text-decoration:none}
 .brand-wordmark{font-size:25px;font-weight:850;letter-spacing:-.045em;line-height:1;color:#14263D}
 .brand-wordmark b{font-weight:850;color:#336A96}
+/* Minimal black dog/cat/destination logo */
+.brand-mark{display:block;width:50px;height:42px;object-fit:contain;flex-shrink:0}
+.site-nav .brand{gap:9px}
+.site-nav .brand-wordmark,.site-nav .brand-wordmark b{color:#111}
+.dashboard-side .brand{gap:10px}
+.dashboard-side .brand-mark{width:40px;height:40px}
+.dashboard-side .brand span{font-weight:800;letter-spacing:-.03em}
+
 .desktop-nav{display:flex;gap:30px;color:#61758A;font-size:14px}
 .desktop-nav a:hover{color:var(--ink)}
 .auth-actions{display:flex;align-items:center;gap:18px}
