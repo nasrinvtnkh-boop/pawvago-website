@@ -1,0 +1,124 @@
+/* PawVago / Journey Intelligence 2026. Component-scoped, mobile-first and accessible. */
+.pvj-section,.pvj-library,.pvj-faq{scroll-margin-top:92px}
+.pvj-section{padding:110px 6vw 104px;background:linear-gradient(180deg,#f8fafc 0%,#ecf2f7 100%);position:relative;overflow:hidden}
+.pvj-section::before{content:"";position:absolute;right:-200px;top:-320px;width:650px;height:650px;border-radius:50%;background:radial-gradient(circle,#deebf5 0%,transparent 69%);pointer-events:none}
+.pvj-heading,.pvj-shell,.pvj-library-top,.pvj-rule-cards,.pvj-citation-note,.pvj-faq{max-width:1260px;margin-left:auto;margin-right:auto}
+.pvj-heading{position:relative;display:flex;justify-content:space-between;align-items:end;gap:36px;margin-bottom:37px}
+.pvj-heading>div:first-child{max-width:680px}
+.pvj-heading h2,.pvj-library h2,.pvj-faq h2{font:800 clamp(36px,4.3vw,61px)/1.07 "Manrope",sans-serif;letter-spacing:-.05em;color:#14263d;margin:0 0 18px}
+.pvj-heading h2 span,.pvj-library h2 span,.pvj-faq h2 span{color:#33739b}
+.pvj-heading p,.pvj-library-top p,.pvj-faq>div>p{font-size:16px;line-height:1.75;color:#63778c;margin:0;max-width:600px}
+.pvj-heading-aside{max-width:245px;border:1px solid #d8e3ee;border-radius:15px;padding:15px 17px;background:rgba(255,255,255,.72);display:grid;grid-template-columns:9px 1fr;gap:4px 9px}
+.pvj-heading-aside .pvj-status-dot{width:8px;height:8px;border-radius:50%;background:#3d9b77;margin-top:5px}
+.pvj-heading-aside strong{color:#283f57;font-size:12px}
+.pvj-heading-aside small{grid-column:2;color:#70849a;line-height:1.5;font-size:10px}
+.pvj-shell{display:grid;grid-template-columns:minmax(0,.87fr) minmax(0,1.13fr);gap:15px;align-items:stretch;box-shadow:0 28px 85px rgba(20,38,61,.1);border-radius:29px;position:relative}
+.pvj-form-side,.pvj-journey-side{border-radius:29px;min-width:0}
+.pvj-form-side{background:#fff;padding:30px 32px;border:1px solid #e1eaf2}
+.pvj-panel-header{display:flex;align-items:center;gap:14px;margin-bottom:25px}
+.pvj-step{width:41px;height:41px;border-radius:13px;background:#e9f2f8;color:#2e648b;display:grid;place-items:center;font-size:14px;font-weight:800}
+.pvj-panel-header h3{font:800 19px/1.2 "Manrope",sans-serif;margin:0;color:#14263d}
+.pvj-panel-header p{color:#78879a;font-size:12px;margin:4px 0 0}
+.pvj-form{display:grid;gap:16px}
+.pvj-fields-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.pvj-form label,.pvj-more label{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#566b80;font-weight:800;display:block}
+.pvj-form select,.pvj-form input:not([type=radio]){width:100%;height:46px;background:#f8fafc;border:1px solid #dce6ef;color:#14263d;border-radius:12px;margin-top:7px;padding:0 12px;font-size:13px;font-weight:600;outline:none;min-width:0}
+.pvj-form select:focus,.pvj-form input:not([type=radio]):focus{border-color:#33739b;box-shadow:0 0 0 3px rgba(51,115,155,.12)}
+.pvj-more{background:#f7fafc;border:1px solid #e0eaf2;border-radius:13px;padding:11px 14px}
+.pvj-more>summary{cursor:pointer;font-size:12px;color:#304e67;font-weight:800;list-style:revert}
+.pvj-more>summary span{font-weight:500;color:#8296a8;font-size:10px}
+.pvj-more[open]>summary{margin-bottom:12px}
+.pvj-fields-three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.pvj-fields-three label{font-size:9px}
+.pvj-more p{font-size:11px;color:#8493a5;margin:10px 0 0;line-height:1.4}
+.pvj-mode{border:0;padding:0;margin:0;display:flex;gap:7px;flex-wrap:wrap}
+.pvj-mode legend{font-size:11px;font-weight:800;color:#566b80;text-transform:uppercase;letter-spacing:.05em;margin-bottom:9px}
+.pvj-mode label{flex:1;min-width:75px;text-transform:none;letter-spacing:0}
+.pvj-mode input{position:absolute;opacity:0;pointer-events:none}
+.pvj-mode span{display:block;text-align:center;padding:11px 9px;border:1px solid #dfe7ee;border-radius:12px;background:#f9fbfc;color:#51677b;font-weight:800;font-size:12px;cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
+.pvj-mode input:checked+span{background:#14263d;color:white;border-color:#14263d}
+.pvj-mode input:focus-visible+span{outline:3px solid #336A96;outline-offset:3px}
+.pvj-mode span:hover{transform:translateY(-1px)}
+.pvj-submit{display:flex;justify-content:space-between;align-items:center;width:100%;border:0;border-radius:13px;background:#14263d;color:#fff;padding:16px 20px;font-weight:800;box-shadow:0 10px 25px rgba(20,38,61,.16);transition:transform .25s,box-shadow .25s}
+.pvj-submit:hover{transform:translateY(-2px);box-shadow:0 16px 33px rgba(20,38,61,.25)}
+.pvj-submit span{font-size:20px}
+.pvj-form-note{font-size:10px;line-height:1.6;color:#8595a5;margin:-5px 0 0}
+.pvj-journey-side{background:#14263d;color:#fff;padding:26px;display:flex;flex-direction:column;gap:17px;overflow:hidden}
+.pvj-map-head{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#c2d4e3;letter-spacing:.13em;font-size:10px;font-weight:800}
+.pvj-map-head span:first-child{display:flex;align-items:center;gap:8px}
+.pvj-map-head i{width:7px;height:7px;border-radius:50%;background:#c7ae84;display:inline-block;box-shadow:0 0 0 4px rgba(199,174,132,.12)}
+.pvj-map{position:relative;min-height:250px;border:1px solid rgba(205,223,235,.14);border-radius:21px;overflow:hidden;background:radial-gradient(ellipse at 51% 0,rgba(115,157,189,.23) 0,transparent 58%),linear-gradient(135deg,#1a324e,#0d2136)}
+.pvj-map-grid{position:absolute;inset:0;opacity:.36;background-image:linear-gradient(rgba(192,213,232,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(192,213,232,.07) 1px,transparent 1px);background-size:35px 35px}
+.pvj-map-watermark{position:absolute;left:18px;top:17px;font-size:9px;letter-spacing:.15em;color:#7391a8;font-weight:800}
+.pvj-map svg{width:100%;height:198px;position:relative;z-index:1;display:block}
+.pvj-arc-under{stroke:rgba(255,255,255,.13);stroke-width:2;fill:none}
+.pvj-arc{stroke:url(#pvj-arc-stroke);stroke-width:3;fill:none;stroke-linecap:round;stroke-dasharray:8 10}
+.pvj-map-labels{position:absolute;bottom:16px;left:18px;right:18px;z-index:2;display:flex;justify-content:space-between;gap:15px}
+.pvj-map-labels>div{max-width:48%;min-width:0}
+.pvj-map-labels small,.pvj-map-labels span{display:block;color:#90acc0;font-size:9px;letter-spacing:.09em;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pvj-map-labels strong{display:block;color:#fff;font:800 19px "Manrope",sans-serif;letter-spacing:-.035em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pvj-map-labels span{font-size:11px;letter-spacing:0}
+.pvj-destination{text-align:right}
+.pvj-results{flex:1;min-height:185px}
+.pvj-result-placeholder{border:1px dashed rgba(206,224,240,.27);border-radius:17px;padding:26px 20px;color:#bed0df;line-height:1.75;font-size:13px}
+.pvj-result-placeholder strong{color:#fff}
+.pvj-results-head{display:flex;gap:12px;justify-content:space-between;align-items:center;margin:1px 0 10px}
+.pvj-results-head>span{color:#d8e5f0;font-size:12px;font-weight:800}
+.pvj-policy-chip{border:1px solid rgba(200,221,236,.23);border-radius:99px;padding:5px 8px;color:#a6bece;font-size:9px}
+.pvj-diagnostic{border-radius:15px;background:rgba(255,255,255,.08);border:1px solid rgba(230,240,255,.1);padding:16px 17px;margin:10px 0}
+.pvj-diagnostic strong{font-size:14px;display:block;margin-bottom:6px}
+.pvj-diagnostic p,.pvj-diagnostic li{font-size:12px;color:#c4d3e0;line-height:1.65;margin:0}
+.pvj-diagnostic.pvj-danger{border-color:rgba(240,144,144,.48);background:rgba(163,59,63,.13)}
+.pvj-diagnostic.pvj-caution{border-color:rgba(218,192,131,.4);background:rgba(199,149,53,.12)}
+.pvj-diagnostic.pvj-positive{border-color:rgba(102,188,160,.4);background:rgba(68,157,129,.13)}
+.pvj-result-row{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid rgba(210,223,239,.12);font-size:12px}
+.pvj-result-row span{color:#a8bfd2}
+.pvj-result-row strong{font-weight:800;color:#fff;text-align:right}
+.pvj-source-link{display:inline-flex;align-items:center;gap:6px;color:#e0c38d;font-weight:800;text-decoration:underline;text-underline-offset:3px;font-size:11px;margin-top:12px}
+.pvj-source-link:hover{color:#fff}
+.pvj-docs{margin-top:16px;padding:18px;background:#fff;color:#243a50;border-radius:16px}
+.pvj-docs h4{margin:0 0 5px;font:800 14px "Manrope",sans-serif}
+.pvj-docs>p{margin:0 0 12px;font-size:10px;color:#71859a}
+.pvj-docs label{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #edf0f3;cursor:pointer;font-size:11px;line-height:1.5}
+.pvj-docs label:last-of-type{border-bottom:0}
+.pvj-docs input{margin-top:2px;accent-color:#33739b}
+.pvj-docs progress{width:100%;height:7px;appearance:none;overflow:hidden;border:0;border-radius:7px;margin:10px 0 4px;background:#e5ecf2}
+.pvj-docs progress::-webkit-progress-bar{background:#e5ecf2;border-radius:7px}
+.pvj-docs progress::-webkit-progress-value{background:#33739b;border-radius:7px;transition:width .3s}
+.pvj-docs progress::-moz-progress-bar{background:#33739b;border-radius:7px}
+.pvj-doc-progress{font-size:10px;color:#617c91;font-weight:800}
+.pvj-docs-footnote{font-size:10px;color:#c1d5e6;line-height:1.6;margin:11px 0 0}
+.pvj-library{padding:108px 6vw 95px;background:#fff;max-width:none}
+.pvj-library-top,.pvj-rule-cards,.pvj-citation-note{max-width:1260px}
+.pvj-library-top{display:flex;align-items:end;justify-content:space-between;gap:25px;margin-bottom:31px}
+.pvj-library-top>div:first-child{max-width:730px}
+.pvj-library-top h2{font-size:clamp(34px,4vw,53px)}
+.pvj-audit{border:1px solid #dce5ee;background:#f7fafc;padding:14px 17px;border-radius:14px;max-width:250px}
+.pvj-audit strong{font-size:12px;display:block;color:#24415d}
+.pvj-audit span{display:block;color:#72879a;font-size:10px;margin-top:5px}
+.pvj-rule-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.pvj-rule-card{background:#f8fafc;border:1px solid #e0e9f1;border-radius:21px;padding:24px 20px;display:flex;flex-direction:column;gap:8px;transition:transform .3s,border-color .3s,box-shadow .3s}
+.pvj-rule-card:hover{transform:translateY(-5px);border-color:#9eb9cc;box-shadow:0 18px 35px rgba(20,38,61,.09)}
+.pvj-rule-card-name{font:800 16px "Manrope",sans-serif;color:#192f47}
+.pvj-rule-card-limit{font:800 40px/1.2 "Manrope",sans-serif;letter-spacing:-.05em;color:#14263d}
+.pvj-rule-card-limit small{font-size:13px;color:#617d92;letter-spacing:0}
+.pvj-rule-card-dim{font-size:12px;color:#50687c}
+.pvj-rule-card-note{font-size:11px;line-height:1.6;color:#8494a4;flex:1}
+.pvj-rule-card a{display:inline-flex;gap:8px;align-items:center;color:#336A96;font-size:12px;font-weight:800;margin-top:10px;align-self:flex-start}
+.pvj-rule-card a:hover{text-decoration:underline}
+.pvj-citation-note{color:#8b98a5;font-size:11px;line-height:1.6;margin-top:25px}
+.pvj-faq{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:90px;padding:108px 6vw 125px;background:#f7fafc;max-width:none}
+.pvj-faq>div:first-child{max-width:410px;justify-self:end}
+.pvj-faq h2{font-size:clamp(34px,3.8vw,53px)}
+.pvj-faq-list{max-width:650px}
+.pvj-faq-list details{border-bottom:1px solid #dce6ee;padding:19px 0}
+.pvj-faq-list summary{list-style:none;font-size:15px;font-weight:800;color:#203850;cursor:pointer;display:flex;justify-content:space-between;gap:10px}
+.pvj-faq-list summary::-webkit-details-marker{display:none}
+.pvj-faq-list summary::after{content:"+";font-size:23px;color:#5081a2;font-weight:500;line-height:1}
+.pvj-faq-list details[open] summary::after{content:"−"}
+.pvj-faq-list details p{font-size:13px;line-height:1.8;color:#647d91;margin:13px 0 2px}
+@media(max-width:1100px){.pvj-rule-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.pvj-faq{gap:45px}}
+@media(max-width:900px){.pvj-section,.pvj-library{padding:75px 20px}.pvj-heading{display:block}.pvj-heading-aside{margin-top:25px;max-width:360px}.pvj-shell{grid-template-columns:1fr;gap:12px}.pvj-form-side,.pvj-journey-side{border-radius:22px}.pvj-journey-side{min-height:460px}.pvj-library-top{align-items:start}.pvj-faq{padding:80px 20px;grid-template-columns:1fr;gap:25px}.pvj-faq>div:first-child{justify-self:start;max-width:750px}.desktop-nav{gap:18px}}
+@media(max-width:610px){.pvj-section{padding:68px 13px}.pvj-heading{padding:0 7px}.pvj-heading h2{font-size:40px}.pvj-form-side{padding:22px 17px}.pvj-journey-side{padding:19px 15px}.pvj-fields-two{gap:8px}.pvj-form select,.pvj-form input:not([type=radio]){padding:0 9px;font-size:12px}.pvj-map{min-height:220px}.pvj-map svg{height:178px}.pvj-map-labels strong{font-size:16px}.pvj-library-top{display:block}.pvj-audit{margin-top:20px}.pvj-rule-cards{grid-template-columns:1fr 1fr;gap:8px}.pvj-rule-card{padding:17px 12px;border-radius:16px}.pvj-rule-card-limit{font-size:30px}.pvj-rule-card-name{font-size:13px}.pvj-faq{padding:76px 20px}.pvj-faq-list summary{font-size:13px}}
+@media(max-width:380px){.pvj-fields-two{grid-template-columns:1fr}.pvj-rule-cards{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.pvj-moving-dot{display:none}.pvj-submit,.pvj-mode span,.pvj-rule-card{transition:none!important}.pvj-submit:hover,.pvj-mode span:hover,.pvj-rule-card:hover{transform:none!important}}
