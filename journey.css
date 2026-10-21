@@ -122,3 +122,5 @@
 @media(max-width:610px){.pvj-section{padding:68px 13px}.pvj-heading{padding:0 7px}.pvj-heading h2{font-size:40px}.pvj-form-side{padding:22px 17px}.pvj-journey-side{padding:19px 15px}.pvj-fields-two{gap:8px}.pvj-form select,.pvj-form input:not([type=radio]){padding:0 9px;font-size:12px}.pvj-map{min-height:220px}.pvj-map svg{height:178px}.pvj-map-labels strong{font-size:16px}.pvj-library-top{display:block}.pvj-audit{margin-top:20px}.pvj-rule-cards{grid-template-columns:1fr 1fr;gap:8px}.pvj-rule-card{padding:17px 12px;border-radius:16px}.pvj-rule-card-limit{font-size:30px}.pvj-rule-card-name{font-size:13px}.pvj-faq{padding:76px 20px}.pvj-faq-list summary{font-size:13px}}
 @media(max-width:380px){.pvj-fields-two{grid-template-columns:1fr}.pvj-rule-cards{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.pvj-moving-dot{display:none}.pvj-submit,.pvj-mode span,.pvj-rule-card{transition:none!important}.pvj-submit:hover,.pvj-mode span:hover,.pvj-rule-card:hover{transform:none!important}}
+
+.pvj-airline-label[hidden]{display:none!important}
