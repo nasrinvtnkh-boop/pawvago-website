@@ -162,7 +162,7 @@
     close();const target=document.getElementById(id);
     if(target)target.scrollIntoView({behavior:reducedMotion?"auto":"smooth",block:"start"});
   }
-  trigger.addEventListener("click",open);
+  [trigger, document.getElementById("previewDemo")].filter(Boolean).forEach(button => button.addEventListener("click",open));
   el.close.addEventListener("click",close);
   overlay.addEventListener("click",event=>{if(event.target===overlay)close();});
   el.prev.addEventListener("click",()=>move(chapter-1));
