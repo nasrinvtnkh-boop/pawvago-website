@@ -1028,7 +1028,9 @@ async function loadTravelData() {
     if (!Array.isArray(policy.airlines) || !Array.isArray(policy.countries)) {
       throw new Error('Invalid official policy reference');
     }
-    airlineData = policy.airlines.map(a => ({
+    // Show source-reviewed airlines in the dashboard; the complete catalogue
+    // is searchable on the public airline directory.
+    airlineData = policy.airlines.filter(a => a.policy_status === "reviewed").map(a => ({
       name: a.name,
       hold_policy: a.hold || null,
       restricted_breeds: policy.brachycephalic_breeds || {},
@@ -1773,10 +1775,11 @@ function renderEngine() {
     const snub = br && breedList.some(x => br.includes(String(x).toLowerCase().replace(/-/g, ' ')));
     const gbArrival = ['great britain','united kingdom','uk','england','scotland','wales','london']
       .includes(String(destination || '').trim().toLowerCase());
-    const rejected = gbArrival || !h?.allowed || (h?.snub_nosed_restricted && snub);
+    const rejected = gbArrival || h?.allowed === false || (h?.snub_nosed_restricted === true && snub);
     const label = gbArrival
       ? 'GB arrival: air cargo normally required, not checked baggage'
-      : !h?.allowed ? 'Not offered by this airline'
+      : h?.allowed === false ? 'Not offered by this airline'
+      : h?.allowed !== true ? 'Hold eligibility requires individual confirmation'
       : snub && h.snub_nosed_restricted ? 'This short-nosed breed is not accepted in the hold'
       : 'Hold option listed — airline and crate verification required';
     const source = /^https:\/\/[^\s]+$/i.test(h?.source || '') ? h.source : '';
@@ -1980,7 +1983,7 @@ function renderEngine() {
         <h3>Travel in the aircraft hold (checked pet baggage)</h3>
         <p class="pv-muted">Hold (AVIH) is separate from air cargo/freight. The options below are policy references only, not confirmed travel bookings. Short-nosed breeds and connections can be restricted.</p>
         <div class="pv-grid">${holdCards}</div>
-        <p class="pv-muted">For a detailed check including crate dimensions and weight, use the Trip Checker on the landing page and select Hold or Cargo.</p>
+        <p class="pv-muted">Only source-reviewed carriers are shown here. The full searchable airline directory includes carriers awaiting review. Cabin/hold acceptance must be confirmed by the operating airline.</p><p><a href="/#policy-library" target="_self">Browse the full airline directory →</a></p>
       </div>
 
       <div class="pv-card">
