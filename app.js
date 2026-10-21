@@ -1188,6 +1188,15 @@ function airlineResult(airline, rule) {
     };
   }
 
+  const tripDestination = String(trip?.destination_country || trip?.to || '').trim().toLowerCase();
+  if (['united kingdom', 'great britain', 'uk', 'england', 'scotland', 'wales', 'london'].includes(tripDestination)) {
+    return {
+      status: 'Not compatible',
+      cls: 'pv-bad',
+      reason: 'For standard commercial flights entering Great Britain, pet dogs and cats normally travel as cargo, not in the passenger cabin. Check approved routes and airline conditions.'
+    };
+  }
+
   if (!weight) {
     return {
       status: 'Check',
@@ -1255,10 +1264,10 @@ function airlineResult(airline, rule) {
   }
 
   const dimensions = [
-    Number(rule.carrier_length_cm),
-    Number(rule.carrier_width_cm),
-    Number(rule.carrier_height_cm)
-  ].every(Number.isFinite)
+    rule.carrier_length_cm,
+    rule.carrier_width_cm,
+    rule.carrier_height_cm
+  ].every(v => v !== null && v !== undefined && Number(v) > 0)
     ? `${rule.carrier_length_cm} × ${rule.carrier_width_cm} × ${rule.carrier_height_cm} cm`
     : '';
 
