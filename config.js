@@ -32,7 +32,7 @@ window.PAWVAGO_CONFIG = {
 
 // Load the production UI/routing bridge after the main application has initialized.
 window.addEventListener('load', () => {
-  if (document.querySelector('script[data-pawvago-ui-fixes]')) return;
+  if (document.querySelector('script[data-pawvago-ui-fixes],script[src="ui-fixes.js"],script[src="/ui-fixes.js"]')) return;
   const script = document.createElement('script');
   script.src = '/ui-fixes.js';
   script.dataset.pawvagoUiFixes = '1';
