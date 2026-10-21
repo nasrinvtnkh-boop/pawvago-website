@@ -1,9 +1,264 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "reviewed_on": "2026-10-21",
-  "quality": "Manually reviewed official-source cabin and checked-hold snapshot; independent freight/cargo acceptance is NOT provided and is NOT a booking or live capacity check.",
+  "quality": "Selected global airline directory, NOT a complete registry of every operating airline; reviewed pet rules are strictly separated from unreviewed carriers. No real-time flight inventory, seat or pet-space availability.",
   "source_scope": "Non-commercial travel with personal dogs and cats, usual EU/GB routes. Exceptions and transit require official checks.",
   "airlines": [
+    {
+      "id": "A3",
+      "name": "Aegean Airlines",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "EI",
+      "name": "Aer Lingus",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "SU",
+      "name": "Aeroflot",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "AR",
+      "name": "Aerolíneas Argentinas",
+      "region": "South America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "AM",
+      "name": "Aeroméxico",
+      "region": "North America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "AH",
+      "name": "Air Algérie",
+      "region": "Africa",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "G9",
+      "name": "Air Arabia",
+      "region": "Middle East",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "KC",
+      "name": "Air Astana",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "UU",
+      "name": "Air Austral",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "AC",
+      "name": "Air Canada",
+      "region": "North America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "TX",
+      "name": "Air Caraïbes",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "CA",
+      "name": "Air China",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "XK",
+      "name": "Air Corsica",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "D6",
+      "name": "Air Côte d'Ivoire",
+      "region": "Africa",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "UX",
+      "name": "Air Europa",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
     {
       "id": "AF",
       "name": "Air France",
@@ -23,31 +278,2326 @@
         "breed_source": "https://wwws.airfrance.fr/information/passagers/acheter-billet-avion-pmr-autres-handicaps/svan",
         "snub_nosed_restricted": true,
         "notes": "Checked-in animal in the hold (AVIH). Dogs/cats with suitable hard IATA-style crates; total weight over 8 kg and up to 75 kg. Short-nosed breeds not accepted in hold. Reservation, aircraft and route approval required."
+      },
+      "region": "Europe",
+      "policy_status": "reviewed",
+      "cabin_allowed": true
+    },
+    {
+      "id": "AI",
+      "name": "Air India",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "IX",
+      "name": "Air India Express",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "NX",
+      "name": "Air Macau",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "MK",
+      "name": "Air Mauritius",
+      "region": "Africa",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "NZ",
+      "name": "Air New Zealand",
+      "region": "Oceania",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "PX",
+      "name": "Air Niugini",
+      "region": "Oceania",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "HC",
+      "name": "Air Sénégal",
+      "region": "Africa",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "JU",
+      "name": "Air Serbia",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "VT",
+      "name": "Air Tahiti",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "TN",
+      "name": "Air Tahiti Nui",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "TS",
+      "name": "Air Transat",
+      "region": "North America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "AK",
+      "name": "AirAsia",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "BT",
+      "name": "airBaltic",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "SB",
+      "name": "Aircalin",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "QP",
+      "name": "Akasa Air",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "AS",
+      "name": "Alaska Airlines",
+      "region": "North America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "NH",
+      "name": "All Nippon Airways (ANA)",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "G4",
+      "name": "Allegiant Air",
+      "region": "North America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "AA",
+      "name": "American Airlines",
+      "region": "North America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "OZ",
+      "name": "Asiana Airlines",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "OS",
+      "name": "Austrian Airlines",
+      "region": "Europe",
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "soft_carrier": null,
+      "reservation_required": true,
+      "source": "https://www.austrian.com/fr/en/travelling-with-animals",
+      "notes": "Cabin and hold options, including snub-nosed breed restriction in hold; confirm exact cabin max and carrier dimensions with operating airline.",
+      "hold": {
+        "allowed": true,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "requires_hard_crate": true,
+        "source": "https://www.austrian.com/fr/en/travelling-with-animals",
+        "snub_nosed_restricted": true,
+        "notes": "The airline must confirm hold availability, breed, aircraft and route limitations."
       }
     },
     {
-      "id": "VY",
-      "name": "Vueling",
-      "cabin_max_kg": 10,
-      "dimensions_cm": [
-        45,
-        39,
-        21
-      ],
-      "soft_carrier": true,
-      "cabin_only": true,
+      "id": "AV",
+      "name": "Avianca",
+      "region": "South America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "J2",
+      "name": "Azerbaijan Airlines",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "AD",
+      "name": "Azul Brazilian Airlines",
+      "region": "South America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "PG",
+      "name": "Bangkok Airways",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "ID",
+      "name": "Batik Air",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "BG",
+      "name": "Biman Bangladesh Airlines",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "BA",
+      "name": "British Airways",
+      "region": "Europe",
+      "policy_status": "reviewed",
+      "cabin_allowed": false,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "soft_carrier": null,
       "reservation_required": true,
-      "source": "https://www.vueling.com/en/vueling-services/prepare-your-trip/pets-on-board",
-      "notes": "Pets are not transported in the hold. Cabin pet and carrier total max 10 kg; permitted species, operating route and remaining pet spaces must be confirmed.",
+      "source": "https://www.britishairways.com/content/information/legal/conditions-of-carriage/general-conditions-of-carriage",
+      "notes": "Ordinary pets generally do not travel in the passenger cabin. Policies distinguish checked baggage or cargo depending on service and destination; confirm approved pet transporter.",
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "requires_hard_crate": true,
+        "source": "https://www.britishairways.com/content/information/legal/conditions-of-carriage/general-conditions-of-carriage",
+        "snub_nosed_restricted": null,
+        "notes": "Official conditions describe checked animals or cargo subject to service. Availability cannot be inferred for a specific flight."
+      }
+    },
+    {
+      "id": "SN",
+      "name": "Brussels Airlines",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "BW",
+      "name": "Caribbean Airlines",
+      "region": "South America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "CX",
+      "name": "Cathay Pacific",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "5J",
+      "name": "Cebu Pacific",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "CI",
+      "name": "China Airlines",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "MU",
+      "name": "China Eastern Airlines",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "CZ",
+      "name": "China Southern Airlines",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "DE",
+      "name": "Condor",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "CM",
+      "name": "Copa Airlines",
+      "region": "South America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "XC",
+      "name": "Corendon Airlines",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "SS",
+      "name": "Corsair",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "OU",
+      "name": "Croatia Airlines",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "CY",
+      "name": "Cyprus Airways",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "DL",
+      "name": "Delta Air Lines",
+      "region": "North America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "U2",
+      "name": "easyJet",
+      "region": "Europe",
+      "policy_status": "reviewed",
+      "cabin_allowed": false,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "soft_carrier": null,
+      "reservation_required": true,
+      "source": "https://www.easyjet.com/en/help/baggage/restricted-and-unusual-items",
+      "notes": "No ordinary pet dogs or cats on flights. Only recognised registered guide and assistance dogs subject to rules.",
       "hold": {
         "allowed": false,
         "max_combined_kg": null,
         "dimensions_cm": null,
         "requires_hard_crate": null,
-        "source": "https://www.vueling.com/en/vueling-services/prepare-your-trip/pets-on-board",
-        "snub_nosed_restricted": false,
-        "notes": "Vueling explicitly prohibits pets in the hold on all flights."
+        "source": "https://www.easyjet.com/en/help/baggage/restricted-and-unusual-items",
+        "snub_nosed_restricted": null,
+        "notes": "Ordinary pets not accepted as checked hold baggage."
       }
+    },
+    {
+      "id": "WK",
+      "name": "Edelweiss Air",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "MS",
+      "name": "Egyptair",
+      "region": "Africa",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "LY",
+      "name": "EL AL",
+      "region": "Middle East",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "EK",
+      "name": "Emirates",
+      "region": "Middle East",
+      "policy_status": "reviewed",
+      "cabin_allowed": false,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "soft_carrier": null,
+      "reservation_required": true,
+      "source": "https://www.emirates.com/us/english/help/faq-topics/baggage-and-lost-property/faq/what-is-my-allowance-for-cabin-baggage/",
+      "notes": "Ordinary pets are not admitted to cabin; animal may need manifested cargo. On flights ending in Dubai, animals must be cargo. Some Dubai-origin travel up to 17 hours may qualify as checked baggage.",
+      "hold": {
+        "allowed": true,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "requires_hard_crate": true,
+        "source": "https://www.emirates.com/us/english/help/faq-topics/baggage-and-lost-property/faq/what-is-my-allowance-for-cabin-baggage/",
+        "snub_nosed_restricted": null,
+        "notes": "For itineraries ending Dubai, cargo only. Checked hold only on eligible Dubai-origin itineraries with route/time limits; confirm in writing."
+      },
+      "route_rule": "emirates_hold_dubai_departure_only"
+    },
+    {
+      "id": "ETR",
+      "name": "Eritrean Airlines",
+      "region": "Africa",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "ET",
+      "name": "Ethiopian Airlines",
+      "region": "Africa",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "EY",
+      "name": "Etihad Airways",
+      "region": "Middle East",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "QY",
+      "name": "European Air Transport Leipzig",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "EW",
+      "name": "Eurowings",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "BR",
+      "name": "EVA Air",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "FJ",
+      "name": "Fiji Airways",
+      "region": "Oceania",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "AY",
+      "name": "Finnair",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "F3",
+      "name": "flyadeal",
+      "region": "Middle East",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "FZ",
+      "name": "flydubai",
+      "region": "Middle East",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "XY",
+      "name": "flynas",
+      "region": "Middle East",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "BF",
+      "name": "French bee",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "F9",
+      "name": "Frontier Airlines",
+      "region": "North America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "GA",
+      "name": "Garuda Indonesia",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "A9",
+      "name": "Georgian Airways",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "G3",
+      "name": "GOL",
+      "region": "South America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "GF",
+      "name": "Gulf Air",
+      "region": "Middle East",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "HU",
+      "name": "Hainan Airlines",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "HA",
+      "name": "Hawaiian Airlines",
+      "region": "North America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "UO",
+      "name": "HK Express",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "HX",
+      "name": "Hong Kong Airlines",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "IB",
+      "name": "Iberia",
+      "region": "Europe",
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 8,
+      "dimensions_cm": [
+        45,
+        35,
+        25
+      ],
+      "soft_carrier": null,
+      "reservation_required": true,
+      "source": "https://www.iberia.com/ie/fly-with-iberia/pets/",
+      "notes": "Iberia cabin allows qualifying pets up to 8kg total; hold up to 45kg total, prior authorisation; route exclusions.",
+      "hold": {
+        "allowed": true,
+        "max_combined_kg": 45,
+        "dimensions_cm": null,
+        "requires_hard_crate": true,
+        "source": "https://www.iberia.com/ie/fly-with-iberia/pets/",
+        "snub_nosed_restricted": true,
+        "notes": "The airline must confirm hold availability, breed, aircraft and route limitations."
+      }
+    },
+    {
+      "id": "FI",
+      "name": "Icelandair",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "6E",
+      "name": "IndiGo",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "IR",
+      "name": "Iran Air",
+      "region": "Middle East",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "IA",
+      "name": "Iraqi Airways",
+      "region": "Middle East",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "AZ",
+      "name": "ITA Airways",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "JL",
+      "name": "Japan Airlines (JAL)",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "J9",
+      "name": "Jazeera Airways",
+      "region": "Middle East",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "LS",
+      "name": "Jet2",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "B6",
+      "name": "JetBlue",
+      "region": "North America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "JA",
+      "name": "JetSMART",
+      "region": "South America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "JQ",
+      "name": "Jetstar",
+      "region": "Oceania",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "KQ",
+      "name": "Kenya Airways",
+      "region": "Africa",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "KL",
+      "name": "KLM",
+      "region": "Europe",
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 8,
+      "dimensions_cm": [
+        46,
+        28,
+        24
+      ],
+      "soft_carrier": null,
+      "reservation_required": true,
+      "source": "https://www.klm.com/information/pets/reservation",
+      "notes": "8 kg with soft carrier; 46×28×24 cm, cabin class restrictions. Hold kennel dimensions differ by aircraft (122×81×89 cm or 102×69×76 cm). Hold connections over 3 h not allowed and some aircraft restrictions; confirm operating flight.",
+      "hold": {
+        "allowed": true,
+        "max_combined_kg": 75,
+        "dimensions_cm": null,
+        "requires_hard_crate": true,
+        "source": "https://www.klm.com/information/pets/reservation",
+        "snub_nosed_restricted": true,
+        "notes": "Hold max 75 kg pet+kennel, subject to flight model, 3h connection limit and travel class rules."
+      }
+    },
+    {
+      "id": "KM",
+      "name": "KM Malta Airlines",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "KE",
+      "name": "Korean Air",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "KU",
+      "name": "Kuwait Airways",
+      "region": "Middle East",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "LA",
+      "name": "LATAM Airlines",
+      "region": "South America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "PZ",
+      "name": "LATAM Paraguay",
+      "region": "South America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "JT",
+      "name": "Lion Air",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "LO",
+      "name": "LOT Polish Airlines",
+      "region": "Europe",
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 8,
+      "dimensions_cm": null,
+      "soft_carrier": null,
+      "reservation_required": true,
+      "source": "https://www.lot.com/fr/fr/journey/special-services/traveling-with-pets",
+      "notes": "Cabin 8 kg total, carrier dimensions depend on aircraft (55×40×20 or 45×30×20). Hold max 99kg pet+crate; crate limits vary by aircraft. Bra­chy­cephalic breeds not accepted in hold.",
+      "hold": {
+        "allowed": true,
+        "max_combined_kg": 99,
+        "dimensions_cm": null,
+        "requires_hard_crate": true,
+        "source": "https://www.lot.com/fr/fr/journey/special-services/traveling-with-pets",
+        "snub_nosed_restricted": true,
+        "notes": "The airline must confirm hold availability, breed, aircraft and route limitations."
+      }
+    },
+    {
+      "id": "LH",
+      "name": "Lufthansa",
+      "cabin_max_kg": 8,
+      "dimensions_cm": [
+        55,
+        40,
+        23
+      ],
+      "soft_carrier": true,
+      "cabin_only": false,
+      "reservation_required": true,
+      "source": "https://www.lufthansa.com/ca/en/tiere-als-handgepaeck",
+      "notes": "Dogs and cats in cabin under specified conditions. Total pet and carrier max 8 kg, size 55 × 40 × 23 cm; advance registration and confirmation required.",
+      "hold": {
+        "allowed": true,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "requires_hard_crate": true,
+        "source": "https://www.lufthansa.com/at/en/tiere-als-uebergepaeck",
+        "breed_source": "https://www.lufthansa.com/sd/en/dangerous-dogs",
+        "snub_nosed_restricted": true,
+        "notes": "Dogs and cats may travel as checked-in animals in an air-conditioned hold, subject to route, crate and carrier approval. No single universal hold weight maximum assumed. Snub-nosed breeds forbidden as checked baggage. Connections through Munich do not accept hold animals; confirm itinerary and request in advance."
+      },
+      "region": "Europe",
+      "policy_status": "reviewed",
+      "cabin_allowed": true
+    },
+    {
+      "id": "LG",
+      "name": "Luxair",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "W5",
+      "name": "Mahan Air",
+      "region": "Middle East",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "MH",
+      "name": "Malaysia Airlines",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "ME",
+      "name": "Middle East Airlines",
+      "region": "Middle East",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "DY",
+      "name": "Norwegian Air Shuttle",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "BJ",
+      "name": "Nouvelair",
+      "region": "Africa",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "WY",
+      "name": "Oman Air",
+      "region": "Middle East",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "PK",
+      "name": "Pakistan International Airlines",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "MM",
+      "name": "Peach Aviation",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "PC",
+      "name": "Pegasus Airlines",
+      "region": "Europe",
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 8,
+      "dimensions_cm": [
+        50,
+        32,
+        32
+      ],
+      "soft_carrier": null,
+      "reservation_required": true,
+      "source": "https://www.flypgs.com/en/travelling-with-pets?V=1",
+      "notes": "Pet cabin up to 8 kg, 50×32×32 cm. Hold pets permitted only on domestic Turkey and North Cyprus flights, not normal international routes.",
+      "hold": {
+        "allowed": true,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "requires_hard_crate": true,
+        "source": "https://www.flypgs.com/en/travelling-with-pets?V=1",
+        "snub_nosed_restricted": null,
+        "notes": "No AVIH hold pets on international flights. Hold AVIH restricted to Turkish domestic / North Cyprus routes; confirm individually."
+      },
+      "route_rule": "hold_domestic_tr_only"
+    },
+    {
+      "id": "PR",
+      "name": "Philippine Airlines",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "DP",
+      "name": "Pobeda",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "PD",
+      "name": "Porter Airlines",
+      "region": "North America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "QF",
+      "name": "Qantas",
+      "region": "Oceania",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "QR",
+      "name": "Qatar Airways",
+      "region": "Middle East",
+      "policy_status": "reviewed",
+      "cabin_allowed": false,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "soft_carrier": null,
+      "reservation_required": true,
+      "source": "https://www.qatarairways.com/en-at/baggage/animals.html",
+      "notes": "Ordinary pet cats/dogs not permitted in passenger cabin; service dogs and falcons have different conditions. Up to 75kg animal+crate as checked baggage on eligible routes, above that is freight; restricted breeds.",
+      "hold": {
+        "allowed": true,
+        "max_combined_kg": 75,
+        "dimensions_cm": null,
+        "requires_hard_crate": true,
+        "source": "https://www.qatarairways.com/en-at/baggage/animals.html",
+        "snub_nosed_restricted": true,
+        "notes": "The airline must confirm hold availability, breed, aircraft and route limitations."
+      }
+    },
+    {
+      "id": "AT",
+      "name": "Royal Air Maroc",
+      "region": "Africa",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "RJ",
+      "name": "Royal Jordanian",
+      "region": "Middle East",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "WB",
+      "name": "RwandAir",
+      "region": "Africa",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "FR",
+      "name": "Ryanair",
+      "region": "Europe",
+      "policy_status": "reviewed",
+      "cabin_allowed": false,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "soft_carrier": null,
+      "reservation_required": true,
+      "source": "https://help.ryanair.com/hc/fr-fr/sections/12489582839441-Chiens-guides-et-d-assistance",
+      "notes": "Only eligible assistance dogs on eligible routes; ordinary pet animals are not accepted.",
+      "hold": {
+        "allowed": false,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "requires_hard_crate": null,
+        "source": "https://help.ryanair.com/hc/fr-fr/sections/12489582839441-Chiens-guides-et-d-assistance",
+        "snub_nosed_restricted": null,
+        "notes": "Ordinary pet checked transport not offered."
+      }
+    },
+    {
+      "id": "S7",
+      "name": "S7 Airlines",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "SK",
+      "name": "SAS Scandinavian Airlines",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "SV",
+      "name": "Saudia",
+      "region": "Middle East",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "TR",
+      "name": "Scoot",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "FM",
+      "name": "Shanghai Airlines",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "ZH",
+      "name": "Shenzhen Airlines",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "3U",
+      "name": "Sichuan Airlines",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "SQ",
+      "name": "Singapore Airlines",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "H2",
+      "name": "SKY Airline",
+      "region": "South America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "GQ",
+      "name": "SKY express",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "IE",
+      "name": "Solomon Airlines",
+      "region": "Oceania",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "SA",
+      "name": "South African Airways",
+      "region": "Africa",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "WN",
+      "name": "Southwest Airlines",
+      "region": "North America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "NK",
+      "name": "Spirit Airlines",
+      "region": "North America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "UL",
+      "name": "SriLankan Airlines",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "JX",
+      "name": "STARLUX Airlines",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "SY",
+      "name": "Sun Country Airlines",
+      "region": "North America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "XQ",
+      "name": "SunExpress",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "LX",
+      "name": "SWISS",
+      "region": "Europe",
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 8,
+      "dimensions_cm": [
+        55,
+        40,
+        23
+      ],
+      "soft_carrier": null,
+      "reservation_required": true,
+      "source": "https://www.swiss.com/xk/en/prepare/special-care/animals-travelling",
+      "notes": "Cabin 8kg including carrier, 55×40×23cm. Dogs and cats not in restricted snub-nosed breeds may be accepted in conditioned hold, with confirmation.",
+      "hold": {
+        "allowed": true,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "requires_hard_crate": true,
+        "source": "https://www.swiss.com/xk/en/prepare/special-care/animals-travelling",
+        "snub_nosed_restricted": true,
+        "notes": "The airline must confirm hold availability, breed, aircraft and route limitations."
+      }
+    },
+    {
+      "id": "DT",
+      "name": "TAAG Angola Airlines",
+      "region": "Africa",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "TP",
+      "name": "TAP Air Portugal",
+      "region": "Europe",
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "soft_carrier": null,
+      "reservation_required": true,
+      "source": "https://www.flytap.com/en-gn/information/traveling-with-animals/pets",
+      "notes": "Cabin and checked hold available, weight varies by route, aircraft and destination; max hold 45kg generally, 32kg for USA/HU/FR/NL. No universal maximum applied.",
+      "hold": {
+        "allowed": true,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "requires_hard_crate": true,
+        "source": "https://www.flytap.com/en-gn/information/traveling-with-animals/pets",
+        "snub_nosed_restricted": null,
+        "notes": "Some destinations cap hold pet+crate at 32kg vs 45kg on other routes; verify route, booking and snub-nosed breed conditions."
+      }
+    },
+    {
+      "id": "TG",
+      "name": "Thai Airways",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
     },
     {
       "id": "HV",
@@ -76,32 +2626,344 @@
         "breed_source": "https://www.transavia.com/aide/fr-fr/enfants-animaux-groupes/animaux-de-compagnie-en-avion/animaux-nez-plat",
         "snub_nosed_restricted": true,
         "notes": "In an IATA-compliant hard kennel; pet and crate combined max 75 kg, crate max 102×69×76 cm. Flat-faced dog/cat breeds not accepted. Route and per-flight hold spots must be confirmed."
+      },
+      "region": "Europe",
+      "policy_status": "reviewed",
+      "cabin_allowed": true
+    },
+    {
+      "id": "TO",
+      "name": "Transavia France",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "BY",
+      "name": "TUI Airways",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "TB",
+      "name": "TUI fly Belgium",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "TU",
+      "name": "Tunisair",
+      "region": "Africa",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "TK",
+      "name": "Turkish Airlines",
+      "region": "Europe",
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 8,
+      "dimensions_cm": [
+        40,
+        30,
+        23
+      ],
+      "soft_carrier": null,
+      "reservation_required": true,
+      "source": "https://www.turkishairlines.com/en-at/any-questions/traveling-with-pets/",
+      "notes": "Cabin bag max length 40, width 30, height 23; check breed, route and codeshares. Hold total 50kg, crate 125×75×75 cm.",
+      "hold": {
+        "allowed": true,
+        "max_combined_kg": 50,
+        "dimensions_cm": [
+          125,
+          75,
+          75
+        ],
+        "requires_hard_crate": true,
+        "source": "https://www.turkishairlines.com/en-at/any-questions/traveling-with-pets/",
+        "snub_nosed_restricted": null,
+        "notes": "The airline must confirm hold availability, breed, aircraft and route limitations."
       }
     },
     {
-      "id": "LH",
-      "name": "Lufthansa",
-      "cabin_max_kg": 8,
-      "dimensions_cm": [
-        55,
-        40,
-        23
-      ],
-      "soft_carrier": true,
-      "cabin_only": false,
-      "reservation_required": true,
-      "source": "https://www.lufthansa.com/ca/en/tiere-als-handgepaeck",
-      "notes": "Dogs and cats in cabin under specified conditions. Total pet and carrier max 8 kg, size 55 × 40 × 23 cm; advance registration and confirmation required.",
+      "id": "UA",
+      "name": "United Airlines",
+      "region": "North America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
       "hold": {
-        "allowed": true,
+        "allowed": null,
         "max_combined_kg": null,
         "dimensions_cm": null,
-        "requires_hard_crate": true,
-        "source": "https://www.lufthansa.com/at/en/tiere-als-uebergepaeck",
-        "breed_source": "https://www.lufthansa.com/sd/en/dangerous-dogs",
-        "snub_nosed_restricted": true,
-        "notes": "Dogs and cats may travel as checked-in animals in an air-conditioned hold, subject to route, crate and carrier approval. No single universal hold weight maximum assumed. Snub-nosed breeds forbidden as checked baggage. Connections through Munich do not accept hold animals; confirm itinerary and request in advance."
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "HY",
+      "name": "Uzbekistan Airways",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "VJ",
+      "name": "VietJet Air",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "VN",
+      "name": "Vietnam Airlines",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "VA",
+      "name": "Virgin Australia",
+      "region": "Oceania",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "VB",
+      "name": "Viva Aerobus",
+      "region": "North America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "Y4",
+      "name": "Volaris",
+      "region": "North America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "V7",
+      "name": "Volotea",
+      "region": "Europe",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "VY",
+      "name": "Vueling",
+      "cabin_max_kg": 10,
+      "dimensions_cm": [
+        45,
+        39,
+        21
+      ],
+      "soft_carrier": true,
+      "cabin_only": true,
+      "reservation_required": true,
+      "source": "https://www.vueling.com/en/vueling-services/prepare-your-trip/pets-on-board",
+      "notes": "Pets are not transported in the hold. Cabin pet and carrier total max 10 kg; permitted species, operating route and remaining pet spaces must be confirmed.",
+      "hold": {
+        "allowed": false,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "requires_hard_crate": null,
+        "source": "https://www.vueling.com/en/vueling-services/prepare-your-trip/pets-on-board",
+        "snub_nosed_restricted": false,
+        "notes": "Vueling explicitly prohibits pets in the hold on all flights."
+      },
+      "region": "Europe",
+      "policy_status": "reviewed",
+      "cabin_allowed": true
+    },
+    {
+      "id": "WS",
+      "name": "WestJet",
+      "region": "North America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "P5",
+      "name": "Wingo",
+      "region": "South America",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+    },
+    {
+      "id": "W6",
+      "name": "Wizz Air",
+      "region": "Europe",
+      "policy_status": "reviewed",
+      "cabin_allowed": false,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "soft_carrier": null,
+      "reservation_required": true,
+      "source": "https://ssr-weu2.wizzair.com/en-gb/information-and-services/travel-information/special-assistance",
+      "notes": "Ordinary pets not accepted; trained assistance dogs under special procedures only.",
+      "hold": {
+        "allowed": false,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "requires_hard_crate": null,
+        "source": "https://ssr-weu2.wizzair.com/en-gb/information-and-services/travel-information/special-assistance",
+        "snub_nosed_restricted": null,
+        "notes": "Ordinary pets not accepted."
       }
+    },
+    {
+      "id": "MF",
+      "name": "XiamenAir",
+      "region": "Asia",
+      "policy_status": "unverified",
+      "cabin_allowed": null,
+      "cabin_max_kg": null,
+      "dimensions_cm": null,
+      "source": null,
+      "hold": {
+        "allowed": null,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "source": null
+      },
+      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
     }
   ],
   "countries": [
@@ -219,6 +3081,11 @@
         24,
         120
       ]
+    },
+    {
+      "code": "TR",
+      "name": "Turkey",
+      "region": "other"
     }
   ],
   "official_sources": {
@@ -283,5 +3150,13 @@
       "british shorthair",
       "scottish fold"
     ]
+  },
+  "catalog_info": {
+    "total": 166,
+    "reviewed": 18,
+    "unverified": 148,
+    "scope": "Major and regionally relevant passenger airlines; not an exhaustive list of all licensed airlines worldwide.",
+    "updated_on": "2026-10-21",
+    "filtering": "Client-side query by airline name, IATA code and region. Unsupported airlines explicitly show Policy not verified, never Not allowed by default."
   }
 }
