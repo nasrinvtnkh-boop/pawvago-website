@@ -31,7 +31,7 @@
       <!-- Source-backed interactive journey and policy explorer -->
       <section class="pvj-section" id="journey-lab" aria-labelledby="pvj-heading">
         <div class="pvj-heading">
-          <div><div class="eyebrow">PAWVAGO / JOURNEY INTELLIGENCE</div><h2 id="pvj-heading">Make every journey<br><span>feel effortless.</span></h2><p>Explore airline cabin limits and pet entry documents in one place. A practical first check, grounded in official sources.</p></div>
+          <div><div class="eyebrow">PAWVAGO / JOURNEY INTELLIGENCE</div><h2 id="pvj-heading">Make every journey<br><span>feel effortless.</span></h2><p>Enter your pet’s weight, breed and route. PawVago automatically screens airlines for cabin and hold travel and prepares your document checklist.</p></div>
           <div class="pvj-heading-aside"><span class="pvj-status-dot"></span><strong>Official-source reference</strong><small>Policy snapshot · not a flight reservation or live pet-space check</small></div>
         </div>
         <div class="pvj-shell">
@@ -42,11 +42,17 @@
               <div class="pvj-fields-two"><label>Departure city<input id="pvj-origin-city" maxlength="45" value="Nantes" autocomplete="off" aria-label="Departure city"></label><label>Arrival city<input id="pvj-dest-city" maxlength="45" value="Barcelona" autocomplete="off" aria-label="Arrival city"></label></div>
               <div class="pvj-fields-two"><label>Pet type<select id="pvj-species"><option value="dog">Dog</option><option value="cat">Cat</option></select></label><label>Travel date<input id="pvj-date" type="date" required></label></div>
               <div class="pvj-fields-two"><label>Pet weight (kg)<input id="pvj-weight" type="number" min="0.1" max="150" step="0.1" required value="6"></label><label><span id="pvj-carrier-label">Carrier weight (kg)</span><input id="pvj-bag" type="number" min="0.1" max="20" step="0.1" required value="1"></label></div>
-              <details class="pvj-more"><summary>Check your carrier dimensions <span>optional</span></summary><div class="pvj-fields-three"><label>Length (cm)<input id="pvj-length" type="number" min="1" max="200" step="1" placeholder="e.g. 42"></label><label>Width (cm)<input id="pvj-width" type="number" min="1" max="200" step="1" placeholder="e.g. 30"></label><label>Height (cm)<input id="pvj-height" type="number" min="1" max="200" step="1" placeholder="e.g. 21"></label></div><p>Enter all three measurements to compare them with any published transport-container limits. Crate suitability must always be confirmed.</p></details>
+              <details class="pvj-more"><summary>Cabin bag dimensions <span>optional</span></summary><div class="pvj-fields-three"><label>Length (cm)<input id="pvj-length" type="number" min="1" max="200" step="1" placeholder="e.g. 42"></label><label>Width (cm)<input id="pvj-width" type="number" min="1" max="200" step="1" placeholder="e.g. 30"></label><label>Height (cm)<input id="pvj-height" type="number" min="1" max="200" step="1" placeholder="e.g. 21"></label></div><p>Measure the cabin bag in length × width × height; leave all three blank if unknown.</p></details>
+              <details class="pvj-more pvj-crate-extra" id="pvj-crate-box"><summary>Hard travel crate for the hold <span>optional</span></summary>
+                <div class="pvj-crate-weight-line"><label>Rigid crate weight (kg)<input id="pvj-crate-weight" type="number" min="0.1" max="100" step="0.1" placeholder="e.g. 6"></label></div>
+                <div class="pvj-fields-three"><label>Crate length (cm)<input id="pvj-crate-length" type="number" min="1" max="300" step="1" placeholder="e.g. 80"></label><label>Crate width (cm)<input id="pvj-crate-width" type="number" min="1" max="300" step="1" placeholder="e.g. 55"></label><label>Crate height (cm)<input id="pvj-crate-height" type="number" min="1" max="300" step="1" placeholder="e.g. 60"></label></div>
+                <p>Cabin bag and rigid hold crate have different weights. If crate weight or size is missing, hold options need manual verification.</p>
+              </details>
               <fieldset class="pvj-mode"><legend>How are you travelling?</legend><label><input type="radio" name="pvj-mode" value="air" checked><span>✈ Air</span></label><label><input type="radio" name="pvj-mode" value="rail"><span>↗ Rail</span></label><label><input type="radio" name="pvj-mode" value="road"><span>◇ Road</span></label></fieldset>
               <div class="pvj-air-transport" id="pvj-air-transport">
-                <fieldset class="pvj-placement"><legend>Where will your pet travel?</legend>
-                  <label><input type="radio" name="pvj-placement" value="cabin" checked><span>🐾 Cabin<small>With you</small></span></label>
+                <fieldset class="pvj-placement"><legend>Find airline options automatically</legend>
+                  <label><input type="radio" name="pvj-placement" value="auto" checked><span>✦ Auto<small>Cabin + Hold</small></span></label>
+                  <label><input type="radio" name="pvj-placement" value="cabin"><span>🐾 Cabin<small>With you</small></span></label>
                   <label><input type="radio" name="pvj-placement" value="hold"><span>▣ Hold<small>Checked baggage</small></span></label>
                   <label><input type="radio" name="pvj-placement" value="cargo"><span>◇ Cargo<small>Air freight</small></span></label>
                 </fieldset>
@@ -54,10 +60,10 @@
                   <label>Pet breed <span class="pvj-optional">(optional)</span><input id="pvj-breed" type="text" maxlength="90" placeholder="e.g. Shih Tzu or Persian"></label>
                   <label class="pvj-snub-label"><input id="pvj-snub" type="checkbox"><span>My pet is flat-faced / short-nosed<small>Important for hold travel safety</small></span></label>
                 </div>
-                <div class="pvj-placement-hint" id="pvj-placement-hint">Cabin: soft-sided under-seat carrier, subject to airline rules.</div>
+                <div class="pvj-placement-hint" id="pvj-placement-hint">PawVago compares all source-reviewed carriers automatically. Actual flight routes, pet spaces and bookings must be confirmed.</div>
               </div>
-              <div class="pvj-airline-picker" id="pvj-airline-box"><label for="pvj-airline-search">Find an airline (name or code)</label><input type="search" id="pvj-airline-search" placeholder="Search all listed airlines..." autocomplete="off"><label for="pvj-airline">Operating airline</label><select id="pvj-airline" aria-label="Choose operating airline"></select><p class="pvj-airline-help">All listed airlines are searchable. An unverified policy never means pet transport is allowed or forbidden.</p></div>
-              <button class="pvj-submit" type="submit">Explore my journey <span aria-hidden="true">↗</span></button>
+              <div class="pvj-airline-auto-note" id="pvj-airline-box"><strong>✦ Automatic airline matching</strong><span>Choose Air and enter your pet details. PawVago screens all reviewed airline policies; no airline selection needed.</span></div>
+              <button class="pvj-submit" type="submit">Compare airlines for my pet <span aria-hidden="true">↗</span></button>
               <p class="pvj-form-note">Illustrative trip planning. Check the operating carrier, transit rules, pet spaces, and veterinary paperwork before booking.</p>
             </form>
           </div>
