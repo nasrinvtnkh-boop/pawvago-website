@@ -175,3 +175,39 @@
 .pvj-airline-help{font-size:10px;line-height:1.5;color:#70869a;margin:2px 0 0}
 @media(max-width:800px){.pvj-directory-toolbar{grid-template-columns:1fr 1fr}.pvj-directory-toolbar label:first-child{grid-column:1/-1}}
 @media(max-width:440px){.pvj-directory-toolbar{grid-template-columns:1fr}.pvj-directory-toolbar label:first-child{grid-column:auto}}
+
+/* Automatic pet-to-airline matching */
+.pvj-placement{grid-template-columns:repeat(4,minmax(0,1fr))}
+.pvj-placement label{min-width:0}
+.pvj-airline-auto-note{background:#eaf4f9;border:1px solid #d5e8f3;padding:14px;border-radius:13px;display:grid;gap:6px}
+.pvj-airline-auto-note strong{color:#264b65;font-size:12px}
+.pvj-airline-auto-note span{color:#65839a;font-size:11px;line-height:1.5}
+.pvj-crate-extra .pvj-crate-weight-line{max-width:220px;margin-bottom:10px}
+.pvj-crate-extra[hidden]{display:none!important}
+.pvj-placement label>span{font-size:11px;padding:8px 5px}
+.pvj-match-overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0 17px}
+.pvj-match-overview>div{border:1px solid rgba(230,240,255,.16);background:rgba(255,255,255,.08);padding:12px;border-radius:13px;min-width:0}
+.pvj-match-overview strong{display:block;font:800 23px "Manrope",sans-serif;color:#fff}
+.pvj-match-overview small{font-size:10px;line-height:1.3;color:#a8c7dd}
+.pvj-match-warning{margin:10px 0;color:#c5d8e5;font-size:11px;line-height:1.65}
+.pvj-match-warning strong{color:white}
+.pvj-match-group-heading{display:flex;gap:8px;justify-content:space-between;align-items:center;margin:20px 0 10px;color:#e8f3fb;font-size:13px;font-weight:800}
+.pvj-match-group-heading small{font-size:10px;color:#a2bfd3}
+.pvj-match-list{display:grid;gap:10px}
+.pvj-match-card{border:1px solid rgba(227,241,255,.16);background:rgba(255,255,255,.075);padding:15px 15px 13px;border-radius:14px;display:grid;gap:9px}
+.pvj-match-card.pvj-match-potential{border-color:rgba(92,192,151,.5);background:rgba(75,143,115,.12)}
+.pvj-match-card.pvj-match-blocked{border-color:rgba(239,157,153,.2);background:rgba(167,79,79,.08)}
+.pvj-match-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.pvj-match-card h4{color:#fff;margin:0;font:800 15px "Manrope",sans-serif}
+.pvj-match-card-tag{font-size:9px;color:#b4d3e8;white-space:nowrap;border:1px solid rgba(194,223,240,.25);padding:5px 7px;border-radius:99px;font-weight:800}
+.pvj-match-card.pvj-match-potential .pvj-match-card-tag{color:#abe8c7;border-color:rgba(149,217,173,.46)}
+.pvj-match-card p{margin:0;color:#c2d4e2;font-size:11px;line-height:1.55}
+.pvj-match-card-mode{display:flex;gap:6px;flex-wrap:wrap}
+.pvj-match-mode-pill{border-radius:8px;padding:6px 8px;background:rgba(255,255,255,.08);font-size:10px;color:#d4e5ef}
+.pvj-match-mode-pill strong{color:#fff}
+.pvj-match-card a{color:#b9d9ee!important;font-size:11px;text-decoration:underline;text-underline-offset:3px}
+.pvj-match-disclaimer{color:#afc6d6;font-size:10px;line-height:1.6;margin:10px 0}
+.pvj-match-blocked-list{margin-top:16px;border:1px solid rgba(219,235,245,.16);border-radius:12px;padding:10px}
+.pvj-match-blocked-list>summary{font-size:12px;color:#d5e6ef;cursor:pointer;font-weight:800}
+.pvj-match-empty{padding:16px;border:1px dashed rgba(229,240,250,.32);border-radius:11px;font-size:12px;color:#d7e6ef;line-height:1.6}
+@media(max-width:610px){.pvj-placement{grid-template-columns:repeat(2,minmax(0,1fr))}.pvj-match-card-head{flex-wrap:wrap}.pvj-match-overview{gap:5px}.pvj-match-overview>div{padding:10px 7px}.pvj-match-overview small{font-size:9px}.pvj-match-overview strong{font-size:20px}}
