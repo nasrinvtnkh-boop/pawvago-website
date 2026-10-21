@@ -17,7 +17,7 @@ const checks = [
   { name: 'Vueling', url: policy.airlines.find(a => a.id === 'VY').source,
     patterns: [regexWeight(10), /45\s*(?:cm)?\s*[×x]\s*39\s*(?:cm)?\s*[×x]\s*21/i] },
   { name: 'Transavia', url: policy.airlines.find(a => a.id === 'HV').source,
-    patterns: [regexWeight(8), /40\s*(?:cm)?\s*[×x]\s*30\s*(?:cm)?\s*[×x]\s*24/i] },
+    patterns: [regexWeight(8), /40\s*(?:cm)?\s*[×x]\s*(?:width\s*)?30\s*(?:cm)?\s*[×x]\s*(?:height\s*)?24/i] },
   { name: 'Lufthansa', url: policy.airlines.find(a => a.id === 'LH').source,
     patterns: [regexWeight(8), /55\s*(?:cm)?\s*[×x]\s*40\s*(?:cm)?\s*[×x]\s*23/i] },
   { name: 'EU pet travel', url: policy.official_sources.eu,
