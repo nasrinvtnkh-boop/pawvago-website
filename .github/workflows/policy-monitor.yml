@@ -1,0 +1,30 @@
+name: Review official pet-travel sources
+
+on:
+  schedule:
+    - cron: '27 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check official reference pages
+        id: policy
+        continue-on-error: true
+        run: node scripts/monitor-pet-policies.mjs
+      - name: Open one policy review issue when manual review is required
+        if: steps.policy.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          EXISTING=$(gh issue list --state open --search '"Pet policy reference needs review" in:title' --json number --jq 'length')
+          if [ "$EXISTING" = "0" ]; then
+            gh issue create --title "Pet policy reference needs review" --body "The daily official-source heuristic check failed or a source was unavailable. Review airline and country policy pages against data/pet-policy-snapshot.json, validate exceptions, and update the reviewed_on date only after manual verification. See the failed GitHub Actions run for exact source diagnostics. This task never updates travel requirements automatically."
+          fi
