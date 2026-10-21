@@ -1,7 +1,7 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "reviewed_on": "2026-10-21",
-  "quality": "Manually reviewed official policy snapshot; not live inventory, guaranteed eligibility, or automated regulatory updates.",
+  "quality": "Manually reviewed official-source cabin and checked-hold snapshot; independent freight/cargo acceptance is NOT provided and is NOT a booking or live capacity check.",
   "source_scope": "Non-commercial travel with personal dogs and cats, usual EU/GB routes. Exceptions and transit require official checks.",
   "airlines": [
     {
@@ -13,7 +13,17 @@
       "cabin_only": false,
       "reservation_required": true,
       "source": "https://wwws.airfrance.fr/en/information/passagers/voyager-avec-son-animal-chien-chat",
-      "notes": "Air France may accept larger animals in the hold subject to restrictions, available space and route; cabin total of pet and carrier must not exceed 8 kg. Exact carrier dimensions and brachycephalic restrictions require airline confirmation."
+      "notes": "Air France may accept larger animals in the hold subject to restrictions, available space and route; cabin total of pet and carrier must not exceed 8 kg. Exact carrier dimensions and brachycephalic restrictions require airline confirmation.",
+      "hold": {
+        "allowed": true,
+        "max_combined_kg": 75,
+        "dimensions_cm": null,
+        "requires_hard_crate": true,
+        "source": "https://wwws.airfrance.fr/en/information/passagers/voyager-avec-son-animal-chien-chat",
+        "breed_source": "https://wwws.airfrance.fr/information/passagers/acheter-billet-avion-pmr-autres-handicaps/svan",
+        "snub_nosed_restricted": true,
+        "notes": "Checked-in animal in the hold (AVIH). Dogs/cats with suitable hard IATA-style crates; total weight over 8 kg and up to 75 kg. Short-nosed breeds not accepted in hold. Reservation, aircraft and route approval required."
+      }
     },
     {
       "id": "VY",
@@ -28,7 +38,16 @@
       "cabin_only": true,
       "reservation_required": true,
       "source": "https://www.vueling.com/en/vueling-services/prepare-your-trip/pets-on-board",
-      "notes": "Pets are not transported in the hold. Cabin pet and carrier total max 10 kg; permitted species, operating route and remaining pet spaces must be confirmed."
+      "notes": "Pets are not transported in the hold. Cabin pet and carrier total max 10 kg; permitted species, operating route and remaining pet spaces must be confirmed.",
+      "hold": {
+        "allowed": false,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "requires_hard_crate": null,
+        "source": "https://www.vueling.com/en/vueling-services/prepare-your-trip/pets-on-board",
+        "snub_nosed_restricted": false,
+        "notes": "Vueling explicitly prohibits pets in the hold on all flights."
+      }
     },
     {
       "id": "HV",
@@ -43,7 +62,21 @@
       "cabin_only": false,
       "reservation_required": true,
       "source": "https://www.transavia.com/help/en-fr/children-pets-groups/pets-on-board/cabin",
-      "notes": "Cats and dogs in cabin; total max 8 kg. Short-nosed animals may be barred from the hold. Route/operating carrier and service availability require confirmation."
+      "notes": "Cats and dogs in cabin; total max 8 kg. Short-nosed animals may be barred from the hold. Route/operating carrier and service availability require confirmation.",
+      "hold": {
+        "allowed": true,
+        "max_combined_kg": 75,
+        "dimensions_cm": [
+          102,
+          69,
+          76
+        ],
+        "requires_hard_crate": true,
+        "source": "https://www.transavia.com/help/en-fr/children-pets-groups/pets-on-board/terms-and-conditions-pets-in-hold",
+        "breed_source": "https://www.transavia.com/aide/fr-fr/enfants-animaux-groupes/animaux-de-compagnie-en-avion/animaux-nez-plat",
+        "snub_nosed_restricted": true,
+        "notes": "In an IATA-compliant hard kennel; pet and crate combined max 75 kg, crate max 102×69×76 cm. Flat-faced dog/cat breeds not accepted. Route and per-flight hold spots must be confirmed."
+      }
     },
     {
       "id": "LH",
@@ -58,7 +91,17 @@
       "cabin_only": false,
       "reservation_required": true,
       "source": "https://www.lufthansa.com/ca/en/tiere-als-handgepaeck",
-      "notes": "Dogs and cats in cabin under specified conditions. Total pet and carrier max 8 kg, size 55 × 40 × 23 cm; advance registration and confirmation required."
+      "notes": "Dogs and cats in cabin under specified conditions. Total pet and carrier max 8 kg, size 55 × 40 × 23 cm; advance registration and confirmation required.",
+      "hold": {
+        "allowed": true,
+        "max_combined_kg": null,
+        "dimensions_cm": null,
+        "requires_hard_crate": true,
+        "source": "https://www.lufthansa.com/at/en/tiere-als-uebergepaeck",
+        "breed_source": "https://www.lufthansa.com/sd/en/dangerous-dogs",
+        "snub_nosed_restricted": true,
+        "notes": "Dogs and cats may travel as checked-in animals in an air-conditioned hold, subject to route, crate and carrier approval. No single universal hold weight maximum assumed. Snub-nosed breeds forbidden as checked baggage. Connections through Munich do not accept hold animals; confirm itinerary and request in advance."
+      }
     }
   ],
   "countries": [
@@ -193,6 +236,52 @@
     "tapeworm_dog_hours": [
       24,
       120
+    ]
+  },
+  "cargo_info": {
+    "clarification": "Freight / cargo is a separate shipment booked through a specialist air cargo provider, not the same as checked-in hold baggage on a passenger booking.",
+    "source": "https://www.gov.uk/bring-pet-to-great-britain/travel-routes-pets",
+    "lufthansa_source": "https://www.lufthansa.com/at/en/tiere-als-uebergepaeck",
+    "status": "Provider confirmation required; no carrier route/cargo inventory integrated."
+  },
+  "brachycephalic_breeds": {
+    "dog": [
+      "shih tzu",
+      "shih-tzu",
+      "shihtzu",
+      "pug",
+      "bulldog",
+      "french bulldog",
+      "english bulldog",
+      "boston terrier",
+      "boxer",
+      "pekingese",
+      "pekinese",
+      "lhasa apso",
+      "king charles",
+      "japanese chin",
+      "brussels griffon",
+      "griffon bruxellois",
+      "chow chow",
+      "shar pei",
+      "shar-pei",
+      "bullmastiff",
+      "bull mastiff",
+      "cane corso",
+      "staffordshire bull terrier",
+      "american bully",
+      "tibetan spaniel"
+    ],
+    "cat": [
+      "persian",
+      "persan",
+      "himalayan",
+      "himalayen",
+      "exotic shorthair",
+      "exotic short hair",
+      "burmese",
+      "british shorthair",
+      "scottish fold"
     ]
   }
 }
