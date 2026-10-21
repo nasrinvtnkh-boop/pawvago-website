@@ -96,7 +96,8 @@
       return (!term || searchable.includes(term)) &&
         (region === "all" || a.region === region) &&
         (status === "all" || (status === "reviewed" ? policyReviewed(a) : !policyReviewed(a)));
-    });
+    }).sort((a,b) => Number(policyReviewed(b)) - Number(policyReviewed(a)) ||
+      a.name.localeCompare(b.name, "en"));
     ui.directoryCount.textContent = "Showing " + Math.min(matches.length,catalogLimit) + " of " +
       matches.length + " matching airlines · " + current.length + " listed · " +
       reviewed + " reviewed · " + (current.length - reviewed) + " awaiting policy verification";
