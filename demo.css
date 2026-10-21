@@ -114,7 +114,7 @@ body.pvd-lock{overflow:hidden}
 .pvd-doc-list strong{display:block;font-size:12px;color:#2b4359}
 .pvd-doc-list small{font-size:10px;color:#8497a7;display:block;margin-top:3px}
 .pvd-doc-list em{font-size:9px;font-weight:900;color:#9b793f;background:#f9f1e4;border-radius:99px;padding:5px 8px;font-style:normal}
-.pvd-stage-mobile{background:radial-gradient(circle at 52% 53%,#e4eef4,#cedce8)}
+.pvd-scene-mobile{background:radial-gradient(circle at 52% 53%,#e4eef4,#cedce8)}
 .pvd-mobile-scene{position:relative;width:100%;display:flex;justify-content:center;align-items:center;min-height:342px;overflow:hidden;padding:12px}
 .pvd-mobile-orbit{position:absolute;width:370px;height:370px;border-radius:50%;border:1px solid rgba(60,109,150,.22);box-shadow:0 0 0 41px rgba(104,145,180,.05),0 0 0 85px rgba(104,145,180,.04)}
 .pvd-phone{position:relative;z-index:1;width:194px;height:328px;flex:none;border:6px solid #14263d;border-radius:30px;padding:16px 12px 10px;background:#fff;box-shadow:0 23px 48px rgba(23,42,66,.27);overflow:hidden;transform:perspective(500px) rotateY(-8deg)}
