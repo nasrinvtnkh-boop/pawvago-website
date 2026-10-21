@@ -2580,16 +2580,7 @@ function bindStaticEvents() {
   );
 
 
-  $('heroDemo')?.addEventListener(
-    'click',
-    () => {
-
-      $('features')?.scrollIntoView({
-        behavior: 'smooth'
-      });
-
-    }
-  );
+  // Watch Demo is managed by demo.js; no competing scroll action.
 
 
   $('closeModal')?.addEventListener(
