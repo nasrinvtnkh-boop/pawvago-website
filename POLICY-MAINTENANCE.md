@@ -13,3 +13,10 @@ The application uses `data/pet-policy-snapshot.json` as a **manually verified po
 This architecture intentionally fails closed: when the JSON is unavailable, the journey checker does not show compatibility results. Unsupported country pairs also require official verification.
 
 Future production integrations: licensed rules data/API, review audit trail per rule, change approval workflow, carrier operating-flight inventory and availability feed, automatic expiration gating.
+
+## Checked hold (AVIH) and air cargo
+- Airline hold rules are stored in `airlines[].hold` with `allowed`, combined pet/crate weight cap (if officially published), crate dimensions (if published), official source link, and snub-nosed restrictions.
+- `cabin` and `hold` are separate airline services; `cargo` is a distinct freight shipment that requires a specialised agent and quote.
+- For airlines with no verified hold weight maximum, show 'confirm with airline' rather than assuming cabin or generic limits.
+- The journey checker takes a breed / short-nosed flag and does **not** grant flight clearance for pets or IATA approval for any crate.
+- Refresh data only after manual source verification; the monitoring script checks hold sources heuristically and opens review issues on drift.
