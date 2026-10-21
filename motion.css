@@ -1,0 +1,72 @@
+/* PawVago: accessible, lightweight landing-page motion */
+.site-nav{transition:background-color .25s ease,box-shadow .25s ease,border-color .25s ease}
+.site-nav.pv-scrolled{background:rgba(248,250,252,.97);border-color:rgba(204,217,231,.8);box-shadow:0 8px 30px rgba(20,38,61,.09)}
+.desktop-nav a{position:relative;transition:color .2s ease}
+.desktop-nav a::after{content:"";position:absolute;left:0;right:100%;bottom:-9px;height:2px;border-radius:2px;background:var(--accent);transition:right .24s ease}
+.desktop-nav a:hover::after,.desktop-nav a:focus-visible::after{right:0}
+.primary-btn,.nav-cta,.secondary-btn,.nav-link-btn,.contact-email{transition:transform .25s ease,box-shadow .25s ease,background-color .25s ease,color .25s ease}
+.insight-card,.mp-small-card,.mp-trip-card,.vision-pills span{transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+.mp-screen:not([hidden]){position:relative}
+
+/* The menu is injected by JS. The desktop navigation remains unchanged. */
+.pv-menu-toggle{display:none;flex-shrink:0;align-items:center;justify-content:center;flex-direction:column;gap:5px;width:43px;height:43px;border:1px solid #d8e3ed;border-radius:12px;background:white;color:#14263d;padding:8px}
+.pv-menu-toggle>span{display:block;width:20px;height:2px;border-radius:2px;background:currentColor;transition:transform .22s ease,opacity .22s ease}
+.pv-menu-toggle[aria-expanded="true"]>span:first-child{transform:translateY(7px) rotate(45deg)}
+.pv-menu-toggle[aria-expanded="true"]>span:nth-child(2){opacity:0}
+.pv-menu-toggle[aria-expanded="true"]>span:last-child{transform:translateY(-7px) rotate(-45deg)}
+
+@media (hover:hover) and (pointer:fine){
+  .primary-btn:hover,.nav-cta:hover{transform:translateY(-3px);box-shadow:0 17px 35px rgba(20,38,61,.22)}
+  .secondary-btn:hover,.nav-link-btn:hover{transform:translateY(-2px)}
+  .contact-email:hover{color:var(--accent)}
+  #homeView .flow-grid article.pv-visible:hover,
+  #homeView .proof-strip>div.pv-visible:hover{transform:translate3d(0,-5px,0)}
+  .insight-card:hover,.mp-small-card:hover,.mp-trip-card:hover{transform:translateY(-3px);box-shadow:0 13px 32px rgba(20,38,61,.11)}
+  .vision-pills span:hover{transform:translateY(-3px);border-color:rgba(51,106,150,.36)}
+}
+@media (prefers-reduced-motion:no-preference){
+  /* JS adds pv-reveal only when the observer is available. */
+  #homeView .pv-reveal{opacity:0;transform:translate3d(0,24px,0);transition:opacity .73s cubic-bezier(.22,1,.36,1),transform .73s cubic-bezier(.22,1,.36,1);transition-delay:var(--pv-delay,0ms);will-change:opacity,transform}
+  #homeView .pv-reveal.pv-visible{opacity:1;transform:translate3d(0,0,0);will-change:auto}
+  #homeView .hero-copy>.eyebrow{animation:pv-rise .65s .08s both}
+  #homeView .hero-copy>h1{animation:pv-rise .75s .17s both}
+  #homeView .hero-copy>.hero-lead{animation:pv-rise .75s .29s both}
+  #homeView .hero-copy>.hero-actions{animation:pv-rise .7s .41s both}
+  #homeView .hero-copy>.hero-trust{animation:pv-rise .65s .53s both}
+  #homeView .hero-stage{animation:pv-stage-in .9s .22s both}
+  .orb-one{animation:pv-orb-one 12s ease-in-out infinite alternate}
+  .orb-two,.mp-ambient-two{animation:pv-orb-two 11s ease-in-out infinite alternate}
+  .hero-live i{animation:pv-pulse 2.6s ease-in-out infinite}
+  .journey-path b{animation:pv-flight 4.5s ease-in-out infinite}
+  .mp-screen:not([hidden]){animation:pv-tab-in .32s cubic-bezier(.22,1,.36,1) both}
+}
+@keyframes pv-rise{from{opacity:0;transform:translate3d(0,18px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@keyframes pv-stage-in{from{opacity:0;transform:translate3d(0,23px,0) scale(.97)}to{opacity:1;transform:translate3d(0,0,0) scale(1)}}
+@keyframes pv-orb-one{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-24px,19px,0) scale(1.09)}}
+@keyframes pv-orb-two{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(19px,-17px,0) scale(1.07)}}
+@keyframes pv-flight{0%,100%{transform:translate3d(-4px,0,0) rotate(4deg)}50%{transform:translate3d(4px,-2px,0) rotate(11deg)}}
+@keyframes pv-pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(84,167,119,.28)}50%{opacity:.75;box-shadow:0 0 0 6px rgba(84,167,119,0)}}
+@keyframes pv-tab-in{from{opacity:.45;transform:translate3d(0,8px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+
+@media(max-width:900px){
+  .site-nav{gap:12px}
+  .pv-menu-toggle{display:flex;order:3}
+  .site-nav .desktop-nav.pv-mobile-open{display:flex;flex-direction:column;gap:0;position:absolute;top:calc(100% + 5px);left:16px;right:16px;z-index:30;background:#fff;border:1px solid #dfe8f0;border-radius:20px;box-shadow:0 18px 45px rgba(20,38,61,.15);padding:10px;max-height:70vh;overflow-y:auto;animation:pv-tab-in .23s ease-out both}
+  .site-nav .desktop-nav.pv-mobile-open a{display:block;padding:13px 16px;border-radius:10px;font-weight:700}
+  .site-nav .desktop-nav.pv-mobile-open a:hover{background:#eff5fa}
+  .site-nav .desktop-nav.pv-mobile-open a::after{display:none}
+  .site-nav .auth-actions{margin-left:auto}
+}
+@media(max-width:420px){
+  .site-nav .brand-mark{width:37px;height:35px}
+  .site-nav .brand-wordmark{font-size:20px}
+  .site-nav .brand{gap:5px}
+  .site-nav .nav-cta{font-size:12px;padding:10px 11px}
+  .site-nav{gap:7px}
+  .pv-menu-toggle{width:40px;height:40px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .site-nav,.desktop-nav a,.desktop-nav a::after,.primary-btn,.nav-cta,.secondary-btn,.nav-link-btn,.contact-email,.insight-card,.mp-small-card,.mp-trip-card,.vision-pills span,.pv-menu-toggle>span{transition:none!important;animation:none!important}
+  .orb-one,.orb-two,.hero-live i,.journey-path b,.mp-ambient-two,.mp-screen:not([hidden]){animation:none!important}
+}
