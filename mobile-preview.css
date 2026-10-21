@@ -64,3 +64,10 @@
 .mp-stage-note{margin-top:23px;color:#758698;font-size:12px}
 @media(max-width:900px){.mp-section{padding:76px 20px}.mp-intro{grid-template-columns:1fr;gap:28px}.mp-copy{max-width:680px;margin:0 auto;text-align:center}.mp-highlights{justify-content:center}.mp-stage{min-height:0}.mp-ambient-one{width:400px;height:400px}}
 @media(max-width:425px){.mp-phone{width: min(340px,calc(100vw - 42px));height:650px}.mp-stage{padding:0}.mp-section{padding-left:12px;padding-right:12px}.mp-ambient-one{width:320px;height:390px}.mp-copy{padding:0 10px}}
+
+/* Gentle perspective treatment for the product tour; no perpetual spinning. */
+@media (min-width:901px) and (hover:hover) and (pointer:fine) {
+  .mp-phone{transform:perspective(1100px) rotateY(-5deg) rotateX(2deg);transition:transform .65s cubic-bezier(.22,1,.36,1),box-shadow .65s ease}
+  .mp-stage:hover .mp-phone{transform:perspective(1100px) rotateY(0) rotateX(0) translateY(-7px);box-shadow:0 43px 90px rgba(20,38,61,.23),0 13px 30px rgba(20,38,61,.15)}
+}
+@media(prefers-reduced-motion:reduce){.mp-phone{transform:none!important;transition:none!important}}
