@@ -124,3 +124,5 @@
 @media(prefers-reduced-motion:reduce){.pvj-moving-dot{display:none}.pvj-submit,.pvj-mode span,.pvj-rule-card{transition:none!important}.pvj-submit:hover,.pvj-mode span:hover,.pvj-rule-card:hover{transform:none!important}}
 
 .pvj-airline-label[hidden]{display:none!important}
+
+.pvj-map-disclaimer{color:#8eabbf;font-size:10px;line-height:1.4;margin:-8px 2px 0;text-align:right}
