@@ -216,3 +216,8 @@ body.pvd-lock{overflow:hidden}
  .pvd-stage>div,.pvd-route-dash,.pvd-route-plane,.pvd-meter span{animation:none!important}
  .pvd-progress i{transition:none}
 }
+
+/* A second entry point from the product preview. */
+.pvd-preview-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pvd-preview-actions .pvd-preview-demo{display:inline-flex;align-items:center;gap:10px;justify-content:center}
+@media(max-width:610px){.pvd-preview-actions{align-items:stretch}.pvd-preview-actions>button{width:100%;justify-content:center}}
