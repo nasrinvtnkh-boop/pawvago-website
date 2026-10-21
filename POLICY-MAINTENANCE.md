@@ -20,3 +20,10 @@ Future production integrations: licensed rules data/API, review audit trail per 
 - For airlines with no verified hold weight maximum, show 'confirm with airline' rather than assuming cabin or generic limits.
 - The journey checker takes a breed / short-nosed flag and does **not** grant flight clearance for pets or IATA approval for any crate.
 - Refresh data only after manual source verification; the monitoring script checks hold sources heuristically and opens review issues on drift.
+
+## Global airline directory (current release)
+- Catalogue currently contains **164 selected airlines**, with **18 official-source policy references**; it is **not** a comprehensive inventory of every airline in the world.
+- Browse all listings in the public airline directory with filters for name/IATA code, region, and review status. Unreviewed carriers always display 'Policy not yet verified'.
+- The passenger trip checker includes all catalogue names, but never evaluates pet or kennel eligibility for an unreviewed airline.
+- Signed-in dashboard screens only source-reviewed carriers to avoid creating hundreds of unverified recommendation cards.
+- Add future airlines and source URLs only after checking operator identity and official policy. A valid carrier name or IATA code alone is not proof that airline transports pets.
