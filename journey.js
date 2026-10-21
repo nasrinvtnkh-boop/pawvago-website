@@ -243,6 +243,15 @@
         pieces.push(sourceLink(policy.cargo_info?.lufthansa_source || "https://www.lufthansa.com/at/en/tiere-als-uebergepaeck","Carrier hold vs cargo explanation ↗"));
       } else {
         if (!airline) return;
+        // Unknown policies must never be interpreted as "not allowed" or "safe".
+        if (!policyReviewed(airline)) {
+          status("Pet policy not yet verified for " + airline.name,
+            "This airline is included in our directory, but PawVago has not independently checked its cabin, hold or cargo rules. Do not book until the operating airline confirms its policy for your animal and exact route.",
+            "pvj-caution");
+          pieces.push('<div class="pvj-result-row"><span>Selected airline</span><strong>' + safe(airline.name) + '</strong></div>');
+          pieces.push('<div class="pvj-result-row"><span>Cabin / hold rules</span><strong>Not yet reviewed</strong></div>');
+          notes.push("No verified size, weight or breed limits are available for this airline in PawVago. Contact the operator directly.");
+        } else {
         const gbFlight = to.region === "GB";
         if (placement === "hold") {
           const hold = airline.hold || {};
@@ -252,7 +261,13 @@
           if (gbFlight) status("Checked-in hold baggage is not an approved option for standard flights to Great Britain",
             "For ordinary commercial air travel into Great Britain, animals must normally be transported as cargo freight rather than checked hold luggage. Confirm an approved route.",
             "pvj-danger");
-          else if (!hold.allowed) status("Hold transport not offered by " + airline.name,
+          else if (airline.route_rule === "hold_domestic_tr_only" && !(from.code === "TR" && to.code === "TR")) status("Checked hold only on domestic Turkish flights",
+            "Pegasus does not transport pets as checked hold baggage on its ordinary international routes. Verify any exceptional routing directly with the airline.",
+            "pvj-danger");
+          else if (hold.allowed === null || hold.allowed === undefined) status("Checked-hold pet policy requires confirmation",
+            "This carrier's checked-hold pet service has not been established for your itinerary. Contact the airline or a qualified cargo specialist.",
+            "pvj-caution");
+          else if (hold.allowed === false) status("Hold transport not offered by " + airline.name,
             "This airline does not accept pet animals in the aircraft hold as checked baggage. Consider another airline or specialist freight provider.",
             "pvj-danger");
           else if (snub && hold.snub_nosed_restricted) status("Flat-faced breed not accepted in the hold by " + airline.name,
@@ -261,6 +276,9 @@
           else if (tooHeavy) status("Above the published hold weight limit",
             "Pet and crate total " + formatKg(totalKg) + " kg exceeds the published " + formatKg(max) + " kg limit.",
             "pvj-danger");
+          else if (airline.route_rule === "emirates_hold_dubai_departure_only") status("Emirates hold is itinerary-dependent",
+            "Emirates requires cargo for itineraries ending in Dubai. Checked-baggage transport is restricted to certain Dubai-origin journeys and conditions. Confirm the exact journey; no permission is established here.",
+            "pvj-caution");
           else if (tooLarge) status("Crate exceeds published hold dimensions",
             "The entered crate is larger than the " + hold.dimensions_cm.join(" × ") + " cm maximum.",
             "pvj-danger");
@@ -277,18 +295,28 @@
           pieces.push(sourceLink(hold.source || airline.source,"Official " + airline.name + " hold conditions ↗"));
           if (snub && hold.breed_source) pieces.push(sourceLink(hold.breed_source,"Official short-nosed breed restrictions ↗"));
         } else {
-          const max = Number(airline.cabin_max_kg);
-          const over = totalKg > max + 0.000001;
+          const max = airline.cabin_max_kg === null || airline.cabin_max_kg === undefined ? null : Number(airline.cabin_max_kg);
+          const over = max !== null && totalKg > max + 0.000001;
           const oversized = !!(dims && airline.dimensions_cm && dims.some((d, i) => d > airline.dimensions_cm[i]));
           if (gbFlight) status("Cabin not permitted on standard flights to Great Britain",
             "Pets normally must travel as cargo on regular commercial flights into Great Britain. Check approved transport routes and operator rules.",
             "pvj-danger");
+          else if (airline.cabin_allowed === false) status("Ordinary pets are not accepted in the passenger cabin",
+            airline.name + " does not allow ordinary pet dogs or cats in passenger cabins under its reviewed policy. Assistance dogs and other special cases follow different rules.",
+            "pvj-danger");
+          else if (airline.cabin_allowed !== true) status("Cabin pet acceptance requires airline confirmation",
+            "A verified general pet-cabin permission has not been established for this airline. Do not assume your pet is accepted.",
+            "pvj-caution");
           else if (over) status("Above this airline's published cabin weight limit",
             "Your pet and carrier total " + formatKg(totalKg) + " kg; the published allowance is " + formatKg(max) + " kg.",
             "pvj-danger");
           else if (oversized) status("Carrier exceeds a published cabin dimension",
             "Your carrier size is larger than " + airline.dimensions_cm.join(" × ") + " cm in at least one dimension.",
             "pvj-danger");
+          else if (max === null)
+            status("Cabin offered — weight limit needs confirmation",
+              "This airline has a cabin pet service but PawVago has not confirmed one universally applicable weight maximum. Check your exact flight and operating carrier before booking.",
+              "pvj-caution");
           else if (!dims || !airline.dimensions_cm || dimensionsPartial)
             status("Weight within limit — carrier checks still needed",
               "The combined weight is within " + formatKg(max) + " kg. Check carrier size, breed, route and available pet spaces with " + airline.name + ".",
@@ -297,11 +325,12 @@
             "Published weight/size checks look suitable, subject to full pet and route conditions. This does not confirm airline acceptance or booking.",
             "pvj-positive");
           pieces.push('<div class="pvj-result-row"><span>Pet + cabin carrier</span><strong>' + safe(formatKg(totalKg)) + ' kg</strong></div>');
-          pieces.push('<div class="pvj-result-row"><span>Published cabin maximum</span><strong>' + safe(max) + ' kg</strong></div>');
+          pieces.push('<div class="pvj-result-row"><span>Published cabin maximum</span><strong>' + safe(max === null ? "Confirm with airline" : max + " kg") + '</strong></div>');
           pieces.push('<div class="pvj-result-row"><span>Cabin carrier size</span><strong>' + (airline.dimensions_cm ? safe(airline.dimensions_cm.join(" × ")) + " cm" : "Check with airline") + '</strong></div>');
           pieces.push(sourceLink(airline.source,"Official " + airline.name + " cabin conditions ↗"));
         }
         if (dimensionsPartial) notes.unshift("Carrier/crate dimensions are incomplete. Enter all three measurements or leave all blank.");
+        } // end source-reviewed policy evaluation
       }
     } else {
       status(mode === "rail" ? "Rail travel: personalised document checklist" : "Road travel: personalised document checklist",
