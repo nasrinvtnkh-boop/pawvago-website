@@ -37,6 +37,20 @@ const checks = [
   { name: 'Great Britain pet travel', url: policy.official_sources.gb_routes,
     patterns: [/approved\s*routes/i, /cargo/i] }
 ];
+/* Check all reviewed airlines are still reachable, even if no stable parser exists.
+   An HTTP success is only source availability, not a rule re-verification. */
+const monitored = new Set(checks.map(entry => entry.url));
+for (const airline of policy.airlines) {
+  if (airline.policy_status !== 'reviewed') continue;
+  for (const [kind, url] of [['cabin',airline.source],['hold',airline.hold?.source]]) {
+    if (!url || monitored.has(url)) continue;
+    monitored.add(url);
+    checks.push({
+      name: airline.name + ' (' + kind + ' reference availability only)',
+      url, patterns: []
+    });
+  }
+}
 const issues = [];
 for (const check of checks) {
   try {
