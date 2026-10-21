@@ -126,3 +126,29 @@
 .pvj-airline-label[hidden]{display:none!important}
 
 .pvj-map-disclaimer{color:#8eabbf;font-size:10px;line-height:1.4;margin:-8px 2px 0;text-align:right}
+
+/* Checked-hold and air-freight travel selectors */
+.pvj-air-transport{display:grid;gap:14px;border:1px solid #dde7ef;background:#f8fbfd;border-radius:17px;padding:15px}
+.pvj-air-transport[hidden],.pvj-airline-label[hidden]{display:none!important}
+.pvj-placement{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:0;padding:0;border:0}
+.pvj-placement legend{font-size:11px;font-weight:800;color:#516a80;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
+.pvj-placement label{min-width:0;position:relative;font-size:12px!important}
+.pvj-placement label input{position:absolute;opacity:0;pointer-events:none}
+.pvj-placement label>span{display:grid;align-content:center;justify-content:center;gap:4px;height:62px;text-align:center;background:white;border:1px solid #d4e0e9;border-radius:12px;color:#415c76;font-size:12px;cursor:pointer;font-weight:800;letter-spacing:0;text-transform:none;transition:background .2s,color .2s,border-color .2s}
+.pvj-placement label>span small{font-size:9px;color:#758b9d;font-weight:600}
+.pvj-placement label input:checked+span{background:#14263d;color:white;border-color:#14263d}
+.pvj-placement label input:checked+span small{color:#bdd5e5}
+.pvj-placement label input:focus-visible+span{outline:3px solid #336A96;outline-offset:3px}
+.pvj-optional{font-size:9px;font-weight:600;color:#97a8b7}
+.pvj-snub-label{display:flex!important;align-items:center;gap:9px;padding:10px 8px;border:1px dashed #d1dee9;border-radius:12px;background:white;cursor:pointer;font-weight:700!important;text-transform:none!important;letter-spacing:0!important}
+.pvj-snub-label input[type="checkbox"]{appearance:auto;accent-color:#336a96;width:17px;height:17px;flex:0 0 17px;margin:0}
+.pvj-snub-label>span{font-size:12px;line-height:1.35;color:#324d65}
+.pvj-snub-label small{font-size:10px;display:block;font-weight:500;color:#718599;margin-top:3px}
+.pvj-placement-hint{font-size:11px;line-height:1.55;color:#5b7590;background:#eaf2f8;padding:10px 12px;border-radius:10px}
+.pvj-card-mode{font-size:10px;font-weight:900;letter-spacing:.1em;color:#839aab}
+.pvj-card-hold{border-top:1px solid #dce6ef;margin-top:10px;padding-top:13px;display:grid;gap:5px}
+.pvj-card-hold strong{font:800 20px "Manrope",sans-serif;color:#14263d}
+.pvj-card-hold small{font-size:10px;line-height:1.6;color:#698096}
+.pvj-rule-card>a{margin-top:5px!important}
+@media(max-width:610px){.pvj-air-transport{padding:12px}.pvj-placement{gap:5px}.pvj-placement label>span{font-size:11px;min-height:63px;padding:6px 2px}.pvj-placement label>span small{font-size:8px}.pvj-snub-label>span{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.pvj-placement label>span{transition:none}}
