@@ -1104,23 +1104,6 @@
       "route_rule": "emirates_hold_dubai_departure_only"
     },
     {
-      "id": "ETR",
-      "name": "Eritrean Airlines",
-      "region": "Africa",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
-      "cabin_max_kg": null,
-      "dimensions_cm": null,
-      "source": null,
-      "hold": {
-        "allowed": null,
-        "max_combined_kg": null,
-        "dimensions_cm": null,
-        "source": null
-      },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
-    },
-    {
       "id": "ET",
       "name": "Ethiopian Airlines",
       "region": "Africa",
@@ -1141,23 +1124,6 @@
       "id": "EY",
       "name": "Etihad Airways",
       "region": "Middle East",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
-      "cabin_max_kg": null,
-      "dimensions_cm": null,
-      "source": null,
-      "hold": {
-        "allowed": null,
-        "max_combined_kg": null,
-        "dimensions_cm": null,
-        "source": null
-      },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
-    },
-    {
-      "id": "QY",
-      "name": "European Air Transport Leipzig",
-      "region": "Europe",
       "policy_status": "unverified",
       "cabin_allowed": null,
       "cabin_max_kg": null,
@@ -3152,9 +3118,9 @@
     ]
   },
   "catalog_info": {
-    "total": 166,
+    "total": 164,
     "reviewed": 18,
-    "unverified": 148,
+    "unverified": 146,
     "scope": "Major and regionally relevant passenger airlines; not an exhaustive list of all licensed airlines worldwide.",
     "updated_on": "2026-10-21",
     "filtering": "Client-side query by airline name, IATA code and region. Unsupported airlines explicitly show Policy not verified, never Not allowed by default."
