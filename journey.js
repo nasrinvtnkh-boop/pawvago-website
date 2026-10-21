@@ -8,12 +8,13 @@
   const ui = {
     from: $("pvj-from"), to: $("pvj-to"), originCity: $("pvj-origin-city"),
     destCity: $("pvj-dest-city"), date: $("pvj-date"), species: $("pvj-species"),
-    weight: $("pvj-weight"), bag: $("pvj-bag"), airline: $("pvj-airline"),
-    airlineBox: $("pvj-airline-box"), results: $("pvj-results"),
+    weight: $("pvj-weight"), bag: $("pvj-bag"),
+    crateWeight: $("pvj-crate-weight"), crateBox: $("pvj-crate-box"),
+    results: $("pvj-results"),
     ruleCards: $("pvj-rule-cards"), audit: $("pvj-audit"),
     breed: $("pvj-breed"), snub: $("pvj-snub"), airTransport: $("pvj-air-transport"),
     carrierLabel: $("pvj-carrier-label"), placementHint: $("pvj-placement-hint"),
-    airlineSearch: $("pvj-airline-search"), directorySearch: $("pvj-directory-search"),
+    directorySearch: $("pvj-directory-search"),
     directoryRegion: $("pvj-directory-region"), directoryStatus: $("pvj-directory-status"),
     directoryCount: $("pvj-directory-count"), directoryMore: $("pvj-directory-more")
   };
@@ -50,6 +51,7 @@
       .some(b => normalized.includes(String(b).replace(/-/g," ")));
   };
   const modeLabels = {
+    auto:"PawVago compares cabin and checked-hold airline policies automatically. Rigid crate details are separate from cabin bag details.",
     cabin:"Cabin: your pet stays in a compliant under-seat carrier.",
     hold:"Hold (checked baggage / AVIH): your pet travels in a ventilated, climate-controlled compartment. A rigid IATA-compliant crate is required.",
     cargo:"Air cargo (freight): separate handling and booking through a qualified animal transport provider; not booked with ordinary checked baggage."
@@ -59,28 +61,6 @@
   let catalogLimit = 24;
   const policyReviewed = a => a.policy_status === "reviewed";
   const reviewLabel = a => policyReviewed(a) ? "Source-reviewed reference" : "Policy not yet verified";
-  const syncAirlinePicker = (preserve = true) => {
-    if (!policy) return;
-    const search = ui.airlineSearch.value.trim().toLocaleLowerCase();
-    const current = preserve ? ui.airline.value : "";
-    const choices = policy.airlines.filter(a =>
-      !search || (a.name + " " + a.id + " " + a.region).toLocaleLowerCase().includes(search)
-    );
-    if (!choices.length) {
-      ui.airline.innerHTML = '<option value="" selected>No matching airlines</option>';
-      return;
-    }
-    const reviewed = choices.filter(policyReviewed);
-    const pending = choices.filter(a => !policyReviewed(a));
-    const group = (items,label) => items.length ? '<optgroup label="' + safe(label) + '">' +
-      items.map(a => '<option value="' + safe(a.id) + '">' + safe(a.name) + ' (' + safe(a.id) + ')</option>').join("") + '</optgroup>' : "";
-    ui.airline.innerHTML = group(reviewed,"Official-source policy references") +
-      group(pending,"Policy not yet verified");
-    if (choices.some(a => a.id === current)) ui.airline.value = current;
-    else if (choices.some(a => a.id === "VY") && !search) ui.airline.value = "VY";
-    else ui.airline.value = choices[0].id;
-  };
-
   const renderLibrary = () => {
     if (!policy) return;
     const current = policy.airlines;
@@ -155,14 +135,14 @@
     const isAir = getMode() === "air";
     const placement = getPlacement();
     ui.airTransport.hidden = !isAir;
-    ui.airlineBox.hidden = !isAir || placement === "cargo";
-    ui.carrierLabel.textContent = placement === "hold" && isAir ? "Crate weight (kg)" : "Carrier weight (kg)";
+    ui.crateBox.hidden = !isAir || (placement !== "auto" && placement !== "hold");
+    ui.carrierLabel.textContent = "Cabin bag weight (kg)";
     ui.placementHint.textContent = modeLabels[placement] || modeLabels.cabin;
   };
 
   const render = () => {
     if (!policy) return;
-    if (!form.reportValidity()) return;
+
     const from = policy.countries.find(c => c.code === ui.from.value);
     const to = policy.countries.find(c => c.code === ui.to.value);
     const mode = getMode();
@@ -172,12 +152,20 @@
     const petKg = Number(ui.weight.value);
     const carrierKg = Number(ui.bag.value);
     const totalKg = petKg + carrierKg;
-    const airline = policy.airlines.find(a => a.id === ui.airline.value);
     const dimsInput = [$("pvj-length").value, $("pvj-width").value, $("pvj-height").value];
     const dimensionsComplete = dimsInput.every(s => String(s).trim() !== "");
     const dimensionsPartial = dimsInput.some(s => String(s).trim() !== "") && !dimensionsComplete;
     const dims = dimensionsComplete ? dimsInput.map(Number) : null;
-    if (!from || !to || !(petKg > 0) || !(carrierKg > 0)) return;
+    if (!from || !to || !(petKg > 0) || !(carrierKg > 0) || !ui.date.value) {
+      ui.results.innerHTML = '<p class="pvj-result-placeholder">Enter the departure, destination, travel date and pet / cabin bag weights to compare airlines automatically.</p>';
+      return;
+    }
+    const crateValue = ui.crateWeight.value.trim();
+    const crateKg = crateValue ? Number(crateValue) : null;
+    const crateRaw = [$("pvj-crate-length").value,$("pvj-crate-width").value,$("pvj-crate-height").value];
+    const crateDimsComplete = crateRaw.every(v => String(v).trim() !== "");
+    const crateDimsPartial = crateRaw.some(v => String(v).trim() !== "") && !crateDimsComplete;
+    const crateDims = crateDimsComplete ? crateRaw.map(Number) : null;
     updatePreview();
 
     const source = to.region === "GB" ? policy.official_sources.gb : policy.official_sources.eu;
@@ -193,8 +181,9 @@
     if (to.dog_tapeworm_hours && species === "dog")
       docItems.push("Vet-administered tapeworm treatment 24–120 hours before arrival");
     if (mode === "air") {
-      if (placement === "hold") {
-        docItems.push("Rigid IATA-compliant crate: adequate standing, turning and lying space");
+      if (placement === "hold" || placement === "auto") {
+        docItems.push("Review cabin versus checked-hold options and get written airline approval");
+        docItems.push("Rigid IATA-compliant crate if travelling in the hold: adequate standing, turning and lying space");
         docItems.push("Confirm approved hold pet space and applicable aircraft and transit restrictions");
         docItems.push("Vet fitness assessment and breed/temperature restrictions");
       } else if (placement === "cargo") {
@@ -230,112 +219,68 @@
 
     pieces.push('<div class="pvj-results-head"><span>Personalised screening</span><span class="pvj-policy-chip">Reviewed ' + safe(policy.reviewed_on) + '</span></div>');
 
+
     if (mode === "air") {
       if (placement === "cargo") {
-        status("Separate air freight enquiry — no automatic eligibility determination",
-          "Cargo is a specialist shipment, not a pet transported as checked baggage with your passenger booking. Verify accepted species/breed, airline/agent, route, crate, cost and import clearance in writing.",
+        status("Air freight requires a separate service and booking",
+          "Cargo involves a qualified animal freight operator. PawVago cannot match cargo flights, quotes or accepted breeds with the current data.",
           "pvj-caution");
-        if (to.region === "GB") status("Cargo is normally required for commercial flights to Great Britain",
-          "Check a government-approved air route and an approved live-animal cargo service. This screen does not reserve freight space.",
+        if (to.region === "GB") status("Great Britain: check an approved cargo route",
+          "For ordinary commercial flights into Great Britain, companion animals normally travel as freight cargo. Confirm approved carrier and routes.",
           "pvj-caution");
-        pieces.push('<div class="pvj-result-row"><span>Pet + carrier</span><strong>' + safe(formatKg(totalKg)) + ' kg</strong></div>');
-        pieces.push('<div class="pvj-result-row"><span>Freight operator / charge</span><strong>Quote required</strong></div>');
-        pieces.push(sourceLink(policy.cargo_info?.source || policy.official_sources.gb_routes,"Understand live-animal cargo requirements ↗"));
-        pieces.push(sourceLink(policy.cargo_info?.lufthansa_source || "https://www.lufthansa.com/at/en/tiere-als-uebergepaeck","Carrier hold vs cargo explanation ↗"));
+        pieces.push(sourceLink(policy.cargo_info?.source || policy.official_sources.gb_routes,"View official guidance on cargo / approved routes ↗"));
+      } else if (!window.PawVagoAirMatcher) {
+        status("Airline comparison unavailable",
+          "The airline matching module could not be loaded. Do not make decisions using incomplete results.","pvj-danger");
       } else {
-        if (!airline) return;
-        // Unknown policies must never be interpreted as "not allowed" or "safe".
-        if (!policyReviewed(airline)) {
-          status("Pet policy not yet verified for " + airline.name,
-            "This airline is included in our directory, but PawVago has not independently checked its cabin, hold or cargo rules. Do not book until the operating airline confirms its policy for your animal and exact route.",
-            "pvj-caution");
-          pieces.push('<div class="pvj-result-row"><span>Selected airline</span><strong>' + safe(airline.name) + '</strong></div>');
-          pieces.push('<div class="pvj-result-row"><span>Cabin / hold rules</span><strong>Not yet reviewed</strong></div>');
-          notes.push("No verified size, weight or breed limits are available for this airline in PawVago. Contact the operator directly.");
-        } else {
-        const gbFlight = to.region === "GB";
-        if (placement === "hold") {
-          const hold = airline.hold || {};
-          const max = typeof hold.max_combined_kg === "number" ? hold.max_combined_kg : null;
-          const tooHeavy = max !== null && totalKg > max + 0.000001;
-          const tooLarge = !!(dims && hold.dimensions_cm && dims.some((d, i) => d > hold.dimensions_cm[i]));
-          if (gbFlight) status("Checked-in hold baggage is not an approved option for standard flights to Great Britain",
-            "For ordinary commercial air travel into Great Britain, animals must normally be transported as cargo freight rather than checked hold luggage. Confirm an approved route.",
-            "pvj-danger");
-          else if (airline.route_rule === "hold_domestic_tr_only" && !(from.code === "TR" && to.code === "TR")) status("Checked hold only on domestic Turkish flights",
-            "Pegasus does not transport pets as checked hold baggage on its ordinary international routes. Verify any exceptional routing directly with the airline.",
-            "pvj-danger");
-          else if (hold.allowed === null || hold.allowed === undefined) status("Checked-hold pet policy requires confirmation",
-            "This carrier's checked-hold pet service has not been established for your itinerary. Contact the airline or a qualified cargo specialist.",
-            "pvj-caution");
-          else if (hold.allowed === false) status("Hold transport not offered by " + airline.name,
-            "This airline does not accept pet animals in the aircraft hold as checked baggage. Consider another airline or specialist freight provider.",
-            "pvj-danger");
-          else if (snub && hold.snub_nosed_restricted) status("Flat-faced breed not accepted in the hold by " + airline.name,
-            "Short-nosed dog and cat breeds face breathing risks and are restricted from hold transport by this airline. Do not treat cargo as automatically accepted.",
-            "pvj-danger");
-          else if (tooHeavy) status("Above the published hold weight limit",
-            "Pet and crate total " + formatKg(totalKg) + " kg exceeds the published " + formatKg(max) + " kg limit.",
-            "pvj-danger");
-          else if (airline.route_rule === "emirates_hold_dubai_departure_only") status("Emirates hold is itinerary-dependent",
-            "Emirates requires cargo for itineraries ending in Dubai. Checked-baggage transport is restricted to certain Dubai-origin journeys and conditions. Confirm the exact journey; no permission is established here.",
-            "pvj-caution");
-          else if (tooLarge) status("Crate exceeds published hold dimensions",
-            "The entered crate is larger than the " + hold.dimensions_cm.join(" × ") + " cm maximum.",
-            "pvj-danger");
-          else status("Hold policy screen — airline confirmation required",
-            "This carrier lists a checked-hold option, but crate compliance, safe breed handling, flight type, transit points and capacity require direct approval before booking.",
-            "pvj-caution");
-          pieces.push('<div class="pvj-result-row"><span>Pet + rigid crate</span><strong>' + safe(formatKg(totalKg)) + ' kg</strong></div>');
-          pieces.push('<div class="pvj-result-row"><span>Checked-hold status</span><strong>' + safe(!hold.allowed ? "Not offered" : max !== null ? max + " kg published max" : "Confirm operator limits") + '</strong></div>');
-          pieces.push('<div class="pvj-result-row"><span>Published crate limit</span><strong>' + safe(hold.dimensions_cm ? hold.dimensions_cm.join(" × ") + " cm" : "Confirm with airline") + '</strong></div>');
-          if (hold.allowed && !snub) notes.push("Enter and verify the breed or select the flat-faced option; the tool cannot exclude all restricted breeds automatically.");
-          if (hold.allowed && !dims) notes.push("Crate dimensions have not been entered. An IATA-style crate must be large enough for standing, turning and lying down.");
-          if (hold.allowed && hold.requires_hard_crate) notes.push("Soft cabin bags are unsuitable for checked-hold transport; use an accepted rigid kennel.");
-          if (airline.id === "LH") notes.push("Lufthansa disallows checked-hold pets on connections via Munich; verify routing via another airport.");
-          pieces.push(sourceLink(hold.source || airline.source,"Official " + airline.name + " hold conditions ↗"));
-          if (snub && hold.breed_source) pieces.push(sourceLink(hold.breed_source,"Official short-nosed breed restrictions ↗"));
-        } else {
-          const max = airline.cabin_max_kg === null || airline.cabin_max_kg === undefined ? null : Number(airline.cabin_max_kg);
-          const over = max !== null && totalKg > max + 0.000001;
-          const oversized = !!(dims && airline.dimensions_cm && dims.some((d, i) => d > airline.dimensions_cm[i]));
-          if (gbFlight) status("Cabin not permitted on standard flights to Great Britain",
-            "Pets normally must travel as cargo on regular commercial flights into Great Britain. Check approved transport routes and operator rules.",
-            "pvj-danger");
-          else if (airline.cabin_allowed === false) status("Ordinary pets are not accepted in the passenger cabin",
-            airline.name + " does not allow ordinary pet dogs or cats in passenger cabins under its reviewed policy. Assistance dogs and other special cases follow different rules.",
-            "pvj-danger");
-          else if (airline.cabin_allowed !== true) status("Cabin pet acceptance requires airline confirmation",
-            "A verified general pet-cabin permission has not been established for this airline. Do not assume your pet is accepted.",
-            "pvj-caution");
-          else if (over) status("Above this airline's published cabin weight limit",
-            "Your pet and carrier total " + formatKg(totalKg) + " kg; the published allowance is " + formatKg(max) + " kg.",
-            "pvj-danger");
-          else if (oversized) status("Carrier exceeds a published cabin dimension",
-            "Your carrier size is larger than " + airline.dimensions_cm.join(" × ") + " cm in at least one dimension.",
-            "pvj-danger");
-          else if (max === null)
-            status("Cabin offered — weight limit needs confirmation",
-              "This airline has a cabin pet service but PawVago has not confirmed one universally applicable weight maximum. Check your exact flight and operating carrier before booking.",
-              "pvj-caution");
-          else if (!dims || !airline.dimensions_cm || dimensionsPartial)
-            status("Weight within limit — carrier checks still needed",
-              "The combined weight is within " + formatKg(max) + " kg. Check carrier size, breed, route and available pet spaces with " + airline.name + ".",
-              "pvj-caution");
-          else status("Preliminary cabin weight and size screen passed",
-            "Published weight/size checks look suitable, subject to full pet and route conditions. This does not confirm airline acceptance or booking.",
-            "pvj-positive");
-          pieces.push('<div class="pvj-result-row"><span>Pet + cabin carrier</span><strong>' + safe(formatKg(totalKg)) + ' kg</strong></div>');
-          pieces.push('<div class="pvj-result-row"><span>Published cabin maximum</span><strong>' + safe(max === null ? "Confirm with airline" : max + " kg") + '</strong></div>');
-          pieces.push('<div class="pvj-result-row"><span>Cabin carrier size</span><strong>' + (airline.dimensions_cm ? safe(airline.dimensions_cm.join(" × ")) + " cm" : "Check with airline") + '</strong></div>');
-          pieces.push(sourceLink(airline.source,"Official " + airline.name + " cabin conditions ↗"));
-        }
-        if (dimensionsPartial) notes.unshift("Carrier/crate dimensions are incomplete. Enter all three measurements or leave all blank.");
-        } // end source-reviewed policy evaluation
+        const analysis = window.PawVagoAirMatcher.evaluate(policy.airlines,{
+          petKg, cabinKg:carrierKg, crateKg,
+          cabinDims:dims, crateDims,
+          cabinDimensionsPartial:dimensionsPartial,crateDimensionsPartial:crateDimsPartial,
+          breed:ui.breed.value,snub,from:from.code,to:to.code,placement
+        });
+        const showStatus = result => result.kind === "potential" ? "Passes initial policy screen" :
+                                     result.kind === "review" ? "Check further" : "Not suitable under listed policy";
+        const modeName = mode => mode==="hold" ? "Checked hold" : "Cabin";
+        const airlineCard = entry => {
+          const {airline,best,cabin,hold} = entry;
+          const candidateSummary = best.reasons[0] || "Contact the operating airline for confirmation.";
+          const detail = placement==="auto" ? '<div class="pvj-match-card-mode">' +
+            '<span class="pvj-match-mode-pill"><strong>Cabin:</strong> ' + safe(showStatus(cabin)) + '</span>' +
+            '<span class="pvj-match-mode-pill"><strong>Hold:</strong> ' + safe(showStatus(hold)) + '</span></div>' : "";
+          const refUrl = best.method==="hold" ? (airline.hold?.source || airline.source) : airline.source;
+          const otherNotes = best.reasons.slice(1,3).map(safe).join(" · ");
+          return '<article class="pvj-match-card pvj-match-' + safe(best.kind) + '">' +
+            '<div class="pvj-match-card-head"><h4>' + safe(airline.name) + '</h4>' +
+            '<span class="pvj-match-card-tag">' + safe(modeName(best.method)) + ' · ' +
+            safe(showStatus(best)) + '</span></div>' +
+            '<p>' + safe(candidateSummary) + '</p>' +
+            (otherNotes ? '<p>' + otherNotes + '</p>' : '') + detail +
+            (refUrl ? sourceLink(refUrl,"Official " + airline.name + " animal transport rules ↗") : '') +
+            '</article>';
+        };
+        const potential=analysis.groups.potential,review=analysis.groups.review,blocked=analysis.groups.blocked;
+        pieces.push('<div class="pvj-match-overview">' +
+          '<div><strong>' + potential.length + '</strong><small>Initial policy matches</small></div>' +
+          '<div><strong>' + review.length + '</strong><small>Need additional checks</small></div>' +
+          '<div><strong>' + blocked.length + '</strong><small>Policy mismatches</small></div></div>');
+        pieces.push('<p class="pvj-match-warning"><strong>Important:</strong> ' + safe(analysis.warning) +
+          ' Results only use ' + analysis.reviewed + ' source-reviewed airline policies; ' + analysis.unverified +
+          ' unverified listings have been excluded from recommendations.</p>');
+        if (placement==="auto") pieces.push('<p class="pvj-match-warning">Automatic mode compares cabin using your cabin bag weight, and checked hold using a separate rigid crate weight. It does not assume the same carrier can be used in both places.</p>');
+        if (potential.length) pieces.push('<div class="pvj-match-group-heading"><span>Preliminary policy matches</span><small>Flight route + space unverified</small></div><div class="pvj-match-list">' +
+          potential.map(airlineCard).join("") + '</div>');
+        else pieces.push('<div class="pvj-match-empty">No airline has passed all available first-stage weight and container checks yet. Complete the carrier dimensions and breed, or review the airlines that need more information below.</div>');
+        if (review.length) pieces.push('<div class="pvj-match-group-heading"><span>Potential options requiring verification</span><small>' +
+          review.length + ' airlines</small></div><div class="pvj-match-list">' + review.map(airlineCard).join("") + '</div>');
+        if (blocked.length) pieces.push('<details class="pvj-match-blocked-list"><summary>Not suitable under listed conditions (' +
+          blocked.length + ' carriers)</summary><div class="pvj-match-list" style="margin-top:12px">' +
+          blocked.map(airlineCard).join("") + '</div></details>');
+        if (analysis.unverified) pieces.push('<p class="pvj-match-disclaimer">More airlines are listed in our <a href="#policy-library">airline directory ↗</a>, but policy details are unverified and cannot be safely recommended yet.</p>');
       }
     } else {
-      status(mode === "rail" ? "Rail travel: personalised document checklist" : "Road travel: personalised document checklist",
-        "PawVago has prepared your destination checklist. Operator-specific pet acceptance and real-time routes are not connected yet.", "pvj-caution");
+      status(mode === "rail" ? "Rail: personalised document checklist" : "Road: personalised document checklist",
+        "PawVago prepares the destination checklist. Exact operator policies, border crossings and route availability have not been verified.", "pvj-caution");
     }
 
     pieces.push('<div class="pvj-docs"><h4>Document preparation checklist</h4><p>Tick items as you verify them; this checklist is saved only on this screen.</p>' +
@@ -375,8 +320,7 @@
       ui.directoryRegion.innerHTML = '<option value="all">All regions</option>' +
         [...new Set(data.airlines.map(a => a.region || "Other"))].sort().map(region =>
           '<option value="' + safe(region) + '">' + safe(region) + '</option>').join("");
-      syncAirlinePicker(false);
-      ui.airline.value = "VY";
+
       renderLibrary();
       updatePreview();
       render();
@@ -388,43 +332,37 @@
     }
   }
 
-  form.addEventListener("submit", e => { e.preventDefault(); render(); });
-  [ui.from,ui.to,ui.originCity,ui.destCity].forEach(el => el.addEventListener("change", updatePreview));
-  form.querySelectorAll('input[name="pvj-mode"], input[name="pvj-placement"]').forEach(el =>
-    el.addEventListener("change", () => { updatePreview(); if(policy) render(); }));
-  [ui.breed,ui.snub].forEach(el => el.addEventListener("change", () => { if(policy) render(); }));
-  form.querySelectorAll("select").forEach(el => {
-    if (el === ui.from || el === ui.to) return;
-    el.addEventListener("change", () => { if(policy) render(); });
-  });
 
-  ui.airlineSearch.addEventListener("input", () => {
-    syncAirlinePicker();
-    if (policy && ui.airline.value) render();
-    else if (policy) ui.results.textContent = "No matching airline. Search another name or IATA code.";
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    if (form.reportValidity()) render();
   });
+  const rerender = () => {updatePreview();if(policy)render();};
+  [ui.from,ui.to,ui.originCity,ui.destCity,ui.date,ui.species,ui.weight,
+    ui.bag,ui.crateWeight,ui.breed,ui.snub,
+    $("pvj-length"),$("pvj-width"),$("pvj-height"),
+    $("pvj-crate-length"),$("pvj-crate-width"),$("pvj-crate-height")
+  ].forEach(el => {
+    el.addEventListener("change",rerender);
+    if (el.matches && el.matches('input:not([type="checkbox"])')) el.addEventListener("input",rerender);
+  });
+  form.querySelectorAll('input[name="pvj-mode"],input[name="pvj-placement"]').forEach(el =>
+    el.addEventListener("change",rerender));
   [ui.directorySearch,ui.directoryRegion,ui.directoryStatus].forEach(el => {
     el.addEventListener(el === ui.directorySearch ? "input" : "change", () => {
       catalogLimit = 24;
       renderLibrary();
     });
   });
-  ui.directoryMore.addEventListener("click", () => {
-    catalogLimit += 24;
-    renderLibrary();
-  });
-  ui.ruleCards.addEventListener("click", event => {
-    const item = event.target.closest("[data-pvj-pick]");
-    if (!item) return;
-    const code = item.getAttribute("data-pvj-pick");
-    if (!policy?.airlines.some(a => a.id === code)) return;
-    ui.airlineSearch.value = "";
-    syncAirlinePicker(false);
-    ui.airline.value = code;
-    const air = form.querySelector('input[name="pvj-mode"][value="air"]');
-    if (air) air.checked = true;
-    updatePreview();
-    render();
+  ui.directoryMore.addEventListener("click",() => {catalogLimit += 24;renderLibrary();});
+  ui.ruleCards.addEventListener("click",event => {
+    const anchor=event.target.closest("[data-pvj-pick]");
+    if (!anchor) return;
+    const air=form.querySelector('input[name="pvj-mode"][value="air"]');
+    const auto=form.querySelector('input[name="pvj-placement"][value="auto"]');
+    if (air) air.checked=true;
+    if (auto) auto.checked=true;
+    rerender();
   });
 
   init();
