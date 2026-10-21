@@ -42,7 +42,7 @@
     document.addEventListener("click", e => {
       if (!header.contains(e.target)) closeMenu();
     });
-    window.matchMedia("(min-width: 901px)").addEventListener?.("change", e => {
+    window.matchMedia("(min-width: 1181px)").addEventListener?.("change", e => {
       if (e.matches) closeMenu();
     });
   }
