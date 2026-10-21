@@ -12,7 +12,10 @@
     airlineBox: $("pvj-airline-box"), results: $("pvj-results"),
     ruleCards: $("pvj-rule-cards"), audit: $("pvj-audit"),
     breed: $("pvj-breed"), snub: $("pvj-snub"), airTransport: $("pvj-air-transport"),
-    carrierLabel: $("pvj-carrier-label"), placementHint: $("pvj-placement-hint")
+    carrierLabel: $("pvj-carrier-label"), placementHint: $("pvj-placement-hint"),
+    airlineSearch: $("pvj-airline-search"), directorySearch: $("pvj-directory-search"),
+    directoryRegion: $("pvj-directory-region"), directoryStatus: $("pvj-directory-status"),
+    directoryCount: $("pvj-directory-count"), directoryMore: $("pvj-directory-more")
   };
   const safe = value => String(value ?? "").replace(/[&<>"']/g, c => ({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
@@ -53,31 +56,89 @@
   };
   let policy = null;
 
+  let catalogLimit = 24;
+  const policyReviewed = a => a.policy_status === "reviewed";
+  const reviewLabel = a => policyReviewed(a) ? "Source-reviewed reference" : "Policy not yet verified";
+  const syncAirlinePicker = (preserve = true) => {
+    if (!policy) return;
+    const search = ui.airlineSearch.value.trim().toLocaleLowerCase();
+    const current = preserve ? ui.airline.value : "";
+    const choices = policy.airlines.filter(a =>
+      !search || (a.name + " " + a.id + " " + a.region).toLocaleLowerCase().includes(search)
+    );
+    if (!choices.length) {
+      ui.airline.innerHTML = '<option value="" selected>No matching airlines</option>';
+      return;
+    }
+    const reviewed = choices.filter(policyReviewed);
+    const pending = choices.filter(a => !policyReviewed(a));
+    const group = (items,label) => items.length ? '<optgroup label="' + safe(label) + '">' +
+      items.map(a => '<option value="' + safe(a.id) + '">' + safe(a.name) + ' (' + safe(a.id) + ')</option>').join("") + '</optgroup>' : "";
+    ui.airline.innerHTML = group(reviewed,"Official-source policy references") +
+      group(pending,"Policy not yet verified");
+    if (choices.some(a => a.id === current)) ui.airline.value = current;
+    else if (choices.some(a => a.id === "VY") && !search) ui.airline.value = "VY";
+    else ui.airline.value = choices[0].id;
+  };
+
   const renderLibrary = () => {
     if (!policy) return;
-    const reviewed = policy.reviewed_on;
-    const days = Math.floor((Date.now() - new Date(reviewed + "T12:00:00Z").getTime()) / 86400000);
-    const overdue = days > 30;
-    ui.audit.innerHTML = '<strong>' + (overdue ? 'Review date is over 30 days old' : 'Official pages reviewed: ' + safe(reviewed)) +
-      '</strong><span>' + (overdue ? 'Confirm all details with linked official sources' : 'Manually curated policy snapshot, not live flight capacity') + '</span>';
-    ui.ruleCards.innerHTML = policy.airlines.map(a => {
-      const dims = a.dimensions_cm?.join(" × ") || "Check the airline's official carrier policy";
+    const current = policy.airlines;
+    const reviewed = current.filter(policyReviewed).length;
+    ui.audit.innerHTML = '<strong>' + reviewed + ' / ' + current.length + ' carrier policies reviewed</strong>' +
+      '<span>Review date ' + safe(policy.reviewed_on) +
+      ' · selected airlines worldwide, not an exhaustive global registry</span>';
+    const term = ui.directorySearch.value.trim().toLocaleLowerCase();
+    const region = ui.directoryRegion.value || "all";
+    const status = ui.directoryStatus.value || "all";
+    const matches = current.filter(a => {
+      const searchable = (a.name + " " + a.id + " " + a.region).toLocaleLowerCase();
+      return (!term || searchable.includes(term)) &&
+        (region === "all" || a.region === region) &&
+        (status === "all" || (status === "reviewed" ? policyReviewed(a) : !policyReviewed(a)));
+    });
+    ui.directoryCount.textContent = "Showing " + Math.min(matches.length,catalogLimit) + " of " +
+      matches.length + " matching airlines · " + current.length + " listed · " +
+      reviewed + " reviewed · " + (current.length - reviewed) + " awaiting policy verification";
+    ui.ruleCards.innerHTML = matches.length ? matches.slice(0,catalogLimit).map(a => {
+      const review = policyReviewed(a);
       const hold = a.hold || {};
-      const holdLabel = !hold.allowed ? "Not offered" :
-        hold.max_combined_kg ? hold.max_combined_kg + " kg max" : "Confirm with airline";
-      return '<article class="pvj-rule-card"><div class="pvj-rule-card-name">' + safe(a.name) + '</div>' +
-        '<div class="pvj-card-mode">IN CABIN</div>' +
-        '<div class="pvj-rule-card-limit">' + safe(a.cabin_max_kg) + ' <small>kg max</small></div>' +
-        '<div class="pvj-rule-card-dim">' + safe(dims) + (a.dimensions_cm ? " cm" : "") + '</div>' +
-        '<div class="pvj-card-hold"><div class="pvj-card-mode">CHECKED HOLD (AVIH)</div><strong>' +
-        safe(holdLabel) + '</strong><small>' +
-        safe(!hold.allowed ? 'This airline does not transport pets in the hold.' :
-          (hold.dimensions_cm ? 'Hard crate: max ' + hold.dimensions_cm.join(' × ') + ' cm. ' : 'Hard IATA-compliant crate. ') +
-          'Breed and route restrictions apply.') + '</small></div>' +
-        '<div class="pvj-rule-card-note">All limits include the animal and its carrier. Confirm your exact flight and available pet spaces before booking.</div>' +
-        '<a href="' + safe(safeUrl(a.source)) + '" target="_blank" rel="noopener noreferrer">Cabin rules ↗</a>' +
-        '<a href="' + safe(safeUrl(hold.source || a.source)) + '" target="_blank" rel="noopener noreferrer">Hold rules ↗</a></article>';
-    }).join("");
+      const cabinAllowed = review && a.cabin_allowed === true;
+      const cabinText = !review ? "Not yet reviewed" :
+        a.cabin_allowed === false ? "No ordinary pets" :
+        cabinAllowed && a.cabin_max_kg != null ? formatKg(a.cabin_max_kg) + " kg max" :
+        "Confirm with airline";
+      const cabinDetail = review && a.dimensions_cm ? a.dimensions_cm.join(" × ") + " cm carrier" :
+        !review ? "Rules, limits and pet acceptance unknown" : "Carrier size and flight restrictions apply";
+      const holdText = !review ? "Not yet reviewed" :
+        hold.allowed === false ? "Not offered" :
+        hold.allowed === true && hold.max_combined_kg != null ? formatKg(hold.max_combined_kg) + " kg max" :
+        "Verify with airline";
+      const holdDetail = !review ? "Hold pet acceptance not assessed" :
+        hold.allowed === false ? "Ordinary pets not accepted in checked hold" :
+        (hold.dimensions_cm ? "Crate up to " + hold.dimensions_cm.join(" × ") + " cm; " : "") +
+        "Operating flight and breed rules apply";
+      return '<article class="pvj-rule-card">' +
+        '<span class="pvj-rule-card-tag ' + (review ? '' : 'pvj-tag-unverified') + '">' + reviewLabel(a) + '</span>' +
+        '<div class="pvj-rule-card-name">' + safe(a.name) + '</div>' +
+        '<small class="pvj-card-code">' + safe(a.id) + '</small>' +
+        '<span class="pvj-card-region">' + safe(a.region) + '</span>' +
+        '<div class="pvj-card-mode">CABIN</div><div class="pvj-rule-card-unknown">' + safe(cabinText) + '</div>' +
+        '<div class="pvj-rule-card-dim">' + safe(cabinDetail) + '</div>' +
+        '<div class="pvj-card-hold"><div class="pvj-card-mode">CHECKED HOLD</div><strong>' +
+        safe(holdText) + '</strong><small>' + safe(holdDetail) + '</small></div>' +
+        '<div class="pvj-rule-card-note">' +
+        (review ? "Reference only — verify booking, route, animal breed and kennel with the operating carrier." :
+         "No airline pet policy has been checked for this listing. Unknown is not the same as allowed or prohibited.") +
+        '</div>' +
+        (review && a.source ? '<a href="' + safe(safeUrl(a.source)) +
+         '" target="_blank" rel="noopener noreferrer">Official policy ↗</a>' : '') +
+        '<a class="pvj-card-choose" href="#journey-lab" data-pvj-pick="' + safe(a.id) +
+        '">Select in Trip Checker ↗</a></article>';
+    }).join("") : '<p>No airlines matched these filters. Try another name, code or region.</p>';
+    ui.directoryMore.hidden = matches.length <= catalogLimit;
+    ui.directoryMore.textContent = "Show more airlines (" +
+      (matches.length - Math.min(matches.length,catalogLimit)) + " remaining) ↓";
   };
 
   const updatePreview = () => {
@@ -281,7 +342,10 @@
       ui.to.innerHTML = countryOptions;
       ui.from.value = "FR";
       ui.to.value = "ES";
-      ui.airline.innerHTML = data.airlines.map(a => '<option value="' + safe(a.id) + '">' + safe(a.name) + '</option>').join("");
+      ui.directoryRegion.innerHTML = '<option value="all">All regions</option>' +
+        [...new Set(data.airlines.map(a => a.region || "Other"))].sort().map(region =>
+          '<option value="' + safe(region) + '">' + safe(region) + '</option>').join("");
+      syncAirlinePicker(false);
       ui.airline.value = "VY";
       renderLibrary();
       updatePreview();
@@ -302,6 +366,35 @@
   form.querySelectorAll("select").forEach(el => {
     if (el === ui.from || el === ui.to) return;
     el.addEventListener("change", () => { if(policy) render(); });
+  });
+
+  ui.airlineSearch.addEventListener("input", () => {
+    syncAirlinePicker();
+    if (policy && ui.airline.value) render();
+    else if (policy) ui.results.textContent = "No matching airline. Search another name or IATA code.";
+  });
+  [ui.directorySearch,ui.directoryRegion,ui.directoryStatus].forEach(el => {
+    el.addEventListener(el === ui.directorySearch ? "input" : "change", () => {
+      catalogLimit = 24;
+      renderLibrary();
+    });
+  });
+  ui.directoryMore.addEventListener("click", () => {
+    catalogLimit += 24;
+    renderLibrary();
+  });
+  ui.ruleCards.addEventListener("click", event => {
+    const item = event.target.closest("[data-pvj-pick]");
+    if (!item) return;
+    const code = item.getAttribute("data-pvj-pick");
+    if (!policy?.airlines.some(a => a.id === code)) return;
+    ui.airlineSearch.value = "";
+    syncAirlinePicker(false);
+    ui.airline.value = code;
+    const air = form.querySelector('input[name="pvj-mode"][value="air"]');
+    if (air) air.checked = true;
+    updatePreview();
+    render();
   });
 
   init();
