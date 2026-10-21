@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-10-21",
+  "quality": "Manually reviewed official policy snapshot; not live inventory, guaranteed eligibility, or automated regulatory updates.",
+  "source_scope": "Non-commercial travel with personal dogs and cats, usual EU/GB routes. Exceptions and transit require official checks.",
+  "airlines": [
+    {
+      "id": "AF",
+      "name": "Air France",
+      "cabin_max_kg": 8,
+      "dimensions_cm": null,
+      "soft_carrier": true,
+      "cabin_only": false,
+      "reservation_required": true,
+      "source": "https://wwws.airfrance.fr/en/information/passagers/voyager-avec-son-animal-chien-chat",
+      "notes": "Air France may accept larger animals in the hold subject to restrictions, available space and route; cabin total of pet and carrier must not exceed 8 kg. Exact carrier dimensions and brachycephalic restrictions require airline confirmation."
+    },
+    {
+      "id": "VY",
+      "name": "Vueling",
+      "cabin_max_kg": 10,
+      "dimensions_cm": [
+        45,
+        39,
+        21
+      ],
+      "soft_carrier": true,
+      "cabin_only": true,
+      "reservation_required": true,
+      "source": "https://www.vueling.com/en/vueling-services/prepare-your-trip/pets-on-board",
+      "notes": "Pets are not transported in the hold. Cabin pet and carrier total max 10 kg; permitted species, operating route and remaining pet spaces must be confirmed."
+    },
+    {
+      "id": "HV",
+      "name": "Transavia",
+      "cabin_max_kg": 8,
+      "dimensions_cm": [
+        40,
+        30,
+        24
+      ],
+      "soft_carrier": true,
+      "cabin_only": false,
+      "reservation_required": true,
+      "source": "https://www.transavia.com/help/en-fr/children-pets-groups/pets-on-board/cabin",
+      "notes": "Cats and dogs in cabin; total max 8 kg. Short-nosed animals may be barred from the hold. Route/operating carrier and service availability require confirmation."
+    },
+    {
+      "id": "LH",
+      "name": "Lufthansa",
+      "cabin_max_kg": 8,
+      "dimensions_cm": [
+        55,
+        40,
+        23
+      ],
+      "soft_carrier": true,
+      "cabin_only": false,
+      "reservation_required": true,
+      "source": "https://www.lufthansa.com/ca/en/tiere-als-handgepaeck",
+      "notes": "Dogs and cats in cabin under specified conditions. Total pet and carrier max 8 kg, size 55 × 40 × 23 cm; advance registration and confirmation required."
+    }
+  ],
+  "countries": [
+    {
+      "code": "FR",
+      "name": "France",
+      "region": "EU"
+    },
+    {
+      "code": "ES",
+      "name": "Spain",
+      "region": "EU"
+    },
+    {
+      "code": "DE",
+      "name": "Germany",
+      "region": "EU"
+    },
+    {
+      "code": "IT",
+      "name": "Italy",
+      "region": "EU"
+    },
+    {
+      "code": "BE",
+      "name": "Belgium",
+      "region": "EU"
+    },
+    {
+      "code": "NL",
+      "name": "Netherlands",
+      "region": "EU"
+    },
+    {
+      "code": "AT",
+      "name": "Austria",
+      "region": "EU"
+    },
+    {
+      "code": "PT",
+      "name": "Portugal",
+      "region": "EU"
+    },
+    {
+      "code": "HU",
+      "name": "Hungary",
+      "region": "EU"
+    },
+    {
+      "code": "PL",
+      "name": "Poland",
+      "region": "EU"
+    },
+    {
+      "code": "CZ",
+      "name": "Czechia",
+      "region": "EU"
+    },
+    {
+      "code": "HR",
+      "name": "Croatia",
+      "region": "EU"
+    },
+    {
+      "code": "GR",
+      "name": "Greece",
+      "region": "EU"
+    },
+    {
+      "code": "FI",
+      "name": "Finland",
+      "region": "EU",
+      "dog_tapeworm_hours": [
+        24,
+        120
+      ]
+    },
+    {
+      "code": "IE",
+      "name": "Ireland",
+      "region": "EU",
+      "dog_tapeworm_hours": [
+        24,
+        120
+      ]
+    },
+    {
+      "code": "MT",
+      "name": "Malta",
+      "region": "EU",
+      "dog_tapeworm_hours": [
+        24,
+        120
+      ]
+    },
+    {
+      "code": "NO",
+      "name": "Norway",
+      "region": "EU-associated",
+      "dog_tapeworm_hours": [
+        24,
+        120
+      ]
+    },
+    {
+      "code": "CH",
+      "name": "Switzerland",
+      "region": "EU-associated"
+    },
+    {
+      "code": "GB",
+      "name": "Great Britain",
+      "region": "GB",
+      "dog_tapeworm_hours": [
+        24,
+        120
+      ]
+    }
+  ],
+  "official_sources": {
+    "eu": "https://europa.eu/youreurope/citizens/travel/carry/pets-and-other-animals/index_en.htm",
+    "eu_commission": "https://food.ec.europa.eu/animals/live-animal-movements/dogs-cats-and-ferrets/travelling-pet-within-eu_en",
+    "gb": "https://www.gov.uk/bring-pet-to-great-britain",
+    "gb_routes": "https://www.gov.uk/bring-pet-to-great-britain/travel-routes-pets",
+    "gb_documents": "https://www.gov.uk/bring-pet-to-great-britain/which-pet-travel-document"
+  },
+  "eu_requirements": {
+    "microchip": true,
+    "rabies": true,
+    "primary_rabies_wait_days": 21,
+    "eu_passport_for_eu_origin": true,
+    "tapeworm_dog_hours": [
+      24,
+      120
+    ]
+  }
+}
