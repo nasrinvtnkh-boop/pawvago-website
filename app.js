@@ -1030,6 +1030,8 @@ async function loadTravelData() {
     }
     airlineData = policy.airlines.map(a => ({
       name: a.name,
+      hold_policy: a.hold || null,
+      restricted_breeds: policy.brachycephalic_breeds || {},
       is_active: true,
       airline_rules: [{
         is_active: true,
@@ -1760,6 +1762,35 @@ function renderEngine() {
 
 
 
+
+  /* Source-reviewed checked-hold comparison for signed-in dashboard.
+     We cannot determine eligibility without crate weight, dimensions and
+     approval by the operating airline, so never mark this as compatible. */
+  const holdCards = airlineData.map(a => {
+    const h = a.hold_policy;
+    const br = String(pet?.breed || '').toLowerCase().replace(/[-_]/g, ' ');
+    const breedList = (a.restricted_breeds?.[String(pet?.species || 'dog').toLowerCase()] || []);
+    const snub = br && breedList.some(x => br.includes(String(x).toLowerCase().replace(/-/g, ' ')));
+    const gbArrival = ['great britain','united kingdom','uk','england','scotland','wales','london']
+      .includes(String(destination || '').trim().toLowerCase());
+    const rejected = gbArrival || !h?.allowed || (h?.snub_nosed_restricted && snub);
+    const label = gbArrival
+      ? 'GB arrival: air cargo normally required, not checked baggage'
+      : !h?.allowed ? 'Not offered by this airline'
+      : snub && h.snub_nosed_restricted ? 'This short-nosed breed is not accepted in the hold'
+      : 'Hold option listed — airline and crate verification required';
+    const source = /^https:\/\/[^\s]+$/i.test(h?.source || '') ? h.source : '';
+    return `<div class="pv-airline" style="min-width:0">
+      <strong>${escapeHtml(a.name)}</strong>
+      <p><span class="pv-pill ${rejected ? 'pv-bad' : 'pv-warn'}">${escapeHtml(label)}</span></p>
+      <div class="pv-muted">Pet: ${escapeHtml(String(pet?.name || 'your pet'))}, ${escapeHtml(String(petWeight() || '?'))} kg;
+      combined weight with rigid crate is not known.</div>
+      <div class="pv-muted">Hold published maximum: ${h?.max_combined_kg ? escapeHtml(h.max_combined_kg) + ' kg including crate' : h?.allowed ? 'confirm with airline' : 'n/a'}</div>
+      <div class="pv-muted">IATA-style rigid transport crate and breed / route acceptance must be confirmed.</div>
+      ${source ? `<a href="${escapeHtml(source)}" target="_blank" rel="noopener noreferrer">Official checked-hold policy →</a>` : ''}
+    </div>`;
+  }).join('');
+
   /* DOCUMENTS */
 
   const documents =
@@ -1944,6 +1975,13 @@ function renderEngine() {
 
       </div>
 
+
+      <div class="pv-card">
+        <h3>Travel in the aircraft hold (checked pet baggage)</h3>
+        <p class="pv-muted">Hold (AVIH) is separate from air cargo/freight. The options below are policy references only, not confirmed travel bookings. Short-nosed breeds and connections can be restricted.</p>
+        <div class="pv-grid">${holdCards}</div>
+        <p class="pv-muted">For a detailed check including crate dimensions and weight, use the Trip Checker on the landing page and select Hold or Cargo.</p>
+      </div>
 
       <div class="pv-card">
 
