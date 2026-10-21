@@ -115,7 +115,7 @@
         (review && a.source ? '<a href="' + safe(safeUrl(a.source)) +
          '" target="_blank" rel="noopener noreferrer">Official policy ↗</a>' : '') +
         '<a class="pvj-card-choose" href="#journey-lab" data-pvj-pick="' + safe(a.id) +
-        '">Select in Trip Checker ↗</a></article>';
+        '">Compare automatically ↗</a></article>';
     }).join("") : '<p>No airlines matched these filters. Try another name, code or region.</p>';
     ui.directoryMore.hidden = matches.length <= catalogLimit;
     ui.directoryMore.textContent = "Show more airlines (" +
@@ -166,6 +166,12 @@
     const crateDimsComplete = crateRaw.every(v => String(v).trim() !== "");
     const crateDimsPartial = crateRaw.some(v => String(v).trim() !== "") && !crateDimsComplete;
     const crateDims = crateDimsComplete ? crateRaw.map(Number) : null;
+    const invalidDimensions = (dims && dims.some(x => !Number.isFinite(x) || x <= 0)) ||
+      (crateDims && crateDims.some(x => !Number.isFinite(x) || x <= 0));
+    if ((crateKg !== null && (!Number.isFinite(crateKg) || crateKg <= 0)) || invalidDimensions) {
+      ui.results.innerHTML = '<p class="pvj-result-placeholder">Enter positive, valid weights and dimensions to compare airline rules.</p>';
+      return;
+    }
     updatePreview();
 
     const source = to.region === "GB" ? policy.official_sources.gb : policy.official_sources.eu;
@@ -202,8 +208,8 @@
     const startDate = new Date(ui.date.value + "T12:00:00");
     if ((startDate.getTime() - Date.now()) / 86400000 < 21)
       notes.push("If this is a primary rabies vaccination, the minimum 21-day waiting period may affect this departure date.");
-    if (to.region === "GB")
-      notes.push("Great Britain requires an approved route; pets on ordinary commercial flights into GB normally travel as cargo rather than in cabin.");
+    if (to.region === "GB" && from.region !== "GB")
+      notes.push("Great Britain requires an approved air route; ordinary pets entering GB on commercial flights normally travel as cargo, not passenger cabin or checked hold baggage.");
     if (mode === "air") {
       notes.push("Flight eligibility, route acceptance and pet-space availability are NOT checked or reserved by this tool.");
       if (placement === "hold") notes.push("Checked-hold transport (AVIH) is different from a separate cargo shipment. Confirm the kennel is ventilated, safe and large enough for your pet to stand, turn and lie down.");
