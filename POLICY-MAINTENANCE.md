@@ -27,3 +27,12 @@ Future production integrations: licensed rules data/API, review audit trail per 
 - The passenger trip checker includes all catalogue names, but never evaluates pet or kennel eligibility for an unreviewed airline.
 - Signed-in dashboard screens only source-reviewed carriers to avoid creating hundreds of unverified recommendation cards.
 - Add future airlines and source URLs only after checking operator identity and official policy. A valid carrier name or IATA code alone is not proof that airline transports pets.
+
+## Automatic cabin / checked-hold airline matcher
+- The Trip Checker evaluates all source-reviewed airlines when **Air** is selected, without manually selecting a carrier.
+- `airline-matcher.js` compares pet + cabin bag weight, separate rigid crate weight, dimensions, breed/snub-nosed restrictions, GB inbound rules and known airline exceptions.
+- The **Auto** default compares cabin and checked hold; optional Cabin / Hold / Cargo refinements are available.
+- Unverified airline policies are excluded from recommended results, and listed counts are visible.
+- **Preliminary policy match**, **Needs more checks** and **Policy mismatch** are NOT confirmed airline routes, scheduled flights, flight/pet inventory, bookings, kennel safety, veterinary clearance or prices.
+- Cabin bags and rigid hold crates have separate weight and dimension fields.
+- The source snapshot is reviewed manually, and daily monitoring does not guarantee current legal compliance.
