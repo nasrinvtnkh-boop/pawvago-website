@@ -1017,6 +1017,75 @@ async function loadTravelData() {
   } else {
     serviceData = servicesResult.data || [];
   }
+
+  /* Official-source snapshot is authoritative for supported EU/GB scenarios.
+     Legacy Supabase airline rows may be outdated; do not silently use stale
+     weight/dimension values in a travel eligibility decision. */
+  try {
+    const response = await fetch('/data/pet-policy-snapshot.json', { cache: 'no-store' });
+    if (!response.ok) throw new Error('Official policy reference not available');
+    const policy = await response.json();
+    if (!Array.isArray(policy.airlines) || !Array.isArray(policy.countries)) {
+      throw new Error('Invalid official policy reference');
+    }
+    airlineData = policy.airlines.map(a => ({
+      name: a.name,
+      is_active: true,
+      airline_rules: [{
+        is_active: true,
+        cabin_allowed: true,
+        max_combined_weight_kg: a.cabin_max_kg,
+        carrier_length_cm: a.dimensions_cm?.[0] ?? null,
+        carrier_width_cm: a.dimensions_cm?.[1] ?? null,
+        carrier_height_cm: a.dimensions_cm?.[2] ?? null,
+        carrier_type: a.soft_carrier ? 'Soft-sided carrier' : '',
+        requires_reservation: a.reservation_required,
+        route_restrictions: 'Exact flight, operating carrier and pet-space acceptance must be confirmed',
+        rule_description: 'Official-source policy snapshot reviewed ' + policy.reviewed_on +
+          '. This does not confirm flight availability, route acceptance or booking.',
+        source_url: a.source
+      }]
+    }));
+
+    const originCountry = countryFromDestination(trip.from) ||
+      trip.origin_country || null;
+    const originCode = countryCode(originCountry);
+    const origin = policy.countries.find(c => c.code === originCode);
+    const destination = policy.countries.find(c => c.code === destinationCode);
+    const validIntraEurope = !!origin && !!destination &&
+      (origin.region === 'EU' || origin.region === 'EU-associated') &&
+      (destination.region === 'EU' || destination.region === 'EU-associated');
+    const validGbArrival = !!origin && !!destination &&
+      (origin.region === 'EU' || origin.region === 'EU-associated') &&
+      destination.region === 'GB';
+
+    if (validIntraEurope || validGbArrival) {
+      const dog = String(pet?.species || 'Dog').toLowerCase() === 'dog';
+      countryRuleData = [{
+        is_active: true,
+        country_code: destinationCode,
+        country_name: destination.name,
+        requires_microchip: true,
+        requires_rabies: true,
+        rabies_waiting_days: 21,
+        requires_eu_pet_passport: true,
+        requires_health_certificate: false,
+        requires_rabies_titre: false,
+        requires_deworming: dog && !!destination.dog_tapeworm_hours,
+        deworming_min_hours: destination.dog_tapeworm_hours?.[0] ?? null,
+        deworming_max_hours: destination.dog_tapeworm_hours?.[1] ?? null,
+        source_url: validGbArrival ? policy.official_sources.gb : policy.official_sources.eu,
+        notes: 'Reviewed ' + policy.reviewed_on + '; confirm exceptions and applicable transit/route restrictions.'
+      }];
+    } else {
+      // Unknown/non-EU corridor: no generalised compliance determination.
+      countryRuleData = [];
+    }
+  } catch (error) {
+    console.error('Source-reviewed pet rules unavailable:', error);
+    airlineData = [];
+    countryRuleData = [];
+  }
 }
 
 /* =========================================================
