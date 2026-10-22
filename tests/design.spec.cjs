@@ -83,3 +83,37 @@ test('save preview screenshots at desktop and mobile sizes', async ({ browser })
     await page.close();
   }
 });
+
+test('scroll line advances and back-to-top returns to beginning', async ({ page }) => {
+  await page.goto('/');
+  const progress = page.locator('.pv-scroll-guide');
+  const top = page.getByRole('button',{name:'Back to top of page'});
+  await expect(progress).toBeVisible();
+  await expect(top).toBeHidden();
+  await page.evaluate(() => window.scrollTo(0, Math.max(1000, document.documentElement.scrollHeight * .5)));
+  await expect(top).toBeVisible();
+  const ratio = await progress.evaluate(el => {
+    const transform = getComputedStyle(el).transform;
+    return Number(transform.match(/^matrix\(([^,]+)/)?.[1] || 0);
+  });
+  expect(ratio).toBeGreaterThan(.12);
+  await top.click();
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(30);
+});
+
+test('trip planner scrolls into view with graceful reveal', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('#journey-lab').scrollIntoViewIfNeeded();
+  await expect(page.locator('.pvj-shell')).toHaveClass(/pv-reveal/);
+  await expect(page.locator('.pvj-shell')).toHaveClass(/pv-visible/);
+  await expect(page.locator('#pvj-heading')).toBeVisible();
+});
+
+test('reduced-motion visitors get the full content without animated progress', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion:'reduce' });
+  await page.goto('/');
+  await expect(page.locator('.pv-scroll-guide')).toBeHidden();
+  expect(await page.locator('.pv-reveal').count()).toBe(0);
+  await page.locator('#journey-lab').scrollIntoViewIfNeeded();
+  await expect(page.locator('.pvj-shell')).toBeVisible();
+});
