@@ -88,10 +88,11 @@ test('scroll line advances and back-to-top returns to beginning', async ({ page 
   await page.goto('/');
   const progress = page.locator('.pv-scroll-guide');
   const top = page.getByRole('button',{name:'Back to top of page'});
-  await expect(progress).toBeVisible();
+  await expect(progress).toHaveCount(1);
   await expect(top).toBeHidden();
   await page.evaluate(() => window.scrollTo(0, Math.max(1000, document.documentElement.scrollHeight * .5)));
   await expect(top).toBeVisible();
+  await expect(progress).toBeVisible();
   const ratio = await progress.evaluate(el => {
     const transform = getComputedStyle(el).transform;
     return Number(transform.match(/^matrix\(([^,]+)/)?.[1] || 0);
