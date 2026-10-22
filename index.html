@@ -20,12 +20,43 @@
 <body>
   <header class="site-nav">
     <a class="brand" href="#top" aria-label="PawVago"><img class="brand-mark" src="assets/logo.svg" alt="" width="50" height="42"><span class="brand-wordmark"><span>Paw</span><b>Vago</b></span></a>
-    <nav class="desktop-nav"><a href="#journey-lab">Trip checker</a><a href="#how">How it works</a><a href="#features">Features</a><a href="#preview">Product</a><a href="#mobile-app">Mobile app</a><a href="#vision">Vision</a><a href="#contact">Contact</a></nav>
+    <nav class="desktop-nav"><a href="#journey-lab">Trip checker</a><a href="#how">How it works</a><a href="#features">Features</a><a href="#preview">Product</a><a href="#mobile-app">Mobile app</a><a href="#vision">Vision</a><a href="#beta">Join beta</a><a href="#contact">Contact</a></nav>
     <div id="authActions" class="auth-actions"><button class="nav-link-btn" id="loginBtn">Log in</button><button class="nav-cta" id="signupBtn">Get started</button></div>
   </header>
   <main id="top">
     <section id="homeView" class="view active">
       <section class="hero"><div class="hero-copy"><div class="eyebrow"><span class="eyebrow-dot"></span> Pet travel, reimagined</div><h1>The smarter way<br>to <span>travel with your pet.</span></h1><p class="hero-lead">PawVago uses AI and structured travel rules to turn a complicated pet journey into one clear, personalized plan.</p><div class="hero-actions"><button class="primary-btn" id="heroSignup">Plan your pet's trip <b>→</b></button><button class="secondary-btn" id="heroDemo" type="button" aria-haspopup="dialog" aria-controls="pvDemoOverlay">Watch demo <span>▶</span></button></div><div class="hero-trust"><span>✓</span> AI-powered guidance <span>✓</span> Up-to-date rules <span>✓</span> Built for real pet owners</div></div><div class="hero-stage"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="hero-panel"><div class="hero-panel-top"><span>PAWVAGO TRIP INTELLIGENCE</span><span class="hero-live"><i></i> DEMO</span></div><div class="journey-route"><div class="journey-place"><small>FROM</small><strong>Nantes</strong><span>France</span></div><div class="journey-path"><span class="route-dot"></span><div class="route-dash"></div><b>✈</b><div class="route-dash"></div><span class="route-dot"></span></div><div class="journey-place right"><small>TO</small><strong>Barcelona</strong><span>Spain</span></div></div><div class="journey-date"><span>31 OCT 2026</span><span>International pet journey</span></div><div class="hero-insights"><div class="insight-card"><div class="insight-icon pet-icon">🐾</div><div><small>PET PROFILE</small><strong>Titi · Shih Tzu</strong><span>8 kg · Ready to plan</span></div><b class="insight-check">✓</b></div><div class="insight-card"><div class="insight-icon airline-icon">✈</div><div><small>AIRLINE CHECK</small><strong>Cabin compatibility</strong><span>Example only · check live operator policy</span></div><b class="insight-arrow">→</b></div><div class="insight-card"><div class="insight-icon docs-icon">▣</div><div><small>DOCUMENTS</small><strong>3 key requirements</strong><span>Microchip · rabies · passport</span></div><b class="insight-check">✓</b></div></div><div class="hero-panel-footer"><span><i></i> Demo route · verify official requirements</span><span>Personalized for Titi</span></div></div></div></section>
+      
+      <!-- Email-first beta interest: verified with a Supabase magic link. -->
+      <section class="beta-section" id="beta" aria-labelledby="beta-heading">
+        <div class="beta-shell">
+          <div class="beta-copy">
+            <div class="eyebrow">PAWVAGO / PRIVATE BETA</div>
+            <h2 id="beta-heading">Travel with your pet?<br><span>Help shape what comes next.</span></h2>
+            <p>We are inviting dog and cat owners who plan to travel to test PawVago before the public mobile release. Get early access, share feedback, and help make pet travel less complicated.</p>
+            <div class="beta-highlights">
+              <span>✓ Free to join</span>
+              <span>✓ Real pet travel scenarios</span>
+              <span>✓ No app download required yet</span>
+            </div>
+          </div>
+          <div class="beta-form-panel">
+            <h3>Request early access</h3>
+            <p class="beta-form-intro">Join with your email. We will send you a verification link to confirm your request.</p>
+            <form id="betaForm" class="beta-form">
+              <label for="betaEmail">Email address</label>
+              <input id="betaEmail" name="email" type="email" maxlength="254" autocomplete="email" placeholder="you@example.com" required>
+              <label class="beta-consent" for="betaConsent">
+                <input id="betaConsent" type="checkbox" required>
+                <span>I agree to receive emails about PawVago beta access and testing. I can withdraw at any time.</span>
+              </label>
+              <button class="primary-btn beta-submit" type="submit">Join the beta <span aria-hidden="true">→</span></button>
+              <p id="betaNotice" class="beta-notice" role="status" aria-live="polite"></p>
+            </form>
+            <p class="beta-privacy">Your email is used for your early-access request and account verification, not sold to advertisers. To ask about your data or withdraw, email <a href="mailto:contact@pawvago.com?subject=Beta%20access%20privacy%20request">contact@pawvago.com</a>.</p>
+          </div>
+        </div>
+      </section>
       <section class="proof-strip"><div><span>01</span><strong>Airline rules</strong><small>Route-specific requirements</small></div><div><span>02</span><strong>Travel documents</strong><small>Step-by-step checklist</small></div><div><span>03</span><strong>Pet-friendly places</strong><small>Vets, sitters, hotels, shops</small></div><div><span>04</span><strong>Pet community</strong><small>Connect with fellow travellers</small></div></section>
 
       <!-- Source-backed interactive journey and policy explorer -->
@@ -174,7 +205,7 @@
         </div>
       </section>
       <section class="vision-section" id="vision"><div class="vision-inner"><div class="eyebrow light">04 / The vision</div><h2>Because a pet is not<br><span>extra baggage.</span></h2><p>PawVago is building the operating layer for pet travel — connecting compliance, planning, destination services and the people who make every journey possible.</p><div class="vision-pills"><span>Smart planning</span><span>Global rules</span><span>Local services</span><span>Pet community</span></div></div></section>
-      <section class="final-cta"><div><div class="eyebrow">Early access</div><h2>Make pet travel<br><span>simpler.</span></h2><p>Explore the PawVago product and follow the journey from preparation to destination.</p></div><button class="primary-btn" id="footerSignup" onclick="auth('signup')">Get started <b>→</b></button></section>
+      <section class="final-cta"><div><div class="eyebrow">Early access</div><h2>Make pet travel<br><span>simpler.</span></h2><p>Explore the PawVago product and follow the journey from preparation to destination.</p></div><a class="primary-btn" href="#beta">Request early access <b>→</b></a></section>
       <section class="contact-section" id="contact" aria-labelledby="contact-title">
         <div class="contact-card">
           <div class="contact-copy">
@@ -193,5 +224,5 @@
   </main>
   <div class="modal hidden" id="authModal"><div class="modal-box"><button class="modal-close" id="closeModal">×</button><div class="eyebrow">PAWVAGO ACCOUNT</div><h2 id="authTitle">Create your account</h2><p id="authSubtitle">Start building your pet travel plan.</p><form id="authForm"><label>Email<input id="email" type="email" required autocomplete="email"></label><label>Password<input id="password" type="password" required minlength="6" autocomplete="current-password"></label><button class="primary-btn full" id="authSubmit" type="submit">Create account</button><div id="authNotice" class="notice"></div></form><button class="switch-btn" id="switchAuth" type="button">Already have an account? Log in</button></div></div>
   <div class="modal hidden" id="petModal"><div class="modal-box"><button class="modal-close" id="closePet">×</button><div class="eyebrow">PET PROFILE</div><h2>Add your travel companion</h2><form id="petForm"><label>Pet name<input id="petName" required></label><div class="form-row"><label>Species<select id="species"><option>Dog</option><option>Cat</option><option>Other</option></select></label><label>Weight (kg)<input id="weight" type="number" step="0.1" required></label></div><label>Breed<input id="breed"></label><button class="primary-btn full" type="submit">Save pet profile</button></form></div></div>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="app.js"></script><script src="ui-fixes.js"></script><script src="mobile-preview.js" defer></script><script src="motion.js" defer></script><script src="airline-matcher.js" defer></script><script src="journey.js" defer></script><script src="demo.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="app.js"></script><script src="ui-fixes.js"></script><script src="mobile-preview.js" defer></script><script src="motion.js" defer></script><script src="airline-matcher.js" defer></script><script src="journey.js" defer></script><script src="demo.js" defer></script><script src="beta.js" defer></script>
 </body></html>
