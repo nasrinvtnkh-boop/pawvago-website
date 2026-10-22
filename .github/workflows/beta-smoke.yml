@@ -55,6 +55,4 @@ jobs:
             sleep 1
           done
       - name: Exercise beta signup in Chromium
-        env:
-          PLAYWRIGHT_BROWSERS_PATH: ~/.cache/ms-playwright
         run: npx playwright test tests/beta.spec.cjs --project=chromium --workers=1
