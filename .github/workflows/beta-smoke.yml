@@ -6,6 +6,7 @@ on:
       - 'index.html'
       - 'styles.css'
       - 'BETA-LAUNCH-PLAN.md'
+      - 'tests/beta.spec.cjs'
       - '.github/workflows/beta-smoke.yml'
   workflow_dispatch:
 
@@ -13,8 +14,9 @@ permissions:
   contents: read
 
 jobs:
-  syntax-and-funnel:
+  syntax-and-browser:
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -40,3 +42,19 @@ jobs:
           assert(css.includes('.beta-shell'), 'Missing beta styles');
           console.log('Beta funnel wiring checks passed.');
           NODE
+      - name: Install browser test dependencies
+        run: |
+          npm install --no-save @playwright/test@1.57.0
+          npx playwright install --with-deps chromium
+      - name: Start site locally
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/pawvago-http.log 2>&1 &
+          echo $! > /tmp/pawvago-http.pid
+          for i in 1 2 3 4 5; do
+            if curl --fail --silent http://127.0.0.1:8765/ >/dev/null; then break; fi
+            sleep 1
+          done
+      - name: Exercise beta signup in Chromium
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: ~/.cache/ms-playwright
+        run: npx playwright test tests/beta.spec.cjs --project=chromium --workers=1
