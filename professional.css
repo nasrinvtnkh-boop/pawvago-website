@@ -337,7 +337,6 @@ input, select, textarea { max-width: 100%; }
   #homeView .pv-reveal.pv-visible {
     opacity: 1;
     transform: translate3d(0,0,0) scale(1);
-    transition-delay: 0ms;
     will-change: auto;
   }
   #homeView .hero-inline-link span { display: inline-block; transition: transform .24s ease; }
