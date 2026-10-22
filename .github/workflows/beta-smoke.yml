@@ -1,0 +1,42 @@
+name: Beta signup smoke test
+on:
+  pull_request:
+    paths:
+      - 'beta.js'
+      - 'index.html'
+      - 'styles.css'
+      - 'BETA-LAUNCH-PLAN.md'
+      - '.github/workflows/beta-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  syntax-and-funnel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check client script syntax
+        run: node --check beta.js
+      - name: Verify opt-in funnel wiring
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const assert = require('node:assert/strict');
+          const html = fs.readFileSync('index.html', 'utf8');
+          const js = fs.readFileSync('beta.js', 'utf8');
+          const css = fs.readFileSync('styles.css', 'utf8');
+          for (const id of ['beta', 'betaForm', 'betaEmail', 'betaConsent', 'betaNotice']) {
+            assert(html.includes('id="' + id + '"'), 'Missing ' + id);
+          }
+          assert(html.includes('src="beta.js"'), 'Missing script link');
+          assert(html.includes('href="#beta"'), 'Missing CTA link');
+          assert(js.includes('signInWithOtp'), 'Missing magic link sign-in');
+          assert(js.includes('consentField.checked'), 'Missing explicit opt-in');
+          assert(css.includes('.beta-shell'), 'Missing beta styles');
+          console.log('Beta funnel wiring checks passed.');
+          NODE
