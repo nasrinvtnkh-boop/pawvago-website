@@ -2,6 +2,7 @@ const { test, expect } = require('@playwright/test');
 
 const fakeSupabase = `
 window.__betaCalls = [];
+window.__betaSubscriptions = [];
 window.__betaSession = null;
 window.__betaOtpError = null;
 window.supabase = {
@@ -9,7 +10,10 @@ window.supabase = {
     return {
       auth: {
         getSession: async () => ({ data: { session: window.__betaSession }, error: null }),
-        onAuthStateChange: () => ({ data: { subscription: { unsubscribe() {} } } }),
+        onAuthStateChange: callback => {
+          window.__betaSubscriptions.push(callback);
+          return { data: { subscription: { unsubscribe() {} } } };
+        },
         signInWithOtp: async (options) => {
           window.__betaCalls.push({ kind: 'otp', options });
           return window.__betaOtpError
@@ -88,4 +92,39 @@ test('mobile beta form stays inside viewport', async ({ browser }) => {
   expect(box.x).toBeGreaterThanOrEqual(0);
   expect(box.x + box.width).toBeLessThanOrEqual(391);
   await page.close();
+});
+
+test('logged-in user can opt in without sending an OTP', async ({ page }) => {
+  await page.goto('/?utm_source=youtube#beta');
+  await page.evaluate(() => {
+    window.__betaSession = { user: { email: 'member@example.com', user_metadata: {} } };
+  });
+  await page.locator('#betaEmail').fill('member@example.com');
+  await page.locator('#betaConsent').check();
+  await page.locator('#betaForm button[type=submit]').click();
+  await expect(page.locator('#betaNotice')).toContainText('You are on the beta interest list');
+  const calls = await page.evaluate(() => window.__betaCalls);
+  expect(calls).toHaveLength(1);
+  expect(calls[0].kind).toBe('update');
+  expect(calls[0].options.data.pawvago_beta_source).toBe('youtube');
+});
+
+test('confirmed magic-link session records verified beta interest', async ({ page }) => {
+  await page.goto('/?beta=confirmed#beta');
+  await page.evaluate(() => {
+    const callback = window.__betaSubscriptions.at(-1);
+    if (!callback) throw new Error('Beta auth confirmation handler was not registered');
+    callback('SIGNED_IN', {
+      user: {
+        email: 'confirmed@example.com',
+        user_metadata: { pawvago_beta_source: 'instagram' }
+      }
+    });
+  });
+  await expect(page.locator('#betaNotice')).toContainText('Email confirmed');
+  const calls = await page.evaluate(() => window.__betaCalls);
+  expect(calls.filter(x => x.kind === 'update')).toHaveLength(1);
+  expect(calls[0].options.data.pawvago_beta_source).toBe('instagram');
+  await expect(page).toHaveURL(/#beta$/);
+  expect(new URL(page.url()).searchParams.has('beta')).toBe(false);
 });
