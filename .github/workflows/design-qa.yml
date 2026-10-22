@@ -1,0 +1,37 @@
+name: PawVago visual and UX QA
+on:
+  pull_request:
+    paths: ['index.html','professional.css','tests/**','playwright.config.cjs','.github/workflows/design-qa.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  visual-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser test dependencies
+        run: |
+          npm install --no-save @playwright/test@1.57.0
+          npx playwright install --with-deps chromium
+      - name: Start local landing page
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/pawvago-site.log 2>&1 &
+          for i in 1 2 3 4 5; do
+            if curl --fail --silent http://127.0.0.1:8765/ >/dev/null; then break; fi
+            sleep 1
+          done
+      - name: Run conversion, mobile and SEO checks
+        run: npx playwright test --project=chromium --workers=1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pawvago-design-preview
+          path: |
+            qa-desktop.png
+            qa-mobile.png
+          if-no-files-found: ignore
