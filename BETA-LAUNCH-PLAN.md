@@ -8,9 +8,9 @@ This feature branch adds an **email-first opt-in beta registration** flow to the
 
 1. In Supabase Authentication → URL Configuration, confirm Site URL and Redirect URLs include the production domain with `?beta=confirmed` links. Configure the site's canonical origin and permitted redirect patterns. Sign-in link delivery may redirect incorrectly without this.
 2. In Supabase Authentication → Providers, confirm Email / OTP login is enabled and verify transactional email capacity/provider settings. Supabase's default email delivery may have tight rate limits; move to verified SMTP before promoting widely.
-3. Test: unregistered email → magic-link email arrives → clicking link verifies session → beta interest metadata in Authentication Users is true. Do not assume tested until this is completed with a consented test address.
+3. Test: unregistered email → magic-link email arrives → clicking link verifies session → beta interest metadata in Authentication Users is true. Count only users with confirmed email addresses as verified opt-ins. Do not assume tested until this is completed with a consented test address.
 4. Test: logged-in user beta form, invalid email, consent unchecked, offline/error case, mobile layout, existing email address, and multiple sign-up attempts; verify no duplicates.
-5. Verify that `contact@pawvago.com` receives messages and that privacy information (controller/contact, purpose, retention period, deletion/withdrawal process, rights, relevant hosting) is sufficient under GDPR before real promotion. Never claim the service is already published on App Store or Google Play.
+5. Enable CAPTCHA and abuse/rate-limit controls before promoting publicly. Verify that `contact@pawvago.com` receives messages and that privacy information (controller/contact, purpose, retention period, deletion/withdrawal process, rights, relevant hosting) is sufficient under GDPR before real promotion. Never claim the service is already published on App Store or Google Play.
 6. Ensure the website product claims about travel-policy freshness are reviewed; the page explicitly warns users to verify official rules and carrier restrictions.
 
 ## How interest is recorded
@@ -32,6 +32,7 @@ select
   raw_user_meta_data ->> 'pawvago_beta_source' as beta_source
 from auth.users
 where raw_user_meta_data ->> 'pawvago_beta_interested' = 'true'
+  and email_confirmed_at is not null
 order by created_at desc;
 ```
 
