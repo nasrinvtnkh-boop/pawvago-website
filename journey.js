@@ -58,7 +58,7 @@
   };
   let policy = null;
 
-  let catalogLimit = 24;
+  let catalogLimit = Number.POSITIVE_INFINITY;
   const policyReviewed = a => a.policy_status === "reviewed";
   const reviewLabel = a => policyReviewed(a) ? "Source-reviewed reference" : "Policy not yet verified";
   const renderLibrary = () => {
@@ -371,7 +371,7 @@
     el.addEventListener("change",rerender));
   [ui.directorySearch,ui.directoryRegion,ui.directoryStatus].forEach(el => {
     el.addEventListener(el === ui.directorySearch ? "input" : "change", () => {
-      catalogLimit = 24;
+      catalogLimit = Number.POSITIVE_INFINITY;
       renderLibrary();
     });
   });
