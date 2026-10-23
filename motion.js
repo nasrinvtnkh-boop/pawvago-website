@@ -6,6 +6,34 @@
   const nav = header?.querySelector(".desktop-nav");
   if (!home || !header) return;
 
+  // Deep links continue to work even though the long travel tool is closed by default.
+  const travelTools = document.getElementById("travel-tools");
+  if (travelTools) {
+    const summary = travelTools.querySelector("summary");
+    const showHashTarget = () => {
+      const hash = window.location.hash.slice(1);
+      if (!hash) return;
+      const target = document.getElementById(hash);
+      if (!target || !travelTools.contains(target) || target === travelTools) return;
+      if (!travelTools.open) travelTools.open = true;
+      window.requestAnimationFrame(() => {
+        target.scrollIntoView({ behavior: "instant", block: "start" });
+      });
+    };
+    window.addEventListener("hashchange", showHashTarget);
+    showHashTarget();
+
+    const closeButton = travelTools.querySelector(".pvj-explorer-close");
+    closeButton?.addEventListener("click", () => {
+      travelTools.open = false;
+      summary?.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+        block: "start"
+      });
+      summary?.focus({ preventScroll: true });
+    });
+  }
+
   const updateHeader = () => header.classList.toggle("pv-scrolled", window.scrollY > 12);
   updateHeader();
   window.addEventListener("scroll", updateHeader, { passive: true });
