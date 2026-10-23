@@ -153,3 +153,17 @@ test('reduced-motion visitors get the full content without animated progress', a
   await expect(page.locator('#travel-tools')).toHaveAttribute('open', '');
   await expect(page.locator('.pvj-shell')).toBeVisible();
 });
+
+test('airline catalogue loads and KLM can be found', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('.pvj-explorer-trigger').click();
+  await page.locator('.pvj-airline-summary').click();
+  await expect(page.locator('#pvj-audit')).not.toContainText('Policy data unavailable', {timeout:15000});
+  const search = page.locator('#pvj-directory-search');
+  await search.fill('KLM');
+  await expect(page.locator('#pvj-rule-cards')).toContainText('KLM', {timeout:15000});
+  await expect(page.locator('#pvj-rule-cards')).not.toContainText('Official-source reference data could not be loaded');
+  await search.fill('');
+  await expect(page.locator('.pvj-rule-card')).toHaveCount(164);
+  await expect(page.locator('#pvj-directory-count')).toContainText('Showing 164 of 164');
+});

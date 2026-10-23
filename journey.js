@@ -58,7 +58,7 @@
   };
   let policy = null;
 
-  let catalogLimit = 24;
+  let catalogLimit = Number.POSITIVE_INFINITY;
   const policyReviewed = a => a.policy_status === "reviewed";
   const reviewLabel = a => policyReviewed(a) ? "Source-reviewed reference" : "Policy not yet verified";
   const renderLibrary = () => {
@@ -311,9 +311,24 @@
 
   async function init() {
     try {
-      const response = await fetch("/data/pet-policy-snapshot.json", {cache:"no-store"});
-      if (!response.ok) throw new Error("Policy data unavailable");
-      const data = await response.json();
+      // Relative URL works both at a domain root and under a Vercel preview path.
+      // If an edge rewrite returns HTML instead of JSON, try the bundled snapshot.
+      const urls = ["data/pet-policy-snapshot.json", "https://raw.githubusercontent.com/nasrinvtnkh-boop/pawvago-website/main/data/pet-policy-snapshot.json"];
+      let data = null, lastError = null;
+      for (const url of urls) {
+        try {
+          const response = await fetch(url, { cache: "no-store" });
+          if (!response.ok) throw new Error("Policy snapshot HTTP " + response.status);
+          const candidate = await response.json();
+          if (!Array.isArray(candidate?.airlines) || !Array.isArray(candidate?.countries) ||
+              !candidate.airlines.length || !candidate.countries.length ||
+              !candidate.reviewed_on || !candidate.official_sources?.eu)
+            throw new Error("Policy snapshot invalid");
+          data = candidate;
+          break;
+        } catch (error) { lastError = error; }
+      }
+      if (!data) throw lastError || new Error("Policy data unavailable");
       if (!data?.countries?.length || !data?.airlines?.length || !data.reviewed_on || !data.official_sources?.eu)
         throw new Error("Policy data invalid");
       policy = data;
@@ -356,7 +371,7 @@
     el.addEventListener("change",rerender));
   [ui.directorySearch,ui.directoryRegion,ui.directoryStatus].forEach(el => {
     el.addEventListener(el === ui.directorySearch ? "input" : "change", () => {
-      catalogLimit = 24;
+      catalogLimit = Number.POSITIVE_INFINITY;
       renderLibrary();
     });
   });
