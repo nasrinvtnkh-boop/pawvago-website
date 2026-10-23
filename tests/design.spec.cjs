@@ -23,6 +23,7 @@ test('navigation and on-page anchors work', async ({ page }) => {
   }
   await page.locator('a.hero-inline-link').click();
   await expect(page).toHaveURL(/#journey-lab$/);
+  await expect(page.locator('#travel-tools')).toHaveAttribute('open', '');
   await expect(page.locator('#pvj-heading')).toBeVisible();
 });
 
@@ -102,12 +103,39 @@ test('scroll line advances and back-to-top returns to beginning', async ({ page 
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(30);
 });
 
-test('trip planner scrolls into view with graceful reveal', async ({ page }) => {
+test('trip planner expands only on demand and retains graceful reveal', async ({ page }) => {
   await page.goto('/');
+  const drawer = page.locator('#travel-tools');
+  await expect(drawer).not.toHaveAttribute('open', '');
+  await expect(page.locator('#pvj-heading')).toBeHidden();
+  await expect(page.locator('#pvj-directory-search')).toBeHidden();
+  await page.locator('.pvj-explorer-trigger').click();
+  await expect(drawer).toHaveAttribute('open', '');
   await page.locator('#journey-lab').scrollIntoViewIfNeeded();
   await expect(page.locator('.pvj-shell')).toHaveClass(/pv-reveal/);
   await expect(page.locator('.pvj-shell')).toHaveClass(/pv-visible/);
   await expect(page.locator('#pvj-heading')).toBeVisible();
+  await expect(page.locator('#pvj-directory-search')).toBeAttached();
+  await page.locator('.pvj-explorer-close').click();
+  await expect(drawer).not.toHaveAttribute('open', '');
+  await expect(page.locator('#pvj-heading')).toBeHidden();
+});
+test('deep links open the collapsed travel checker', async ({ page }) => {
+  await page.goto('/#policy-library');
+  await expect(page.locator('#travel-tools')).toHaveAttribute('open', '');
+  await expect(page.locator('#pvj-directory-search')).toBeVisible();
+  await page.goto('/#travel-faq');
+  await expect(page.locator('#travel-tools')).toHaveAttribute('open', '');
+  await expect(page.locator('#pvj-faq-title')).toBeVisible();
+});
+test('keyboard visitors can open and close travel tools', async ({ page }) => {
+  await page.goto('/');
+  const drawer = page.locator('#travel-tools');
+  await page.locator('.pvj-explorer-trigger').focus();
+  await page.keyboard.press('Enter');
+  await expect(drawer).toHaveAttribute('open', '');
+  await page.keyboard.press('Enter');
+  await expect(drawer).not.toHaveAttribute('open', '');
 });
 
 test('reduced-motion visitors get the full content without animated progress', async ({ page }) => {
