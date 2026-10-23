@@ -16,6 +16,8 @@
       const target = document.getElementById(hash);
       if (!target || !travelTools.contains(target) || target === travelTools) return;
       if (!travelTools.open) travelTools.open = true;
+      const airlineDrawer = document.getElementById("airline-directory");
+      if (airlineDrawer && airlineDrawer.contains(target)) airlineDrawer.open = true;
       window.requestAnimationFrame(() => {
         target.scrollIntoView({ behavior: "instant", block: "start" });
       });
