@@ -604,3 +604,51 @@ input, select, textarea { max-width: 100%; }
   #homeView .pvj-airline-summary-copy strong { font-size:clamp(23px,5.6vw,29px); }
   #homeView .pvj-airline-summary-copy small { font-size:14px; }
 }
+
+/* High-impact airline search accordion: deliberately bold, full-width CTA. */
+#homeView .pvj-airline-drawer {
+  width:calc(100% - 20px) !important;
+  max-width:none !important;
+  margin:38px auto 54px !important;
+  border:3px solid #bd8b64 !important;
+  border-radius:26px !important;
+  box-shadow:0 18px 46px rgba(23,45,59,.15) !important;
+}
+#homeView .pvj-airline-summary {
+  min-height:240px !important;
+  padding:48px clamp(28px,5vw,76px) !important;
+  gap:30px !important;
+  background:linear-gradient(115deg,#fff4e9,#fff 62%,#f5e7d8) !important;
+}
+#homeView .pvj-airline-summary-icon {
+  width:88px !important;height:88px !important;flex-basis:88px !important;
+  font-size:44px !important;border-radius:24px !important;
+}
+#homeView .pvj-airline-summary-copy strong {
+  font-size:clamp(32px,3vw,46px) !important;
+  font-weight:950 !important;
+  line-height:1.16 !important;
+  letter-spacing:-.045em !important;
+}
+#homeView .pvj-airline-summary-copy small {
+  font-size:clamp(16px,1.25vw,20px) !important;
+  font-weight:600 !important;
+  line-height:1.55 !important;
+}
+#homeView .pvj-airline-summary-toggle {
+  font-size:18px !important;font-weight:950 !important;
+  padding:20px 28px !important;min-height:68px !important;
+  border-radius:17px !important;
+}
+#homeView .pvj-airline-drawer[open] .pvj-airline-open-text::after {
+  font-size:18px !important;font-weight:950 !important;
+}
+@media(max-width:700px){
+  #homeView .pvj-airline-drawer {width:calc(100% - 12px) !important;margin:24px auto 38px !important;border-radius:20px !important}
+  #homeView .pvj-airline-summary {min-height:0 !important;padding:28px 20px !important;gap:15px !important}
+  #homeView .pvj-airline-summary-icon {width:56px !important;height:56px !important;flex-basis:56px !important;font-size:30px !important}
+  #homeView .pvj-airline-summary-copy {flex-basis:calc(100% - 72px) !important}
+  #homeView .pvj-airline-summary-copy strong {font-size:clamp(24px,6vw,32px) !important}
+  #homeView .pvj-airline-summary-copy small {font-size:14px !important}
+  #homeView .pvj-airline-summary-toggle {width:100% !important;justify-content:space-between !important;font-size:17px !important;padding:17px 22px !important}
+}
