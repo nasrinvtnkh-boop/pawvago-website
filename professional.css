@@ -652,3 +652,13 @@ input, select, textarea { max-width: 100%; }
   #homeView .pvj-airline-summary-copy small {font-size:14px !important}
   #homeView .pvj-airline-summary-toggle {width:100% !important;justify-content:space-between !important;font-size:17px !important;padding:17px 22px !important}
 }
+
+/* Language selector: six options, keyboard-accessible and responsive. */
+.site-nav .pv-language-picker{display:flex;align-items:center;gap:6px;margin-left:auto;padding:7px 10px;border:1px solid #d9c9b8;border-radius:12px;background:#fffaf5;color:#172d3b;flex-shrink:0}
+.site-nav .pv-language-picker select{appearance:auto;background:transparent;border:0;color:inherit;font:700 12px "DM Sans",sans-serif;cursor:pointer;max-width:118px;outline-offset:4px}
+.site-nav .pv-language-picker select:focus-visible{outline:2px solid #9c4f2d}
+html[dir="rtl"] .hero-copy{text-align:right}
+html[dir="rtl"] .hero-actions,html[dir="rtl"] .hero-trust{direction:rtl}
+html[dir="rtl"] .site-nav,html[dir="rtl"] .desktop-nav{direction:ltr}
+@media(max-width:900px){.site-nav .pv-language-picker{padding:5px 7px;margin-left:0}.site-nav .pv-language-picker select{max-width:92px;font-size:11px}}
+@media(max-width:550px){.site-nav .pv-language-picker{gap:2px}.site-nav .pv-language-picker select{max-width:80px}}
