@@ -530,3 +530,35 @@ input, select, textarea { max-width: 100%; }
  #homeView .pvj-airline-summary-copy small{font-size:13px}
  #homeView .pvj-airline-summary-toggle{padding:15px 19px;font-size:14px}
 }
+
+/* Make the airline accordion's OPEN / HIDE control unmistakable. */
+#homeView .pvj-airline-summary-toggle {
+  background:#122c3c !important;
+  color:#fff !important;
+  border:2px solid #122c3c;
+  font-weight:950 !important;
+  font-size:17px !important;
+  letter-spacing:.01em;
+  padding:18px 26px !important;
+  min-height:58px;
+  box-shadow:0 8px 20px rgba(18,44,60,.20);
+}
+#homeView .pvj-airline-drawer[open] .pvj-airline-summary-toggle {
+  background:#9c4f2d !important;
+  border-color:#9c4f2d;
+  box-shadow:0 9px 24px rgba(156,79,45,.24);
+}
+#homeView .pvj-airline-drawer[open] .pvj-airline-open-text::after {
+  content:"HIDE AIRLINES" !important;
+  font-size:17px !important;
+  font-weight:950 !important;
+  letter-spacing:.045em;
+}
+#homeView .pvj-airline-summary-toggle .pvj-airline-chevron {
+  font-size:28px !important;
+  font-weight:900;
+}
+@media(max-width:650px) {
+ #homeView .pvj-airline-summary-toggle {font-size:16px !important;padding:16px 20px !important;}
+ #homeView .pvj-airline-drawer[open] .pvj-airline-open-text::after {font-size:16px !important;}
+}
