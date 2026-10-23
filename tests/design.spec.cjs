@@ -112,9 +112,9 @@ test('trip planner expands only on demand and retains graceful reveal', async ({
   await page.locator('.pvj-explorer-trigger').click();
   await expect(drawer).toHaveAttribute('open', '');
   await page.locator('#journey-lab').scrollIntoViewIfNeeded();
-  await expect(page.locator('.pvj-shell')).toHaveClass(/pv-reveal/);
-  await expect(page.locator('.pvj-shell')).toHaveClass(/pv-visible/);
   await expect(page.locator('#pvj-heading')).toBeVisible();
+  await expect(page.locator('.pvj-shell')).toBeVisible();
+  expect(await page.locator('.pvj-shell').evaluate(el => getComputedStyle(el).opacity)).toBe('1');
   await expect(page.locator('#pvj-directory-search')).toBeAttached();
   await page.locator('.pvj-explorer-close').click();
   await expect(drawer).not.toHaveAttribute('open', '');
@@ -143,6 +143,7 @@ test('reduced-motion visitors get the full content without animated progress', a
   await page.goto('/');
   await expect(page.locator('.pv-scroll-guide')).toBeHidden();
   expect(await page.locator('.pv-reveal').count()).toBe(0);
-  await page.locator('#journey-lab').scrollIntoViewIfNeeded();
+  await page.locator('.pvj-explorer-trigger').click();
+  await expect(page.locator('#travel-tools')).toHaveAttribute('open', '');
   await expect(page.locator('.pvj-shell')).toBeVisible();
 });
