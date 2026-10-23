@@ -511,3 +511,22 @@ input, select, textarea { max-width: 100%; }
  #homeView .pvj-airline-drawer .pvj-library{padding:26px 14px 34px}
 }
 @media(prefers-reduced-motion:reduce){#homeView .pvj-airline-chevron{transition:none}}
+
+/* Prominent airline policy search entry — larger touch target and stronger hierarchy. */
+#homeView .pvj-airline-drawer{max-width:1220px;margin-top:30px;margin-bottom:48px;border-radius:23px;box-shadow:0 12px 34px rgba(23,45,59,.075)}
+#homeView .pvj-airline-summary{min-height:172px;padding:34px 38px;gap:25px}
+#homeView .pvj-airline-summary-icon{width:66px;height:66px;flex-basis:66px;font-size:34px;border-radius:18px}
+#homeView .pvj-airline-summary-copy{gap:10px}
+#homeView .pvj-airline-summary-copy strong{font-size:clamp(23px,2.35vw,33px);letter-spacing:-.035em}
+#homeView .pvj-airline-summary-copy small{font-size:15px;max-width:640px}
+#homeView .pvj-airline-summary-toggle{padding:16px 22px;font-size:15px;border-radius:15px}
+#homeView .pvj-airline-chevron{font-size:25px}
+@media(max-width:650px){
+ #homeView .pvj-airline-drawer{margin-top:22px;margin-bottom:34px;border-radius:19px}
+ #homeView .pvj-airline-summary{min-height:0;padding:24px 20px;gap:14px}
+ #homeView .pvj-airline-summary-icon{width:50px;height:50px;flex-basis:50px;font-size:27px;border-radius:15px}
+ #homeView .pvj-airline-summary-copy{flex-basis:calc(100% - 66px);gap:6px}
+ #homeView .pvj-airline-summary-copy strong{font-size:21px}
+ #homeView .pvj-airline-summary-copy small{font-size:13px}
+ #homeView .pvj-airline-summary-toggle{padding:15px 19px;font-size:14px}
+}
