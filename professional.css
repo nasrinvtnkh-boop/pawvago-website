@@ -485,3 +485,29 @@ input, select, textarea { max-width: 100%; }
 }
 #homeView .pvj-explorer-close:hover {background:#f3e5d6;border-color:#c09f80;}
 @media(prefers-reduced-motion:reduce){#homeView .pvj-explorer-close{transition:none!important}}
+
+/* Nested airline directory: optional search, not a wall of cards. */
+#homeView .pvj-airline-drawer { margin:22px auto 38px; max-width:1160px; border:1px solid #e3d7ca; border-radius:18px; background:#fff; overflow:clip; }
+#homeView .pvj-airline-summary { display:flex;align-items:center;gap:17px;min-height:105px;padding:20px 24px;cursor:pointer;list-style:none;background:linear-gradient(105deg,#fff,#fbf6ef); }
+#homeView .pvj-airline-summary::-webkit-details-marker{display:none}
+#homeView .pvj-airline-summary::marker{content:""}
+#homeView .pvj-airline-summary:focus-visible{outline:3px solid #a25730;outline-offset:-4px}
+#homeView .pvj-airline-summary-icon{display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;border-radius:13px;background:#f5e8dd;color:#a25730;font-size:24px}
+#homeView .pvj-airline-summary-copy{flex:1;display:grid;gap:4px;min-width:0}
+#homeView .pvj-airline-summary-copy strong{font-size:clamp(16px,1.7vw,21px);line-height:1.35;color:#172d3b}
+#homeView .pvj-airline-summary-copy small{font-size:12px;color:#586876;line-height:1.6}
+#homeView .pvj-airline-summary-toggle{display:flex;gap:12px;align-items:center;border-radius:12px;padding:10px 15px;background:#172d3b;color:#fff;font-weight:800;font-size:12px;white-space:nowrap}
+#homeView .pvj-airline-chevron{font-size:21px;line-height:1;transition:transform .25s ease}
+#homeView .pvj-airline-drawer[open] .pvj-airline-chevron{transform:rotate(180deg)}
+#homeView .pvj-airline-drawer[open] .pvj-airline-open-text{font-size:0}
+#homeView .pvj-airline-drawer[open] .pvj-airline-open-text::after{content:"Hide airlines";font-size:12px}
+#homeView .pvj-airline-drawer[open] .pvj-airline-summary{border-bottom:1px solid #e7ddd3}
+#homeView .pvj-airline-drawer .pvj-library{padding:42px 26px 50px;margin:0;max-width:none}
+@media(max-width:650px){
+ #homeView .pvj-airline-summary{flex-wrap:wrap;padding:18px;gap:12px}
+ #homeView .pvj-airline-summary-icon{flex-basis:40px;width:40px;height:40px}
+ #homeView .pvj-airline-summary-copy{flex-basis:calc(100% - 55px)}
+ #homeView .pvj-airline-summary-toggle{width:100%;justify-content:space-between}
+ #homeView .pvj-airline-drawer .pvj-library{padding:26px 14px 34px}
+}
+@media(prefers-reduced-motion:reduce){#homeView .pvj-airline-chevron{transition:none}}
