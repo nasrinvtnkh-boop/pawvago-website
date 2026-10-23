@@ -115,7 +115,12 @@ test('trip planner expands only on demand and retains graceful reveal', async ({
   await expect(page.locator('#pvj-heading')).toBeVisible();
   await expect(page.locator('.pvj-shell')).toBeVisible();
   expect(await page.locator('.pvj-shell').evaluate(el => getComputedStyle(el).opacity)).toBe('1');
-  await expect(page.locator('#pvj-directory-search')).toBeAttached();
+  await expect(page.locator('#airline-directory')).not.toHaveAttribute('open', '');
+  await page.locator('.pvj-airline-summary').click();
+  await expect(page.locator('#airline-directory')).toHaveAttribute('open', '');
+  await expect(page.locator('#pvj-directory-search')).toBeVisible();
+  await page.locator('.pvj-airline-summary').click();
+  await expect(page.locator('#pvj-directory-search')).toBeHidden();
   await page.locator('.pvj-explorer-close').click();
   await expect(drawer).not.toHaveAttribute('open', '');
   await expect(page.locator('#pvj-heading')).toBeHidden();
@@ -123,6 +128,7 @@ test('trip planner expands only on demand and retains graceful reveal', async ({
 test('deep links open the collapsed travel checker', async ({ page }) => {
   await page.goto('/#policy-library');
   await expect(page.locator('#travel-tools')).toHaveAttribute('open', '');
+  await expect(page.locator('#airline-directory')).toHaveAttribute('open', '');
   await expect(page.locator('#pvj-directory-search')).toBeVisible();
   await page.goto('/#travel-faq');
   await expect(page.locator('#travel-tools')).toHaveAttribute('open', '');
