@@ -562,3 +562,45 @@ input, select, textarea { max-width: 100%; }
  #homeView .pvj-airline-summary-toggle {font-size:16px !important;padding:16px 20px !important;}
  #homeView .pvj-airline-drawer[open] .pvj-airline-open-text::after {font-size:16px !important;}
 }
+
+/* Airline accordion: make the ENTIRE expandable header prominent, including when open. */
+#homeView .pvj-airline-drawer {
+  max-width: none;
+  width: calc(100% - 32px);
+  margin: 36px auto 54px;
+  border: 2px solid #dfc6af;
+  border-radius: 26px;
+  box-shadow: 0 18px 48px rgba(23,45,59,.11);
+}
+#homeView .pvj-airline-summary {
+  min-height: 210px;
+  padding: 42px clamp(26px,4.5vw,68px);
+  gap: 30px;
+  background: linear-gradient(110deg,#fffaf4 0%,#fff 62%,#f7ecdf 100%);
+}
+#homeView .pvj-airline-summary-icon {
+  width: 82px;
+  height: 82px;
+  flex-basis: 82px;
+  font-size: 42px;
+  border-radius: 22px;
+}
+#homeView .pvj-airline-summary-copy strong {
+  font-size: clamp(28px,2.7vw,40px);
+  font-weight: 900;
+  line-height: 1.18;
+}
+#homeView .pvj-airline-summary-copy small {
+  font-size: clamp(15px,1.15vw,18px);
+  line-height: 1.6;
+  max-width: 760px;
+}
+#homeView .pvj-airline-summary-toggle { flex-shrink: 0; }
+@media(max-width:650px) {
+  #homeView .pvj-airline-drawer { width:calc(100% - 16px);margin:22px auto 34px;border-radius:20px; }
+  #homeView .pvj-airline-summary { min-height:0;padding:27px 21px;gap:15px; }
+  #homeView .pvj-airline-summary-icon { width:56px;height:56px;flex-basis:56px;font-size:30px;border-radius:17px; }
+  #homeView .pvj-airline-summary-copy { flex-basis:calc(100% - 72px); }
+  #homeView .pvj-airline-summary-copy strong { font-size:clamp(23px,5.6vw,29px); }
+  #homeView .pvj-airline-summary-copy small { font-size:14px; }
+}
