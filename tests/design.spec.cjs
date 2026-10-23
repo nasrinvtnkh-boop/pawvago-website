@@ -163,4 +163,7 @@ test('airline catalogue loads and KLM can be found', async ({ page }) => {
   await search.fill('KLM');
   await expect(page.locator('#pvj-rule-cards')).toContainText('KLM', {timeout:15000});
   await expect(page.locator('#pvj-rule-cards')).not.toContainText('Official-source reference data could not be loaded');
+  await search.fill('');
+  await expect(page.locator('.pvj-rule-card')).toHaveCount(164);
+  await expect(page.locator('#pvj-directory-count')).toContainText('Showing 164 of 164');
 });
