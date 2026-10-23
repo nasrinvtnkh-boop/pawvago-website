@@ -35,7 +35,7 @@
   const today = new Date();
   const tripDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 30);
   ui.date.min = isoLocal(today);
-  ui.date.value = isoLocal(tripDay);
+  ui.date.value = "";
 
   const setLabel = (id, value) => { const node=$(id); if(node)node.textContent=value; };
   const sourceLink = (url, label="View official source ↗") =>
@@ -334,17 +334,18 @@
       policy = data;
       const countryOptions = data.countries.map(c =>
         '<option value="' + safe(c.code) + '">' + safe(c.name) + '</option>').join("");
-      ui.from.innerHTML = countryOptions;
-      ui.to.innerHTML = countryOptions;
-      ui.from.value = "FR";
-      ui.to.value = "ES";
+      const chooseCountry = '<option value="" selected disabled>Select country</option>';
+      ui.from.innerHTML = chooseCountry + countryOptions;
+      ui.to.innerHTML = chooseCountry + countryOptions;
+      ui.from.value = "";
+      ui.to.value = "";
       ui.directoryRegion.innerHTML = '<option value="all">All regions</option>' +
         [...new Set(data.airlines.map(a => a.region || "Other"))].sort().map(region =>
           '<option value="' + safe(region) + '">' + safe(region) + '</option>').join("");
 
       renderLibrary();
       updatePreview();
-      render();
+      ui.results.textContent = "Complete your journey details to see personalized travel guidance.";
     } catch (error) {
       console.error("PawVago source-verified policy data:", error);
       ui.ruleCards.textContent = "Official-source reference data could not be loaded. Please use official airline websites before booking.";
@@ -358,7 +359,7 @@
     event.preventDefault();
     if (form.reportValidity()) render();
   });
-  const rerender = () => {updatePreview();if(policy)render();};
+  const rerender = () => {updatePreview();if(policy && form.checkValidity())render();};
   [ui.from,ui.to,ui.originCity,ui.destCity,ui.date,ui.species,ui.weight,
     ui.bag,ui.crateWeight,ui.breed,ui.snub,
     $("pvj-length"),$("pvj-width"),$("pvj-height"),
