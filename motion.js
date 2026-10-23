@@ -121,7 +121,7 @@
   const groups = [
     [".proof-strip > div", 80],
     [".pvj-heading > div", 105, "slide"],
-    [".pvj-shell", 0, "zoom"],
+    // Interactive travel form must remain visible immediately when the drawer opens.
     [".pvj-library-top", 0],
     [".pvj-rule-cards > *", 85],
     [".pvj-faq > div", 65],
