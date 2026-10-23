@@ -476,3 +476,12 @@ input, select, textarea { max-width: 100%; }
     transition:none!important;animation:none!important;
   }
 }
+
+#homeView .pvj-explorer-footer {display:flex;justify-content:center;padding:8px 20px 32px;background:#fff;}
+#homeView .pvj-explorer-close {
+  border:1px solid #dfc9b4;border-radius:99px;padding:12px 20px;
+  color:#77452e;background:#fffaf6;font-size:13px;font-weight:800;
+  cursor:pointer;transition:background-color .2s ease,border-color .2s ease;
+}
+#homeView .pvj-explorer-close:hover {background:#f3e5d6;border-color:#c09f80;}
+@media(prefers-reduced-motion:reduce){#homeView .pvj-explorer-close{transition:none!important}}
