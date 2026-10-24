@@ -706,3 +706,41 @@ html[dir="rtl"] .site-nav,html[dir="rtl"] .desktop-nav{direction:ltr}
 @media (prefers-reduced-motion: reduce) {
   .site-nav .desktop-nav a, .site-nav .auth-actions button { transition: none; transform: none !important; }
 }
+
+
+/* PawVago typographic refinement — balanced scale across devices. */
+#homeView .hero h1 { font-size: clamp(38px, 4.35vw, 60px); line-height:1.12; letter-spacing:-.047em; }
+#homeView .hero-lead { font-size:clamp(15px, 1.15vw, 17px); line-height:1.72; }
+#homeView .section h2,
+#homeView .preview-section h2,
+#homeView .pvj-heading h2,
+#homeView .pvj-library h2,
+#homeView .pvj-faq h2,
+#homeView .vision-inner h2,
+#homeView .final-cta h2,
+#homeView .contact-section h2,
+#homeView .mp-copy h2 { font-size:clamp(29px, 3vw, 38px); line-height:1.2; letter-spacing:-.035em; }
+#homeView .flow-grid h3,
+#homeView .feature-items h3,
+#homeView .contact-card h3 { font-size:clamp(18px, 1.5vw, 21px); line-height:1.35; }
+#homeView .section-intro p,
+#homeView .feature-copy > p,
+#homeView .preview-copy > p,
+#homeView .vision-inner > p,
+#homeView .contact-copy > p { font-size:clamp(15px, 1.18vw, 17px); line-height:1.7; }
+#homeView button, #homeView .primary-btn, #homeView .secondary-btn { font-size:clamp(13px, 1vw, 15px); }
+.site-nav .desktop-nav { font-size:13px; }
+.site-nav .auth-actions button { font-size:13px; }
+@media (max-width:600px) {
+  #homeView .hero h1 { font-size:clamp(34px, 9vw, 46px); line-height:1.12; }
+  #homeView .hero-lead { font-size:15px; }
+  #homeView .section h2, #homeView .preview-section h2,
+  #homeView .pvj-heading h2, #homeView .pvj-library h2,
+  #homeView .pvj-faq h2, #homeView .vision-inner h2,
+  #homeView .final-cta h2, #homeView .contact-section h2,
+  #homeView .mp-copy h2 { font-size:clamp(27px, 7.1vw, 34px); }
+  #homeView .section-intro p, #homeView .feature-copy > p,
+  #homeView .preview-copy > p, #homeView .vision-inner > p,
+  #homeView .contact-copy > p { font-size:15px; }
+  .site-nav .auth-actions button { font-size:12px; }
+}
