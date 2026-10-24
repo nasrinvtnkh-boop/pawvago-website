@@ -667,3 +667,42 @@ html[dir="rtl"] .site-nav,html[dir="rtl"] .desktop-nav{direction:ltr}
 .site-nav .pv-language-picker select{max-width:148px;min-width:112px}
 @media(max-width:900px){.site-nav .pv-language-picker select{max-width:115px;min-width:95px}.site-nav .pv-language-picker .pv-language-label{font-size:11px}}
 @media(max-width:550px){.site-nav .pv-language-picker .pv-language-label{font-size:10px}.site-nav .pv-language-picker select{max-width:95px;min-width:75px}}
+
+
+/* Header breathing room and subtle, accessible navigation micro-interactions. */
+@media (min-width: 901px) {
+  .site-nav { column-gap: clamp(14px, 1.5vw, 26px); }
+  .site-nav .desktop-nav { gap: clamp(17px, 1.55vw, 27px); margin-inline: clamp(10px, 1.5vw, 24px); }
+  .site-nav .pv-language-picker { margin-left: 0; }
+  .site-nav .auth-actions { gap: clamp(10px, 1vw, 18px); margin-left: clamp(8px, 1.2vw, 20px); flex-shrink: 0; }
+}
+.site-nav .desktop-nav a,
+.site-nav .auth-actions button {
+  transition: color .22s ease, background-color .22s ease, border-color .22s ease,
+              box-shadow .22s ease, transform .22s cubic-bezier(.2,.7,.2,1);
+}
+.site-nav .desktop-nav a:hover { transform: translateY(-2px); }
+.site-nav .auth-actions button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 9px 18px rgba(23,45,59,.13);
+}
+.site-nav .auth-actions button:active { transform: translateY(0) scale(.98); }
+.site-nav .auth-actions #loginBtn { border-radius: 10px; padding-inline: 12px; }
+.site-nav .desktop-nav a[href="#journey-lab"] {
+  padding: 7px 10px;
+  border-radius: 10px;
+}
+.site-nav .desktop-nav a[href="#journey-lab"]:hover {
+  background-color: rgba(162,87,48,.09);
+}
+@media (max-width: 900px) {
+  .site-nav .auth-actions { gap: 8px; }
+  .site-nav .desktop-nav.pv-mobile-open a { transform: none; }
+}
+@media (max-width: 550px) {
+  .site-nav .auth-actions { gap: 7px; }
+  .site-nav .auth-actions #loginBtn { padding-inline: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-nav .desktop-nav a, .site-nav .auth-actions button { transition: none; transform: none !important; }
+}
