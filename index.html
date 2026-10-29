@@ -23,12 +23,13 @@
   <link rel="stylesheet" href="journey.css">
   <link rel="stylesheet" href="demo.css">
   <link rel="stylesheet" href="professional.css">
+  <link rel="stylesheet" href="agent-ui.css">
 </head>
 <body>
   <a class="skip-link" href="#top">Skip to main content</a>
   <header class="site-nav">
     <a class="brand" href="#top" aria-label="PawVago"><img class="brand-mark" src="assets/logo.svg" alt="" width="50" height="42"><span class="brand-wordmark"><span>Paw</span><b>Vago</b></span></a>
-    <nav class="desktop-nav" aria-label="Main navigation"><a href="#journey-lab">Trip checker</a><a href="#how">How it works</a><a href="#features">Features</a><a href="#mobile-app">Mobile preview</a><a href="#contact">Contact</a></nav>
+    <nav class="desktop-nav" aria-label="Main navigation"><a href="#journey-lab">Trip checker</a><a href="#how">How it works</a><a href="#features">Features</a><a href="#mobile-app">Mobile preview</a><a href="#ai-travel-agent">AI Travel Agent</a><a href="#contact">Contact</a></nav>
     <div class="pv-language-picker"><label for="pvLanguage" class="pv-language-label">Language</label><select id="pvLanguage" aria-label="Language"><option value="en">🇬🇧 English</option><option value="es">🇪🇸 Español</option><option value="fr">🇫🇷 Français</option><option value="de">🇩🇪 Deutsch</option><option value="tr">🇹🇷 Türkçe</option><option value="ar">🇸🇦 العربية</option></select></div>
     <div id="authActions" class="auth-actions"><button class="nav-link-btn" id="loginBtn">Log in</button><button class="nav-cta" id="signupBtn">Create account</button></div>
   </header>
@@ -211,6 +212,32 @@
       </section>
       <section class="vision-section" id="vision"><div class="vision-inner"><div class="eyebrow light">04 / The vision</div><h2>Because a pet is not<br><span>extra baggage.</span></h2><p>PawVago is building the operating layer for pet travel — connecting compliance, planning, destination services and the people who make every journey possible.</p><div class="vision-pills"><span>Smart planning</span><span>Global rules</span><span>Local services</span><span>Pet community</span></div></div></section>
       <section class="final-cta"><div><div class="eyebrow">Ready when you are</div><h2>Make your next journey<br><span>easier to plan.</span></h2><p>Create your free PawVago account, add your pet, and start preparing for your next trip.</p></div><button class="primary-btn" id="footerSignup" onclick="auth('signup')">Create free account <b aria-hidden="true">→</b></button></section>
+      <section class="pv-agent-section" id="ai-travel-agent" aria-labelledby="pv-agent-title">
+        <div class="pv-agent-wrap">
+          <div>
+            <div class="pv-agent-eyebrow">PawVago Travel Agent · Policy Preview</div>
+            <h2 id="pv-agent-title">Explore pet travel with more confidence.</h2>
+            <p>Screen general airline cabin weight rules using PawVago's reviewed policy snapshot. This early tool is not live flight inventory or a booking engine.</p>
+            <p class="pv-agent-muted">Your airline, route, pet breed, carrier dimensions, destination regulations, and travel date still need confirmation with the operator and official authorities.</p>
+          </div>
+          <div class="pv-agent-card">
+            <form id="pv-agent-form">
+              <div class="pv-agent-grid">
+                <label>Airline name <input name="airline" placeholder="e.g. Air France" maxlength="120" required></label>
+                <label>Pet weight (kg) <input name="petWeightKg" type="number" min="0.1" max="200" step="0.1" required></label>
+                <label>Carrier weight (kg) <input name="carrierWeightKg" type="number" min="0" max="100" step="0.1" required></label>
+                <label>Breed <input name="breed" placeholder="e.g. Shih Tzu" maxlength="100"></label>
+                <label>From <input name="from" placeholder="Country / city" maxlength="70"></label>
+                <label>To <input name="to" placeholder="Country / city" maxlength="70"></label>
+              </div>
+              <button id="pv-agent-submit" type="submit">Check preliminary cabin policy</button>
+            </form>
+            <div class="pv-agent-result" id="pv-agent-result" aria-live="polite" role="status">
+              Enter an airline and the combined pet/carrier weights to run a preliminary check.
+            </div>
+          </div>
+        </div>
+      </section>
       <section class="contact-section" id="contact" aria-labelledby="contact-title">
         <div class="contact-card">
           <div class="contact-copy">
@@ -229,6 +256,7 @@
   </main>
   <div class="modal hidden" id="authModal"><div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="authTitle"><button class="modal-close" id="closeModal" type="button" aria-label="Close account dialog">×</button><div class="eyebrow">PAWVAGO ACCOUNT</div><h2 id="authTitle">Create your account</h2><p id="authSubtitle">Start building your pet travel plan.</p><form id="authForm"><label>Email<input id="email" type="email" required autocomplete="email"></label><label>Password<input id="password" type="password" required minlength="6" autocomplete="current-password"></label><p class="auth-form-help">Use at least 6 characters. New accounts may need email verification.</p><button class="primary-btn full" id="authSubmit" type="submit">Create account</button><div id="authNotice" class="notice"></div></form><button class="switch-btn" id="switchAuth" type="button">Already have an account? Log in</button></div></div>
   <div class="modal hidden" id="petModal"><div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="petModalTitle"><button class="modal-close" id="closePet" type="button" aria-label="Close pet profile dialog">×</button><div class="eyebrow">PET PROFILE</div><h2 id="petModalTitle">Add your travel companion</h2><form id="petForm"><label>Pet name<input id="petName" required></label><div class="form-row"><label>Species<select id="species"><option>Dog</option><option>Cat</option><option>Other</option></select></label><label>Weight (kg)<input id="weight" type="number" step="0.1" required></label></div><label>Breed<input id="breed"></label><button class="primary-btn full" type="submit">Save pet profile</button></form></div></div>
+  <script src="agent-ui.js" defer></script>
   <script src="languages.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="app.js"></script><script src="ui-fixes.js"></script><script src="mobile-preview.js" defer></script><script src="motion.js" defer></script><script src="airline-matcher.js" defer></script><script src="journey.js" defer></script><script src="demo.js" defer></script>
 </body></html>
