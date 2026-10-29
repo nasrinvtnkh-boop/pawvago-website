@@ -50,6 +50,10 @@ test("Everyday section stays within mobile viewport",async({page})=>{
   document:document.documentElement.scrollWidth,
   nearby:document.getElementById("pvl-nearby").getBoundingClientRect().width
  }));
+ if(widths.document>widths.viewport+2){
+   const offenders=await page.evaluate(()=>[...document.querySelectorAll("body *")].map(node=>({name:node.tagName.toLowerCase(),id:node.id,cls:String(node.className||"").slice(0,80),right:Math.round(node.getBoundingClientRect().right),left:Math.round(node.getBoundingClientRect().left)})).filter(x=>x.right>innerWidth+2||x.left< -2).slice(0,18));
+   console.log("Mobile overflow suspects",JSON.stringify(offenders));
+ }
  expect(widths.document).toBeLessThanOrEqual(widths.viewport+2);
  expect(widths.nearby).toBeLessThanOrEqual(widths.viewport);
 });
