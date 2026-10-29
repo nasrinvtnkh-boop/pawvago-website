@@ -15,7 +15,7 @@ test('homepage explains product and offers normal account signup', async ({ page
 
 test('navigation and on-page anchors work', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('nav[aria-label="Main navigation"] a')).toHaveCount(5);
+  await expect(page.locator('nav[aria-label="Main navigation"] a')).toHaveCount(7);
   for (const item of await page.locator('nav[aria-label="Main navigation"] a').all()) {
     const href = await item.getAttribute('href');
     expect(href).toMatch(/^#[\w-]+$/);

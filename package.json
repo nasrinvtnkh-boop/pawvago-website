@@ -11,6 +11,6 @@
     "zod": "^3.25.76"
   },
   "scripts": {
-    "test:agent": "node --test tests/agent-screening.spec.cjs"
+    "test:agent": "node --test tests/agent-screening.spec.cjs tests/assistant-preview.spec.cjs"
   }
 }

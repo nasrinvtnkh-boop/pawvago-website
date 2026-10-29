@@ -32,14 +32,14 @@ module.exports=async function handler(req,res) {
       title:"Search PawVago airline directory",
       description:"Look up airline names in PawVago's selected airline directory. Listings are not proof of live pet acceptance.",
       inputSchema:{query:z.string().max(120).optional()},
-      annotations:{readOnlyHint:true,openWorldHint:false}
+      annotations:{readOnlyHint:true,openWorldHint:false,destructiveHint:false}
     },async ({query})=>reply(listAirlines(query||"")));
 
     server.registerTool("get_airline_pet_policy",{
       title:"Get PawVago airline pet policy",
       description:"Read the last reviewed pet cabin and hold rules for one airline. Returns explicit unverified status when no reviewed policy exists; never claims availability.",
       inputSchema:{airline:z.string().min(1).max(120)},
-      annotations:{readOnlyHint:true,openWorldHint:false}
+      annotations:{readOnlyHint:true,openWorldHint:false,destructiveHint:false}
     },async ({airline})=>reply(policyDetails(airline)));
 
     server.registerTool("screen_pet_cabin",{
@@ -53,7 +53,7 @@ module.exports=async function handler(req,res) {
         from:z.string().max(70).optional(),
         to:z.string().max(70).optional()
       },
-      annotations:{readOnlyHint:true,openWorldHint:false}
+      annotations:{readOnlyHint:true,openWorldHint:false,destructiveHint:false}
     },async args=>reply(screenCabin(args)));
     transport=new StreamableHTTPServerTransport({sessionIdGenerator:undefined,enableJsonResponse:true});
     res.on("close",()=>{void transport.close();void server.close();});

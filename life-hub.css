@@ -1,0 +1,51 @@
+/* PawVago two-mode hub, 2026. Mobile-first; no third-party map tiles. */
+.pvl-hub{background:#f6f8fc;color:#192a42;padding:clamp(54px,7vw,108px) clamp(18px,5vw,82px);font-family:"DM Sans",system-ui,sans-serif}
+.pvl-shell{max-width:1220px;margin:auto}.pvl-header{display:grid;grid-template-columns:1.25fr .8fr;align-items:end;gap:22px;margin-bottom:24px}
+.pvl-eyebrow{color:#536b8a;text-transform:uppercase;letter-spacing:.14em;font-size:11px;font-weight:800}
+.pvl-hub h2{font:800 clamp(35px,4.2vw,58px)/1.12 Manrope,system-ui,sans-serif;letter-spacing:-.045em;margin:13px 0;color:#13253e}
+.pvl-hub h3{font:800 19px/1.3 Manrope,system-ui,sans-serif;margin:0 0 8px;color:#172b45}
+.pvl-hub h4{font:750 15px/1.3 Manrope,system-ui,sans-serif;margin:0}
+.pvl-header p{font-size:14px;line-height:1.7;color:#546578;margin:6px 0}
+.pvl-tabs{display:flex;gap:8px;background:#e9eef6;padding:6px;border-radius:15px;width:max-content;max-width:100%;margin:24px 0}
+.pvl-tab{background:transparent;color:#445a72;border:0;padding:11px 21px;border-radius:10px;cursor:pointer;font:800 14px "DM Sans",system-ui,sans-serif}
+.pvl-tab[aria-selected="true"]{background:#fff;color:#1d3451;box-shadow:0 2px 12px #20375a14}
+.pvl-pane[hidden]{display:none!important}.pvl-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.pvl-card{border:1px solid #dce3ec;border-radius:22px;background:#fff;padding:clamp(19px,2.6vw,28px);box-shadow:0 16px 50px #1e3a5b08;min-width:0}
+.pvl-card p{font-size:13px;color:#536578;line-height:1.7;margin:5px 0 12px}
+.pvl-tag{display:inline-block;padding:6px 10px;background:#ebf2fd;border-radius:30px;color:#2d4c72;font-size:11px;font-weight:800;margin-bottom:12px}
+.pvl-row{display:flex;justify-content:space-between;align-items:start;gap:12px;flex-wrap:wrap}
+.pvl-inline{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.pvl-stats{display:flex;gap:9px;flex-wrap:wrap;margin:14px 0}.pvl-stat{background:#f5f8fd;border:1px solid #e5ebf3;border-radius:10px;padding:11px 13px;font-size:12px;color:#40546c}.pvl-stat strong{display:block;color:#1d3556;font-size:17px}
+.pvl-action,.pvl-hub button.pvl-action{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:12px;padding:12px 17px;cursor:pointer;background:#1d3556;color:#fff;font:800 13px "DM Sans",system-ui,sans-serif;text-decoration:none}
+.pvl-action.secondary{color:#1d3556;background:#edf2f9}.pvl-action.ghost{color:#1d3556;background:#fff;border:1px solid #d9e1eb}
+.pvl-action:disabled{opacity:.55;cursor:not-allowed}.pvl-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:15px}
+.pvl-form label{display:flex;flex-direction:column;gap:7px;color:#354a65;font-weight:700;font-size:12px}
+.pvl-form .wide{grid-column:1/-1}.pvl-form input,.pvl-form select,.pvl-form textarea,.pvl-select{width:100%;min-width:0;padding:11px 12px;background:#fff;color:#1a2d43;border:1px solid #c9d4e0;border-radius:10px;font:500 14px "DM Sans",system-ui,sans-serif}
+.pvl-form textarea{resize:vertical}.pvl-form input:focus,.pvl-form select:focus,.pvl-form textarea:focus{outline:2px solid #5979a5;outline-offset:2px}
+.pvl-item{display:flex;justify-content:space-between;gap:10px;align-items:center;border-bottom:1px solid #edf0f4;padding:12px 0;font-size:13px}.pvl-item:last-child{border:0}.pvl-item strong{font-weight:750}.pvl-item small{display:block;color:#65768c;font-size:11px;margin-top:5px}
+.pvl-mini{border:1px solid #cbd5e3;background:#fff;color:#233a57;border-radius:9px;padding:7px 11px;font:700 12px "DM Sans",system-ui,sans-serif;cursor:pointer}
+.pvl-alert{background:#fff7e7;border:1px solid #f3dfb6;border-radius:10px;color:#74501b;padding:11px 13px;font-size:12px;line-height:1.6;margin:12px 0}
+.pvl-help{font-size:12px!important;color:#697b90!important;line-height:1.6}.pvl-status{padding:10px 0;color:#3c5e7c;font-size:12px}
+.pvl-locator{background:#192e4c;color:#fff;border:0;border-radius:20px;padding:28px;min-width:0}.pvl-locator h3,.pvl-locator p{color:#fff}.pvl-locator p{opacity:.8}.pvl-locator .pvl-tag{background:#395677;color:#fff}
+.pvl-locator .pvl-action{background:#fff;color:#1b3453}.pvl-locator .pvl-action.secondary{background:#354f70;color:#fff}
+.pvl-nearby-list{margin-top:15px}.pvl-nearby-list .pvl-item{border-color:#ffffff36}.pvl-nearby-list a{color:#d7eafd}
+.pvl-partner-link{color:#365679;font-size:13px;text-decoration:underline}
+.pvl-muted{color:#65748a;font-size:12px;line-height:1.6}
+.pvl-legal{font-size:11px;line-height:1.6;color:#64788f;margin-top:15px}
+.pvl-hub [hidden]{display:none!important}
+@media(max-width:850px){.pvl-header,.pvl-grid{grid-template-columns:1fr}}
+@media(max-width:520px){.pvl-tabs{width:100%}.pvl-tab{flex:1;padding:12px 9px;font-size:12px}.pvl-form{grid-template-columns:1fr}.pvl-hub{padding:55px 16px}.pvl-card,.pvl-locator{padding:18px}}
+
+/* Keep the full PawVago header within the phone viewport when both modes are linked. */
+@media(max-width:550px){
+ .site-nav{gap:4px!important;padding-inline:7px!important;min-width:0;box-sizing:border-box}
+ .site-nav .brand{gap:3px!important;min-width:0;flex-shrink:1}
+ .site-nav .brand-mark{width:29px!important;height:28px!important}
+ .site-nav .brand-wordmark{font-size:15px!important;white-space:nowrap}
+ .site-nav .pv-language-picker{gap:0!important;padding:3px!important;max-width:77px;min-width:0;flex:0 1 77px}
+ .site-nav .pv-language-picker .pv-language-label{display:none!important}
+ .site-nav .pv-language-picker select{width:69px!important;min-width:0!important;max-width:69px!important;font-size:10px!important}
+ .site-nav .auth-actions{min-width:0;margin-left:auto!important;gap:2px!important}
+ .site-nav .auth-actions #loginBtn{display:none!important}
+ .site-nav .auth-actions #signupBtn{font-size:10px!important;padding:8px 7px!important;white-space:nowrap}
+ .site-nav .pv-menu-toggle{width:35px!important;height:35px!important;flex-shrink:0}
+}
