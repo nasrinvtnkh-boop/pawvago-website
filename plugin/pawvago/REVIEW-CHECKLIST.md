@@ -33,7 +33,8 @@
 
 ## Requirements before submission
 
-- Verify OpenAI Platform developer identity. As the PawVago French company registration is unresolved, consider *individual publisher identity* if business verification is unavailable. Ensure public display information matches the verified identity.
+- **Publisher decision (2026-10-29): use individual identity verification, not business verification.** The founder will verify her own government-issued photo ID in OpenAI Platform; the public developer identity must match the verified individual (OpenAI normalizes this during submission), while the plugin product name remains PawVago. No third-party company identity or registration number may be used.
+- Identity verification requires the founder's own interactive OpenAI Platform flow and cannot be completed using repository files or by sharing personal ID documents in chat. Do not submit the plugin until this verification succeeds.
 - Obtain organization **Apps Management Write** permission.
 - Confirm real HTTPS public MCP endpoint works via MCP Inspector with initialize, tools/list, tools/call, and bad inputs.
 - Host exact **domain verification token** from OpenAI at \`https://pawvago.com/.well-known/openai-apps-challenge\` (do not invent or commit a placeholder token).
