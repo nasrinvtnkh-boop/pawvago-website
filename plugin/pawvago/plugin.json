@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "description": "Check preliminary airline pet policies and carrier weight rules with PawVago.",
   "author": {
-    "name": "PawVago",
+    "name": "Nasrin VATANKHAH",
     "email": "contact@pawvago.com",
     "url": "https://pawvago.com"
   },
@@ -23,7 +23,7 @@
         "displayName": "PawVago Pet Travel",
         "shortDescription": "Check airline pet policies",
         "longDescription": "Compare pet and carrier weights against a curated airline-policy snapshot. PawVago clearly marks unverified rules and does not provide live pet-space availability, guaranteed eligibility, booking, or legal veterinary advice.",
-        "developerName": "PawVago",
+        "developerName": "Nasrin VATANKHAH",
         "websiteURL": "https://pawvago.com",
         "supportURL": "https://pawvago.com/#contact",
         "capabilities": [
@@ -35,7 +35,11 @@
           "Check a preliminary cabin policy for a 6 kg dog in a 1.5 kg carrier."
         ],
         "logo": "./assets/icon.svg",
-        "composerIcon": "./assets/icon.svg"
+        "composerIcon": "./assets/icon.svg",
+        "category": "Productivity",
+        "privacyPolicyURL": "https://pawvago.com/privacy.html",
+        "termsOfServiceURL": "https://pawvago.com/terms.html",
+        "brandColor": "#172D3B"
       }
     }
   }
