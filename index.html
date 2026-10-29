@@ -25,12 +25,13 @@
   <link rel="stylesheet" href="professional.css">
   <link rel="stylesheet" href="agent-ui.css">
   <link rel="stylesheet" href="assistant-chat.css">
+  <link rel="stylesheet" href="life-hub.css">
 </head>
 <body>
   <a class="skip-link" href="#top">Skip to main content</a>
   <header class="site-nav">
     <a class="brand" href="#top" aria-label="PawVago"><img class="brand-mark" src="assets/logo.svg" alt="" width="50" height="42"><span class="brand-wordmark"><span>Paw</span><b>Vago</b></span></a>
-    <nav class="desktop-nav" aria-label="Main navigation"><a href="#journey-lab">Trip checker</a><a href="#how">How it works</a><a href="#features">Features</a><a href="#mobile-app">Mobile preview</a><a href="#ai-travel-agent">AI Travel Agent</a><a href="#contact">Contact</a></nav>
+    <nav class="desktop-nav" aria-label="Main navigation"><a href="#journey-lab">Trip checker</a><a href="#how">How it works</a><a href="#features">Features</a><a href="#mobile-app">Mobile preview</a><a href="#ai-travel-agent">AI Travel Agent</a><a href="#paw-life-hub">Everyday Companion</a><a href="#contact">Contact</a></nav>
     <div class="pv-language-picker"><label for="pvLanguage" class="pv-language-label">Language</label><select id="pvLanguage" aria-label="Language"><option value="en">🇬🇧 English</option><option value="es">🇪🇸 Español</option><option value="fr">🇫🇷 Français</option><option value="de">🇩🇪 Deutsch</option><option value="tr">🇹🇷 Türkçe</option><option value="ar">🇸🇦 العربية</option></select></div>
     <div id="authActions" class="auth-actions"><button class="nav-link-btn" id="loginBtn">Log in</button><button class="nav-cta" id="signupBtn">Create account</button></div>
   </header>
@@ -211,6 +212,118 @@
           </div>
         </div>
       </section>
+      <section class="pvl-hub" id="paw-life-hub" aria-labelledby="pvl-title">
+        <div class="pvl-shell">
+          <div class="pvl-header">
+            <div><div class="pvl-eyebrow">PAWVAGO / TRAVEL + EVERYDAY COMPANION</div>
+              <h2 id="pvl-title">One home for every pet.<br>Every day. Every journey.</h2>
+            </div>
+            <p>Prepare for international trips and keep your companion’s essential records organised all year. Your personal pet records stay private to your account.</p>
+          </div>
+          <div class="pvl-tabs" role="tablist" aria-label="PawVago companion modes">
+            <button class="pvl-tab" id="pvl-tab-travel" role="tab" aria-controls="pvl-travel" aria-selected="true" type="button">✈ Travel Mode</button>
+            <button class="pvl-tab" id="pvl-tab-everyday" role="tab" aria-controls="pvl-everyday" aria-selected="false" type="button">♡ Everyday Mode</button>
+          </div>
+          <div id="pvl-travel" class="pvl-pane" role="tabpanel" aria-labelledby="pvl-tab-travel">
+            <div class="pvl-grid">
+              <article class="pvl-card"><span class="pvl-tag">01 / BEFORE YOU FLY</span><h3>Airline &amp; route checker</h3>
+                <p>Compare reviewed pet policies by airline, route, weight, carrier and breed. Check the airline’s final acceptance before booking.</p>
+                <a class="pvl-action" href="#journey-lab">Check my journey →</a>
+              </article>
+              <article class="pvl-card"><span class="pvl-tag">02 / TRAVEL DOCUMENTS</span><h3>Build your document plan</h3>
+                <p>Prepare passport, identification, vaccination and destination-specific checklists. Save record dates in Everyday Mode for future journeys.</p>
+                <button class="pvl-action secondary" type="button" data-pvl-open="everyday">Open document wallet →</button>
+              </article>
+              <article class="pvl-card"><span class="pvl-tag">03 / YOUR TRAVEL TIMELINE</span><h3>Plan ahead, not last-minute</h3>
+                <p>Your Trip Checker provides preliminary steps. Save important appointments or document deadlines as personal in-app reminders.</p>
+                <button class="pvl-action secondary" type="button" data-pvl-open="everyday">Set a reminder →</button>
+              </article>
+              <article class="pvl-card"><span class="pvl-tag">04 / AT YOUR DESTINATION</span><h3>Find local pet services</h3>
+                <p>Explore nearby veterinarians, pet shops, groomers, boarding services and pet-friendly hotels. Location is requested only when you choose.</p>
+                <button class="pvl-action secondary" type="button" data-pvl-open="everyday" data-pvl-focus="nearby">Explore nearby services →</button>
+              </article>
+            </div>
+          </div>
+          <div id="pvl-everyday" class="pvl-pane" role="tabpanel" aria-labelledby="pvl-tab-everyday" hidden>
+            <div class="pvl-grid">
+              <article class="pvl-card">
+                <div class="pvl-row"><div><span class="pvl-tag">YOUR PRIVATE PET SPACE</span><h3>My companions</h3></div><button class="pvl-mini" type="button" id="pvl-reload">Refresh</button></div>
+                <p id="pvl-account">Sign in to securely save multiple pets and their care history.</p>
+                <label for="pvl-pet-select" class="pvl-muted">Selected pet</label>
+                <select class="pvl-select" id="pvl-pet-select" aria-label="Select pet" disabled><option>Sign in to load pets</option></select>
+                <div id="pvl-pet-summary" class="pvl-stats" aria-live="polite"></div>
+                <form id="pvl-pet-form" class="pvl-form">
+                  <label>Pet name<input name="name" maxlength="100" required placeholder="e.g. Titi"></label>
+                  <label>Species<select name="species"><option>Dog</option><option>Cat</option><option>Other</option></select></label>
+                  <label>Breed<input name="breed" maxlength="100" placeholder="e.g. Shih Tzu"></label>
+                  <label>Weight (kg)<input name="weight_kg" type="number" min="0.1" max="200" step="0.1"></label>
+                  <label>Birth date (optional)<input name="date_of_birth" type="date"></label>
+                  <label>Rabies vaccination valid until<input name="rabies_valid_until" type="date"></label>
+                  <div class="wide pvl-inline"><button type="submit" class="pvl-action" id="pvl-save-pet">Save pet profile</button><button type="button" class="pvl-action ghost" id="pvl-new-pet">New pet</button></div>
+                </form>
+              </article>
+              <article class="pvl-card">
+                <span class="pvl-tag">DOCUMENT WALLET</span><h3>Passports, vaccines &amp; certificates</h3>
+                <p>Store the type, reference and expiry date of documents. Full sensitive document uploads are not enabled in this preview.</p>
+                <div id="pvl-docs-list" aria-live="polite"><p class="pvl-muted">Sign in to view saved records.</p></div>
+                <form class="pvl-form" id="pvl-doc-form">
+                  <label>Document type<select name="document_type"><option value="passport">Pet passport</option><option value="rabies">Rabies certificate</option><option value="health_certificate">Health certificate</option><option value="microchip">Microchip record</option><option value="titre">Antibody titre result</option><option value="other">Other document</option></select></label>
+                  <label>Label / reference<input name="document_name" maxlength="140" required placeholder="e.g. EU passport"></label>
+                  <label>Issued on<input name="issue_date" type="date"></label>
+                  <label>Expires on<input name="expiry_date" type="date"></label>
+                  <div class="wide"><button class="pvl-action" type="submit">Save document details</button></div>
+                </form>
+              </article>
+              <article class="pvl-card">
+                <span class="pvl-tag">CARE CALENDAR</span><h3>Vaccines, medication &amp; reminders</h3>
+                <p>See upcoming and overdue dates when you visit your dashboard. Email, push and background notifications are not enabled yet.</p>
+                <div id="pvl-reminder-list" aria-live="polite"><p class="pvl-muted">Your saved care reminders will appear here.</p></div>
+                <form class="pvl-form" id="pvl-reminder-form">
+                  <label>Reminder type<select name="category"><option value="vaccination">Vaccination</option><option value="document">Travel document</option><option value="medication">Medication</option><option value="appointment">Vet appointment</option><option value="grooming">Grooming</option><option value="other">Other care</option></select></label>
+                  <label>Due date<input type="date" name="due_date" required></label>
+                  <label class="wide">What to remember<input name="title" maxlength="140" required placeholder="e.g. Rabies booster due"></label>
+                  <label class="wide">Notes (optional)<textarea name="notes" rows="2" maxlength="1200" placeholder="Add details without sensitive documents"></textarea></label>
+                  <div class="wide"><button class="pvl-action" type="submit">Save in-app reminder</button></div>
+                </form>
+              </article>
+              <article class="pvl-card">
+                <span class="pvl-tag">MY VET</span><h3>My veterinarian</h3>
+                <p>Keep your clinic’s contact details with each pet. PawVago does not share this information publicly.</p>
+                <div id="pvl-vet-list" aria-live="polite"><p class="pvl-muted">Your preferred vets will appear here.</p></div>
+                <form class="pvl-form" id="pvl-vet-form">
+                  <label>Clinic name<input name="clinic_name" maxlength="180" required placeholder="e.g. My veterinary clinic"></label>
+                  <label>Phone<input name="phone" type="tel" maxlength="50"></label>
+                  <label class="wide">Address<input name="address" maxlength="300"></label>
+                  <label class="wide">Website<input name="website" type="url" maxlength="300" placeholder="https://"></label>
+                  <div class="wide"><button class="pvl-action" type="submit">Save veterinarian</button></div>
+                </form>
+              </article>
+              <article class="pvl-locator" id="pvl-nearby">
+                <span class="pvl-tag">NEARBY / ONLY WHEN YOU ASK</span><h3>Pet services around you</h3>
+                <p>Find vets, emergency vet clinics, pet shops, groomers, boarding and pet-friendly hotels near your current location.</p>
+                <div class="pvl-inline">
+                  <select id="pvl-place-category" class="pvl-select" aria-label="Nearby service type">
+                    <option value="veterinarian">Veterinarians</option><option value="emergency_vet">Emergency vets</option>
+                    <option value="pet_shop">Pet shops</option><option value="groomer">Groomers</option>
+                    <option value="boarding">Pet boarding</option><option value="hotel">Pet-friendly hotels</option>
+                  </select>
+                  <button class="pvl-action" type="button" id="pvl-find-nearby">Use my location</button>
+                </div>
+                <div id="pvl-nearby-results" class="pvl-nearby-list" aria-live="polite"><p class="pvl-help">Your GPS position is requested only after you tap the button; PawVago does not store it. Maps links open an external provider.</p></div>
+                <p class="pvl-legal">Service results may be incomplete and are not verified endorsements. Confirm hours, availability and emergency care directly with the provider.</p>
+              </article>
+              <article class="pvl-card">
+                <span class="pvl-tag">EVERYDAY + TRAVEL</span><h3>One profile, all journeys</h3>
+                <p>Save pets, record vaccine and passport expiry dates, and reuse your information as a starting point for future travel plans.</p>
+                <div id="pvl-due-summary" class="pvl-alert">Your upcoming due-date reminders appear here after you sign in.</div>
+                <div class="pvl-inline"><button class="pvl-action" type="button" data-pvl-open="travel">Open Travel Mode →</button></div>
+                <p class="pvl-legal">PawVago provides planning support, not veterinary diagnosis or a legal determination of entry eligibility.</p>
+              </article>
+            </div>
+          </div>
+          <p class="pvl-legal" id="pvl-status" aria-live="polite">Personal information is saved only to your PawVago account after sign-in. Browser location is optional.</p>
+        </div>
+      </section>
       <section class="vision-section" id="vision"><div class="vision-inner"><div class="eyebrow light">04 / The vision</div><h2>Because a pet is not<br><span>extra baggage.</span></h2><p>PawVago is building the operating layer for pet travel — connecting compliance, planning, destination services and the people who make every journey possible.</p><div class="vision-pills"><span>Smart planning</span><span>Global rules</span><span>Local services</span><span>Pet community</span></div></div></section>
       <section class="final-cta"><div><div class="eyebrow">Ready when you are</div><h2>Make your next journey<br><span>easier to plan.</span></h2><p>Create your free PawVago account, add your pet, and start preparing for your next trip.</p></div><button class="primary-btn" id="footerSignup" onclick="auth('signup')">Create free account <b aria-hidden="true">→</b></button></section>
       <section class="pv-agent-section" id="ai-travel-agent" aria-labelledby="pv-agent-title">
@@ -273,6 +386,7 @@
     </form>
     <div class="pv-chat-disclaimer">Guided screening, not generative AI yet. Verify all requirements with your airline, vet and authorities.</div>
   </section>
+  <script src="life-hub.js" defer></script>
   <script src="agent-ui.js" defer></script>
   <script src="languages.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="app.js"></script><script src="ui-fixes.js"></script><script src="mobile-preview.js" defer></script><script src="motion.js" defer></script><script src="airline-matcher.js" defer></script><script src="journey.js" defer></script><script src="demo.js" defer></script>
