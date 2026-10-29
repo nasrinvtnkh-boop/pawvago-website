@@ -25,6 +25,11 @@ document.addEventListener("DOMContentLoaded", () => {
     $("pvl-tab-everyday").setAttribute("aria-selected",String(!isTravel));
     if(!isTravel)void load();
   }
+  $("pvlDashboardOpen")?.addEventListener("click",()=>{
+    if(typeof window.show==="function")window.show("home");
+    mode("everyday");
+    document.getElementById("paw-life-hub")?.scrollIntoView({behavior:"smooth",block:"start"});
+  });
   $("pvl-tab-travel").onclick=()=>mode("travel");
   $("pvl-tab-everyday").onclick=()=>mode("everyday");
   document.querySelectorAll("[data-pvl-open]").forEach(button=>button.addEventListener("click",()=>{
@@ -144,7 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const q=store.petId?db.from("pets").update(row).eq("id",store.petId).eq("user_id",store.uid):db.from("pets").insert(row);
     const res=await q.select("id").single();if(res.error){show(res.error.message);return}
     store.petId=res.data.id;await load();
-    if(typeof loadUserData==="function"){await loadUserData();if(typeof render==="function")render()}
+    if(typeof loadUserData==="function"){await loadUserData();if(typeof refresh==="function")await refresh()}
   };
   for(const [id,table,fields] of [
     ["pvl-doc-form","pet_documents",["document_type","document_name","issue_date","expiry_date"]],
