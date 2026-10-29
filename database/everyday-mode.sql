@@ -56,3 +56,7 @@ with check ((select auth.uid()) = user_id and exists (select 1 from public.pets 
 drop policy if exists "paw_vets_delete_own" on public.pet_vet_contacts;
 create policy "paw_vets_delete_own" on public.pet_vet_contacts for delete to authenticated
 using ((select auth.uid()) = user_id);
+
+-- Data API access only for authenticated users; never anonymous public inserts/reads.
+revoke all on public.pet_care_reminders, public.pet_vet_contacts from anon;
+grant select, insert, update, delete on public.pet_care_reminders, public.pet_vet_contacts to authenticated;
