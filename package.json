@@ -1,0 +1,13 @@
+{
+  "name": "pawvago-website",
+  "private": true,
+  "version": "0.1.0",
+  "description": "PawVago pet-travel web and read-only ChatGPT MCP tools",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.20.2",
+    "zod": "^3.25.76"
+  }
+}
