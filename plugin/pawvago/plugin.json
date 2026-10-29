@@ -21,7 +21,7 @@
     "com.openai": {
       "interface": {
         "displayName": "PawVago Pet Travel",
-        "shortDescription": "Screen airline rules for travelling with dogs and cats.",
+        "shortDescription": "Check airline pet policies",
         "longDescription": "Compare pet and carrier weights against a curated airline-policy snapshot. PawVago clearly marks unverified rules and does not provide live pet-space availability, guaranteed eligibility, booking, or legal veterinary advice.",
         "developerName": "PawVago",
         "websiteURL": "https://pawvago.com",
@@ -33,7 +33,9 @@
           "Using PawVago, check whether Air France's general cabin pet weight limit may fit my dog and carrier.",
           "Search PawVago's airline directory for Turkish Airlines and show which pet rules are verified.",
           "Check a preliminary cabin policy for a 6 kg dog in a 1.5 kg carrier."
-        ]
+        ],
+        "logo": "./assets/icon.svg",
+        "composerIcon": "./assets/icon.svg"
       }
     }
   }
