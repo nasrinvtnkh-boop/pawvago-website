@@ -34,3 +34,18 @@
 .pvl-hub [hidden]{display:none!important}
 @media(max-width:850px){.pvl-header,.pvl-grid{grid-template-columns:1fr}}
 @media(max-width:520px){.pvl-tabs{width:100%}.pvl-tab{flex:1;padding:12px 9px;font-size:12px}.pvl-form{grid-template-columns:1fr}.pvl-hub{padding:55px 16px}.pvl-card,.pvl-locator{padding:18px}}
+
+/* Keep the full PawVago header within the phone viewport when both modes are linked. */
+@media(max-width:550px){
+ .site-nav{gap:4px!important;padding-inline:7px!important;min-width:0;box-sizing:border-box}
+ .site-nav .brand{gap:3px!important;min-width:0;flex-shrink:1}
+ .site-nav .brand-mark{width:29px!important;height:28px!important}
+ .site-nav .brand-wordmark{font-size:15px!important;white-space:nowrap}
+ .site-nav .pv-language-picker{gap:0!important;padding:3px!important;max-width:77px;min-width:0;flex:0 1 77px}
+ .site-nav .pv-language-picker .pv-language-label{display:none!important}
+ .site-nav .pv-language-picker select{width:69px!important;min-width:0!important;max-width:69px!important;font-size:10px!important}
+ .site-nav .auth-actions{min-width:0;margin-left:auto!important;gap:2px!important}
+ .site-nav .auth-actions #loginBtn{display:none!important}
+ .site-nav .auth-actions #signupBtn{font-size:10px!important;padding:8px 7px!important;white-space:nowrap}
+ .site-nav .pv-menu-toggle{width:35px!important;height:35px!important;flex-shrink:0}
+}
