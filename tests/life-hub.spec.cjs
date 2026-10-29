@@ -19,6 +19,8 @@ test("anonymous user sees a sign-in prompt, not pet records",async({page})=>{
  await page.locator("#pvl-tab-everyday").click();
  await expect(page.locator("#pvl-pet-select")).toBeDisabled();
  await expect(page.locator("#pvl-account")).toContainText(/Sign in/);
+ await page.locator("#pvl-reminder-form [name=title]").fill("Vet check");
+ await page.locator("#pvl-reminder-form [name=due_date]").fill("2026-12-01");
  await page.locator("#pvl-reminder-form button[type=submit]").click();
  await expect(page.locator("#authModal")).toBeVisible();
 });
