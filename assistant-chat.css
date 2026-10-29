@@ -1,7 +1,7 @@
-#pv-chat-open{position:fixed;right:22px;bottom:20px;z-index:10030;display:flex;align-items:center;gap:10px;padding:14px 18px;background:#172a47;color:#fff;border:1px solid #304562;border-radius:36px;box-shadow:0 10px 28px #0c1c3442;font:700 14px "DM Sans",system-ui,sans-serif;cursor:pointer}
+#pv-chat-open{position:fixed;left:22px;right:auto;bottom:20px;z-index:10030;display:flex;align-items:center;gap:10px;padding:14px 18px;background:#172a47;color:#fff;border:1px solid #304562;border-radius:36px;box-shadow:0 10px 28px #0c1c3442;font:700 14px "DM Sans",system-ui,sans-serif;cursor:pointer}
 #pv-chat-open:focus-visible,#pv-chat-close:focus-visible,#pv-chat-form button:focus-visible{outline:3px solid #f6a96c;outline-offset:3px}
 #pv-chat-panel[hidden]{display:none!important}
-#pv-chat-panel{position:fixed;right:20px;bottom:82px;z-index:10031;width:min(420px,calc(100vw - 30px));height:min(560px,calc(100dvh - 125px));background:#fff;border:1px solid #d5dbe4;border-radius:22px;box-shadow:0 26px 80px #12284b40;display:flex;flex-direction:column;overflow:hidden;font-family:"DM Sans",system-ui,sans-serif;color:#1b2d48}
+#pv-chat-panel{position:fixed;left:20px;right:auto;bottom:82px;z-index:10031;width:min(420px,calc(100vw - 30px));height:min(560px,calc(100dvh - 125px));background:#fff;border:1px solid #d5dbe4;border-radius:22px;box-shadow:0 26px 80px #12284b40;display:flex;flex-direction:column;overflow:hidden;font-family:"DM Sans",system-ui,sans-serif;color:#1b2d48}
 .pv-chat-top{background:#172a47;color:#fff;padding:18px 18px 16px;display:flex;align-items:center;gap:12px}
 .pv-chat-top img{width:42px;height:42px;background:white;object-fit:contain;border-radius:12px;padding:3px}
 .pv-chat-top-text{flex:1}.pv-chat-top strong{display:block;font-size:16px}.pv-chat-top small{display:block;font-size:12px;opacity:.85;margin-top:3px}
@@ -15,4 +15,4 @@
 #pv-chat-send{border:0;border-radius:10px;background:#1c3459;color:#fff;font-weight:800;padding:14px 15px;cursor:pointer}
 #pv-chat-send:disabled{opacity:.6}
 .pv-chat-disclaimer{padding:0 13px 11px;font-size:10px;line-height:1.5;color:#5e6877;background:#fff}
-@media(max-width:560px){#pv-chat-open{right:12px;bottom:12px;padding:13px 15px}#pv-chat-panel{right:8px;bottom:70px;width:calc(100vw - 16px);height:min(600px,calc(100dvh - 90px))}}
+@media(max-width:560px){#pv-chat-open{left:12px;right:auto;bottom:12px;padding:13px 15px}#pv-chat-panel{left:8px;right:auto;bottom:70px;width:calc(100vw - 16px);height:min(600px,calc(100dvh - 90px))}}
