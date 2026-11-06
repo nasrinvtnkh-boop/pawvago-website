@@ -1,0 +1,61 @@
+/* One control palette, with native inline disclosures for informational sections. */
+:root { --pv-control: #172d3b; --pv-control-hover: #244252; }
+body button,
+body a.primary-btn,
+body a.secondary-btn,
+body .pvj-explorer-action,
+body .pvj-explorer-jumps a {
+  background: var(--pv-control) !important;
+  color: #fff !important;
+  border: 1px solid var(--pv-control) !important;
+  border-radius: 999px !important;
+}
+body button:hover,
+body a.primary-btn:hover,
+body a.secondary-btn:hover,
+body .pvj-explorer-trigger:hover .pvj-explorer-action {
+  background: var(--pv-control-hover) !important;
+}
+body button:disabled { opacity: .55; cursor: not-allowed; }
+body button:focus-visible,
+.pv-inline-panel > summary:focus-visible {
+  outline: 3px solid #b8784d;
+  outline-offset: 4px;
+}
+#homeView .flow-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+#homeView .feature-items { display: grid; gap: 12px; }
+#homeView .pv-inline-panel {
+  width: 100%; min-width: 0; overflow: hidden;
+  background: var(--pv-control); color: #fff;
+  border: 1px solid #405867; border-radius: 32px;
+}
+#homeView .pv-inline-panel > summary {
+  display: flex; align-items: center; gap: 14px;
+  min-height: 64px; padding: 16px 24px;
+  list-style: none; cursor: pointer; border-radius: 999px;
+  background: var(--pv-control); color: #fff;
+}
+#homeView .pv-inline-panel > summary::-webkit-details-marker { display: none; }
+#homeView .pv-inline-panel > summary::marker { content: ''; }
+#homeView .pv-inline-panel > summary:hover { background: var(--pv-control-hover); }
+#homeView .pv-inline-panel strong { color: #fff; font-size: 16px; line-height: 1.5; }
+#homeView .pv-panel-icon { flex: 0 0 24px; text-align: center; }
+#homeView .pv-panel-toggle {
+  margin-left: auto; flex: 0 0 24px; font-size: 24px;
+  line-height: 1; text-align: center; transition: transform .2s ease;
+}
+#homeView .pv-inline-panel[open] .pv-panel-toggle { transform: rotate(45deg); }
+#homeView .pv-panel-content {
+  padding: 0 24px 20px 62px; border-top: 1px solid #405867;
+}
+#homeView .pv-panel-content p {
+  margin: 16px 0 0; color: #e4ebef; font-size: 15px; line-height: 1.75;
+}
+@media (max-width: 600px) {
+  #homeView .pv-inline-panel > summary { padding: 14px 18px; gap: 10px; }
+  #homeView .pv-inline-panel strong { font-size: 14px; }
+  #homeView .pv-panel-content { padding: 0 18px 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #homeView .pv-panel-toggle { transition: none; }
+}
