@@ -379,3 +379,237 @@ body button:focus-visible,
   #homeView .pv-inline-panel .pv-panel-toggle { transition: none !important; transform: none !important; }
   #homeView .pv-inline-panel[open] .pv-panel-content { animation: none !important; }
 }
+
+
+/* PAWVAGO NAV DRAWER — vertical rail on desktop, tablet and mobile. */
+/* The only site navigation is now an intentional menu control. Keep the genuine
+   links in the DOM so anchors, translation and keyboard navigation keep working. */
+.site-nav { gap: clamp(8px, 1vw, 17px); }
+.site-nav > .brand { order: 0; margin-right: auto; flex-shrink: 0; }
+.site-nav > .pv-language-picker { order: 1; flex-shrink: 0; }
+.site-nav > .auth-actions { order: 2; flex-shrink: 0; }
+.site-nav > .pv-menu-toggle { order: 3; flex-shrink: 0; }
+.site-nav .desktop-nav { display: none !important; }
+.site-nav .pv-menu-toggle {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  position: relative;
+  order: 3;
+  width: auto;
+  min-width: 106px;
+  height: 46px;
+  min-height: 46px;
+  padding: 0 19px 0 43px;
+  margin: 0;
+  gap: 0;
+  border: 1px solid rgba(165, 128, 84, .42) !important;
+  border-radius: 999px !important;
+  background: linear-gradient(135deg, #fffefa 0%, #f4e8d8 100%) !important;
+  color: #173141 !important;
+  box-shadow: 0 6px 18px rgba(23,45,59,.07), inset 0 1px 0 rgba(255,255,255,.95);
+  font: 800 13px "DM Sans", sans-serif;
+  letter-spacing: .01em;
+  cursor: pointer;
+  transition: transform .23s ease, background .23s ease, box-shadow .23s ease;
+}
+.site-nav .pv-menu-toggle:hover,
+.site-nav .pv-menu-toggle[aria-expanded="true"] {
+  background: linear-gradient(135deg, #fffefa 0%, #ecdbc4 100%) !important;
+  box-shadow: 0 9px 24px rgba(23,45,59,.13);
+  transform: translateY(-1px);
+}
+.site-nav .pv-menu-toggle > span {
+  position: absolute;
+  left: 17px;
+  top: 17px;
+  width: 17px;
+  height: 2px;
+  border-radius: 3px;
+  background: #173141;
+  display: block;
+  transform-origin: center;
+  transition: transform .22s ease, opacity .22s ease;
+}
+.site-nav .pv-menu-toggle > span:nth-child(2) { top: 22px; }
+.site-nav .pv-menu-toggle > span:nth-child(3) { top: 27px; }
+.site-nav .pv-menu-toggle[aria-expanded="true"] > span:first-child {
+  transform: translateY(5px) rotate(45deg);
+}
+.site-nav .pv-menu-toggle[aria-expanded="true"] > span:nth-child(2) { opacity: 0; }
+.site-nav .pv-menu-toggle[aria-expanded="true"] > span:nth-child(3) {
+  transform: translateY(-5px) rotate(-45deg);
+}
+.site-nav .pv-menu-toggle .pv-menu-label {
+  color: #173141;
+  font: 800 13px "DM Sans", sans-serif;
+  letter-spacing: .01em;
+}
+.site-nav .pv-menu-toggle:focus-visible { outline: 3px solid #b8784d; outline-offset: 3px; }
+
+/* Refined signed-in state. app.js swaps Login/Create account for Dashboard. */
+.site-nav .auth-actions #dashBtn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 46px;
+  min-height: 46px;
+  padding: 0 23px;
+  border: 1px solid #304f5a !important;
+  border-radius: 999px !important;
+  background: linear-gradient(122deg, #152d3b, #234657 68%, #315360) !important;
+  color: #fff !important;
+  box-shadow: 0 9px 22px rgba(21,48,63,.2), inset 0 1px rgba(255,255,255,.2);
+  font: 800 13px "DM Sans", sans-serif;
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+.site-nav .auth-actions #dashBtn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(122deg, #234251, #386275) !important;
+  box-shadow: 0 12px 28px rgba(21,48,63,.24);
+}
+
+/* Floating vertical rail, anchored at the right of the header. */
+.site-nav .desktop-nav.pv-mobile-open {
+  display: flex !important;
+  flex-direction: column !important;
+  position: absolute !important;
+  top: calc(100% + 9px) !important;
+  right: clamp(14px, 4.6vw, 84px) !important;
+  left: auto !important;
+  bottom: auto !important;
+  width: min(362px, calc(100vw - 30px)) !important;
+  max-width: none;
+  max-height: min(70vh, 580px);
+  padding: 16px !important;
+  margin: 0 !important;
+  gap: 4px !important;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 1px solid rgba(183, 153, 120, .34) !important;
+  border-radius: 25px !important;
+  background: rgba(255,251,246,.98) !important;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 24px 65px rgba(18,39,54,.19), 0 3px 11px rgba(18,39,54,.045) !important;
+  z-index: 70;
+  animation: pv-rail-open .24s cubic-bezier(.2,.85,.2,1) both;
+  counter-reset: pv-rail-item;
+}
+.site-nav .desktop-nav.pv-mobile-open::before {
+  content: "EXPLORE PAWVAGO";
+  display: block;
+  color: #9b744d;
+  font: 850 10px "DM Sans", sans-serif;
+  letter-spacing: .17em;
+  padding: 9px 12px 12px;
+}
+.site-nav .desktop-nav.pv-mobile-open::after {
+  content: "YOUR JOURNEY, MADE SIMPLER";
+  display: block;
+  border-top: 1px solid #ebded0;
+  padding: 16px 12px 5px;
+  margin-top: 10px;
+  color: #87929b;
+  font: 800 9px "DM Sans", sans-serif;
+  letter-spacing: .14em;
+}
+.site-nav .desktop-nav.pv-mobile-open a {
+  counter-increment: pv-rail-item;
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  min-height: 54px;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 12px 14px !important;
+  border-radius: 14px !important;
+  color: #1c3848 !important;
+  background: transparent !important;
+  font: 750 14px "DM Sans", sans-serif;
+  letter-spacing: -.01em;
+  text-decoration: none;
+  transform: none;
+  transition: background-color .2s ease, transform .2s ease, color .2s ease;
+}
+.site-nav .desktop-nav.pv-mobile-open a::before {
+  content: "0" counter(pv-rail-item);
+  position: static;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  border-radius: 10px;
+  background: #efe4d7;
+  color: #9c6846;
+  font: 800 11px "DM Sans", sans-serif;
+  letter-spacing: 0;
+}
+.site-nav .desktop-nav.pv-mobile-open a::after {
+  content: "↗";
+  position: static;
+  display: inline-block;
+  width: auto;
+  height: auto;
+  margin-left: auto;
+  border: none;
+  background: transparent;
+  color: #ac8a64;
+  font-size: 17px;
+  line-height: 1;
+}
+.site-nav .desktop-nav.pv-mobile-open a:hover,
+.site-nav .desktop-nav.pv-mobile-open a:focus-visible {
+  transform: translateX(3px);
+  background: #f2e7d9 !important;
+  color: #172d3b !important;
+}
+.site-nav .desktop-nav.pv-mobile-open a:focus-visible {
+  outline: 2px solid #b8784d;
+  outline-offset: 0;
+}
+@keyframes pv-rail-open {
+  from { opacity: 0; transform: translateY(-9px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* On smaller screens: readable two-row header, not squeezed micro-buttons. */
+@media (max-width: 860px) {
+  .site-nav {
+    display: grid;
+    grid-template-columns: minmax(0,1fr) auto;
+    height: auto;
+    min-height: 112px;
+    padding: 11px 18px;
+    column-gap: 10px;
+    row-gap: 10px;
+  }
+  .site-nav > .brand { grid-column: 1; grid-row: 1; margin-right: 0; justify-self: start; }
+  .site-nav > .pv-menu-toggle { grid-column: 2; grid-row: 1; justify-self: end; }
+  .site-nav > .pv-language-picker { grid-column: 1; grid-row: 2; justify-self: start; }
+  .site-nav > .auth-actions { grid-column: 2; grid-row: 2; justify-self: end; margin: 0; }
+  .site-nav .desktop-nav.pv-mobile-open { right: 14px !important; }
+}
+@media (max-width: 600px) {
+  .site-nav .pv-menu-toggle { height: 41px; min-height: 41px; min-width: 97px; padding-left: 40px; padding-right: 15px; }
+  .site-nav .pv-menu-toggle > span { left: 15px; top: 14px; }
+  .site-nav .pv-menu-toggle > span:nth-child(2) { top: 19px; }
+  .site-nav .pv-menu-toggle > span:nth-child(3) { top: 24px; }
+  .site-nav .auth-actions #dashBtn { height: 41px; min-height: 41px; padding-inline: 18px; }
+  .site-nav .desktop-nav.pv-mobile-open { width: min(360px,calc(100vw - 22px)) !important; right: 11px !important; }
+}
+/* 320px phones: give both account controls enough touch space. */
+@media (max-width: 410px) {
+  .site-nav { grid-template-columns: 1fr auto; min-height: 150px; padding: 10px 12px; }
+  .site-nav > .pv-language-picker { grid-column: 1; grid-row: 2; }
+  .site-nav > .auth-actions { grid-column: 1/-1; grid-row: 3; justify-self: start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-nav .desktop-nav.pv-mobile-open { animation: none !important; }
+  .site-nav .desktop-nav.pv-mobile-open a,
+  .site-nav .pv-menu-toggle,
+  .site-nav .pv-menu-toggle > span,
+  .site-nav .auth-actions #dashBtn { transition: none !important; transform: none !important; }
+}
