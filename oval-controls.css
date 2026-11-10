@@ -121,3 +121,261 @@ body button:focus-visible,
   .site-nav .auth-actions #loginBtn,
   .site-nav .auth-actions #signupBtn { transition: none; }
 }
+
+
+/* PawVago Atelier — refined premium header and accordion design (Nov 2026). */
+:root {
+  --pv-ink: #172d3b;
+  --pv-ink-deep: #102532;
+  --pv-pearl: #fffaf3;
+  --pv-champagne: #d7b48a;
+  --pv-champagne-light: #efd9b7;
+  --pv-control-shadow: 0 8px 24px rgba(17, 39, 53, .12);
+}
+
+/* Calm, warm-glass navigation that looks intentional both at the top and on scroll. */
+.site-nav {
+  background: rgba(255, 251, 245, .94);
+  border-bottom: 1px solid rgba(172, 149, 122, .23);
+  box-shadow: 0 7px 32px rgba(23, 45, 59, .055);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+.site-nav.pv-scrolled {
+  background: rgba(255, 251, 245, .97);
+  border-color: rgba(172, 149, 122, .3);
+  box-shadow: 0 12px 35px rgba(23, 45, 59, .105);
+}
+.site-nav .desktop-nav a {
+  color: #344d5a;
+  font-weight: 750;
+  letter-spacing: -.012em;
+  text-decoration-thickness: 1px;
+}
+.site-nav .desktop-nav a:hover,
+.site-nav .desktop-nav a:focus-visible { color: #915c36; }
+.site-nav .desktop-nav a::after {
+  height: 2px;
+  background: linear-gradient(90deg, var(--pv-champagne), #9d6540);
+}
+
+/* Truly coordinated, accessible oval controls. The login is intentionally light,
+   the sign-up is the single prominent call to action. */
+.site-nav .auth-actions { gap: 9px; }
+.site-nav .auth-actions #loginBtn,
+.site-nav .auth-actions #signupBtn,
+.site-nav .pv-language-picker {
+  min-height: 46px;
+  height: 46px;
+  border-radius: 999px !important;
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  box-shadow: var(--pv-control-shadow);
+  transition: transform .22s cubic-bezier(.2,.8,.2,1), box-shadow .22s ease,
+              background .22s ease, border-color .22s ease, color .22s ease;
+}
+.site-nav .auth-actions #loginBtn {
+  display: inline-flex !important;
+  padding: 0 19px;
+  color: var(--pv-ink) !important;
+  background: linear-gradient(135deg, #fffdf9 0%, #f4eade 100%) !important;
+  border: 1px solid rgba(157, 120, 78, .36) !important;
+  box-shadow: 0 5px 17px rgba(23, 45, 59, .06), inset 0 1px rgba(255,255,255,.95);
+}
+.site-nav .auth-actions #signupBtn {
+  padding: 0 22px;
+  color: #fff !important;
+  background: linear-gradient(122deg, #152d3b 0%, #234657 68%, #315360 100%) !important;
+  border: 1px solid #304f5a !important;
+  box-shadow: 0 9px 22px rgba(21, 48, 63, .2), inset 0 1px rgba(255,255,255,.2);
+  position: relative;
+}
+.site-nav .auth-actions #loginBtn:hover {
+  color: var(--pv-ink-deep) !important;
+  background: linear-gradient(135deg, #fffdf9, #f0ddc7) !important;
+  border-color: var(--pv-champagne) !important;
+}
+.site-nav .auth-actions #signupBtn:hover {
+  background: linear-gradient(122deg, #234251, #386275) !important;
+  box-shadow: 0 12px 28px rgba(21, 48, 63, .25), inset 0 1px rgba(255,255,255,.18);
+}
+.site-nav .auth-actions #loginBtn:hover,
+.site-nav .auth-actions #signupBtn:hover,
+.site-nav .pv-language-picker:hover {
+  transform: translateY(-2px);
+}
+.site-nav .auth-actions #loginBtn:active,
+.site-nav .auth-actions #signupBtn:active { transform: translateY(0) scale(.985); }
+
+.site-nav .pv-language-picker {
+  position: relative;
+  padding: 0;
+  margin-left: 0;
+  color: var(--pv-ink) !important;
+  background: linear-gradient(140deg, #fffdf9, #f7efe3) !important;
+  border: 1px solid rgba(157, 120, 78, .34) !important;
+  box-shadow: 0 5px 17px rgba(23, 45, 59, .06), inset 0 1px rgba(255,255,255,.95);
+}
+.site-nav .pv-language-picker:hover {
+  background: linear-gradient(140deg, #fffdf9, #efe0cd) !important;
+  border-color: var(--pv-champagne) !important;
+}
+.site-nav .pv-language-picker select {
+  width: 144px;
+  min-width: 0;
+  max-width: none;
+  height: 100%;
+  padding: 0 31px 0 16px;
+  border-radius: 999px;
+  color: var(--pv-ink) !important;
+  font: 800 12.5px "DM Sans", sans-serif;
+  background: transparent !important;
+  cursor: pointer;
+}
+.site-nav .pv-language-picker::after {
+  top: 18px;
+  right: 17px;
+  border-color: #98643e;
+  transition: transform .18s ease;
+}
+.site-nav .pv-language-picker:focus-within {
+  outline: 3px solid rgba(183, 131, 80, .65);
+  outline-offset: 3px;
+}
+.site-nav .pv-language-picker option { color: #172d3b; background: #fffaf3; }
+
+/* Accordion rows are elegant capsules, and expanded content opens beneath
+   the same curved shell without changing the link destinations or copy. */
+#homeView .pv-inline-panel {
+  position: relative;
+  background: linear-gradient(145deg, #142c3a 0%, #244656 100%);
+  border: 1px solid rgba(215, 180, 138, .42);
+  border-radius: 27px;
+  box-shadow: 0 13px 32px rgba(17, 39, 53, .12), inset 0 1px rgba(255,255,255,.08);
+  transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+}
+#homeView .pv-inline-panel:hover,
+#homeView .pv-inline-panel:focus-within {
+  transform: translateY(-2px);
+  border-color: rgba(239,217,183,.8);
+  box-shadow: 0 17px 38px rgba(17, 39, 53, .17), inset 0 1px rgba(255,255,255,.09);
+}
+#homeView .pv-inline-panel > summary {
+  min-height: 74px;
+  gap: 16px;
+  padding: 15px 20px;
+  border-radius: 26px;
+  background: transparent !important;
+  color: #fff !important;
+}
+#homeView .pv-inline-panel > summary:hover { background: rgba(255,255,255,.055) !important; }
+#homeView .pv-inline-panel[open] > summary { border-radius: 26px 26px 0 0; }
+#homeView .pv-inline-panel strong {
+  font: 750 clamp(14px, 1.12vw, 16px)/1.45 "Manrope", "DM Sans", sans-serif;
+  letter-spacing: -.02em;
+  color: #fff;
+}
+#homeView .pv-inline-panel .pv-panel-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 40px;
+  height: 40px;
+  border: 1px solid rgba(239,217,183,.5);
+  border-radius: 13px;
+  background: rgba(239,217,183,.12);
+  font-size: 19px;
+}
+#homeView .pv-inline-panel .pv-panel-toggle {
+  display: grid;
+  place-items: center;
+  flex: 0 0 32px;
+  height: 32px;
+  margin-left: auto;
+  background: rgba(239,217,183,.13);
+  color: #f3d6af;
+  border: 1px solid rgba(239,217,183,.35);
+  border-radius: 50%;
+  font-size: 22px;
+  font-weight: 400;
+  transition: transform .24s ease, background .24s ease;
+}
+#homeView .pv-inline-panel[open] .pv-panel-toggle {
+  transform: rotate(45deg);
+  background: rgba(239,217,183,.23);
+}
+#homeView .pv-inline-panel .pv-panel-content {
+  padding: 0 26px 23px 76px;
+  border-top: 1px solid rgba(239,217,183,.22);
+}
+#homeView .pv-inline-panel .pv-panel-content p {
+  color: #e9f0f2;
+  font-size: 14px;
+  line-height: 1.8;
+}
+#homeView .pv-inline-panel[open] .pv-panel-content {
+  animation: pv-atelier-expand .23s ease-out both;
+}
+@keyframes pv-atelier-expand {
+  from { opacity: .5; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Showcase CTAs match the header, while other functional buttons remain legible. */
+#homeView .hero-actions .primary-btn,
+#homeView .final-cta .primary-btn,
+#homeView .contact-button {
+  border: 1px solid #284c5b !important;
+  background: linear-gradient(120deg, #172d3b, #315667) !important;
+  color: white !important;
+  box-shadow: 0 12px 28px rgba(23, 45, 59, .2);
+}
+#homeView .hero-actions .primary-btn:hover,
+#homeView .final-cta .primary-btn:hover,
+#homeView .contact-button:hover {
+  background: linear-gradient(120deg, #244455, #3d6879) !important;
+}
+#homeView .hero-actions .secondary-btn {
+  color: var(--pv-ink) !important;
+  background: linear-gradient(130deg, #fffefa, #f6ede2) !important;
+  border: 1px solid #dbc4ac !important;
+  box-shadow: 0 8px 20px rgba(23,45,59,.08);
+}
+.site-nav .pv-menu-toggle {
+  border-radius: 15px !important;
+  background: linear-gradient(145deg, #fffdf9, #f4e8d8) !important;
+  color: #173141 !important;
+  border: 1px solid rgba(157,120,78,.38) !important;
+  box-shadow: 0 5px 14px rgba(23, 45, 59, .09);
+}
+
+@media (max-width: 600px) {
+  .site-nav { row-gap: 10px; padding: 11px 15px; }
+  .site-nav .auth-actions { gap: 7px; }
+  .site-nav .auth-actions #loginBtn,
+  .site-nav .auth-actions #signupBtn { height: 41px; min-height: 41px; }
+  .site-nav .pv-language-picker { height: 41px; min-height: 41px; }
+  .site-nav .pv-language-picker select { width: 119px; font-size: 12px; padding-left: 13px; padding-right: 25px; }
+  .site-nav .pv-language-picker::after { top: 15px; right: 12px; }
+  #homeView .pv-inline-panel { border-radius: 23px; }
+  #homeView .pv-inline-panel > summary { min-height: 65px; padding: 12px 14px; gap: 11px; }
+  #homeView .pv-inline-panel .pv-panel-icon { flex-basis: 34px; width: 34px; height: 34px; font-size: 17px; border-radius: 11px; }
+  #homeView .pv-inline-panel .pv-panel-toggle { flex-basis: 30px; width: 30px; height: 30px; }
+  #homeView .pv-inline-panel .pv-panel-content { padding: 0 18px 18px; }
+}
+@media (max-width: 380px) {
+  .site-nav { padding-inline: 11px; column-gap: 6px; }
+  .site-nav .auth-actions { gap: 5px; }
+  .site-nav .pv-language-picker select { width: 105px; padding-left: 9px; font-size: 11px; }
+  .site-nav .auth-actions #loginBtn { padding-inline: 11px; font-size: 11px; }
+  .site-nav .auth-actions #signupBtn { padding-inline: 12px; font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-nav .auth-actions #loginBtn,
+  .site-nav .auth-actions #signupBtn,
+  .site-nav .pv-language-picker,
+  #homeView .pv-inline-panel,
+  #homeView .pv-inline-panel .pv-panel-toggle { transition: none !important; transform: none !important; }
+  #homeView .pv-inline-panel[open] .pv-panel-content { animation: none !important; }
+}
