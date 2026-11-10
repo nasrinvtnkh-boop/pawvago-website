@@ -613,3 +613,50 @@ body button:focus-visible,
   .site-nav .pv-menu-toggle > span,
   .site-nav .auth-actions #dashBtn { transition: none !important; transform: none !important; }
 }
+
+
+/* Official PawVago social links — matching oval identity. */
+#homeView .pv-social-block { display: flex; flex-direction: column; align-items: flex-start; gap: 11px; width: 100%; margin-top: 5px; }
+#homeView .pv-social-caption { font: 800 10px "DM Sans", sans-serif; letter-spacing: .14em; color: #8f6e50; }
+#homeView .pv-social-links { display: flex; flex-wrap: wrap; gap: 10px; width: 100%; }
+#homeView .pv-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  min-height: 49px;
+  padding: 7px 17px 7px 8px;
+  border: 1px solid rgba(166,130,92,.35);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #fffefa, #f5eadd);
+  color: #213b49;
+  box-shadow: 0 6px 18px rgba(23,45,59,.07), inset 0 1px rgba(255,255,255,.9);
+  font: 800 13px "DM Sans", sans-serif;
+  text-decoration: none;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+#homeView .pv-social-link:hover {
+  transform: translateY(-2px);
+  border-color: #c69b6a;
+  background: linear-gradient(135deg, #fffefa, #efddc7);
+  box-shadow: 0 10px 25px rgba(23,45,59,.12);
+}
+#homeView .pv-social-link:focus-visible { outline: 3px solid #b8784d; outline-offset: 3px; }
+#homeView .pv-social-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 33px;
+  height: 33px;
+  flex: 0 0 33px;
+  border-radius: 50%;
+  background: linear-gradient(140deg, #172d3b, #33586a);
+  color: #fff;
+}
+#homeView .pv-social-icon svg { display: block; width: 17px; height: 17px; }
+@media (max-width: 600px) {
+  #homeView .pv-social-links { gap: 8px; }
+  #homeView .pv-social-link { min-height: 46px; padding-right: 14px; font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #homeView .pv-social-link { transition: none; transform: none !important; }
+}
