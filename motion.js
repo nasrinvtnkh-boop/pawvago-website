@@ -40,7 +40,7 @@
   updateHeader();
   window.addEventListener("scroll", updateHeader, { passive: true });
 
-  // Keyboard-accessible mobile menu using the existing real navigation links.
+  // Accessible navigation drawer on every screen size.
   if (nav) {
     nav.id = "pv-main-menu";
     const toggle = document.createElement("button");
@@ -49,7 +49,7 @@
     toggle.setAttribute("aria-label", "Open navigation menu");
     toggle.setAttribute("aria-controls", nav.id);
     toggle.setAttribute("aria-expanded", "false");
-    toggle.innerHTML = "<span></span><span></span><span></span>";
+    toggle.innerHTML = '<span></span><span></span><span></span><b class="pv-menu-label" aria-hidden="true">Menu</b>';
     header.appendChild(toggle);
     const closeMenu = () => {
       nav.classList.remove("pv-mobile-open");
@@ -70,7 +70,7 @@
       }
     });
     document.addEventListener("click", e => {
-      if (!header.contains(e.target)) closeMenu();
+      if (!nav.contains(e.target) && !toggle.contains(e.target)) closeMenu();
     });
     window.matchMedia("(min-width: 1181px)").addEventListener?.("change", e => {
       if (e.matches) closeMenu();
