@@ -1106,3 +1106,37 @@ body button:focus-visible,
   }
   #homeView .hero > .pvj-explorer[open] .pvj-explorer-trigger { padding: 20px !important; }
 }
+
+
+/* How it works hero: moved heading, no duplicate title in the steps. */
+#homeView .hero-copy { max-width: 575px; }
+#homeView .hero .eyebrow { margin-bottom: 23px; }
+#homeView .hero h1 {
+  max-width: 580px;
+  font-size: clamp(37px, 3.6vw, 56px);
+  line-height: 1.16;
+  letter-spacing: -.048em;
+  margin: 0;
+}
+#homeView .hero h1 span { display: inline; }
+#homeView #how-steps {
+  padding-top: clamp(55px, 6vw, 82px);
+}
+#homeView #how-steps .pv-how-summary {
+  width: min(680px, 100%);
+  margin: 0 auto 30px;
+  text-align: center;
+}
+#homeView #how-steps .pv-how-summary p {
+  margin: 0;
+  color: #526371;
+  font: 500 clamp(15px, 1.3vw, 17px)/1.8 "DM Sans", sans-serif;
+}
+@media (max-width: 900px) {
+  #homeView .hero h1 { font-size: clamp(38px, 6.8vw, 55px); }
+}
+@media (max-width: 600px) {
+  #homeView .hero h1 { font-size: clamp(34px, 8vw, 43px); line-height: 1.15; }
+  #homeView #how-steps { padding-top: 56px; }
+  #homeView #how-steps .pv-how-summary { margin-bottom: 24px; text-align: left; }
+}
