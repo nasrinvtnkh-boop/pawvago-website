@@ -1192,3 +1192,29 @@ body button:focus-visible,
   #homeView .hero > .pvj-always-visible .pvj-explorer-label strong { font-size: 20px; }
   #homeView .hero > .pvj-always-visible .pvj-explorer-jumps { padding: 14px 14px 0; }
 }
+
+
+/* Signed-in dashboard: additional airlines with unverified policies. */
+#dashboardView .pv-unverified-carriers {
+  grid-column: 1 / -1;
+  width: 100%;
+  padding: 16px;
+  border: 1px solid #dce5eb;
+  border-radius: 18px;
+  background: #f7fafc;
+}
+#dashboardView .pv-unverified-carriers > summary {
+  cursor: pointer;
+  color: #172d3b;
+  font: 800 14px/1.55 "DM Sans", sans-serif;
+  padding: 5px 0;
+}
+#dashboardView .pv-unverified-carriers > summary:focus-visible {
+  outline: 3px solid #b8784d;
+  outline-offset: 3px;
+}
+#dashboardView .pv-unverified-carriers .pv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(235px,100%), 1fr));
+  gap: 12px;
+}
