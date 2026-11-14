@@ -211,3 +211,112 @@
 .pvj-match-blocked-list>summary{font-size:12px;color:#d5e6ef;cursor:pointer;font-weight:800}
 .pvj-match-empty{padding:16px;border:1px dashed rgba(229,240,250,.32);border-radius:11px;font-size:12px;color:#d7e6ef;line-height:1.6}
 @media(max-width:610px){.pvj-placement{grid-template-columns:repeat(2,minmax(0,1fr))}.pvj-match-card-head{flex-wrap:wrap}.pvj-match-overview{gap:5px}.pvj-match-overview>div{padding:10px 7px}.pvj-match-overview small{font-size:9px}.pvj-match-overview strong{font-size:20px}}
+
+
+/* Worldwide carrier coverage: screened, unverified, and user-specified airlines. */
+.pvj-airline-preference {
+  padding: 14px 16px;
+  border: 1px solid #d9e5ec;
+  border-radius: 15px;
+  background: #f8fafc;
+  min-width: 0;
+}
+.pvj-airline-preference label {
+  color: #304f62;
+  font-size: 11px;
+  font-weight: 800;
+}
+.pvj-airline-preference input {
+  background: #fff !important;
+}
+.pvj-airline-preference small {
+  display: block;
+  margin-top: 8px;
+  color: #667e90;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.65;
+}
+.pvj-match-overview { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.pvj-match-overview > div:last-child {
+  border-color: rgba(226,196,133,.4);
+  background: rgba(199,157,84,.1);
+}
+.pvj-match-card.pvj-match-unverified {
+  border-color: rgba(221,185,120,.3);
+  background: rgba(181,149,99,.09);
+  box-shadow: none;
+}
+.pvj-match-unverified .pvj-match-card-tag {
+  color: #f3d5a7;
+  border-color: rgba(245,207,151,.38);
+  white-space: normal;
+  text-align: center;
+}
+.pvj-match-unverified h4 small {
+  font-size: 11px;
+  font-weight: 500;
+  color: #b7c8d6;
+}
+.pvj-unverified-panel {
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid rgba(230,211,172,.25);
+  border-radius: 16px;
+  background: rgba(255,255,255,.035);
+  min-width: 0;
+}
+.pvj-unverified-panel .pvj-match-group-heading { margin: 0 0 8px; flex-wrap: wrap; }
+.pvj-unknown-label {
+  display: block;
+  color: #cbdde9;
+  font-size: 11px;
+  font-weight: 800;
+  margin: 16px 0 13px;
+}
+.pvj-unknown-label input {
+  display: block;
+  margin-top: 7px;
+  width: 100%;
+  min-width: 0;
+  height: 44px;
+  padding: 0 13px;
+  border: 1px solid rgba(193,216,231,.42);
+  border-radius: 12px;
+  background: #1c354b;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+.pvj-unknown-label input::placeholder { color: #a4b9c9; }
+.pvj-unknown-label input:focus-visible {
+  outline: 3px solid rgba(229,185,113,.5);
+  outline-offset: 2px;
+}
+.pvj-match-card[hidden], .pvj-unknown-footer button[hidden] { display: none !important; }
+.pvj-unknown-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+.pvj-unknown-footer > span { font-size: 11px; color: #c7d8e5; }
+.pvj-unknown-footer button {
+  cursor: pointer;
+  border: 1px solid #69849a !important;
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: #254559 !important;
+  color: white !important;
+  font-size: 11px;
+  font-weight: 800;
+}
+.pvj-unknown-footer button:hover { background: #34586e !important; }
+@media (max-width: 610px) {
+  .pvj-match-overview { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .pvj-unverified-panel { padding: 13px; }
+  .pvj-match-card-head { flex-wrap: wrap; }
+  .pvj-unknown-footer { align-items: stretch; flex-direction: column; }
+}
