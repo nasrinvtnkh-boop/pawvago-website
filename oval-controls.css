@@ -1218,3 +1218,30 @@ body button:focus-visible,
   grid-template-columns: repeat(auto-fit, minmax(min(235px,100%), 1fr));
   gap: 12px;
 }
+
+/* Matching blue header controls, including all interaction states. */
+.site-nav .auth-actions #loginBtn,
+.site-nav .auth-actions #signupBtn,
+.site-nav .pv-language-picker {
+  background: var(--pv-control) !important;
+  color: #fff !important;
+  border-color: var(--pv-control) !important;
+  box-shadow: var(--pv-control-shadow);
+}
+.site-nav .auth-actions #loginBtn:hover,
+.site-nav .auth-actions #signupBtn:hover,
+.site-nav .pv-language-picker:hover {
+  background: var(--pv-control-hover) !important;
+  color: #fff !important;
+  border-color: var(--pv-control-hover) !important;
+}
+.site-nav .pv-language-picker select { color: #fff !important; }
+.site-nav .pv-language-picker::after { border-color: #fff; }
+html[lang="fa"] body { font-family: Tahoma, Arial, sans-serif; }
+html[lang="fa"] .hero-copy,
+html[lang="fa"] #homeView #how-steps .pv-how-summary { text-align: right; }
+html[lang="fa"] .pv-panel-toggle { margin-left: 0; margin-right: auto; }
+html[lang="fa"] input[type="email"],
+html[lang="fa"] input[type="number"],
+html[lang="fa"] input[type="date"],
+html[lang="fa"] .pv-email-link { direction: ltr; }
