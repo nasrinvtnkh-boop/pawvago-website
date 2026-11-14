@@ -84,9 +84,15 @@
                   <label>Pet breed <span class="pvj-optional">(recommended)</span><input id="pvj-breed" type="text" maxlength="90" placeholder="e.g. Shih Tzu or Persian"></label>
                   <label class="pvj-snub-label"><input id="pvj-snub" type="checkbox"><span>My pet is flat-faced / short-nosed<small>Important for hold travel safety</small></span></label>
                 </div>
-                <div class="pvj-placement-hint" id="pvj-placement-hint">PawVago compares all source-reviewed carriers automatically. Actual flight routes, pet spaces and bookings must be confirmed.</div>
+                <div class="pvj-airline-preference">
+                  <label for="pvj-airline-name">Check a specific airline <span class="pvj-optional">(optional)</span></label>
+                  <input id="pvj-airline-name" type="search" maxlength="100" list="pvj-airline-names" placeholder="e.g. Delta, United or another airline" autocomplete="off">
+                  <datalist id="pvj-airline-names"></datalist>
+                  <small>Leave blank to compare every listed airline. You can enter an airline outside the directory; its pet policy will be marked unverified.</small>
+                </div>
+                <div class="pvj-placement-hint" id="pvj-placement-hint">PawVago includes every listed carrier. Only source-reviewed rules can produce initial policy matches; others require airline confirmation.</div>
               </div>
-              <div class="pvj-airline-auto-note" id="pvj-airline-box"><strong>✦ Automatic airline matching</strong><span>Choose Air and enter your pet details. PawVago screens all reviewed airline policies; no airline selection needed.</span></div>
+              <div class="pvj-airline-auto-note" id="pvj-airline-box"><strong>✦ Global airline comparison</strong><span>Screen the entire airline directory: verified conditions are assessed, and missing policies are clearly marked for direct airline confirmation.</span></div>
               <button class="pvj-submit" type="submit">Compare airlines for my pet <span aria-hidden="true">↗</span></button>
               <p class="pvj-form-note">Illustrative trip planning. Check the operating carrier, transit rules, pet spaces, and veterinary paperwork before booking.</p>
             </form>
