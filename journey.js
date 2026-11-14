@@ -16,7 +16,8 @@
     carrierLabel: $("pvj-carrier-label"), placementHint: $("pvj-placement-hint"),
     directorySearch: $("pvj-directory-search"),
     directoryRegion: $("pvj-directory-region"), directoryStatus: $("pvj-directory-status"),
-    directoryCount: $("pvj-directory-count"), directoryMore: $("pvj-directory-more")
+    directoryCount: $("pvj-directory-count"), directoryMore: $("pvj-directory-more"),
+    airlineName: $("pvj-airline-name"), airlineNames: $("pvj-airline-names")
   };
   const safe = value => String(value ?? "").replace(/[&<>"']/g, c => ({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
@@ -239,7 +240,18 @@
         status("Airline comparison unavailable",
           "The airline matching module could not be loaded. Do not make decisions using incomplete results.","pvj-danger");
       } else {
-        const analysis = window.PawVagoAirMatcher.evaluate(policy.airlines,{
+        const preferredName = ui.airlineName?.value.trim() || "";
+        const normalizedAirlineName = preferredName.toLocaleLowerCase();
+        const exactCode = normalizedAirlineName
+          ? policy.airlines.filter(a => a.id.toLocaleLowerCase() === normalizedAirlineName)
+          : [];
+        const namedAirlines = !normalizedAirlineName ? policy.airlines
+          : exactCode.length ? exactCode
+          : policy.airlines.filter(a => a.name.toLocaleLowerCase().includes(normalizedAirlineName));
+        const selectedAirlines = normalizedAirlineName && !namedAirlines.length
+          ? [{id:"CUSTOM",name:preferredName,region:"Not in directory",policy_status:"unverified"}]
+          : namedAirlines;
+        const analysis = window.PawVagoAirMatcher.evaluate(selectedAirlines,{
           petKg, cabinKg:carrierKg, crateKg,
           cabinDims:dims, crateDims,
           cabinDimensionsPartial:dimensionsPartial,crateDimensionsPartial:crateDimsPartial,
@@ -265,14 +277,18 @@
             (refUrl ? sourceLink(refUrl,"Official " + airline.name + " animal transport rules ↗") : '') +
             '</article>';
         };
-        const potential=analysis.groups.potential,review=analysis.groups.review,blocked=analysis.groups.blocked;
+        const potential=analysis.groups.potential,review=analysis.groups.review,blocked=analysis.groups.blocked,unverified=analysis.groups.unverified;
         pieces.push('<div class="pvj-match-overview">' +
           '<div><strong>' + potential.length + '</strong><small>Initial policy matches</small></div>' +
           '<div><strong>' + review.length + '</strong><small>Need additional checks</small></div>' +
-          '<div><strong>' + blocked.length + '</strong><small>Policy mismatches</small></div></div>');
-        pieces.push('<p class="pvj-match-warning"><strong>Important:</strong> ' + safe(analysis.warning) +
-          ' Results only use ' + analysis.reviewed + ' source-reviewed airline policies; ' + analysis.unverified +
-          ' unverified listings have been excluded from recommendations.</p>');
+          '<div><strong>' + blocked.length + '</strong><small>Policy mismatches</small></div>' +
+          '<div><strong>' + unverified.length + '</strong><small>Policies not verified</small></div></div>');
+        pieces.push('<p class="pvj-match-warning"><strong>Coverage:</strong> ' +
+          analysis.total + ' ' + (analysis.total===1?'airline':'airlines') + ' considered' +
+          (preferredName ? ' for your search' : ' from the current worldwide directory') + ': ' +
+          analysis.reviewed + ' source-reviewed and ' + analysis.unverified +
+          ' awaiting policy verification. An unverified airline has no eligibility verdict. ' +
+          safe(analysis.warning) + '</p>');
         if (placement==="auto") pieces.push('<p class="pvj-match-warning">Automatic mode compares cabin using your cabin bag weight, and checked hold using a separate rigid crate weight. It does not assume the same carrier can be used in both places.</p>');
         if (potential.length) pieces.push('<div class="pvj-match-group-heading"><span>Preliminary policy matches</span><small>Flight route + space unverified</small></div><div class="pvj-match-list">' +
           potential.map(airlineCard).join("") + '</div>');
@@ -282,7 +298,31 @@
         if (blocked.length) pieces.push('<details class="pvj-match-blocked-list"><summary>Not suitable under listed conditions (' +
           blocked.length + ' carriers)</summary><div class="pvj-match-list" style="margin-top:12px">' +
           blocked.map(airlineCard).join("") + '</div></details>');
-        if (analysis.unverified) pieces.push('<p class="pvj-match-disclaimer">More airlines are listed in our <a href="#policy-library">airline directory ↗</a>, but policy details are unverified and cannot be safely recommended yet.</p>');
+        if (unverified.length) {
+          const missingPolicyCard = entry => {
+            const airline = entry.airline;
+            const searchText = (airline.name + " " + airline.id + " " + (airline.region || "")).toLocaleLowerCase();
+            return '<article class="pvj-match-card pvj-match-unverified" data-pvj-unverified="' + safe(searchText) + '">' +
+              '<div class="pvj-match-card-head"><h4>' + safe(airline.name) +
+              ' <small>(' + safe(airline.id==="CUSTOM"?"not yet listed":airline.id) + ')</small></h4>' +
+              '<span class="pvj-match-card-tag">Policy not verified</span></div>' +
+              '<p>Cabin acceptance, checked-hold transport, weight limits and route restrictions have not been verified for this carrier. This is not a positive match.</p>' +
+              '<p>' + safe(airline.region || "Region not specified") +
+              ' · Confirm the flight, pet booking, breed restrictions and carrier with the operating airline.</p>' +
+              '</article>';
+          };
+          pieces.push('<section class="pvj-unverified-panel" aria-label="Airlines awaiting pet policy verification">' +
+            '<div class="pvj-match-group-heading"><span>Other airlines: policy verification required</span><small>' +
+            unverified.length + ' listed</small></div>' +
+            '<p class="pvj-match-warning">Every airline below is included in this comparison, but no verified pet-policy limits are available. Do not assume cabin or hold permission.</p>' +
+            '<label class="pvj-unknown-label" for="pvj-unknown-search">Find an airline in this group' +
+            '<input type="search" id="pvj-unknown-search" placeholder="Search e.g. Delta, United, JetBlue" autocomplete="off"></label>' +
+            '<div class="pvj-match-list pvj-unverified-list">' +
+            unverified.map(missingPolicyCard).join("") + '</div>' +
+            '<div class="pvj-unknown-footer"><span id="pvj-unknown-count" role="status"></span>' +
+            '<button type="button" id="pvj-unknown-show-all">Show all airlines awaiting verification</button></div>' +
+            '</section>');
+        }
       }
     } else {
       status(mode === "rail" ? "Rail: personalised document checklist" : "Road: personalised document checklist",
@@ -299,6 +339,30 @@
     if (to.region === "GB") pieces.push(sourceLink(policy.official_sources.gb_routes, "Approved routes into Great Britain ↗"));
     pieces.push('<p class="pvj-docs-footnote">Reference data last manually reviewed ' + safe(policy.reviewed_on) + '. Official sources may change without notice. No live inventory, veterinarian assessment, border clearance or booking is provided.</p>');
     ui.results.innerHTML = pieces.join("");
+    const unknownSearch = $("pvj-unknown-search");
+    const unknownCards = Array.from(ui.results.querySelectorAll("[data-pvj-unverified]"));
+    const unknownCount = $("pvj-unknown-count");
+    const unknownMore = $("pvj-unknown-show-all");
+    let showAllUnknown = false;
+    const filterUnknown = () => {
+      const query = (unknownSearch?.value || "").trim().toLocaleLowerCase();
+      let matched = 0, visible = 0;
+      unknownCards.forEach(card => {
+        const isMatch = !query || card.dataset.pvjUnverified.includes(query);
+        if (isMatch) matched++;
+        const show = isMatch && (query || showAllUnknown || matched <= 18);
+        card.hidden = !show;
+        if (show) visible++;
+      });
+      if (unknownCount) unknownCount.textContent = "Showing " + visible + " of " + matched + " airlines awaiting verification";
+      if (unknownMore) {
+        unknownMore.hidden = !!query || showAllUnknown || matched <= 18;
+        unknownMore.textContent = "Show all " + matched + " airlines awaiting verification";
+      }
+    };
+    unknownSearch?.addEventListener("input",filterUnknown);
+    unknownMore?.addEventListener("click",() => {showAllUnknown = true;filterUnknown();});
+    filterUnknown();
     const checks = Array.from(ui.results.querySelectorAll("[data-pvj-doc]"));
     const meter = $("pvj-doc-meter");
     const count = $("pvj-doc-progress");
@@ -343,6 +407,9 @@
         [...new Set(data.airlines.map(a => a.region || "Other"))].sort().map(region =>
           '<option value="' + safe(region) + '">' + safe(region) + '</option>').join("");
 
+      if (ui.airlineNames) ui.airlineNames.innerHTML = data.airlines
+        .slice().sort((a,b)=>a.name.localeCompare(b.name,"en"))
+        .map(a => '<option value="' + safe(a.name) + '"></option>').join("");
       renderLibrary();
       updatePreview();
       ui.results.textContent = "Complete your journey details to see personalized travel guidance.";
@@ -361,7 +428,7 @@
   });
   const rerender = () => {updatePreview();if(policy && form.checkValidity())render();};
   [ui.from,ui.to,ui.originCity,ui.destCity,ui.date,ui.species,ui.weight,
-    ui.bag,ui.crateWeight,ui.breed,ui.snub,
+    ui.bag,ui.crateWeight,ui.breed,ui.snub,ui.airlineName,
     $("pvj-length"),$("pvj-width"),$("pvj-height"),
     $("pvj-crate-length"),$("pvj-crate-width"),$("pvj-crate-height")
   ].forEach(el => {
