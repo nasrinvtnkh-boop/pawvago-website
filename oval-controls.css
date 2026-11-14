@@ -660,3 +660,38 @@ body button:focus-visible,
 @media (prefers-reduced-motion: reduce) {
   #homeView .pv-social-link { transition: none; transform: none !important; }
 }
+
+
+/* CTA relocated below the three How it works steps. */
+#homeView .pv-how-cta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: clamp(26px, 3vw, 42px);
+}
+#homeView .pv-how-cta .primary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 13px 27px;
+  border-radius: 999px !important;
+  background: linear-gradient(120deg, #172d3b, #315667) !important;
+  border: 1px solid #284c5b !important;
+  color: #fff !important;
+  font: 800 14px "DM Sans", sans-serif;
+  box-shadow: 0 11px 24px rgba(23,45,59,.19);
+  transition: background .22s ease, box-shadow .22s ease, transform .22s ease;
+}
+#homeView .pv-how-cta .primary-btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(120deg, #254657, #3c687b) !important;
+  box-shadow: 0 15px 29px rgba(23,45,59,.22);
+}
+#homeView .pv-how-cta .primary-btn b { margin-left: 9px; }
+@media (max-width: 600px) {
+  #homeView .pv-how-cta .primary-btn { width: 100%; justify-content: center; max-width: 340px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #homeView .pv-how-cta .primary-btn { transition: none !important; transform: none !important; }
+}
