@@ -9,8 +9,8 @@
     maximum.length === 3 && entered.some((n,i) => n > Number(maximum[i]));
   const readable = kg => new Intl.NumberFormat("en-GB",{maximumFractionDigits:1}).format(kg) + " kg";
   const label = kind => kind === "potential" ? "Preliminary policy match" :
-                        kind === "review" ? "Needs more checks" : "Policy mismatch";
-  const rank = kind => ({potential:2,review:1,blocked:0})[kind];
+                        kind === "review" ? "Needs more checks" : kind === "unverified" ? "Policy not yet reviewed" : "Policy mismatch";
+  const rank = kind => ({potential:3,review:2,blocked:1,unverified:0})[kind];
 
   function testCabin(airline, p) {
     const reasons=[],max=valueKg(airline.cabin_max_kg);
@@ -80,7 +80,14 @@
     p.crateDims=Array.isArray(p.crateDims)&&p.crateDims.length===3?p.crateDims:null;
     const reviewed=airlines.filter(a=>a.policy_status==="reviewed");
     const unverified=airlines.length-reviewed.length;
-    const entries=reviewed.map(airline=>{
+    const entries=airlines.map(airline=>{
+      if (airline.policy_status !== "reviewed") {
+        const reason = "PawVago has not verified this airline’s cabin or checked-hold pet policy. Eligibility, route and pet acceptance are unknown; contact the operating airline.";
+        const cabin = {kind:"unverified",reasons:[reason],max:null,method:"cabin"};
+        const hold = {kind:"unverified",reasons:[reason],max:null,method:"hold"};
+        const best = p.placement==="hold" ? hold : cabin;
+        return {airline,cabin,hold,best};
+      }
       const cabin=testCabin(airline,p);
       const hold=testHold(airline,p);
       const candidates=p.placement==="cabin"?[cabin]:p.placement==="hold"?[hold]:[cabin,hold];
@@ -94,11 +101,12 @@
       groups:{
         potential:entries.filter(e=>e.best.kind==="potential"),
         review:entries.filter(e=>e.best.kind==="review"),
-        blocked:entries.filter(e=>e.best.kind==="blocked")
+        blocked:entries.filter(e=>e.best.kind==="blocked"),
+        unverified:entries.filter(e=>e.best.kind==="unverified")
       },
-      reviewed:reviewed.length,unverified,
+      reviewed:reviewed.length,unverified,total:airlines.length,
       warning:"This screen checks published pet conditions, NOT whether an airline operates your route, flight spaces, aircraft restrictions, costs or real-time availability.",
-      labels:{potential:label("potential"),review:label("review"),blocked:label("blocked")}
+      labels:{potential:label("potential"),review:label("review"),blocked:label("blocked"),unverified:label("unverified")}
     };
   }
   root.PawVagoAirMatcher=Object.freeze({evaluate});
