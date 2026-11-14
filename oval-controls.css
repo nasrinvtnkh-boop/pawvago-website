@@ -695,3 +695,64 @@ body button:focus-visible,
 @media (prefers-reduced-motion: reduce) {
   #homeView .pv-how-cta .primary-btn { transition: none !important; transform: none !important; }
 }
+
+
+/* Contact section: unified typography and matching email/social buttons. */
+#homeView .contact-section .contact-copy h2,
+#homeView .contact-section .contact-copy h2 span,
+#homeView .contact-section .contact-copy > p,
+#homeView .contact-section .contact-copy .eyebrow,
+#homeView .contact-section .pv-social-caption {
+  color: #172d3b !important;
+}
+#homeView .contact-section .contact-copy h2 span { color: #172d3b !important; }
+#homeView .contact-section .contact-copy > p { opacity: .83; }
+#homeView .contact-section .contact-actions { gap: 22px; }
+#homeView .contact-section .pv-social-block { margin: 0; gap: 12px; }
+#homeView .contact-section .pv-social-links { gap: 12px; }
+#homeView .contact-section .pv-social-link {
+  min-height: 52px;
+  padding: 7px 20px 7px 8px;
+  gap: 11px;
+  border: 1px solid #284c5b !important;
+  border-radius: 999px !important;
+  background: linear-gradient(120deg, #172d3b, #315667) !important;
+  color: #fff !important;
+  box-shadow: 0 9px 22px rgba(23,45,59,.16);
+  font: 800 14px "DM Sans", sans-serif;
+  text-decoration: none !important;
+  white-space: nowrap;
+  transition: transform .22s ease, background .22s ease, box-shadow .22s ease;
+}
+#homeView .contact-section .pv-social-link:hover {
+  background: linear-gradient(120deg, #254657, #3c687b) !important;
+  color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(23,45,59,.22);
+}
+#homeView .contact-section .pv-social-icon {
+  flex: 0 0 35px;
+  width: 35px;
+  height: 35px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.24);
+  background: rgba(255,255,255,.14);
+  color: #fff;
+}
+#homeView .contact-section .pv-social-icon svg { width: 18px; height: 18px; }
+#homeView .contact-section .pv-email-link { align-self: flex-start; }
+#homeView .contact-section .pv-email-link span:last-child { overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  #homeView .contact-section .pv-social-link {
+    min-height: 49px;
+    padding-right: 15px;
+    font-size: 12px;
+  }
+  #homeView .contact-section .pv-social-icon {
+    width: 33px; height: 33px; flex-basis: 33px;
+  }
+  #homeView .contact-section .pv-email-link { max-width: 100%; white-space: normal; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #homeView .contact-section .pv-social-link { transition: none !important; transform: none !important; }
+}
