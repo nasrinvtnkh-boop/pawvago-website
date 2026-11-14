@@ -1028,16 +1028,16 @@ async function loadTravelData() {
     if (!Array.isArray(policy.airlines) || !Array.isArray(policy.countries)) {
       throw new Error('Invalid official policy reference');
     }
-    // Show source-reviewed airlines in the dashboard; the complete catalogue
-    // is searchable on the public airline directory.
-    airlineData = policy.airlines.filter(a => a.policy_status === "reviewed").map(a => ({
+    // Include every airline in the snapshot; only reviewed rules can be screened.
+    airlineData = policy.airlines.map(a => ({
       name: a.name,
-      hold_policy: a.hold || null,
+      policy_status: a.policy_status,
+      hold_policy: a.policy_status === "reviewed" ? (a.hold || null) : null,
       restricted_breeds: policy.brachycephalic_breeds || {},
       is_active: true,
-      airline_rules: [{
+      airline_rules: a.policy_status !== "reviewed" ? [] : [{
         is_active: true,
-        cabin_allowed: true,
+        cabin_allowed: a.cabin_allowed === true,
         max_combined_weight_kg: a.cabin_max_kg,
         carrier_length_cm: a.dimensions_cm?.[0] ?? null,
         carrier_width_cm: a.dimensions_cm?.[1] ?? null,
@@ -1677,11 +1677,11 @@ function renderEngine() {
 
     airlineCards = `
       <div style="margin-bottom:12px" class="pv-muted">
-        ${compatibleCount} airline option${compatibleCount === 1 ? '' : 's'} found from stored rules.
-        Results are based on your saved pet profile and route data; live seat availability is not checked.
+        ${airlineData.length} airlines listed; ${airlineData.filter(a=>a.policy_status==="reviewed").length} source-reviewed and ${airlineData.filter(a=>a.policy_status!=="reviewed").length} awaiting policy verification. ${compatibleCount} meet stored initial checks or require further confirmation. Flight routes and pet spaces are not verified.
       </div>
 
       ${evaluatedAirlines
+        .filter(({airline}) => airline.policy_status === "reviewed")
         .map(({ airline, rule, result }) => `
           <div class="pv-airline">
             <strong>${escapeHtml(airline.name)}</strong>
@@ -1759,6 +1759,19 @@ function renderEngine() {
           </div>
         `)
         .join('')}
+      ${evaluatedAirlines.some(({airline}) => airline.policy_status !== "reviewed") ? `
+        <details class="pv-unverified-carriers">
+          <summary>View ${evaluatedAirlines.filter(({airline}) => airline.policy_status !== "reviewed").length} airlines without verified pet policies</summary>
+          <div class="pv-grid" style="margin-top:14px">
+            ${evaluatedAirlines.filter(({airline}) => airline.policy_status !== "reviewed").map(({airline}) => `
+              <div class="pv-airline">
+                <strong>${escapeHtml(airline.name)}</strong>
+                <p><span class="pv-pill pv-warn">Policy not verified</span></p>
+                <p>Pet acceptance and route restrictions are unknown. Confirm directly with the operating airline.</p>
+              </div>
+            `).join("")}
+          </div>
+        </details>` : ""}
     `;
   }
 
@@ -1768,7 +1781,7 @@ function renderEngine() {
   /* Source-reviewed checked-hold comparison for signed-in dashboard.
      We cannot determine eligibility without crate weight, dimensions and
      approval by the operating airline, so never mark this as compatible. */
-  const holdCards = airlineData.map(a => {
+  const holdCards = airlineData.filter(a => a.policy_status === "reviewed").map(a => {
     const h = a.hold_policy;
     const br = String(pet?.breed || '').toLowerCase().replace(/[-_]/g, ' ');
     const breedList = (a.restricted_breeds?.[String(pet?.species || 'dog').toLowerCase()] || []);
@@ -1932,7 +1945,7 @@ function renderEngine() {
         <div class="pv-summary">
           <div class="pv-summary-item">
             <strong>${airlineData.length}</strong>
-            <span>Stored airline rules</span>
+            <span>Airlines listed</span>
           </div>
           <div class="pv-summary-item">
             <strong>${airlineData.filter(a => {
@@ -1944,7 +1957,7 @@ function renderEngine() {
           <div class="pv-summary-item">
             <strong>${airlineData.filter(a => {
               const r = getActiveRule(a);
-              return airlineResult(a, r).status === 'Conditional';
+              return a.policy_status !== "reviewed" || airlineResult(a, r).status === 'Conditional';
             }).length}</strong>
             <span>Needs verification</span>
           </div>
@@ -1983,7 +1996,7 @@ function renderEngine() {
         <h3>Travel in the aircraft hold (checked pet baggage)</h3>
         <p class="pv-muted">Hold (AVIH) is separate from air cargo/freight. The options below are policy references only, not confirmed travel bookings. Short-nosed breeds and connections can be restricted.</p>
         <div class="pv-grid">${holdCards}</div>
-        <p class="pv-muted">Only source-reviewed carriers are shown here. The full searchable airline directory includes carriers awaiting review. Cabin/hold acceptance must be confirmed by the operating airline.</p><p><a href="/#policy-library" target="_self">Browse the full airline directory →</a></p>
+        <p class="pv-muted">Only reviewed carriers have checked-hold policy details. Other airlines are also listed above with an explicit unknown-policy warning. Cabin/hold acceptance must be confirmed by the operating airline.</p><p><a href="/#policy-library" target="_self">Browse the full airline directory →</a></p>
       </div>
 
       <div class="pv-card">
