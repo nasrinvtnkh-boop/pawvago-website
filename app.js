@@ -1283,7 +1283,7 @@ function airlineResult(airline, rule) {
   if (ownKnown && variants.length && !variant && !variants.some(v=>fits(v.dimensions_cm))) return fail('Your carrier exceeds every published aircraft/cabin variant.', 'ابعاد کیف شما با هیچ‌یک از گزینه‌های منتشرشدهٔ هواپیما یا کلاس تطابق ندارد.');
   const requiredType = variant?.label === 'Hard carrier' ? 'hard' : (rule.soft_carrier_required ? 'soft' : null);
   if (requiredType && cabinCarrier.type !== requiredType) return fail('Your carrier type does not match the selected policy.', 'نوع کیف شما با قانون انتخاب‌شده مطابقت ندارد.');
-  if (!(bag > 0) || !ownKnown) return wait('Enter your carrier weight and dimensions above.', 'وزن و ابعاد کیف را در فرم بالا وارد کنید.');
+  if (!(bag > 0) || !ownKnown) return wait('Published carrier limits are shown below. Personal carrier fit has not been checked.', 'حد مجاز وزن و ابعاد کیف در همین کارت درج شده است. تطابق کیف شخصی بررسی نشده است.');
   if (variants.length && !variant) return wait('Select the aircraft or cabin below to finish the size check.', 'برای تکمیل بررسی سایز، نوع هواپیما یا کلاس را در همین کارت انتخاب کنید.');
   if (!limits.every(n=>Number(n)>0) && !(linear > 0)) return wait('The official carrier dimensions have not been verified.', 'سایز مجاز کیف در منبع رسمی هنوز تأیید نشده است.');
   if (!(max > 0) && !rule.no_numeric_weight_limit) return wait('A current numeric weight limit has not been verified.', 'سقف وزن معتبر برای این ایرلاین هنوز تأیید نشده است.');
@@ -1826,7 +1826,6 @@ function renderEngine() {
 
     <div class="pv-engine">
 
-      ${renderCabinCarrier()}
 
       <div class="pv-card">
 
