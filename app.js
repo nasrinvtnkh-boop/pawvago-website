@@ -16,6 +16,8 @@ let user = null;
 let pet = null;
 let trip = null;
 let mode = 'signup';
+let tripEditingId = null;
+let pendingTrip = false;
 
 let airlineData = [];
 let countryRuleData = [];
@@ -374,25 +376,10 @@ function auth(newMode) {
       ? 'Create account'
       : 'Log in';
 
-  const switchButton =
-    $('switchAuth')?.querySelector('button');
-
-  if (switchButton) {
-
-    switchButton.textContent =
-      mode === 'signup'
-        ? 'Log in'
-        : 'Create account';
-
-  }
-
   if ($('switchAuth')) {
-
-    $('switchAuth').firstChild.textContent =
-      mode === 'signup'
-        ? 'Already have an account? '
-        : "Don't have an account? ";
-
+    $('switchAuth').textContent = mode === 'signup'
+      ? 'Already have an account? Log in'
+      : "Don't have an account? Create account";
   }
 
   $('authNotice').textContent = '';
@@ -448,6 +435,7 @@ function openPet() {
 
 
 function closePet() {
+  pendingTrip = false;
   $('petModal')?.classList.add('hidden');
 }
 
@@ -521,11 +509,14 @@ async function savePet(event) {
 
   pet = result.data;
 
+  const resumeTrip = pendingTrip;
   closePet();
+  pendingTrip = resumeTrip;
 
   await loadUserData();
 
   render();
+  if (pendingTrip) openTrip();
 }
 
 
@@ -656,7 +647,9 @@ function ensureTripModal() {
 }
 
 
-function openTrip() {
+function openTrip(editExisting = false) {
+
+  pendingTrip = true;
 
   ensureTripModal();
 
@@ -670,7 +663,12 @@ function openTrip() {
     return;
   }
 
-  if (trip) {
+  pendingTrip = false;
+  tripEditingId = editExisting ? trip?.id || null : null;
+  $('tripNotice').textContent = '';
+  $('tripNotice').className = 'notice';
+
+  if (editExisting && trip) {
 
     $('tripFrom').value =
       trip.from || '';
@@ -776,12 +774,12 @@ async function saveTrip(event) {
 
   let result;
 
-  if (trip?.id) {
+  if (tripEditingId) {
 
     result = await sb
       .from('trips')
       .update(data)
-      .eq('id', trip.id)
+      .eq('id', tripEditingId)
       .eq('user_id', user.id)
       .select()
       .single();
@@ -2258,7 +2256,7 @@ function render() {
 
             </p>
 
-            ${renderEngine()}
+            <button class="btn dark" id="newTrip">Plan a new trip</button>\n\n            ${renderEngine()}
 
             <button
               class="btn outline"
@@ -2298,6 +2296,8 @@ function render() {
   `;
 
 
+  $('newTrip')?.addEventListener('click', () => openTrip());
+
   $('add')?.addEventListener(
     'click',
     openPet
@@ -2310,12 +2310,12 @@ function render() {
 
   $('trip')?.addEventListener(
     'click',
-    openTrip
+    () => openTrip()
   );
 
   $('editTrip')?.addEventListener(
     'click',
-    openTrip
+    () => openTrip(true)
   );
 
 }
@@ -2562,7 +2562,50 @@ function show(view) {
    STATIC EVENTS
 ========================================================= */
 
+
+function dashboardAction(action) {
+  show('dashboard');
+  document.querySelectorAll('.side-nav button').forEach(button => {
+    const active = button.dataset.dashboardAction === action;
+    button.classList.toggle('side-active', active);
+    if (active) button.setAttribute('aria-current', 'page');
+    else button.removeAttribute('aria-current');
+  });
+  if (action === 'pets') { openPet(); return; }
+  if (action === 'trip') { openTrip(); return; }
+  if (action === 'documents') {
+    if (!trip) { openTrip(); return; }
+    const cards = document.querySelectorAll('#dashboardContent .pv-card');
+    const target = [...cards].find(card => /Documents PawVago expects/.test(card.textContent));
+    target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+  if (action === 'places') {
+    const content = $('dashboardContent');
+    content.innerHTML = '<div class="dash-card"><h2>Destination places</h2><p>Services available for your current trip.</p>' +
+      (trip ? renderServices() : '<p>Plan a trip to explore destination services.</p>') +
+      '<button class="btn dark" id="placesTrip">Plan a new trip</button></div>';
+    $('placesTrip').onclick = () => openTrip();
+    return;
+  }
+  if (action === 'community') {
+    $('dashboardContent').innerHTML = '<div class="dash-card"><h2>PawVago community</h2><p>Connect with PawVago and share your pet travel experience.</p><p><a href="https://www.facebook.com/profile.php?id=61596122516525" target="_blank" rel="noopener noreferrer">Facebook →</a></p><p><a href="https://www.instagram.com/pawvago.ai/" target="_blank" rel="noopener noreferrer">Instagram →</a></p></div>';
+  }
+}
+
 function bindStaticEvents() {
+
+  document.querySelectorAll('.side-nav button').forEach(button => {
+    button.addEventListener('click', () => dashboardAction(button.dataset.dashboardAction));
+  });
+  document.querySelectorAll('[data-home-link]').forEach(link => {
+    link.addEventListener('click', event => {
+      event.preventDefault();
+      show('home');
+      location.hash = '#top';
+    });
+  });
+
 
   ensureStyles();
 
@@ -2620,9 +2663,7 @@ function bindStaticEvents() {
   );
 
 
-  $('switchAuth')?.querySelector(
-    'button'
-  )?.addEventListener(
+  $('switchAuth')?.addEventListener(
     'click',
     () => {
 
@@ -2686,30 +2727,21 @@ function bindStaticEvents() {
 
   if (sb) {
 
-    sb.auth.onAuthStateChange(
-      async (_event, session) => {
-
-        user =
-          session?.user ||
-          null;
-
-        if (user) {
-
-          await loadUserData();
-
-          await loadTravelData();
-
-        } else {
-
-          pet = null;
-          trip = null;
-
-        }
-
-        await refresh();
-
+    // Return immediately: Supabase calls inside the auth callback can
+    // wait on the same auth lock and freeze login/data loading.
+    sb.auth.onAuthStateChange((_event, session) => {
+      const nextUser = session?.user || null;
+      const changed = user?.id !== nextUser?.id;
+      user = nextUser;
+      if (!user) {
+        pet = null;
+        trip = null;
+        pendingTrip = false;
       }
-    );
+      if (changed || _event === 'INITIAL_SESSION' || _event === 'SIGNED_OUT') {
+        setTimeout(() => refresh().catch(console.error), 0);
+      }
+    });
 
   }
 
