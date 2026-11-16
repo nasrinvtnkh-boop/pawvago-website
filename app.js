@@ -227,6 +227,16 @@ function ensureStyles() {
       border-radius:14px;
     }
 
+    .pv-grid:has(> .pv-cabin-card) { grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr)); }
+    .pv-cabin-card { min-width:0; }
+    .pv-cabin-card dl { margin:14px 0; }
+    .pv-cabin-fact { border-bottom:1px solid #e5e7eb; padding:10px 0; }
+    .pv-cabin-fact dt { font-size:.8rem; color:#475569; }
+    .pv-cabin-fact dd { margin:5px 0 0; font-weight:650; line-height:1.6; }
+    .pv-cabin-card details { margin:12px 0; }
+    #pvCarrierPanel { scroll-margin-top:100px; }
+    #pvCarrierForm input:not([type=checkbox]), #pvCarrierForm select, .pv-cabin-card select { display:block; width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:10px; margin-top:6px; }
+    #pvCarrierForm label { font-size:.85rem; }
     .pv-airline strong {
       font-size:1.05rem;
     }
@@ -1028,7 +1038,11 @@ async function loadTravelData() {
     }
     // Include every airline in the snapshot; only reviewed rules can be screened.
     airlineData = policy.airlines.map(a => ({
+      id: a.id,
       name: a.name,
+      notes: a.notes,
+      notes_fa: a.notes_fa,
+      reviewed_on: a.reviewed_on || policy.reviewed_on,
       policy_status: a.policy_status,
       hold_policy: a.policy_status === "reviewed" ? (a.hold || null) : null,
       restricted_breeds: policy.brachycephalic_breeds || {},
@@ -1037,6 +1051,13 @@ async function loadTravelData() {
         is_active: true,
         cabin_allowed: a.cabin_allowed === true,
         max_combined_weight_kg: a.cabin_max_kg,
+        max_pet_weight_kg: a.cabin_pet_max_kg,
+        cabin_snub_max_kg: a.cabin_snub_max_kg,
+        cabin_snub_nosed_allowed: a.cabin_snub_nosed_allowed,
+        carrier_variants: a.cabin_dimension_variants || [],
+        carrier_max_linear_cm: a.cabin_max_linear_cm,
+        soft_carrier_required: a.soft_carrier === true,
+        no_numeric_weight_limit: a.cabin_weight_policy === 'carrier_fit_only',
         carrier_length_cm: a.dimensions_cm?.[0] ?? null,
         carrier_width_cm: a.dimensions_cm?.[1] ?? null,
         carrier_height_cm: a.dimensions_cm?.[2] ?? null,
@@ -1170,122 +1191,131 @@ function breedIsRestricted(breed, restrictions) {
   });
 }
 
-function airlineResult(airline, rule) {
-  const weight = petWeight();
-  const breed = String(pet?.breed || '').trim();
+// Weight/size screening is separate from flight availability and border approval.
+let cabinCarrier = { kg: '', length: '', width: '', height: '', type: 'soft', comfortable: false };
+let cabinCarrierOwner = '';
+const cabinAircraft = new Map();
+const cabinText = (en, fa) => document.documentElement.lang === 'fa' ? fa : en;
+const cabinNum = value => Number(value).toLocaleString(document.documentElement.lang === 'fa' ? 'fa-IR' : 'en', { maximumFractionDigits: 2 });
+const cabinDims = dimensions => dimensions.map(cabinNum).join(' × ') + ' ' + cabinText('cm', 'سانتی‌متر');
 
-  if (!rule) {
-    return {
-      status: 'Rule not stored',
-      cls: 'pv-warn',
-      reason: 'PawVago does not yet have a current rule for this airline.'
-    };
-  }
-
-  if (!rule.cabin_allowed) {
-    return {
-      status: 'Not compatible',
-      cls: 'pv-bad',
-      reason: 'This stored rule does not allow this pet type in the cabin.'
-    };
-  }
-
-  const tripDestination = String(trip?.destination_country || trip?.to || '').trim().toLowerCase();
-  if (['united kingdom', 'great britain', 'uk', 'england', 'scotland', 'wales', 'london'].includes(tripDestination)) {
-    return {
-      status: 'Not compatible',
-      cls: 'pv-bad',
-      reason: 'For standard commercial flights entering Great Britain, pet dogs and cats normally travel as cargo, not in the passenger cabin. Check approved routes and airline conditions.'
-    };
-  }
-
-  if (!weight) {
-    return {
-      status: 'Check',
-      cls: 'pv-warn',
-      reason: 'Add your pet weight to calculate compatibility.'
-    };
-  }
-
-  if (breedIsRestricted(breed, rule.breed_restrictions)) {
-    return {
-      status: 'Not compatible',
-      cls: 'pv-bad',
-      reason: `The stored airline rule lists restrictions that match this breed.`
-    };
-  }
-
-  const maxCombined = Number(rule.max_combined_weight_kg ?? 0);
-  const maxPet = Number(rule.max_pet_weight_kg ?? 0);
-
-  if (maxPet > 0 && weight > maxPet) {
-    return {
-      status: 'Not compatible',
-      cls: 'pv-bad',
-      reason: `Pet weight is ${weight} kg, above the stored pet limit of ${maxPet} kg.`
-    };
-  }
-
-  let status = 'Compatible';
-  let cls = 'pv-ok';
-  let reason = 'Your pet meets the stored cabin rule.';
-
-  if (maxCombined > 0) {
-    const remaining = maxCombined - weight;
-
-    if (remaining < 0) {
-      return {
-        status: 'Not compatible',
-        cls: 'pv-bad',
-        reason: `Pet weight is ${weight} kg, above the stored combined limit of ${maxCombined} kg.`
-      };
-    }
-
-    if (remaining === 0) {
-      status = 'Conditional';
-      cls = 'pv-warn';
-      reason = 'The pet is exactly at the stored combined limit. The carrier must add no weight, so verify with the airline before booking.';
-    } else {
-      status = 'Conditional';
-      cls = 'pv-warn';
-      reason = `The pet is ${weight} kg. Up to ${remaining.toFixed(1)} kg remains for the carrier under the stored combined limit.`;
-    }
-  }
-
-  if (rule.route_restrictions) {
-    status = 'Conditional';
-    cls = 'pv-warn';
-
-    const restrictionText = breedRestrictionText(rule.route_restrictions);
-
-    if (restrictionText) {
-      reason += ` Route restrictions are stored (${restrictionText}); the exact itinerary must be verified.`;
-    } else {
-      reason += ' Route restrictions are stored; the exact itinerary must be verified.';
-    }
-  }
-
-  const dimensions = [
-    rule.carrier_length_cm,
-    rule.carrier_width_cm,
-    rule.carrier_height_cm
-  ].every(v => v !== null && v !== undefined && Number(v) > 0)
-    ? `${rule.carrier_length_cm} × ${rule.carrier_width_cm} × ${rule.carrier_height_cm} cm`
-    : '';
-
-  return {
-    status,
-    cls,
-    reason,
-    dimensions,
-    carrierType: rule.carrier_type || '',
-    remainingKg: maxCombined > 0
-      ? Math.max(0, maxCombined - weight)
-      : null,
-    reservationRequired: rule.requires_reservation === true
-  };
+function readCabinCarrier() {
+  const owner = `${user?.id || ''}:${pet?.id || ''}`;
+  if (owner === cabinCarrierOwner) return;
+  cabinCarrierOwner = owner;
+  cabinCarrier = { kg: '', length: '', width: '', height: '', type: 'soft', comfortable: false };
+  cabinAircraft.clear();
+  try {
+    const stored = JSON.parse(localStorage.getItem('pv-cabin-carrier:' + owner) || 'null');
+    if (stored && typeof stored === 'object') Object.assign(cabinCarrier, stored);
+  } catch (_) {}
 }
 
+function renderCabinCarrier() {
+  readCabinCarrier();
+  const field = (key, en, fa, unit) => `<label>${cabinText(en, fa)} (${unit})<input name="${key}" type="number" min="0.01" max="${key === 'kg' ? 100 : 300}" step="0.01" value="${escapeHtml(cabinCarrier[key])}" required></label>`;
+  return `<section class="pv-card" id="pvCarrierPanel"><h3>${cabinText('Check your cabin carrier', 'بررسی کیف کابین شما')}</h3>
+    <p>${cabinText('Enter the empty carrier weight and its external dimensions. Results below compare your pet + carrier with each published limit.', 'وزن کیف خالی و ابعاد بیرونی آن را وارد کنید. کارت‌های زیر مجموع وزن حیوان و کیف و سایز آن را با حد مجاز هر ایرلاین مقایسه می‌کنند.')}</p>
+    <form id="pvCarrierForm"><div class="pv-grid">
+      ${field('kg', 'Empty carrier weight', 'وزن کیف خالی', cabinText('kg', 'کیلوگرم'))}
+      ${field('length', 'Length', 'طول', cabinText('cm', 'سانتی‌متر'))}
+      ${field('width', 'Width', 'عرض', cabinText('cm', 'سانتی‌متر'))}
+      ${field('height', 'Height', 'ارتفاع', cabinText('cm', 'سانتی‌متر'))}
+      <label>${cabinText('Carrier type', 'نوع کیف')}<select name="type"><option value="soft" ${cabinCarrier.type === 'soft' ? 'selected' : ''}>${cabinText('Soft-sided', 'نرم و انعطاف‌پذیر')}</option><option value="hard" ${cabinCarrier.type === 'hard' ? 'selected' : ''}>${cabinText('Rigid', 'سخت')}</option></select></label>
+    </div><label style="display:flex;align-items:center;gap:8px;margin:14px 0"><input name="comfortable" type="checkbox" style="width:auto" ${cabinCarrier.comfortable ? 'checked' : ''}>${cabinText('My pet can stand, turn and lie down naturally inside the closed carrier.', 'حیوانم داخل کیف بسته می‌تواند طبیعی بایستد، بچرخد و دراز بکشد.')}</label>
+    <button class="btn dark" type="submit">${cabinText('Check weight and size', 'بررسی وزن و سایز')}</button>
+    <p class="pv-muted">${cabinText('Carrier details are saved on this device for this pet. A green result confirms only the listed weight/size checks, not a reserved pet space.', 'مشخصات کیف برای این حیوان روی همین دستگاه ذخیره می‌شود. نتیجهٔ سبز فقط تطابق وزن و سایز درج‌شده را نشان می‌دهد؛ به معنی رزرو جای حیوان نیست.')}</p></form></section>`;
+}
+
+function bindCabinControls() {
+  $('pvCarrierForm')?.addEventListener('submit', event => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    for (const key of ['kg','length','width','height']) cabinCarrier[key] = form.elements.namedItem(key).value;
+    cabinCarrier.type = form.elements.namedItem('type').value;
+    cabinCarrier.comfortable = form.elements.namedItem('comfortable').checked;
+    try { localStorage.setItem('pv-cabin-carrier:' + cabinCarrierOwner, JSON.stringify(cabinCarrier)); } catch (_) {}
+    render();
+    $('pvCarrierPanel')?.scrollIntoView({ block: 'start' });
+  });
+  document.querySelectorAll('[data-cabin-aircraft]').forEach(select => select.addEventListener('change', () => {
+    cabinAircraft.set(select.dataset.cabinAircraft, select.value);
+    const id = select.closest('[data-cabin-card]')?.id;
+    render();
+    if (id) $(id)?.scrollIntoView({block:'center'});
+  }));
+}
+
+function cabinVariants(rule) {
+  return (rule?.carrier_variants || []).filter(v => Array.isArray(v.dimensions_cm) && v.dimensions_cm.length === 3 && v.dimensions_cm.every(n => Number(n) > 0));
+}
+
+function airlineResult(airline, rule) {
+  const result = (status, cls, reason) => ({ status, cls, reason });
+  const fail = (en, fa) => result('Not compatible', 'pv-bad', cabinText(en, fa));
+  const wait = (en, fa) => result('Check', 'pv-warn', cabinText(en, fa));
+  if (!rule) return wait('Policy not verified.', 'قوانین این ایرلاین تأیید نشده است.');
+  if (!rule.cabin_allowed) return fail('Ordinary pets are not accepted in the cabin.', 'حیوان خانگی معمولی در کابین پذیرفته نمی‌شود.');
+  if (!['dog','cat'].includes(String(pet?.species || '').toLowerCase())) return wait('This policy covers dogs and cats only.', 'این قوانین فقط برای سگ و گربه بررسی شده است.');
+  const dest = String(trip?.destination_country || trip?.to || '').trim().toLowerCase();
+  if (['united kingdom','great britain','uk','england','scotland','wales','london'].includes(dest)) return fail('Ordinary cabin pets are not accepted on standard commercial arrivals in Great Britain.', 'در پرواز تجاری معمول ورودی بریتانیای کبیر، حیوان خانگی معمولی در کابین پذیرفته نمی‌شود.');
+  const weight = petWeight();
+  if (!(weight > 0)) return wait('Pet weight is missing.', 'وزن حیوان وارد نشده است.');
+  const breed = String(pet?.breed || '').toLowerCase().replace(/[-_]/g, ' ');
+  const snub = (airline.restricted_breeds?.[String(pet?.species || '').toLowerCase()] || []).some(b => breed.includes(String(b).toLowerCase().replace(/-/g, ' ')));
+  if (breedIsRestricted(breed, rule.breed_restrictions) || (snub && rule.cabin_snub_nosed_allowed === false)) return fail('This breed is excluded from the published cabin policy.', 'این نژاد طبق قوانین منتشرشده در کابین پذیرفته نمی‌شود.');
+  const max = snub && Number(rule.cabin_snub_max_kg) > 0 ? Number(rule.cabin_snub_max_kg) : Number(rule.max_combined_weight_kg);
+  const petMax = Number(rule.max_pet_weight_kg);
+  if (petMax > 0 && weight > petMax) return fail('Pet weight exceeds the pet-only limit.', 'وزن خود حیوان از سقف مجاز بیشتر است.');
+  if (max > 0 && weight >= max) return fail(`The pet alone is ${cabinNum(weight)} kg; the ${cabinNum(max)} kg limit also includes the carrier.`, `وزن خود حیوان ${cabinNum(weight)} کیلوگرم است؛ سقف ${cabinNum(max)} کیلوگرمی شامل وزن کیف هم می‌شود.`);
+  const bag = Number(cabinCarrier.kg);
+  if (max > 0 && bag > 0 && weight + bag > max + 1e-8) return fail('Pet + carrier exceeds the combined weight limit.', 'مجموع وزن حیوان و کیف بیشتر از حد مجاز است.');
+  const variants = cabinVariants(rule);
+  const selection = cabinAircraft.get(airline.id || airline.name);
+  const variant = selection !== undefined && selection !== '' ? variants[Number(selection)] : null;
+  const limits = variant?.dimensions_cm || [rule.carrier_length_cm,rule.carrier_width_cm,rule.carrier_height_cm];
+  const own = [cabinCarrier.length,cabinCarrier.width,cabinCarrier.height].map(Number);
+  const ownKnown = own.every(n => n > 0);
+  const linear = Number(rule.carrier_max_linear_cm);
+  if (ownKnown && linear > 0 && own.reduce((a,b)=>a+b,0) > linear) return fail('The sum of carrier dimensions exceeds the published limit.', 'مجموع طول، عرض و ارتفاع کیف از حد مجاز بیشتر است.');
+  const fits = dims => own[2] <= dims[2] && ((own[0] <= dims[0] && own[1] <= dims[1]) || (own[0] <= dims[1] && own[1] <= dims[0]));
+  if (ownKnown && (variant || !variants.length) && limits.every(n=>Number(n)>0) && !fits(limits)) return fail('Your carrier exceeds the published dimensions.', 'ابعاد کیف شما بیشتر از سایز مجاز است.');
+  if (ownKnown && variants.length && !variant && !variants.some(v=>fits(v.dimensions_cm))) return fail('Your carrier exceeds every published aircraft/cabin variant.', 'ابعاد کیف شما با هیچ‌یک از گزینه‌های منتشرشدهٔ هواپیما یا کلاس تطابق ندارد.');
+  const requiredType = variant?.label === 'Hard carrier' ? 'hard' : (rule.soft_carrier_required ? 'soft' : null);
+  if (requiredType && cabinCarrier.type !== requiredType) return fail('Your carrier type does not match the selected policy.', 'نوع کیف شما با قانون انتخاب‌شده مطابقت ندارد.');
+  if (!(bag > 0) || !ownKnown) return wait('Enter your carrier weight and dimensions above.', 'وزن و ابعاد کیف را در فرم بالا وارد کنید.');
+  if (variants.length && !variant) return wait('Select the aircraft or cabin below to finish the size check.', 'برای تکمیل بررسی سایز، نوع هواپیما یا کلاس را در همین کارت انتخاب کنید.');
+  if (!limits.every(n=>Number(n)>0) && !(linear > 0)) return wait('The official carrier dimensions have not been verified.', 'سایز مجاز کیف در منبع رسمی هنوز تأیید نشده است.');
+  if (!(max > 0) && !rule.no_numeric_weight_limit) return wait('A current numeric weight limit has not been verified.', 'سقف وزن معتبر برای این ایرلاین هنوز تأیید نشده است.');
+  if (!cabinCarrier.comfortable) return wait('Confirm that your pet can move naturally inside the closed carrier.', 'توانایی ایستادن، چرخیدن و درازکشیدن طبیعی حیوان داخل کیف بسته را بررسی و تأیید کنید.');
+  return result('Compatible', 'pv-ok', cabinText('Weight and carrier size meet the listed limits. Flight/route approval and pet-space reservation are separate.', 'وزن و سایز کیف با حد مجاز درج‌شده تطابق دارد. پذیرش مسیر و رزرو جای حیوان جداگانه است.'));
+}
+
+function renderCabinAirline(airline, rule, result) {
+  const key = airline.id || airline.name;
+  const variants = cabinVariants(rule);
+  const limits = [rule?.carrier_length_cm,rule?.carrier_width_cm,rule?.carrier_height_cm];
+  const row = (en, fa, value) => `<div class="pv-cabin-fact"><dt>${cabinText(en,fa)}</dt><dd>${value}</dd></div>`;
+  const kg = n => cabinNum(n) + ' ' + cabinText('kg','کیلوگرم');
+  const dims = variants.length ? variants.map(v=>`<div>${escapeHtml(v.label)}: <bdi dir="ltr">${cabinDims(v.dimensions_cm)}</bdi></div>`).join('') : limits.every(v=>Number(v)>0) ? `<bdi dir="ltr">${cabinDims(limits)}</bdi>` : Number(rule?.carrier_max_linear_cm)>0 ? cabinText('L + W + H ≤ ', 'مجموع طول + عرض + ارتفاع ≤ ') + cabinNum(rule.carrier_max_linear_cm) + ' ' + cabinText('cm','سانتی‌متر') : cabinText('Not verified', 'تأیید نشده');
+  const label = result.cls === 'pv-ok' ? cabinText('✓ Weight & size OK','✓ وزن و سایز مناسب') : result.cls === 'pv-bad' ? cabinText('✕ Not suitable for cabin','✕ نامناسب برای کابین') : cabinText('○ More information needed','○ نیاز به تکمیل اطلاعات');
+  return `<article class="pv-airline pv-cabin-card" id="pv-airline-${escapeHtml(key.replace(/[^a-z0-9]/gi,'-'))}" data-cabin-card>
+    <strong>${escapeHtml(airline.name)}</strong><div><span class="pv-pill ${result.cls}">${label}</span></div>
+    <dl>${row('Pet + carrier maximum','حداکثر وزن حیوان + کیف', Number(rule?.max_combined_weight_kg)>0 ? kg(rule.max_combined_weight_kg) : rule?.no_numeric_weight_limit ? cabinText('No numeric cap published; carrier fit required','سقف عددی منتشر نشده؛ جاگیری طبیعی در کیف الزامی است') : cabinText('Not verified','تأیید نشده'))}
+    ${Number(rule?.max_pet_weight_kg)>0 ? row('Pet-only maximum','حداکثر وزن خود حیوان',kg(rule.max_pet_weight_kg)) : ''}
+    ${Number(rule?.cabin_snub_max_kg)>0 ? row('Short-nosed pet + carrier maximum','سقف مجموع وزن برای نژاد پوزه‌کوتاه',kg(rule.cabin_snub_max_kg)) : ''}
+    ${row('Carrier limit · L × W × H','سایز مجاز کیف · طول × عرض × ارتفاع',dims)}
+    ${row('Your pet + carrier','وزن حیوان شما + کیف',kg(petWeight()) + ' + ' + (Number(cabinCarrier.kg)>0 ? kg(cabinCarrier.kg) + ' = <b>' + kg(petWeight()+Number(cabinCarrier.kg)) + '</b>' : cabinText('carrier weight missing','وزن کیف وارد نشده')))}
+    ${row('Your carrier dimensions','ابعاد کیف شما',[cabinCarrier.length,cabinCarrier.width,cabinCarrier.height].every(v=>Number(v)>0) ? `<bdi dir="ltr">${cabinDims([cabinCarrier.length,cabinCarrier.width,cabinCarrier.height])}</bdi>` : cabinText('Not entered','وارد نشده'))}
+    ${row('Carrier type','نوع کیف',rule?.soft_carrier_required ? cabinText('Soft-sided','نرم و انعطاف‌پذیر') : cabinText('See policy details','طبق جزئیات قانون'))}</dl>
+    ${variants.length ? `<label>${cabinText('Your aircraft / cabin','هواپیما / کلاس شما')}<select data-cabin-aircraft="${escapeHtml(key)}"><option value="">${cabinText('Select an option','انتخاب کنید')}</option>${variants.map((v,i)=>`<option value="${i}" ${String(cabinAircraft.get(key))===String(i)?'selected':''}>${escapeHtml(v.label)}</option>`).join('')}</select></label>` : ''}
+    <p>${escapeHtml(result.reason)}</p>
+    <details><summary>${cabinText('Route, breed and booking details','جزئیات مسیر، نژاد و رزرو')}</summary><p>${escapeHtml(cabinText(airline.notes || '',airline.notes_fa || airline.notes || ''))}</p></details>
+    <p class="pv-muted">${cabinText('Flight route / pet space: not booked or verified','مسیر پرواز / ظرفیت حیوان: رزرو یا تأیید نشده')}</p>
+    ${rule?.source_url ? `<a href="${escapeHtml(rule.source_url)}" target="_blank" rel="noopener noreferrer">${cabinText('Official policy','قوانین رسمی ایرلاین')} ↗</a>` : ''}
+    <small style="display:block">${cabinText('Source reviewed: ','تاریخ بررسی منبع: ')}${escapeHtml(airline.reviewed_on || '—')}</small>
+  </article>`;
+}
 
 
 /* =========================================================
@@ -1633,6 +1663,7 @@ function renderServices() {
 ========================================================= */
 
 function renderEngine() {
+  readCabinCarrier();
 
   if (!trip) {
     return '';
@@ -1673,104 +1704,12 @@ function renderEngine() {
       item.result.status === 'Compatible' || item.result.status === 'Conditional'
     ).length;
 
-    airlineCards = `
-      <div style="margin-bottom:12px" class="pv-muted">
-        ${airlineData.length} airlines listed; ${airlineData.filter(a=>a.policy_status==="reviewed").length} source-reviewed and ${airlineData.filter(a=>a.policy_status!=="reviewed").length} awaiting policy verification. ${compatibleCount} meet stored initial checks or require further confirmation. Flight routes and pet spaces are not verified.
-      </div>
-
-      ${evaluatedAirlines
-        .filter(({airline}) => airline.policy_status === "reviewed")
-        .map(({ airline, rule, result }) => `
-          <div class="pv-airline">
-            <strong>${escapeHtml(airline.name)}</strong>
-            <br>
-
-            <span class="pv-pill ${result.cls}">
-              ${escapeHtml(result.status)}
-            </span>
-
-            <p>${escapeHtml(result.reason)}</p>
-
-            ${result.dimensions
-              ? `
-                <div class="pv-muted">
-                  Carrier size:
-                  ${escapeHtml(result.dimensions)}
-                </div>
-              `
-              : ''}
-
-            ${result.carrierType
-              ? `
-                <div class="pv-muted">
-                  Carrier type:
-                  ${escapeHtml(result.carrierType)}
-                </div>
-              `
-              : ''}
-
-            ${result.reservationRequired
-              ? `
-                <div class="pv-muted">
-                  Reservation required: yes
-                </div>
-              `
-              : ''}
-
-            ${rule?.breed_restrictions
-              ? `
-                <div class="pv-muted">
-                  Breed restrictions stored: ${escapeHtml(breedRestrictionText(rule.breed_restrictions))}
-                </div>
-              `
-              : ''}
-
-            ${rule?.route_restrictions
-              ? `
-                <div class="pv-muted">
-                  Route restrictions stored — itinerary verification required.
-                </div>
-              `
-              : ''}
-
-            ${rule?.rule_description
-              ? `
-                <div class="pv-muted">
-                  ${escapeHtml(cleanRuleDescription(rule.rule_description))}
-                </div>
-              `
-              : ''}
-
-            ${rule?.source_url
-              ? `
-                <div style="margin-top:8px">
-                  <a
-                    href="${escapeHtml(rule.source_url)}"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    Official source →
-                  </a>
-                </div>
-              `
-              : ''}
-          </div>
-        `)
-        .join('')}
-      ${evaluatedAirlines.some(({airline}) => airline.policy_status !== "reviewed") ? `
-        <details class="pv-unverified-carriers">
-          <summary>View ${evaluatedAirlines.filter(({airline}) => airline.policy_status !== "reviewed").length} airlines without verified pet policies</summary>
-          <div class="pv-grid" style="margin-top:14px">
-            ${evaluatedAirlines.filter(({airline}) => airline.policy_status !== "reviewed").map(({airline}) => `
-              <div class="pv-airline">
-                <strong>${escapeHtml(airline.name)}</strong>
-                <p><span class="pv-pill pv-warn">Policy not verified</span></p>
-                <p>Pet acceptance and route restrictions are unknown. Confirm directly with the operating airline.</p>
-              </div>
-            `).join("")}
-          </div>
-        </details>` : ""}
-    `;
+    const reviewed = evaluatedAirlines.filter(({airline}) => airline.policy_status === 'reviewed');
+    const rank = {'Compatible':0, 'Check':1, 'Not compatible':2};
+    reviewed.sort((a,b)=>(rank[a.result.status] ?? 1)-(rank[b.result.status] ?? 1));
+    airlineCards = reviewed.map(({airline,rule,result})=>renderCabinAirline(airline,rule,result)).join('');
+    const unknown = evaluatedAirlines.filter(({airline})=>airline.policy_status !== 'reviewed');
+    if (unknown.length) airlineCards += `<details class="pv-unverified-carriers" style="grid-column:1/-1"><summary>${cabinText('Unverified airlines — no eligibility result','ایرلاین‌های بررسی‌نشده — بدون نتیجهٔ پذیرش')} (${unknown.length})</summary><div class="pv-grid">${unknown.map(({airline})=>`<div class="pv-airline"><strong>${escapeHtml(airline.name)}</strong><p>${cabinText('Policy not verified','قوانین تأیید نشده')}</p></div>`).join('')}</div></details>`;
   }
 
 
@@ -1887,6 +1826,8 @@ function renderEngine() {
 
     <div class="pv-engine">
 
+      ${renderCabinCarrier()}
+
       <div class="pv-card">
 
         <h3>
@@ -1942,44 +1883,26 @@ function renderEngine() {
 
         <div class="pv-summary">
           <div class="pv-summary-item">
-            <strong>${airlineData.length}</strong>
-            <span>Airlines listed</span>
+            <strong>${airlineData.filter(a=>a.policy_status === 'reviewed').length}</strong>
+            <span>${cabinText('Reviewed airline policies','قوانین ایرلاین‌های بررسی‌شده')}</span>
           </div>
           <div class="pv-summary-item">
             <strong>${airlineData.filter(a => {
               const r = getActiveRule(a);
               return airlineResult(a, r).status === 'Compatible';
             }).length}</strong>
-            <span>Compatible</span>
+            <span>${cabinText('Weight & size OK','وزن و سایز مناسب')}</span>
           </div>
           <div class="pv-summary-item">
             <strong>${airlineData.filter(a => {
               const r = getActiveRule(a);
-              return a.policy_status !== "reviewed" || airlineResult(a, r).status === 'Conditional';
+              return a.policy_status === 'reviewed' && airlineResult(a, r).status === 'Check';
             }).length}</strong>
-            <span>Needs verification</span>
+            <span>${cabinText('Missing carrier / policy details','نیاز به اطلاعات کیف یا قانون')}</span>
           </div>
         </div>
 
-        <p class="pv-muted">
-
-          Based on
-          ${escapeHtml(
-            pet?.name ||
-            'your pet'
-          )}
-
-          ${
-            weight
-              ? `(${weight} kg)`
-              : ''
-          }.
-
-          PawVago checks stored airline
-          rules. This is not live flight
-          or seat availability.
-
-        </p>
+        <p class="pv-muted">${cabinText('Cabin weight and carrier-size checks only. No flight search or pet-space reservation is performed. L × W × H means length × width × height.', 'بررسی وزن و سایز کیف کابین؛ جست‌وجوی پرواز یا رزرو جای حیوان انجام نشده است. ترتیب ابعاد: طول × عرض × ارتفاع.')}</p>
 
         <div class="pv-grid">
 
@@ -2296,6 +2219,8 @@ function render() {
   `;
 
 
+  bindCabinControls();
+
   $('newTrip')?.addEventListener('click', () => openTrip());
 
   $('add')?.addEventListener(
@@ -2610,6 +2535,7 @@ function bindStaticEvents() {
   ensureStyles();
 
   ensureTripModal();
+  $('pvLanguage')?.addEventListener('change', () => setTimeout(() => { if ($('dashboardView')?.classList.contains('active')) render(); }, 0));
 
 
   $('loginBtn')?.addEventListener(
@@ -2757,3 +2683,4 @@ ensureStyles();
 bindStaticEvents();
 
 refresh();
+

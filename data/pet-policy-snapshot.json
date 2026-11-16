@@ -236,7 +236,35 @@
         "ایرکانادا",
         "آمریکای شمالی",
         "north america"
-      ]
+      ],
+      "cabin_dimension_variants": [
+        {
+          "label": "Airbus / Boeing Economy",
+          "dimensions_cm": [
+            43,
+            40,
+            20
+          ]
+        },
+        {
+          "label": "Dash 8-400 / E175 / CRJ900 / Landline",
+          "dimensions_cm": [
+            55,
+            40,
+            27
+          ]
+        },
+        {
+          "label": "A330 / B777 / B787 Business",
+          "dimensions_cm": [
+            41,
+            21,
+            28
+          ]
+        }
+      ],
+      "cabin_weight_policy": "carrier_fit_only",
+      "cabin_dimension_source": "https://www.aircanada.com/ca/en/aco/home/plan/special-assistance/pets.html"
     },
     {
       "id": "TX",

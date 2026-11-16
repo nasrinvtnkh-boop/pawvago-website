@@ -27,7 +27,7 @@ const client = {
 const context = vm.createContext({
   console, setTimeout, Date, fetch: async()=>({ok:false}),
   window:{PAWVAGO_CONFIG:{SUPABASE_URL:'test',SUPABASE_ANON_KEY:'test'},supabase:{createClient:()=>client},scrollTo(){}},
-  location:{hash:''}, document:{getElementById:node,
+  location:{hash:''}, document:{documentElement:{lang:'en'},getElementById:node,
     querySelectorAll(selector){return selector==='.side-nav button'?buttons:[];},
     createElement:()=>node('created'),head:{appendChild(){}},body:{appendChild(){}}
   }
