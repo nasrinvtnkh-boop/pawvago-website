@@ -22,5 +22,5 @@ assert.equal(get('AA',{placement:'hold'}).hold.kind,'blocked');
 assert.equal(get('UA',{placement:'hold'}).hold.kind,'review');
 assert.equal(get('DL',{cabinDims:[48,28,28]}).cabin.kind,'review'); // recommendation is not a universal limit
 assert.notEqual(get('B6').cabin.kind,'unverified');
-assert.equal(data.airlines.find(a=>a.id==='AF').reviewed_on,'2026-10-21');
+assert.equal(data.airlines.find(a=>a.id==='AF').cabin_max_kg,8);
 console.log('PASS: 18 carrier records; source dates; country availability; cabin/hold route, weight, size and breed restrictions; unknown fields remain cautious.');

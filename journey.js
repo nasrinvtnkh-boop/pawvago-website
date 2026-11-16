@@ -89,17 +89,24 @@
       const cabinText = !review ? "Not yet reviewed" :
         a.cabin_allowed === false ? "No ordinary pets" :
         cabinAllowed && a.cabin_max_kg != null ? formatKg(a.cabin_max_kg) + " kg max" :
-        "Confirm with airline";
+        cabinAllowed ? "Under-seat fit required" : "Cabin service not documented";
       const cabinDetail = review && a.dimensions_cm ? a.dimensions_cm.join(" × ") + " cm carrier" :
-        !review ? "Rules, limits and pet acceptance unknown" : "Carrier size and flight restrictions apply";
+        !review ? "Rules, limits and pet acceptance unknown" :
+        a.cabin_allowed === false ? "Assistance animals follow a separate policy" :
+        a.cabin_dimension_variants?.length ? a.cabin_dimension_variants.map(v=>v.label+': '+v.dimensions_cm.join(' × ')+' cm').join(' · ') :
+        a.cabin_max_linear_cm ? 'Carrier total dimensions: '+a.cabin_max_linear_cm+' cm maximum' : "Aircraft-specific carrier rules are detailed below";
       const holdText = !review ? "Not yet reviewed" :
+        a.cargo_only ? "Separate cargo service" :
         hold.allowed === false ? "Not offered" :
+        hold.weight_label ? hold.weight_label :
         hold.allowed === true && hold.max_combined_kg != null ? formatKg(hold.max_combined_kg) + " kg max" :
-        "Verify with airline";
+        hold.allowed === true ? (hold.weight_policy==='not_published' || hold.weight_policy==='no_fixed_limit' ? "No single published weight cap" : "Accepted in checked hold") : "Checked-hold service not documented";
       const holdDetail = !review ? "Hold pet acceptance not assessed" :
+        a.cargo_only ? "Booked through a specialist cargo provider, not passenger baggage" :
         hold.allowed === false ? "Ordinary pets not accepted in checked hold" :
+        hold.dimension_variants?.length ? hold.dimension_variants.map(v=>v.label+': '+v.dimensions_cm.join(' × ')+' cm').join(' · ') :
         (hold.dimensions_cm ? "Crate up to " + hold.dimensions_cm.join(" × ") + " cm; " : "") +
-        "Operating flight and breed rules apply";
+        (hold.weight_policy==='not_published' ? "Rigid crate and aircraft conditions determine acceptance" : "Operating flight and breed rules apply");
       return '<article class="pvj-rule-card">' +
         '<span class="pvj-rule-card-tag ' + (review ? '' : 'pvj-tag-unverified') + '">' + reviewLabel(a) + '</span>' +
         '<div class="pvj-rule-card-name">' + safe(a.name) + '</div>' +
@@ -110,7 +117,7 @@
         '<div class="pvj-card-hold"><div class="pvj-card-mode">CHECKED HOLD</div><strong>' +
         safe(holdText) + '</strong><small>' + safe(holdDetail) + '</small></div>' +
         '<div class="pvj-rule-card-note">' +
-        (review ? "Reference only — verify booking, route, animal breed and kennel with the operating carrier." :
+        (review ? "Published weight includes pet and carrier. Flight pet-space reservation is separate." :
          "No airline pet policy has been checked for this listing. Unknown is not the same as allowed or prohibited.") +
         '</div>' +
         (review && a.notes ? '<p class="pvj-rule-card-note">' + safe(a.notes) + '</p>' : '') +

@@ -23,19 +23,28 @@
   }
 
   function testCabin(airline, p) {
-    const reasons=[],max=valueKg(airline.cabin_max_kg);
+    const reasons=[],baseMax=valueKg(airline.cabin_max_kg);
+    const max=p.snub&&hasNumber(airline.cabin_snub_max_kg)?Math.min(baseMax??Infinity,Number(airline.cabin_snub_max_kg)):baseMax;
     const reject = msg => ({kind:"blocked",reasons:[msg],max,method:"cabin"});
     if (p.enteringGB) return reject("Standard commercial flights into Great Britain normally require cargo, not cabin pet travel.");
     if (airline.cabin_allowed === false) return reject("The airline does not accept ordinary pets in the passenger cabin.");
+    if (p.snub && airline.cabin_snub_restricted===true) return reject("The published cabin policy excludes short-nosed breeds.");
     if (cabinRouteBlocked(airline,p)) return reject("The published cabin policy excludes this country pair; check the airline's route restrictions.");
     if (airline.cabin_allowed !== true) return {kind:"review",reasons:["Cabin pet acceptance has not been confirmed in PawVago."],max,method:"cabin"};
     if (max !== null && p.cabinTotal > max+0.000001)
       return reject("Pet and cabin bag total " + readable(p.cabinTotal) + " is above the " + readable(max) + " cabin maximum.");
+    if (hasNumber(airline.cabin_pet_max_kg) && p.petKg>Number(airline.cabin_pet_max_kg))
+      return reject("The pet alone exceeds the airline's published animal-only cabin weight limit.");
     if (checkSize(p.cabinDims,airline.dimensions_cm))
       return reject("Your cabin bag exceeds at least one published carrier dimension.");
+    const variants=airline.cabin_dimension_variants||[];
+    if(p.cabinDims && variants.length && variants.every(v=>checkSize(p.cabinDims,v.dimensions_cm)))
+      return reject("Your cabin bag exceeds all published aircraft-specific size options.");
+    if(p.cabinDims && hasNumber(airline.cabin_max_linear_cm) && p.cabinDims.reduce((a,b)=>a+b,0)>Number(airline.cabin_max_linear_cm))
+      return reject("Your cabin bag exceeds the published combined length, width and height limit.");
     if (max === null) reasons.push("One universal cabin weight limit has not been confirmed.");
     if (!p.cabinDims) reasons.push("Enter all three cabin bag dimensions to check the published size limit.");
-    if (p.cabinDims && !airline.dimensions_cm) reasons.push("The cabin bag size limit requires direct airline verification.");
+    if (p.cabinDims && !airline.dimensions_cm) reasons.push(variants.length||airline.cabin_max_linear_cm ? "Published carrier limits are listed by aircraft or total dimensions in the policy details." : "The cabin bag size limit requires direct airline verification.");
     if (p.cabinDimensionsPartial) reasons.push("Complete all three cabin bag dimensions.");
     if (!p.breedKnown) reasons.push("Add the breed to screen short-nosed travel restrictions.");
     if (p.snub) reasons.push("Flat-faced breed: check individual breed, respiratory and temperature restrictions with the airline.");
@@ -46,7 +55,11 @@
   }
 
   function testHold(airline,p) {
-    const hold=airline.hold||{},max=valueKg(hold.max_combined_kg),reasons=[];
+    const hold=airline.hold||{},reasons=[];
+    let max=valueKg(hold.max_combined_kg);
+    for(const limit of hold.country_weight_limits||[]){
+      if(limit.countries.includes(p.from)||limit.countries.includes(p.to))max=Math.min(max??Infinity,limit.max_combined_kg);
+    }
     const reject = msg => ({kind:"blocked",reasons:[msg],max,method:"hold"});
     if (p.enteringGB) return reject("Checked hold baggage is not the normal option for commercial flights into Great Britain; ask a cargo provider.");
     if (hold.allowed === false) return reject("The airline does not carry ordinary pets as checked-in hold baggage.");
@@ -63,6 +76,8 @@
       return reject("Pet and rigid crate total " + readable(p.petKg+p.crateKg) + " exceeds " + readable(max) + ".");
     if (checkSize(p.crateDims,hold.dimensions_cm))
       return reject("The rigid crate exceeds a published hold size limit.");
+    if(p.crateDims && hold.dimension_variants?.length && hold.dimension_variants.every(v=>checkSize(p.crateDims,v.dimensions_cm)))
+      return reject("The rigid crate exceeds all published aircraft-specific hold size options.");
     if (p.crateDims && hasNumber(hold.max_linear_cm) && p.crateDims.reduce((a,b)=>a+b,0)>Number(hold.max_linear_cm))
       return reject("The rigid crate exceeds the published combined length, width and height limit.");
     if (p.crateDims && hasNumber(hold.max_height_cm) && p.crateDims[2]>Number(hold.max_height_cm))
@@ -73,11 +88,13 @@
       reasons.push("Emirates checked-hold service is itinerary-dependent; routes arriving Dubai normally require separate cargo.");
     if (airline.route_rule==="confirm_operating_route")
       reasons.push("Flight/route-specific conditions apply to this carrier.");
-    if (max===null) reasons.push("No universal hold weight maximum verified; confirm directly with the airline.");
+    if (max===null) reasons.push(hold.weight_policy==='not_published'||hold.weight_policy==='no_fixed_limit' ? "The published hold policy sets no single weight cap; rigid crate and aircraft conditions apply." : "No universal hold weight maximum verified; confirm directly with the airline.");
+    if(hold.weight_policy==='route_limits')reasons.push("The published weight limit depends on origin, destination and transit countries; transit is not entered in this checker.");
+    if(hold.weight_policy==='aircraft_dependent'||hold.weight_policy==='airport_dependent')reasons.push("Published hold limits vary by operating aircraft or airport; see the listed policy conditions.");
     if (p.crateKg===null) reasons.push("Add the hard crate weight; cabin bag weight cannot be used for the hold.");
     if (!p.crateDims) reasons.push("Add three rigid crate dimensions and confirm IATA live-animal requirements.");
     if (p.crateDimensionsPartial) reasons.push("Complete all three rigid crate dimensions.");
-    if (p.crateDims && !hold.dimensions_cm) reasons.push("No universal rigid crate dimension cap verified; ask the airline.");
+    if (p.crateDims && !hold.dimensions_cm) reasons.push(hold.dimension_variants?.length ? "Published crate size limits vary by aircraft and are listed in the policy details." : "No universal rigid crate dimension cap verified; ask the airline.");
     if (!p.breedKnown) reasons.push("Add the breed for short-nosed hold restrictions.");
     if (p.snub && hold.snub_nosed_restricted !== false)
       reasons.push("Flat-faced breeds have extra safety restrictions. Hold eligibility is not verified.");
