@@ -35,7 +35,7 @@
       const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
       let node;
       while((node=walker.nextNode())){
-        if(node.parentElement.closest('script,style,#pvLanguage'))continue;
+        if(node.parentElement.closest('script,style,.pv-language-picker'))continue;
         const key=node.nodeValue.trim();
         if(persianText[key]){translatedNodes.set(node,node.nodeValue);node.nodeValue=node.nodeValue.replace(key,persianText[key]);}
       }
@@ -48,4 +48,61 @@
   picker.addEventListener('change',()=>apply(picker.value));
   let initial='en';try{initial=safeLang(localStorage.getItem('pawvago-language')||'en')}catch(_){}
   apply(initial);
+  // Native options cannot render a custom flag. Keep the select as a no-JS
+  // fallback and use a native disclosure with real buttons for consistent icons.
+  const host=picker.closest('.pv-language-picker');
+  const menu=document.createElement('details');
+  menu.className='pv-language-menu';
+  const trigger=document.createElement('summary');
+  trigger.setAttribute('aria-label','Language');
+  const list=document.createElement('div');
+  list.className='pv-language-options';
+  const options=Array.from(picker.options);
+  const buttons=[];
+  const render=(target,option)=>{
+    target.replaceChildren();
+    const icon=document.createElement(option.value==='fa'?'img':'span');
+    icon.className='pv-language-flag';
+    icon.setAttribute('aria-hidden','true');
+    if(option.value==='fa'){
+      icon.src='assets/persian-lion-sun.svg';icon.alt='';icon.width=22;icon.height=15;
+    }else{icon.textContent=option.textContent.split(' ')[0];}
+    const label=document.createElement('span');
+    label.lang=option.value;label.dir='auto';
+    label.textContent=option.value==='fa'?'پارسی':option.textContent.slice(option.textContent.indexOf(' ')+1);
+    target.append(icon,label);
+  };
+  const sync=()=>{
+    render(trigger,options.find(o=>o.value===picker.value));
+    buttons.forEach((button,i)=>button.setAttribute('aria-pressed',String(options[i].value===picker.value)));
+  };
+  options.forEach(option=>{
+    const button=document.createElement('button');
+    button.type='button';render(button,option);
+    button.addEventListener('click',()=>{
+      picker.value=option.value;
+      picker.dispatchEvent(new Event('change',{bubbles:true}));
+      menu.open=false;trigger.focus();
+    });
+    buttons.push(button);list.append(button);
+  });
+  menu.append(trigger,list);host.append(menu);
+  picker.hidden=true;
+  host.classList.add('pv-language-enhanced');
+  picker.addEventListener('change',sync);
+  sync();
+  document.addEventListener('click',event=>{if(!host.contains(event.target))menu.open=false;});
+  menu.addEventListener('keydown',event=>{
+    if(event.key==='Escape'){menu.open=false;trigger.focus();event.preventDefault();}
+    if(['ArrowDown','ArrowUp','Home','End'].includes(event.key)){
+      event.preventDefault();menu.open=true;
+      let index=buttons.indexOf(document.activeElement);
+      index=event.key==='Home'?0:event.key==='End'?buttons.length-1:
+        (index+(event.key==='ArrowDown'?1:-1)+buttons.length)%buttons.length;
+      buttons[index].focus();
+    }
+  });
+  host.addEventListener('focusout',()=>{
+    requestAnimationFrame(()=>{if(!host.contains(document.activeElement))menu.open=false;});
+  });
 })();
