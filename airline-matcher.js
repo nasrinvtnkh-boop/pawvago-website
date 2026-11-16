@@ -12,11 +12,22 @@
                         kind === "review" ? "Needs more checks" : kind === "unverified" ? "Policy not yet reviewed" : "Policy mismatch";
   const rank = kind => ({potential:3,review:2,blocked:1,unverified:0})[kind];
 
+  // Only enforce country exclusions explicitly recorded from official policies.
+  // This does not determine flight operation, transit, state or airport restrictions.
+  function cabinRouteBlocked(airline,p) {
+    const allowed=airline.cabin_country_allowlist;
+    return (Array.isArray(allowed) && (!allowed.includes(p.from)||!allowed.includes(p.to))) ||
+      (airline.cabin_blocked_countries||[]).some(code=>code===p.from||code===p.to) ||
+      (airline.cabin_blocked_origins||[]).includes(p.from) ||
+      (airline.cabin_blocked_destinations||[]).includes(p.to);
+  }
+
   function testCabin(airline, p) {
     const reasons=[],max=valueKg(airline.cabin_max_kg);
     const reject = msg => ({kind:"blocked",reasons:[msg],max,method:"cabin"});
     if (p.enteringGB) return reject("Standard commercial flights into Great Britain normally require cargo, not cabin pet travel.");
     if (airline.cabin_allowed === false) return reject("The airline does not accept ordinary pets in the passenger cabin.");
+    if (cabinRouteBlocked(airline,p)) return reject("The published cabin policy excludes this country pair; check the airline's route restrictions.");
     if (airline.cabin_allowed !== true) return {kind:"review",reasons:["Cabin pet acceptance has not been confirmed in PawVago."],max,method:"cabin"};
     if (max !== null && p.cabinTotal > max+0.000001)
       return reject("Pet and cabin bag total " + readable(p.cabinTotal) + " is above the " + readable(max) + " cabin maximum.");
@@ -39,6 +50,9 @@
     const reject = msg => ({kind:"blocked",reasons:[msg],max,method:"hold"});
     if (p.enteringGB) return reject("Checked hold baggage is not the normal option for commercial flights into Great Britain; ask a cargo provider.");
     if (hold.allowed === false) return reject("The airline does not carry ordinary pets as checked-in hold baggage.");
+    if ((hold.blocked_countries||[]).some(code=>code===p.from||code===p.to) ||
+        (hold.blocked_destinations||[]).includes(p.to))
+      return reject("The published checked-hold policy excludes this country pair; confirm with the airline.");
     if (airline.route_rule==="hold_domestic_tr_only" && !(p.from==="TR"&&p.to==="TR"))
       return reject("Checked hold service is restricted to eligible Turkish domestic / North Cyprus journeys; this route is not verified as eligible.");
     if (p.snub && hold.snub_nosed_restricted===true)
@@ -49,10 +63,16 @@
       return reject("Pet and rigid crate total " + readable(p.petKg+p.crateKg) + " exceeds " + readable(max) + ".");
     if (checkSize(p.crateDims,hold.dimensions_cm))
       return reject("The rigid crate exceeds a published hold size limit.");
+    if (p.crateDims && hasNumber(hold.max_linear_cm) && p.crateDims.reduce((a,b)=>a+b,0)>Number(hold.max_linear_cm))
+      return reject("The rigid crate exceeds the published combined length, width and height limit.");
+    if (p.crateDims && hasNumber(hold.max_height_cm) && p.crateDims[2]>Number(hold.max_height_cm))
+      return reject("The rigid crate exceeds a published hold size limit.");
     if (hold.allowed!==true)
       reasons.push("Checked-hold pet acceptance is not independently established for this airline.");
     if (airline.route_rule==="emirates_hold_dubai_departure_only")
       reasons.push("Emirates checked-hold service is itinerary-dependent; routes arriving Dubai normally require separate cargo.");
+    if (airline.route_rule==="confirm_operating_route")
+      reasons.push("Flight/route-specific conditions apply to this carrier.");
     if (max===null) reasons.push("No universal hold weight maximum verified; confirm directly with the airline.");
     if (p.crateKg===null) reasons.push("Add the hard crate weight; cabin bag weight cannot be used for the hold.");
     if (!p.crateDims) reasons.push("Add three rigid crate dimensions and confirm IATA live-animal requirements.");
@@ -111,3 +131,4 @@
   }
   root.PawVagoAirMatcher=Object.freeze({evaluate});
 })(window);
+

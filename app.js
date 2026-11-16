@@ -1045,7 +1045,7 @@ async function loadTravelData() {
         carrier_type: a.soft_carrier ? 'Soft-sided carrier' : '',
         requires_reservation: a.reservation_required,
         route_restrictions: 'Exact flight, operating carrier and pet-space acceptance must be confirmed',
-        rule_description: 'Official-source policy snapshot reviewed ' + policy.reviewed_on +
+        rule_description: 'Official-source policy snapshot reviewed ' + (a.reviewed_on || policy.reviewed_on) +
           '. This does not confirm flight availability, route acceptance or booking.',
         source_url: a.source
       }]

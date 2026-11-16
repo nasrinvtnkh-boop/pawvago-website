@@ -2,7 +2,7 @@
   "schema_version": 3,
   "reviewed_on": "2026-10-21",
   "quality": "Selected global airline directory, NOT a complete registry of every operating airline; reviewed pet rules are strictly separated from unreviewed carriers. No real-time flight inventory, seat or pet-space availability.",
-  "source_scope": "Non-commercial travel with personal dogs and cats, usual EU/GB routes. Exceptions and transit require official checks.",
+  "source_scope": "Non-commercial personal dog/cat travel. Airline policies include Europe and North America; country entry coverage varies. Per-airline dates and official source links apply; null fields are not verified limits.",
   "airlines": [
     {
       "id": "A3",
@@ -76,18 +76,35 @@
       "id": "AM",
       "name": "Aeroméxico",
       "region": "North America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
-      "cabin_max_kg": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 9,
       "dimensions_cm": null,
-      "source": null,
+      "source": "https://www.aeromexico.com/es-mx/informacion-de-vuelos/transporte-aereo-de-mascotas",
       "hold": {
-        "allowed": null,
-        "max_combined_kg": null,
+        "allowed": true,
+        "max_combined_kg": 45,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": true,
+        "source": "https://www.aeromexico.com/es-mx/informacion-de-vuelos/transporte-aereo-de-mascotas",
+        "snub_nosed_restricted": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Ordinary dogs/cats in cabin: up to 9 kg including carrier. Checked pets: up to 45 kg including rigid kennel. Carrier dimensions vary by cabin/aircraft; confirm exact dimensions, breed, temperature and itinerary acceptance before travel.",
+      "reviewed_on": "2026-11-16",
+      "soft_carrier": true,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "سگ و گربهٔ معمول در کابین: مجموع وزن با کیف حداکثر ۹ کیلوگرم. بار: مجموع حیوان و باکس سخت حداکثر ۴۵ کیلوگرم. ابعاد به کلاس و هواپیما بستگی دارد؛ ابعاد دقیق، نژاد، دما و پذیرش مسیر را پیش از سفر تأیید کنید.",
+      "review_scope": "Core published cabin and checked-baggage conditions; unspecified fields require airline confirmation.",
+      "sources": [
+        "https://www.aeromexico.com/es-mx/informacion-de-vuelos/transporte-aereo-de-mascotas"
+      ],
+      "search_aliases": [
+        "aeromexico",
+        "ایرومکزیکو",
+        "آمریکای شمالی",
+        "north america"
+      ]
     },
     {
       "id": "AH",
@@ -161,18 +178,37 @@
       "id": "AC",
       "name": "Air Canada",
       "region": "North America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
       "cabin_max_kg": null,
       "dimensions_cm": null,
-      "source": null,
+      "source": "https://www.aircanada.com/ca/en/aco/home/plan/special-assistance/pets.html",
       "hold": {
-        "allowed": null,
-        "max_combined_kg": null,
+        "allowed": true,
+        "max_combined_kg": 45,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": true,
+        "source": "https://www.aircanada.com/ca/en/aco/home/plan/special-assistance/pets.html",
+        "snub_nosed_restricted": null,
+        "max_linear_cm": 292
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Soft, flexible cabin carriers only. Size depends on aircraft/class: many mainline Economy aircraft use 43 × 40 × 20 cm; regional aircraft and Business have different limits. Premium Economy and codeshares have restrictions. Checked pet + kennel: up to 45 kg and 292 cm total length + width + height; breed, weather and destination restrictions apply.",
+      "reviewed_on": "2026-11-16",
+      "soft_carrier": true,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "در کابین فقط کیف نرم و انعطاف‌پذیر. ابعاد به هواپیما و کلاس بستگی دارد؛ در اکونومی بسیاری از هواپیماها ۴۳ × ۴۰ × ۲۰ سانتی‌متر و در هواپیماهای منطقه‌ای و بیزنس متفاوت است. پریمیوم اکونومی و پروازهای اشتراکی محدودیت دارند. مجموع وزن حیوان و باکس بار حداکثر ۴۵ کیلوگرم و مجموع طول، عرض و ارتفاع ۲۹۲ سانتی‌متر است؛ نژاد، دما و مقصد باید تأیید شوند.",
+      "review_scope": "Core published cabin and checked-baggage conditions; unspecified fields require airline confirmation.",
+      "sources": [
+        "https://www.aircanada.com/ca/en/aco/home/plan/special-assistance/pets.html"
+      ],
+      "search_aliases": [
+        "aircanada",
+        "ایر کانادا",
+        "ایرکانادا",
+        "آمریکای شمالی",
+        "north america"
+      ]
     },
     {
       "id": "TX",
@@ -281,7 +317,8 @@
       },
       "region": "Europe",
       "policy_status": "reviewed",
-      "cabin_allowed": true
+      "cabin_allowed": true,
+      "reviewed_on": "2026-10-21"
     },
     {
       "id": "AI",
@@ -457,18 +494,49 @@
       "id": "TS",
       "name": "Air Transat",
       "region": "North America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
-      "cabin_max_kg": null,
-      "dimensions_cm": null,
-      "source": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 8,
+      "dimensions_cm": [
+        43,
+        24,
+        25
+      ],
+      "source": "https://www.airtransat.com/en-CA/travel-information/special-services/pets-and-service-dogs",
       "hold": {
-        "allowed": null,
-        "max_combined_kg": null,
-        "dimensions_cm": null,
-        "source": null
+        "allowed": true,
+        "max_combined_kg": 45,
+        "dimensions_cm": [
+          122,
+          81.3,
+          89
+        ],
+        "requires_hard_crate": true,
+        "source": "https://www.airtransat.com/en-CA/travel-information/special-services/pets-and-service-dogs",
+        "snub_nosed_restricted": null,
+        "blocked_destinations": [
+          "IE"
+        ]
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Cabin dogs/cats: 8 kg including soft carrier; reserve at least 24 hours ahead. Checked hold: rigid crate up to 122 × 81.3 × 89 cm and 45 kg combined. Checked pets excluded on connections, codeshares and Train + Air. Some breeds are prohibited; other short-nosed breeds need special conditions. UK/Ireland and departure-airport restrictions apply.",
+      "reviewed_on": "2026-11-16",
+      "soft_carrier": true,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "سگ و گربه در کابین: مجموع وزن با کیف نرم حداکثر ۸ کیلوگرم؛ رزرو دست‌کم ۲۴ ساعت زودتر. بار: باکس سخت حداکثر ۱۲۲ × ۸۱٫۳ × ۸۹ سانتی‌متر و مجموع وزن ۴۵ کیلوگرم. در اتصال‌ها، پرواز اشتراکی و قطار+هواپیما، بار حیوان ارائه نمی‌شود. برخی نژادها ممنوع و سایر پوزه‌کوتاه‌ها مشروط‌اند. بریتانیا، ایرلند و فرودگاه مبدأ محدودیت دارند.",
+      "review_scope": "Core published cabin and checked-baggage conditions; unspecified fields require airline confirmation.",
+      "cabin_blocked_destinations": [
+        "IE"
+      ],
+      "sources": [
+        "https://www.airtransat.com/en-CA/travel-information/special-services/pets-and-service-dogs"
+      ],
+      "search_aliases": [
+        "transat",
+        "ترانزات",
+        "آمریکای شمالی",
+        "north america"
+      ]
     },
     {
       "id": "AK",
@@ -542,18 +610,41 @@
       "id": "AS",
       "name": "Alaska Airlines",
       "region": "North America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
       "cabin_max_kg": null,
-      "dimensions_cm": null,
-      "source": null,
+      "dimensions_cm": [
+        43.18,
+        27.94,
+        24.13
+      ],
+      "source": "https://www.alaskaair.com/content/travel-info/pets",
       "hold": {
-        "allowed": null,
-        "max_combined_kg": null,
+        "allowed": true,
+        "max_combined_kg": 68,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": true,
+        "source": "https://www.alaskaair.com/content/travel-info/pets",
+        "snub_nosed_restricted": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Shared Alaska/Hawaiian pet program. Cabin soft carrier: 17 × 11 × 9.5 inches. Checked pet + kennel: up to 150 lb / published 68 kg. Aircraft, destination, seasonal and breed restrictions apply. Short-nosed checked-pet rules include exceptions in the contract; obtain written confirmation for the exact itinerary.",
+      "reviewed_on": "2026-11-16",
+      "soft_carrier": true,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "برنامهٔ مشترک آلاسکا و هاوایین. کیف نرم کابین: ۴۳٫۱۸ × ۲۷٫۹۴ × ۲۴٫۱۳ سانتی‌متر. مجموع حیوان و باکس بار: حداکثر ۱۵۰ پوند یا ۶۸ کیلوگرم طبق اعلام شرکت. هواپیما، مقصد، فصل و نژاد محدودیت دارند. قوانین بار نژادهای پوزه‌کوتاه استثناهایی در قرارداد دارند؛ برای مسیر دقیق تأیید کتبی بگیرید.",
+      "review_scope": "Core published cabin and checked-baggage conditions; unspecified fields require airline confirmation.",
+      "sources": [
+        "https://www.alaskaair.com/content/travel-info/pets",
+        "https://news.alaskaair.com/company/what-to-know-before-traveling-with-a-canine-companion/",
+        "https://resource.alaskaair.net/v3/assets/blt2cefe12c88e9dd91/blta6d545d0295aad57/CoC%20English"
+      ],
+      "search_aliases": [
+        "alaska",
+        "آلاسکا",
+        "آمریکای شمالی",
+        "north america"
+      ]
     },
     {
       "id": "NH",
@@ -576,35 +667,85 @@
       "id": "G4",
       "name": "Allegiant Air",
       "region": "North America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
       "cabin_max_kg": null,
-      "dimensions_cm": null,
-      "source": null,
+      "dimensions_cm": [
+        45.72,
+        30.48,
+        27.94
+      ],
+      "source": "https://www.allegiantair.com/contract-carriage",
       "hold": {
-        "allowed": null,
+        "allowed": false,
         "max_combined_kg": null,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": false,
+        "source": "https://www.allegiantair.com/contract-carriage",
+        "snub_nosed_restricted": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Dogs and cats in cabin; no cargo-area pets. Soft carrier up to 18 × 12 × 11 inches; hard carrier up to 17 × 11 × 10.5 inches. Minimum age eight weeks. Closed carrier must fit under the seat; seat and itinerary approval required.",
+      "reviewed_on": "2026-11-16",
+      "soft_carrier": true,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "سگ و گربه در کابین؛ حمل حیوان در قسمت بار ارائه نمی‌شود. کیف نرم حداکثر ۴۵٫۷۲ × ۳۰٫۴۸ × ۲۷٫۹۴ و کیف سخت ۴۳٫۱۸ × ۲۷٫۹۴ × ۲۶٫۶۷ سانتی‌متر. حداقل سن هشت هفته. کیف بسته باید زیر صندلی جا بگیرد؛ صندلی و مسیر نیاز به تأیید دارند.",
+      "review_scope": "Core published cabin and checked-baggage conditions; unspecified fields require airline confirmation.",
+      "sources": [
+        "https://www.allegiantair.com/contract-carriage"
+      ],
+      "search_aliases": [
+        "allegiant",
+        "الجینت",
+        "آمریکای شمالی",
+        "north america"
+      ]
     },
     {
       "id": "AA",
       "name": "American Airlines",
       "region": "North America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
       "cabin_max_kg": null,
-      "dimensions_cm": null,
-      "source": null,
+      "dimensions_cm": [
+        46,
+        28,
+        28
+      ],
+      "source": "https://www.aa.com/web/i18n/travel-info/special-assistance/pets.html",
       "hold": {
-        "allowed": null,
+        "allowed": false,
         "max_combined_kg": null,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": false,
+        "source": "https://www.aa.com/web/i18n/travel-info/special-assistance/pets.html",
+        "snub_nosed_restricted": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Dogs and cats in an under-seat carrier on eligible routes. Dimensions shown are for soft-sided carriers; hard carriers depend on aircraft. No carry-on pets on transatlantic/transpacific trips or to/from Hawaii. Checked pets are restricted to eligible military/Foreign Service personnel on official orders; others need separate cargo.",
+      "reviewed_on": "2026-11-16",
+      "soft_carrier": true,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "سگ و گربه در کیف زیر صندلی، فقط در مسیرهای مجاز. ابعاد نمایش‌داده‌شده برای کیف نرم است؛ کیف سخت به هواپیما بستگی دارد. حیوان در کابینِ مسیرهای اقیانوس اطلس، آرام یا هاوایی پذیرفته نمی‌شود. بار همراه مسافر فقط برای افراد نظامی و دیپلمات‌های واجد شرایط با حکم مأموریت است؛ دیگران باید کارگوی جداگانه بررسی کنند.",
+      "review_scope": "Core published cabin and checked-baggage conditions; unspecified fields require airline confirmation.",
+      "cabin_country_allowlist": [
+        "US",
+        "CA",
+        "MX",
+        "PR",
+        "VI"
+      ],
+      "sources": [
+        "https://www.aa.com/web/i18n/travel-info/special-assistance/pets.html"
+      ],
+      "search_aliases": [
+        "american",
+        "امریکن",
+        "آمریکن",
+        "آمریکای شمالی",
+        "north america"
+      ]
     },
     {
       "id": "OZ",
@@ -643,7 +784,8 @@
         "source": "https://www.austrian.com/fr/en/travelling-with-animals",
         "snub_nosed_restricted": true,
         "notes": "The airline must confirm hold availability, breed, aircraft and route limitations."
-      }
+      },
+      "reviewed_on": "2026-10-21"
     },
     {
       "id": "AV",
@@ -767,7 +909,8 @@
         "source": "https://www.britishairways.com/content/information/legal/conditions-of-carriage/general-conditions-of-carriage",
         "snub_nosed_restricted": null,
         "notes": "Official conditions describe checked animals or cargo subject to service. Availability cannot be inferred for a specific flight."
-      }
+      },
+      "reviewed_on": "2026-10-21"
     },
     {
       "id": "SN",
@@ -994,18 +1137,57 @@
       "id": "DL",
       "name": "Delta Air Lines",
       "region": "North America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
       "cabin_max_kg": null,
       "dimensions_cm": null,
-      "source": null,
+      "source": "https://www.delta.com/us/en/pet-travel/overview",
       "hold": {
-        "allowed": null,
+        "allowed": false,
         "max_combined_kg": null,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": false,
+        "source": "https://www.delta.com/us/en/pet-travel/overview",
+        "snub_nosed_restricted": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Small dogs and cats in cabin on eligible aircraft and routes. Delta recommends 45.72 × 27.94 × 27.94 cm soft carriers, but the actual limit depends on aircraft. Delta One, international Business and Premium cabins exclude ordinary pets. Ordinary passengers cannot check pets as baggage; eligible military/Foreign Service exceptions and separate cargo require confirmation.",
+      "reviewed_on": "2026-11-16",
+      "soft_carrier": true,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "سگ و گربهٔ کوچک در کابین، بسته به مسیر و هواپیما. دلتا کیف نرم ۴۵٫۷۲ × ۲۷٫۹۴ × ۲۷٫۹۴ سانتی‌متر را پیشنهاد می‌کند؛ حد واقعی به هواپیما بستگی دارد. در دلتا وان، بیزنس بین‌المللی و پریمیوم، حیوان معمول پذیرفته نمی‌شود. بار همراه مسافر برای عموم ارائه نمی‌شود؛ استثنای مأموریت رسمی و کارگو را جداگانه بررسی کنید.",
+      "review_scope": "Core published cabin and checked-baggage conditions; unspecified fields require airline confirmation.",
+      "cabin_recommended_dimensions_cm": [
+        45.72,
+        27.94,
+        27.94
+      ],
+      "cabin_blocked_countries": [
+        "AU",
+        "BB",
+        "HK",
+        "IS",
+        "JM",
+        "NZ",
+        "ZA",
+        "GB",
+        "AE"
+      ],
+      "cabin_blocked_origins": [
+        "BR",
+        "CO",
+        "DO"
+      ],
+      "sources": [
+        "https://www.delta.com/us/en/pet-travel/overview",
+        "https://www.delta.com/us/en/pet-travel/shipping-your-pet"
+      ],
+      "search_aliases": [
+        "delta",
+        "دلتا",
+        "آمریکای شمالی",
+        "north america"
+      ]
     },
     {
       "id": "U2",
@@ -1027,7 +1209,8 @@
         "source": "https://www.easyjet.com/en/help/baggage/restricted-and-unusual-items",
         "snub_nosed_restricted": null,
         "notes": "Ordinary pets not accepted as checked hold baggage."
-      }
+      },
+      "reviewed_on": "2026-10-21"
     },
     {
       "id": "WK",
@@ -1101,7 +1284,8 @@
         "snub_nosed_restricted": null,
         "notes": "For itineraries ending Dubai, cargo only. Checked hold only on eligible Dubai-origin itineraries with route/time limits; confirm in writing."
       },
-      "route_rule": "emirates_hold_dubai_departure_only"
+      "route_rule": "emirates_hold_dubai_departure_only",
+      "reviewed_on": "2026-10-21"
     },
     {
       "id": "ET",
@@ -1277,18 +1461,42 @@
       "id": "F9",
       "name": "Frontier Airlines",
       "region": "North America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
       "cabin_max_kg": null,
-      "dimensions_cm": null,
-      "source": null,
+      "dimensions_cm": [
+        45.72,
+        35.56,
+        27.94
+      ],
+      "source": "https://www.flyfrontier.com/travel/travel-info/family-pets/",
       "hold": {
-        "allowed": null,
+        "allowed": false,
         "max_combined_kg": null,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": false,
+        "source": "https://www.flyfrontier.com/travel/travel-info/family-pets/",
+        "snub_nosed_restricted": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "New ordinary-pet bookings restricted to domestic U.S. travel; international pets are not accepted. Soft carrier maximum 18 × 14 × 11 inches; hard carrier 18 × 14 × 8 inches. Pet must fit under the seat and move naturally. No checked-pet transport.",
+      "reviewed_on": "2026-11-16",
+      "soft_carrier": true,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "رزرو جدید حیوان معمول فقط برای سفر داخلی آمریکا؛ در سفر بین‌المللی پذیرفته نمی‌شود. کیف نرم حداکثر ۴۵٫۷۲ × ۳۵٫۵۶ × ۲۷٫۹۴ و کیف سخت ۴۵٫۷۲ × ۳۵٫۵۶ × ۲۰٫۳۲ سانتی‌متر. حیوان باید زیر صندلی جا بگیرد و طبیعی حرکت کند. حمل حیوان در بار ارائه نمی‌شود.",
+      "review_scope": "Core published cabin and checked-baggage conditions; unspecified fields require airline confirmation.",
+      "cabin_country_allowlist": [
+        "US"
+      ],
+      "sources": [
+        "https://www.flyfrontier.com/travel/travel-info/family-pets/"
+      ],
+      "search_aliases": [
+        "frontier",
+        "فرانتیر",
+        "آمریکای شمالی",
+        "north america"
+      ]
     },
     {
       "id": "GA",
@@ -1379,18 +1587,41 @@
       "id": "HA",
       "name": "Hawaiian Airlines",
       "region": "North America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
       "cabin_max_kg": null,
-      "dimensions_cm": null,
-      "source": null,
+      "dimensions_cm": [
+        43.18,
+        27.94,
+        24.13
+      ],
+      "source": "https://www.alaskaair.com/content/travel-info/pets",
       "hold": {
-        "allowed": null,
-        "max_combined_kg": null,
+        "allowed": true,
+        "max_combined_kg": 68,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": true,
+        "source": "https://www.alaskaair.com/content/travel-info/pets",
+        "snub_nosed_restricted": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Shared Alaska/Hawaiian pet program. Cabin soft carrier: 17 × 11 × 9.5 inches. Checked pet + kennel: up to 150 lb / published 68 kg. Aircraft, destination, seasonal and breed restrictions apply. Short-nosed checked-pet rules include exceptions in the contract; obtain written confirmation for the exact itinerary.",
+      "reviewed_on": "2026-11-16",
+      "soft_carrier": true,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "برنامهٔ مشترک آلاسکا و هاوایین. کیف نرم کابین: ۴۳٫۱۸ × ۲۷٫۹۴ × ۲۴٫۱۳ سانتی‌متر. مجموع حیوان و باکس بار: حداکثر ۱۵۰ پوند یا ۶۸ کیلوگرم طبق اعلام شرکت. هواپیما، مقصد، فصل و نژاد محدودیت دارند. قوانین بار نژادهای پوزه‌کوتاه استثناهایی در قرارداد دارند؛ برای مسیر دقیق تأیید کتبی بگیرید.",
+      "review_scope": "Core published cabin and checked-baggage conditions; unspecified fields require airline confirmation.",
+      "sources": [
+        "https://www.alaskaair.com/content/travel-info/pets",
+        "https://news.alaskaair.com/company/what-to-know-before-traveling-with-a-canine-companion/",
+        "https://resource.alaskaair.net/v3/assets/blt2cefe12c88e9dd91/blta6d545d0295aad57/CoC%20English"
+      ],
+      "search_aliases": [
+        "hawaiian",
+        "هاوایین",
+        "آمریکای شمالی",
+        "north america"
+      ]
     },
     {
       "id": "UO",
@@ -1450,7 +1681,8 @@
         "source": "https://www.iberia.com/ie/fly-with-iberia/pets/",
         "snub_nosed_restricted": true,
         "notes": "The airline must confirm hold availability, breed, aircraft and route limitations."
-      }
+      },
+      "reviewed_on": "2026-10-21"
     },
     {
       "id": "FI",
@@ -1592,18 +1824,40 @@
       "id": "B6",
       "name": "JetBlue",
       "region": "North America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
       "cabin_max_kg": null,
-      "dimensions_cm": null,
-      "source": null,
+      "dimensions_cm": [
+        43.18,
+        31.75,
+        21.59
+      ],
+      "source": "https://www.jetblue.com/help/traveling-with-pets",
       "hold": {
-        "allowed": null,
+        "allowed": false,
         "max_combined_kg": null,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": false,
+        "source": "https://www.jetblue.com/help/traveling-with-pets",
+        "snub_nosed_restricted": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Small dogs and cats in cabin only; carrier maximum 43.18 × 31.75 × 21.59 cm. No ordinary checked pets. One animal per carrier; pet must stand and turn comfortably. Mint, bulkhead and exit seats excluded. Confirm destination acceptance and required documents; no universal numeric weight cap was verified on the current page.",
+      "reviewed_on": "2026-11-16",
+      "soft_carrier": true,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "فقط سگ و گربهٔ کوچک در کابین؛ کیف حداکثر ۴۳٫۱۸ × ۳۱٫۷۵ × ۲۱٫۵۹ سانتی‌متر. بار همراه مسافر برای حیوان معمول ارائه نمی‌شود. هر کیف یک حیوان با فضای کافی ایستادن و چرخیدن. مینت، ردیف خروج و جلوی دیواره مجاز نیست. مقصد و مدارک را تأیید کنید؛ در صفحهٔ فعلی حد وزن عددی یکسان تأیید نشد.",
+      "review_scope": "Core published cabin and checked-baggage conditions; unspecified fields require airline confirmation.",
+      "sources": [
+        "https://www.jetblue.com/help/traveling-with-pets"
+      ],
+      "search_aliases": [
+        "jet blue",
+        "جت بلو",
+        "جت‌بلو",
+        "آمریکای شمالی",
+        "north america"
+      ]
     },
     {
       "id": "JA",
@@ -1680,7 +1934,8 @@
         "source": "https://www.klm.com/information/pets/reservation",
         "snub_nosed_restricted": true,
         "notes": "Hold max 75 kg pet+kennel, subject to flight model, 3h connection limit and travel class rules."
-      }
+      },
+      "reviewed_on": "2026-10-21"
     },
     {
       "id": "KM",
@@ -1804,7 +2059,8 @@
         "source": "https://www.lot.com/fr/fr/journey/special-services/traveling-with-pets",
         "snub_nosed_restricted": true,
         "notes": "The airline must confirm hold availability, breed, aircraft and route limitations."
-      }
+      },
+      "reviewed_on": "2026-10-21"
     },
     {
       "id": "LH",
@@ -1832,7 +2088,8 @@
       },
       "region": "Europe",
       "policy_status": "reviewed",
-      "cabin_allowed": true
+      "cabin_allowed": true,
+      "reviewed_on": "2026-10-21"
     },
     {
       "id": "LG",
@@ -2012,7 +2269,8 @@
         "snub_nosed_restricted": null,
         "notes": "No AVIH hold pets on international flights. Hold AVIH restricted to Turkish domestic / North Cyprus routes; confirm individually."
       },
-      "route_rule": "hold_domestic_tr_only"
+      "route_rule": "hold_domestic_tr_only",
+      "reviewed_on": "2026-10-21"
     },
     {
       "id": "PR",
@@ -2052,18 +2310,39 @@
       "id": "PD",
       "name": "Porter Airlines",
       "region": "North America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
       "cabin_max_kg": null,
-      "dimensions_cm": null,
-      "source": null,
+      "dimensions_cm": [
+        55,
+        40,
+        27
+      ],
+      "source": "https://www.flyporter.com/en-us/travel-information/baggage/pets",
       "hold": {
-        "allowed": null,
+        "allowed": false,
         "max_combined_kg": null,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": false,
+        "source": "https://www.flyporter.com/en-us/travel-information/baggage/pets",
+        "snub_nosed_restricted": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Dogs and cats in cabin only; no baggage-hold pets. Current pet page lists 55 × 40 × 27 cm carrier dimensions. Older tariffs quote a 9 kg combined cap; reconfirm the applicable limit with Porter rather than treating the conflicting weight publications as universal.",
+      "reviewed_on": "2026-11-16",
+      "soft_carrier": true,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "فقط سگ و گربه در کابین؛ حمل حیوان در بار ارائه نمی‌شود. صفحهٔ فعلی ابعاد ۵۵ × ۴۰ × ۲۷ سانتی‌متر را اعلام می‌کند. تعرفه‌های قدیمی سقف مجموع وزن ۹ کیلوگرم دارند؛ به‌دلیل اختلاف منابع، حد قابل‌اعمال را از پورتر تأیید کنید.",
+      "review_scope": "Core published cabin and checked-baggage conditions; unspecified fields require airline confirmation.",
+      "sources": [
+        "https://www.flyporter.com/en-us/travel-information/baggage/pets"
+      ],
+      "search_aliases": [
+        "porter",
+        "پورتر",
+        "آمریکای شمالی",
+        "north america"
+      ]
     },
     {
       "id": "QF",
@@ -2102,7 +2381,8 @@
         "source": "https://www.qatarairways.com/en-at/baggage/animals.html",
         "snub_nosed_restricted": true,
         "notes": "The airline must confirm hold availability, breed, aircraft and route limitations."
-      }
+      },
+      "reviewed_on": "2026-10-21"
     },
     {
       "id": "AT",
@@ -2175,7 +2455,8 @@
         "source": "https://help.ryanair.com/hc/fr-fr/sections/12489582839441-Chiens-guides-et-d-assistance",
         "snub_nosed_restricted": null,
         "notes": "Ordinary pet checked transport not offered."
-      }
+      },
+      "reviewed_on": "2026-10-21"
     },
     {
       "id": "S7",
@@ -2385,35 +2666,81 @@
       "id": "WN",
       "name": "Southwest Airlines",
       "region": "North America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
       "cabin_max_kg": null,
-      "dimensions_cm": null,
-      "source": null,
+      "dimensions_cm": [
+        45.72,
+        26.67,
+        25.4
+      ],
+      "source": "https://support.southwest.com/helpcenter/article/pet-policy",
       "hold": {
-        "allowed": null,
+        "allowed": false,
         "max_combined_kg": null,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": false,
+        "source": "https://support.southwest.com/helpcenter/article/pet-policy",
+        "snub_nosed_restricted": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Small vaccinated cats and dogs, domestic U.S. itineraries only; no international pet itineraries or mainland–Hawaii pets. Carrier maximum 18 × 10.5 × 10 inches; must fit under the assigned seat. No checked/cargo pets. Reserve by phone; minimum age eight weeks.",
+      "reviewed_on": "2026-11-16",
+      "soft_carrier": true,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "سگ و گربهٔ کوچک واکسینه‌شده، فقط در مسیرهای داخلی آمریکا؛ سفر بین‌المللی با حیوان و مسیر سرزمین اصلی–هاوایی پذیرفته نمی‌شود. کیف حداکثر ۴۵٫۷۲ × ۲۶٫۶۷ × ۲۵٫۴ سانتی‌متر و متناسب با زیر صندلی. بار و کارگوی حیوان ارائه نمی‌شود. رزرو تلفنی؛ حداقل سن هشت هفته.",
+      "review_scope": "Core published cabin and checked-baggage conditions; unspecified fields require airline confirmation.",
+      "cabin_country_allowlist": [
+        "US"
+      ],
+      "sources": [
+        "https://support.southwest.com/helpcenter/article/pet-policy",
+        "https://support.southwest.com/helpcenter/article/What-type-of-pet-carriers-can-I-bring"
+      ],
+      "search_aliases": [
+        "south west",
+        "ساوت‌وست",
+        "آمریکای شمالی",
+        "north america"
+      ]
     },
     {
       "id": "NK",
       "name": "Spirit Airlines",
       "region": "North America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
       "cabin_max_kg": null,
-      "dimensions_cm": null,
-      "source": null,
+      "dimensions_cm": [
+        45.72,
+        35.56,
+        22.86
+      ],
+      "source": "https://content.spirit.com/Shared/en-us/Documents/Contract_of_Carriage.pdf",
       "hold": {
         "allowed": null,
         "max_combined_kg": null,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": false,
+        "source": "https://content.spirit.com/Shared/en-us/Documents/Contract_of_Carriage.pdf",
+        "snub_nosed_restricted": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Published carriage contract permits cabin pets in a carrier up to 18 × 14 × 9 inches, subject to airline inspection and under-seat fit. Confirm current operations, route, species and weight rules directly. Checked-pet acceptance and a current numeric weight cap were not verified; left unspecified.",
+      "reviewed_on": "2026-11-16",
+      "soft_carrier": true,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "قرارداد حمل منتشرشده، حیوان در کابین را در کیف حداکثر ۴۵٫۷۲ × ۳۵٫۵۶ × ۲۲٫۸۶ سانتی‌متر، مشروط به بررسی ایرلاین و جاگیری زیر صندلی مجاز می‌داند. فعالیت فعلی، مسیر، گونه و وزن را مستقیم تأیید کنید. پذیرش در بار و حد وزن عددی فعلی تأیید نشد و نامشخص باقی مانده است.",
+      "review_scope": "Core published cabin and checked-baggage conditions; unspecified fields require airline confirmation.",
+      "sources": [
+        "https://content.spirit.com/Shared/en-us/Documents/Contract_of_Carriage.pdf"
+      ],
+      "search_aliases": [
+        "spirit",
+        "اسپیریت",
+        "آمریکای شمالی",
+        "north america"
+      ]
     },
     {
       "id": "UL",
@@ -2453,18 +2780,35 @@
       "id": "SY",
       "name": "Sun Country Airlines",
       "region": "North America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
       "cabin_max_kg": null,
       "dimensions_cm": null,
-      "source": null,
+      "source": "https://suncountryairlines.gcs-web.com/static-files/0e75bae8-3e47-4c35-8e63-9f78cf003b6b",
       "hold": {
         "allowed": null,
         "max_combined_kg": null,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": false,
+        "source": "https://suncountryairlines.gcs-web.com/static-files/0e75bae8-3e47-4c35-8e63-9f78cf003b6b",
+        "snub_nosed_restricted": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Published contract includes in-cabin pet transport and under-seat carrier requirements. Carrier-size publications differ, so a universal dimension/weight limit is not recorded. Confirm current domestic-route eligibility, carrier dimensions and any checked-pet service directly before booking.",
+      "reviewed_on": "2026-11-16",
+      "soft_carrier": true,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "قرارداد منتشرشده حمل حیوان در کابین و کیف زیر صندلی را پوشش می‌دهد. منابع ابعاد متفاوت دارند؛ حد عددی یکسان برای ابعاد و وزن ثبت نشده است. مجاز بودن مسیر داخلی، ابعاد کیف و هرگونه خدمات بار را پیش از رزرو مستقیم تأیید کنید.",
+      "review_scope": "Core published cabin and checked-baggage conditions; unspecified fields require airline confirmation.",
+      "sources": [
+        "https://suncountryairlines.gcs-web.com/static-files/0e75bae8-3e47-4c35-8e63-9f78cf003b6b"
+      ],
+      "search_aliases": [
+        "sun country",
+        "سان کانتری",
+        "آمریکای شمالی",
+        "north america"
+      ]
     },
     {
       "id": "XQ",
@@ -2507,7 +2851,8 @@
         "source": "https://www.swiss.com/xk/en/prepare/special-care/animals-travelling",
         "snub_nosed_restricted": true,
         "notes": "The airline must confirm hold availability, breed, aircraft and route limitations."
-      }
+      },
+      "reviewed_on": "2026-10-21"
     },
     {
       "id": "DT",
@@ -2546,7 +2891,8 @@
         "source": "https://www.flytap.com/en-gn/information/traveling-with-animals/pets",
         "snub_nosed_restricted": null,
         "notes": "Some destinations cap hold pet+crate at 32kg vs 45kg on other routes; verify route, booking and snub-nosed breed conditions."
-      }
+      },
+      "reviewed_on": "2026-10-21"
     },
     {
       "id": "TG",
@@ -2595,7 +2941,8 @@
       },
       "region": "Europe",
       "policy_status": "reviewed",
-      "cabin_allowed": true
+      "cabin_allowed": true,
+      "reviewed_on": "2026-10-21"
     },
     {
       "id": "TO",
@@ -2693,24 +3040,47 @@
         "source": "https://www.turkishairlines.com/en-at/any-questions/traveling-with-pets/",
         "snub_nosed_restricted": null,
         "notes": "The airline must confirm hold availability, breed, aircraft and route limitations."
-      }
+      },
+      "reviewed_on": "2026-10-21"
     },
     {
       "id": "UA",
       "name": "United Airlines",
       "region": "North America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
       "cabin_max_kg": null,
-      "dimensions_cm": null,
-      "source": null,
+      "dimensions_cm": [
+        45.72,
+        27.94,
+        27.94
+      ],
+      "source": "https://www.united.com/en/us/fly/travel/traveling-with-pets.html",
       "hold": {
         "allowed": null,
         "max_combined_kg": null,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": false,
+        "source": "https://www.united.com/en/us/fly/travel/traveling-with-pets.html",
+        "snub_nosed_restricted": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Dogs and cats must fit and move comfortably in a closed under-seat carrier. Soft-carrier dimensions shown; hard-carrier and aircraft-specific limits differ. Confirm itinerary, seat and current checked-pet service directly; no general checked-baggage entitlement is recorded.",
+      "reviewed_on": "2026-11-16",
+      "soft_carrier": true,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "سگ و گربه باید در کیف بستهٔ زیر صندلی جا بگیرند و راحت حرکت کنند. ابعاد برای کیف نرم است؛ کیف سخت و نوع هواپیما محدودیت متفاوت دارند. مسیر، صندلی و خدمات فعلی بار را مستقیم تأیید کنید؛ حق عمومی حمل در بار در این مرجع ثبت نشده است.",
+      "review_scope": "Core published cabin and checked-baggage conditions; unspecified fields require airline confirmation.",
+      "sources": [
+        "https://www.united.com/en/us/fly/travel/traveling-with-pets.html",
+        "https://www.united.com/en/us/account/profile/savedpets/petinfo/1/"
+      ],
+      "search_aliases": [
+        "united",
+        "یونایتد",
+        "آمریکای شمالی",
+        "north america"
+      ]
     },
     {
       "id": "HY",
@@ -2784,35 +3154,76 @@
       "id": "VB",
       "name": "Viva Aerobus",
       "region": "North America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
-      "cabin_max_kg": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 12,
       "dimensions_cm": null,
-      "source": null,
+      "source": "https://www.vivaaerobus.com/en-us/info/get-ready-to-fly/travel-with-pets",
       "hold": {
         "allowed": null,
-        "max_combined_kg": null,
+        "max_combined_kg": 45,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": true,
+        "source": "https://www.vivaaerobus.com/en-us/info/get-ready-to-fly/travel-with-pets",
+        "snub_nosed_restricted": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Published Viva guidance describes cabin pets up to 12 kg and checked pets up to 45 kg. Carrier dimensions and checked species differ between published documents; these are not treated as universal. Confirm combined-weight allowance, species, connections, breed and current dimensions before purchase.",
+      "reviewed_on": "2026-11-16",
+      "soft_carrier": true,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "راهنمای منتشرشدهٔ ویوا، کابین تا ۱۲ و قسمت بار تا ۴۵ کیلوگرم را توضیح می‌دهد. ابعاد کیف و گونه‌های مجاز در بار بین اسناد متفاوت‌اند و یکسان فرض نمی‌شوند. مجموع وزن مجاز، گونه، اتصال‌ها، نژاد و ابعاد فعلی را پیش از خرید تأیید کنید.",
+      "review_scope": "Core published cabin and checked-baggage conditions; unspecified fields require airline confirmation.",
+      "sources": [
+        "https://www.vivaaerobus.com/en-us/info/get-ready-to-fly/travel-with-pets",
+        "https://content.vivaaerobus.com/Upload-VB/new-site/legal/international-passenger-rules-and-fares.pdf",
+        "https://blog.vivaaerobus.com/playas-pet-friendly/"
+      ],
+      "search_aliases": [
+        "viva",
+        "ویوا",
+        "آمریکای شمالی",
+        "north america"
+      ]
     },
     {
       "id": "Y4",
       "name": "Volaris",
       "region": "North America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
-      "cabin_max_kg": null,
-      "dimensions_cm": null,
-      "source": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 12,
+      "dimensions_cm": [
+        44,
+        30,
+        19
+      ],
+      "source": "https://cms.volaris.com/es/informacion-util/servicios-opcionales/viaja-con-tu-mascota",
       "hold": {
-        "allowed": null,
-        "max_combined_kg": null,
+        "allowed": true,
+        "max_combined_kg": 45,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": true,
+        "source": "https://cms.volaris.com/es/informacion-util/servicios-opcionales/viaja-con-tu-mascota",
+        "snub_nosed_restricted": null,
+        "max_height_cm": 90
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Current main pet page: cabin carrier + pet up to 12 kg, 44 × 30 × 19 cm. Older terms still quote 10 kg; reconfirm applicable allowance. Checked pet + rigid crate up to 45 kg; crate height up to 90 cm, length/width depend on animal. Only dogs/cats; Frontier-operated legs excluded. Breed and route restrictions apply.",
+      "reviewed_on": "2026-11-16",
+      "soft_carrier": true,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "صفحهٔ اصلی فعلی: مجموع حیوان و کیف کابین تا ۱۲ کیلوگرم، ابعاد ۴۴ × ۳۰ × ۱۹ سانتی‌متر. شرایط قدیمی هنوز ۱۰ کیلوگرم دارند؛ سقف قابل‌اعمال را تأیید کنید. بار: مجموع حیوان و باکس سخت تا ۴۵ کیلوگرم، ارتفاع باکس تا ۹۰ سانتی‌متر و طول و عرض متناسب با حیوان. فقط سگ و گربه؛ بخش‌های پرواز با مجری فرانتیر مستثنا هستند. محدودیت نژاد و مسیر اعمال می‌شود.",
+      "review_scope": "Core published cabin and checked-baggage conditions; unspecified fields require airline confirmation.",
+      "sources": [
+        "https://cms.volaris.com/es/informacion-util/servicios-opcionales/viaja-con-tu-mascota"
+      ],
+      "search_aliases": [
+        "volaris",
+        "ولاریس",
+        "آمریکای شمالی",
+        "north america"
+      ]
     },
     {
       "id": "V7",
@@ -2856,24 +3267,63 @@
       },
       "region": "Europe",
       "policy_status": "reviewed",
-      "cabin_allowed": true
+      "cabin_allowed": true,
+      "reviewed_on": "2026-10-21"
     },
     {
       "id": "WS",
       "name": "WestJet",
       "region": "North America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
       "cabin_max_kg": null,
-      "dimensions_cm": null,
-      "source": null,
+      "dimensions_cm": [
+        41,
+        25.4,
+        21.5
+      ],
+      "source": "https://www.westjet.com/en-ca/pets",
       "hold": {
-        "allowed": null,
-        "max_combined_kg": null,
-        "dimensions_cm": null,
-        "source": null
+        "allowed": true,
+        "max_combined_kg": 45,
+        "dimensions_cm": [
+          101,
+          68,
+          81
+        ],
+        "requires_hard_crate": true,
+        "source": "https://www.westjet.com/en-ca/pets",
+        "snub_nosed_restricted": true,
+        "blocked_countries": [
+          "GB",
+          "IE",
+          "BB",
+          "JM"
+        ]
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Cabin requires a soft carrier up to 41 × 25.4 × 21.5 cm. Checked pet + rigid kennel: 45 kg, up to 101 × 68 × 81 cm. Brachycephalic and strong breeds cannot use ordinary checked baggage. Destination, heat and holiday embargoes apply; no pets to/from UK, Ireland, Barbados or Jamaica, or Hawaii.",
+      "reviewed_on": "2026-11-16",
+      "soft_carrier": true,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "کابین: کیف نرم حداکثر ۴۱ × ۲۵٫۴ × ۲۱٫۵ سانتی‌متر. بار: حیوان و باکس سخت مجموعاً ۴۵ کیلوگرم، باکس حداکثر ۱۰۱ × ۶۸ × ۸۱ سانتی‌متر. نژادهای پوزه‌کوتاه و قوی در بار معمول پذیرفته نمی‌شوند. مقصد، گرما و تعطیلات محدودیت دارند؛ بریتانیا، ایرلند، باربادوس، جامائیکا و هاوایی پذیرفته نمی‌شوند.",
+      "review_scope": "Core published cabin and checked-baggage conditions; unspecified fields require airline confirmation.",
+      "cabin_blocked_countries": [
+        "GB",
+        "IE",
+        "BB",
+        "JM"
+      ],
+      "sources": [
+        "https://www.westjet.com/en-ca/pets"
+      ],
+      "search_aliases": [
+        "west jet",
+        "وست جت",
+        "وست‌جت",
+        "آمریکای شمالی",
+        "north america"
+      ]
     },
     {
       "id": "P5",
@@ -2912,7 +3362,8 @@
         "source": "https://ssr-weu2.wizzair.com/en-gb/information-and-services/travel-information/special-assistance",
         "snub_nosed_restricted": null,
         "notes": "Ordinary pets not accepted."
-      }
+      },
+      "reviewed_on": "2026-10-21"
     },
     {
       "id": "MF",
@@ -3052,6 +3503,21 @@
       "code": "TR",
       "name": "Turkey",
       "region": "other"
+    },
+    {
+      "code": "US",
+      "name": "United States",
+      "region": "North America"
+    },
+    {
+      "code": "CA",
+      "name": "Canada",
+      "region": "North America"
+    },
+    {
+      "code": "MX",
+      "name": "Mexico",
+      "region": "North America"
     }
   ],
   "official_sources": {
@@ -3059,7 +3525,10 @@
     "eu_commission": "https://food.ec.europa.eu/animals/live-animal-movements/dogs-cats-and-ferrets/travelling-pet-within-eu_en",
     "gb": "https://www.gov.uk/bring-pet-to-great-britain",
     "gb_routes": "https://www.gov.uk/bring-pet-to-great-britain/travel-routes-pets",
-    "gb_documents": "https://www.gov.uk/bring-pet-to-great-britain/which-pet-travel-document"
+    "gb_documents": "https://www.gov.uk/bring-pet-to-great-britain/which-pet-travel-document",
+    "us": "https://www.cdc.gov/importation/dogs/",
+    "ca": "https://inspection.canada.ca/en/importing-food-plants-animals/pets",
+    "mx": "https://www.gob.mx/senasica/documentos/si-viajas-con-tu-mascota-194177"
   },
   "eu_requirements": {
     "microchip": true,
@@ -3119,10 +3588,11 @@
   },
   "catalog_info": {
     "total": 164,
-    "reviewed": 18,
-    "unverified": 146,
+    "reviewed": 36,
+    "unverified": 128,
     "scope": "Major and regionally relevant passenger airlines; not an exhaustive list of all licensed airlines worldwide.",
-    "updated_on": "2026-10-21",
+    "updated_on": "2026-11-16",
     "filtering": "Client-side query by airline name, IATA code and region. Unsupported airlines explicitly show Policy not verified, never Not allowed by default."
-  }
+  },
+  "updated_on": "2026-11-16"
 }

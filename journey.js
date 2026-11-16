@@ -61,19 +61,19 @@
 
   let catalogLimit = Number.POSITIVE_INFINITY;
   const policyReviewed = a => a.policy_status === "reviewed";
+  const normalizeSearch = value => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase().trim();
   const reviewLabel = a => policyReviewed(a) ? "Source-reviewed reference" : "Policy not yet verified";
   const renderLibrary = () => {
     if (!policy) return;
     const current = policy.airlines;
     const reviewed = current.filter(policyReviewed).length;
     ui.audit.innerHTML = '<strong>' + reviewed + ' / ' + current.length + ' carrier policies reviewed</strong>' +
-      '<span>Review date ' + safe(policy.reviewed_on) +
-      ' · selected airlines worldwide, not an exhaustive global registry</span>';
-    const term = ui.directorySearch.value.trim().toLocaleLowerCase();
+      '<span>Airline review dates are shown individually</span>';
+    const term = normalizeSearch(ui.directorySearch.value);
     const region = ui.directoryRegion.value || "all";
     const status = ui.directoryStatus.value || "all";
     const matches = current.filter(a => {
-      const searchable = (a.name + " " + a.id + " " + a.region).toLocaleLowerCase();
+      const searchable = normalizeSearch([a.name,a.id,a.region,...(a.search_aliases||[])].join(' '));
       return (!term || searchable.includes(term)) &&
         (region === "all" || a.region === region) &&
         (status === "all" || (status === "reviewed" ? policyReviewed(a) : !policyReviewed(a)));
@@ -113,8 +113,11 @@
         (review ? "Reference only — verify booking, route, animal breed and kennel with the operating carrier." :
          "No airline pet policy has been checked for this listing. Unknown is not the same as allowed or prohibited.") +
         '</div>' +
+        (review && a.notes ? '<p class="pvj-rule-card-note">' + safe(a.notes) + '</p>' : '') +
+        (review && a.reviewed_on ? '<small class="pvj-policy-chip">Reviewed ' + safe(a.reviewed_on) + '</small>' : '') +
         (review && a.source ? '<a href="' + safe(safeUrl(a.source)) +
          '" target="_blank" rel="noopener noreferrer">Official policy ↗</a>' : '') +
+        (review ? (a.sources||[]).filter(url=>url!==a.source).map(url=>sourceLink(url,"More official sources ↗")).join('') : '') +
         '<a class="pvj-card-choose" href="#journey-lab" data-pvj-pick="' + safe(a.id) +
         '">Compare automatically ↗</a></article>';
     }).join("") : '<p>No airlines matched these filters. Try another name, code or region.</p>';
@@ -175,14 +178,21 @@
     }
     updatePreview();
 
-    const source = to.region === "GB" ? policy.official_sources.gb : policy.official_sources.eu;
-    const docItems = [
+    const northAmerica = ['US','CA','MX'].includes(to.code);
+    const source = northAmerica ? policy.official_sources[to.code.toLowerCase()] :
+      to.region === "GB" ? policy.official_sources.gb : policy.official_sources.eu;
+    const docItems = northAmerica ? [
+      "Check official destination entry requirements for your pet's species, age, origin and travel history",
+      "Confirm required health, vaccination and identification documents with the destination authority"
+    ] : [
       "Identification microchip (record must match pet)",
       "Valid rabies vaccination (check microchip/vaccination dates)"
     ];
     const euDepart = from.region === "EU";
     const euArrive = to.region === "EU" || to.region === "EU-associated";
-    if (euDepart && euArrive) docItems.push("Valid EU pet passport");
+    if(northAmerica && to.code === 'US' && species === 'dog') docItems.push("Complete the CDC Dog Import Form and check requirements based on the dog's last six months of travel");
+    if (northAmerica) { /* Country-specific official tools above replace the EU checklist. */ }
+    else if (euDepart && euArrive) docItems.push("Valid EU pet passport");
     else if (to.region === "GB") docItems.push("Valid approved pet travel document for Great Britain");
     else docItems.push("Check health certificate / pet passport requirements for your departure country");
     if (to.dog_tapeworm_hours && species === "dog")
@@ -241,13 +251,13 @@
           "The airline matching module could not be loaded. Do not make decisions using incomplete results.","pvj-danger");
       } else {
         const preferredName = ui.airlineName?.value.trim() || "";
-        const normalizedAirlineName = preferredName.toLocaleLowerCase();
+        const normalizedAirlineName = normalizeSearch(preferredName);
         const exactCode = normalizedAirlineName
           ? policy.airlines.filter(a => a.id.toLocaleLowerCase() === normalizedAirlineName)
           : [];
         const namedAirlines = !normalizedAirlineName ? policy.airlines
           : exactCode.length ? exactCode
-          : policy.airlines.filter(a => a.name.toLocaleLowerCase().includes(normalizedAirlineName));
+          : policy.airlines.filter(a => normalizeSearch([a.name,...(a.search_aliases||[])].join(' ')).includes(normalizedAirlineName));
         const selectedAirlines = normalizedAirlineName && !namedAirlines.length
           ? [{id:"CUSTOM",name:preferredName,region:"Not in directory",policy_status:"unverified"}]
           : namedAirlines;
@@ -270,10 +280,12 @@
           const otherNotes = best.reasons.slice(1,3).map(safe).join(" · ");
           return '<article class="pvj-match-card pvj-match-' + safe(best.kind) + '">' +
             '<div class="pvj-match-card-head"><h4>' + safe(airline.name) + '</h4>' +
-            '<span class="pvj-match-card-tag">' + safe(modeName(best.method)) + ' · ' +
+          '<span class="pvj-match-card-tag">' + safe(modeName(best.method)) + ' · ' +
             safe(showStatus(best)) + '</span></div>' +
             '<p>' + safe(candidateSummary) + '</p>' +
             (otherNotes ? '<p>' + otherNotes + '</p>' : '') + detail +
+            (airline.notes ? '<p class="pvj-match-warning">' + safe(airline.notes) + '</p>' : '') +
+            (airline.reviewed_on ? '<small class="pvj-policy-chip">Reviewed ' + safe(airline.reviewed_on) + '</small>' : '') +
             (refUrl ? sourceLink(refUrl,"Official " + airline.name + " animal transport rules ↗") : '') +
             '</article>';
         };
@@ -335,7 +347,7 @@
       '<div id="pvj-doc-progress" class="pvj-doc-progress" aria-live="polite">0 of ' + docItems.length + ' items checked</div></div>');
 
     if (notes.length) pieces.push('<div class="pvj-diagnostic pvj-caution"><strong>Before you book</strong><p>' + notes.map(safe).join("<br>") + '</p></div>');
-    pieces.push(sourceLink(source, to.region === "GB" ? "Great Britain official entry rules ↗" : "EU official pet travel rules ↗"));
+    pieces.push(sourceLink(source, northAmerica ? "Destination official pet entry rules ↗" : to.region === "GB" ? "Great Britain official entry rules ↗" : "EU official pet travel rules ↗"));
     if (to.region === "GB") pieces.push(sourceLink(policy.official_sources.gb_routes, "Approved routes into Great Britain ↗"));
     pieces.push('<p class="pvj-docs-footnote">Reference data last manually reviewed ' + safe(policy.reviewed_on) + '. Official sources may change without notice. No live inventory, veterinarian assessment, border clearance or booking is provided.</p>');
     ui.results.innerHTML = pieces.join("");
@@ -456,3 +468,4 @@
 
   init();
 })();
+
