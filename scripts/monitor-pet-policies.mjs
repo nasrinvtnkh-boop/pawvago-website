@@ -63,7 +63,7 @@ if(candidates.length){
     const reference=source.references.slice(0,1).map(r=>({id:r.id,name:r.name,cabin_allowed:r.cabin_allowed,cabin_max_kg:r.cabin_max_kg,dimensions_cm:r.dimensions_cm,hold:r.hold,notes:r.notes?.slice(0,1000),scope:r.scope}));
     try{
       const r=await fetch('https://www.pawvago.com/api/policy-monitor-analysis',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({url:source.url,text,reference}),signal:AbortSignal.timeout(60000)});
-      if(!r.ok){item.analysis_error='analysis_http_'+r.status;continue;}
+      if(!r.ok){item.analysis_error='analysis_http_'+r.status;try{const diagnostic=await r.json();if(Number.isInteger(diagnostic.provider_status))item.analysis_provider_status=diagnostic.provider_status;if(/^[a-zA-Z0-9_-]{1,80}$/.test(diagnostic.provider_code||''))item.analysis_provider_code=diagnostic.provider_code;}catch{}continue;}
       const analysis=await r.json();if(analysis.requires_review!==true||analysis.source!==source.url)throw Error('Invalid analysis response');
       item.analysis=analysis;item.analysis_hash=item.observed_hash;delete item.analysis_error;state.api_verified_at=now;analyzed++;
       if(analysis.assessment==='possible_policy_change'){item.ai_draft_requires_review=true;item.pending_review=true;}
@@ -84,11 +84,13 @@ writeFileSync(new URL('.policy-monitor/report.json',root),JSON.stringify(report,
 const escape=s=>String(s).replace(/[<>|`]/g,' ').replace(/\r?\n/g,' ');
 const rows=observations.filter(s=>s.failed||s.pending_review);
 let markdown=`# PawVago official-source monitor\n\nChecked: ${now}\n\n${report.scope}\n\n- Official URLs: ${sources.length}\n- Readable: ${report.summary.readable}\n- Blocked/failed: ${report.summary.blocked_or_failed}\n- Changed since baseline: ${report.summary.changed}\n- Airlines without mapped sources: ${missing.length} / ${policy.airlines.length}\n- Grounded API drafts completed: ${analyzed} (maximum ${maxAnalyses} per run)\n\n`;
-markdown+='Legal/pet-travel facts and reviewed_on dates were not changed. First observations establish a baseline only. Changed pages stay pending until reviewed; matching keywords do not clear them.\n\n';
+markdown+=`API analysis status: ${analysisStatus}.\n\n`;
+for(const s of observations.filter(s=>s.analysis_error))markdown+=`- API diagnostic (${escape(s.owners.join(', '))}): ${escape(s.analysis_error)}; provider HTTP ${s.analysis_provider_status||'unknown'}, ${escape(s.analysis_provider_code||'unknown')}\n`;
+markdown+='\nLegal/pet-travel facts and reviewed_on dates were not changed. First observations establish a baseline only. Changed pages stay pending until reviewed; matching keywords do not clear them.\n\n';
 if(report.run_url)markdown+=`[Full workflow run and downloadable JSON report](${report.run_url})\n\n`;
 markdown+='| Sources | Status | Official URL |\n| --- | --- | --- |\n';
 for(const s of rows)markdown+=`| ${escape(s.owners.join(', '))} | ${s.failed?s.status:'Content changed — review required'} | ${s.url} |\n`;
 for(const s of rows.filter(s=>s.analysis).slice(0,10)){markdown+=`\n### ${escape(s.owners.join(', '))}: advisory API draft\n\n${escape(s.analysis.summary)}\n\n`;for(const c of s.analysis.changes)markdown+=`- ${escape(c.category)}: ${escape(c.description)}\n`;}
 writeFileSync(new URL('.policy-monitor/report.md',root),markdown);
 if(process.env.GITHUB_STEP_SUMMARY)writeFileSync(process.env.GITHUB_STEP_SUMMARY,markdown);
-console.log(JSON.stringify({coverage:report.coverage,summary:report.summary,api:report.api_analysis}));
+console.log(JSON.stringify({coverage:report.coverage,summary:report.summary,api:report.api_analysis,analysis_errors:observations.filter(s=>s.analysis_error).map(s=>({owners:s.owners,error:s.analysis_error,provider_status:s.analysis_provider_status,provider_code:s.analysis_provider_code}))}));

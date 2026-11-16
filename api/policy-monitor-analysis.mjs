@@ -38,7 +38,10 @@ export default async function handler(req,res){
           {role:'user',content:JSON.stringify({official_source:url,stored_reference:reference,untrusted_official_page_text:text})}],
         response_format:{type:'json_schema',json_schema:{name:'policy_change_review',strict:true,schema:{type:'object',additionalProperties:false,properties:{assessment:{type:'string',enum:['possible_policy_change','no_policy_change_detected','uncertain']},summary:{type:'string'},changes:{type:'array',maxItems:3,items:{type:'object',additionalProperties:false,properties:{category:{type:'string',enum:['cabin','hold','cargo','breed','documents','deadline','route','other']},description:{type:'string'},evidence:{type:'string'}},required:['category','description','evidence']}}},required:['assessment','summary','changes']}}}})
     });
-    if(!response.ok)return res.status(502).json({error:'Analysis provider is unavailable'});
+    if(!response.ok){
+      let code='unknown';try{const failure=await response.json();const candidate=failure.error?.code||failure.error?.type;if(typeof candidate==='string'&&/^[a-zA-Z0-9_-]{1,80}$/.test(candidate))code=candidate;}catch{}
+      return res.status(502).json({error:'Analysis provider is unavailable',provider_status:response.status,provider_code:code});
+    }
     const json=await response.json(),message=json.choices?.[0]?.message;
     if(message?.refusal)return res.status(422).json({error:'Analysis requires manual review'});
     const result=validateAnalysis(JSON.parse(message.content),text);
