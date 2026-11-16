@@ -4,27 +4,63 @@ on:
   schedule:
     - cron: '27 6 * * *'
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/policy-monitor.yml'
+      - 'scripts/*policy-monitor*.mjs'
+      - 'scripts/monitor-pet-policies.mjs'
 
 permissions:
   contents: read
   issues: write
+  id-token: write
+
+concurrency:
+  group: pawvago-policy-monitor
+  cancel-in-progress: false
 
 jobs:
   monitor:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - name: Check official reference pages
-        id: policy
-        continue-on-error: true
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+      - name: Install PDF text extraction when needed
+        run: command -v pdftotext || (sudo apt-get update -qq && sudo apt-get install -y poppler-utils)
+      - name: Restore source fingerprints
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: .policy-monitor/state.json
+          key: policy-monitor-v2-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: policy-monitor-v2-
+      - name: Test monitor logic and private API authorization
+        run: node --test tests/policy-monitor.test.mjs
+      - name: Observe official sources and draft changed-page analysis
         run: node scripts/monitor-pet-policies.mjs
-      - name: Open one policy review issue when manual review is required
-        if: steps.policy.outcome == 'failure'
+      - name: Save source fingerprints
+        if: always()
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: .policy-monitor/state.json
+          key: policy-monitor-v2-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Upload complete monitor report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: policy-monitor-report
+          path: |
+            .policy-monitor/report.json
+            .policy-monitor/report.md
+          include-hidden-files: true
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Update review alert
         env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          EXISTING=$(gh issue list --state open --search '"Pet policy reference needs review" in:title' --json number --jq 'length')
-          if [ "$EXISTING" = "0" ]; then
-            gh issue create --title "Pet policy reference needs review" --body "The daily official-source heuristic check failed or a source was unavailable. Review airline and country policy pages against data/pet-policy-snapshot.json, validate exceptions, and update the reviewed_on date only after manual verification. See the failed GitHub Actions run for exact source diagnostics. This task never updates travel requirements automatically."
-          fi
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/publish-policy-monitor-issue.mjs

@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "description": "Acknowledgements after reviewing an exact official-source content hash against the relevant stored policy. The automated monitor never writes approvals.",
+  "sources": {}
+}

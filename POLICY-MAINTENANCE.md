@@ -1,38 +1,54 @@
-# Policy data maintenance — PawVago
+# PawVago policy maintenance and scheduled monitoring
 
-The application uses `data/pet-policy-snapshot.json` as a **manually verified policy reference**, reviewed 2026-10-21. It is **not** a live airline availability or regulatory-authority API. The landing-page journey checker and signed-in dashboard read this snapshot.
+The journey checker and dashboard use `data/pet-policy-snapshot.json`. Each reviewed airline has its own source and `reviewed_on`. Published rules are separate from live pet-space availability, flight operation and veterinary/border clearance.
 
-## Update procedure
-1. Open the official sources in the JSON file. Confirm that the rules apply to the specific species, operating airline, route, and date.
-2. Compare weight limits inclusive of carrier, carrier dimensions and exceptions; review EU/GB entry rules separately.
-3. Make manual data corrections with links to primary sources. Change `reviewed_on` only when genuinely re-verified.
-4. Run `node scripts/monitor-pet-policies.mjs` as an advisory check. Its string patterns detect likely changes/unavailable pages but **cannot verify legal accuracy**.
-5. GitHub Actions performs a daily heuristic scan and opens one review issue on errors or likely policy drift. Do not silently auto-publish extracted legal requirements.
-6. Confirm availability, route restrictions, pet acceptance and transit details directly with airlines/governments.
+## Scheduled pipeline
 
-This architecture intentionally fails closed: when the JSON is unavailable, the journey checker does not show compatibility results. Unsupported country pairs also require official verification.
+`.github/workflows/policy-monitor.yml` runs daily at 06:27 UTC, manually, and when monitor code changes on `main`. GitHub's scheduler may run late. Check the recorded run timestamp rather than assuming a check happened at the scheduled time.
 
-Future production integrations: licensed rules data/API, review audit trail per rule, change approval workflow, carrier operating-flight inventory and availability feed, automatic expiration gating.
+1. Collect all recorded cabin, hold, breed, additional-source and government URLs. Deduplicate them. Report catalogue entries without source URLs explicitly; those entries are not monitored.
+2. Fetch HTML/PDF sources with time, size and concurrency limits. Detect common bot/JavaScript walls. Extract PDF text with Poppler. An inaccessible source is an error, never an unchanged/verified policy.
+3. Compare normalized content hashes and numerical signals against the stored observation baseline. A first observation creates a baseline only, not a verified rule. Changed pages stay in the review queue. Successful retrieval never updates `reviewed_on`.
+4. On readable changed pages, request at most three advisory OpenAI analyses per run through the private Vercel endpoint. There is one initial authenticated API probe using a readable Austrian source. Failures stay visible and are retried by a subsequent run. No workflow contains or copies the OpenAI key.
+5. Save source-observation state in the GitHub Actions cache and JSON/Markdown reports as 30-day workflow artifacts. Cache loss establishes new baselines and must not be interpreted as continued policy validity.
+6. Update one public repository review-queue issue with failed/changed source URLs and short advisory summaries. The report contains no credentials or full source-page copies. GitHub job summaries provide execution and coverage counts.
 
-## Checked hold (AVIH) and air cargo
-- Airline hold rules are stored in `airlines[].hold` with `allowed`, combined pet/crate weight cap (if officially published), crate dimensions (if published), official source link, and snub-nosed restrictions.
-- `cabin` and `hold` are separate airline services; `cargo` is a distinct freight shipment that requires a specialised agent and quote.
-- For airlines with no verified hold weight maximum, show 'confirm with airline' rather than assuming cabin or generic limits.
-- The journey checker takes a breed / short-nosed flag and does **not** grant flight clearance for pets or IATA approval for any crate.
-- Refresh data only after manual source verification; the monitoring script checks hold sources heuristically and opens review issues on drift.
+## API boundary and cost controls
 
-## Global airline directory (current release)
-- Catalogue currently contains **164 selected airlines**, with **18 official-source policy references**; it is **not** a comprehensive inventory of every airline in the world.
-- Browse all listings in the public airline directory with filters for name/IATA code, region, and review status. Unreviewed carriers always display 'Policy not yet verified'.
-- The passenger trip checker includes all catalogue names, but never evaluates pet or kennel eligibility for an unreviewed airline.
-- Signed-in dashboard screens only source-reviewed carriers to avoid creating hundreds of unverified recommendation cards.
-- Add future airlines and source URLs only after checking operator identity and official policy. A valid carrier name or IATA code alone is not proof that airline transports pets.
+`api/policy-monitor-analysis.mjs` authenticates GitHub Actions OIDC JWTs against GitHub's signing keys. It accepts only the fixed PawVago repository and owner IDs, `main`, the exact monitor workflow, and push/schedule/manual events. Other callers receive 401 before any paid call.
 
-## Automatic cabin / checked-hold airline matcher
-- The Trip Checker evaluates all source-reviewed airlines when **Air** is selected, without manually selecting a carrier.
-- `airline-matcher.js` compares pet + cabin bag weight, separate rigid crate weight, dimensions, breed/snub-nosed restrictions, GB inbound rules and known airline exceptions.
-- The **Auto** default compares cabin and checked hold; optional Cabin / Hold / Cargo refinements are available.
-- Unverified airline policies are excluded from recommended results, and listed counts are visible.
-- **Preliminary policy match**, **Needs more checks** and **Policy mismatch** are NOT confirmed airline routes, scheduled flights, flight/pet inventory, bookings, kennel safety, veterinary clearance or prices.
-- Cabin bags and rigid hold crates have separate weight and dimension fields.
-- The source snapshot is reviewed manually, and daily monitoring does not guarantee current legal compliance.
+The OpenAI key remains in Vercel's `OPENAI_API_KEY` environment variable. Model selection is `POLICY_MONITOR_MODEL`, then `OPENAI_MODEL`, then the existing small-model fallback `gpt-4o-mini`. Requests are bounded to 20,000 source characters, 6,000 reference characters and 1,000 output tokens, with at most three workflow requests per run. A new subscription or transfer of the key to GitHub is not required. Actual API access/billing must succeed in an authenticated run before reporting API analysis as working.
+
+Source text is untrusted data. The model has no tools and cannot publish rules. Structured output is validated, and each evidence quotation must occur in the supplied source excerpt. Evidence quotations total no more than 25 words per analysis. Drafts always require review, including a model conclusion that no change was detected. Missing or truncated source material never proves that a rule was removed.
+
+## Reviewing and approving changes
+
+Open the full official source. Check species, animal-only versus combined weights, length/width/height order, aircraft, route, transit, destination and effective dates. Compare country-entry documents separately from airline carriage rules. Reconcile conflicting current pages and older tariffs instead of choosing an unsupported numeric value.
+
+After verification, edit the relevant policy facts and `reviewed_on`, keeping primary-source links. For an observed change that has been reviewed, add an acknowledgement in `data/policy-source-approvals.json`:
+
+```json
+{
+  "version": 1,
+  "sources": {
+    "<source ID from the report>": {
+      "source": "<exact official URL>",
+      "hash": "<observed_hash reviewed in the report>",
+      "method": "primary_source_review",
+      "reviewed_on": "YYYY-MM-DD"
+    }
+  }
+}
+```
+
+Only a matching URL and content hash clear that source's pending flag. The monitor never writes approvals or travel requirements. A blocked source retains its previous readable observation and pending status. AI output cannot automatically acknowledge itself.
+
+Run:
+
+```text
+node --test tests/policy-monitor.test.mjs
+node tests/europe-policy.cjs
+node tests/north-america-policy.cjs
+```
+
+The entire catalogue is not automatically kept current: airlines without recorded primary sources remain an explicit coverage gap. Source availability/hash checks and API drafts do not establish legal accuracy or guarantee that an animal can board a particular flight.
