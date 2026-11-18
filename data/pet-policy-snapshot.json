@@ -408,18 +408,33 @@
       "id": "AI",
       "name": "Air India",
       "region": "Asia",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
-      "cabin_max_kg": null,
-      "dimensions_cm": null,
-      "source": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 10,
+      "dimensions_cm": [
+        43.18,
+        25.4,
+        22.86
+      ],
+      "source": "https://www.airindia.com/fr/fr/travel-information/travelling-with-pets.html",
       "hold": {
-        "allowed": null,
-        "max_combined_kg": null,
+        "allowed": true,
+        "max_combined_kg": 32,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": true,
+        "source": "https://www.airindia.com/fr/fr/travel-information/travelling-with-pets.html",
+        "snub_nosed_restricted": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Air India publishes a 10 kg combined cabin limit with a soft carrier on eligible Economy flights. Checked baggage or cargo is separately booked for eligible pets above 10 kg and up to 32 kg. Cabin pet reservations should be made at least 48 hours before departure; check destination and aircraft restrictions. The airline's cabin guide specifies a carrier of at most 17 × 10 × 9 inches.",
+      "reviewed_on": "2026-11-18",
+      "soft_carrier": true,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "ایر ایندیا در پروازهای واجد شرایط اکونومی تا ۱۰ کیلوگرم مجموع حیوان و کیف نرم اعلام می‌کند. بالای ۱۰ و تا ۳۲ کیلوگرم، بار یا کارگو جداگانه رزرو می‌شود. رزرو کابین دست‌کم ۴۸ ساعت قبل و وابسته به مسیر و هواپیماست. راهنمای کابین حداکثر ابعاد ۱۷ × ۱۰ × ۹ اینچ را اعلام کرده است.",
+      "sources": [
+        "https://www.airindia.com/fr/fr/travel-information/travelling-with-pets.html",
+        "https://www.airindia.com/content/dam/air-india/pdfs/ai-pets-in-cabin-guidelines.pdf"
+      ]
     },
     {
       "id": "IX",
@@ -769,18 +784,34 @@
       "id": "NH",
       "name": "All Nippon Airways (ANA)",
       "region": "Asia",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": false,
       "cabin_max_kg": null,
       "dimensions_cm": null,
-      "source": null,
+      "source": "https://www.ana.co.jp/en/jp/guide/reservation/support/international/pets/",
       "hold": {
-        "allowed": null,
-        "max_combined_kg": null,
+        "allowed": true,
+        "max_combined_kg": 45,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": true,
+        "source": "https://www.ana.co.jp/en/jp/guide/reservation/support/international/pets/",
+        "snub_nosed_restricted": null,
+        "max_linear_cm": 292,
+        "blocked_destinations": [
+          "GB",
+          "HK",
+          "AU"
+        ]
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "International ANA-operated flights with an ANA flight number: no ordinary pets in cabin. Hold maximum 45 kg combined and 292 cm total dimensions. Checked-in pets cannot enter the UK, Hong Kong or Australia under this service; Perth is also restricted on departure.",
+      "reviewed_on": "2026-11-18",
+      "soft_carrier": null,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "پرواز بین‌المللی با شماره و اجرای ANA: حیوان خانگی معمولی در کابین پذیرفته نمی‌شود. بار تا ۴۵ کیلوگرم مجموعاً و مجموع ابعاد ۲۹۲ سانتی‌متر. برای ورود به بریتانیا، هنگ‌کنگ یا استرالیا بار تحویلی ارائه نمی‌شود؛ خروج از پرت هم محدود است.",
+      "sources": [
+        "https://www.ana.co.jp/en/jp/guide/reservation/support/international/pets/"
+      ]
     },
     {
       "id": "G4",
@@ -1097,18 +1128,29 @@
       "id": "CX",
       "name": "Cathay Pacific",
       "region": "Asia",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": false,
       "cabin_max_kg": null,
       "dimensions_cm": null,
-      "source": null,
+      "source": "https://www.cathaypacific.com/cx/en_GB/faqs/baggage/check-in-baggage-allowance/is-there-free-baggage-allowance-for-pets.html",
       "hold": {
-        "allowed": null,
+        "allowed": false,
         "max_combined_kg": null,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": null,
+        "source": "https://www.cathaypacific.com/cx/en_GB/faqs/baggage/check-in-baggage-allowance/is-there-free-baggage-allowance-for-pets.html",
+        "snub_nosed_restricted": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Ordinary pets are not permitted in the cabin. Cathay has suspended new bookings for pet transport as checked baggage until further notice; contact Cathay Cargo separately.",
+      "reviewed_on": "2026-11-18",
+      "soft_carrier": null,
+      "reservation_required": null,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "حیوان خانگی معمولی در کابین پذیرفته نمی‌شود. رزرو جدید حمل حیوان به‌صورت بار تحویلی تا اطلاع ثانوی متوقف است. کارگو از طریق Cathay Cargo جداگانه بررسی می‌شود.",
+      "sources": [
+        "https://www.cathaypacific.com/cx/en_GB/faqs/baggage/check-in-baggage-allowance/is-there-free-baggage-allowance-for-pets.html",
+        "https://www.cathaypacific.com/content/dam/cx/legal-and-privacy/general-conditions-of-carriage-for-passengers-baggage-en_31Dec24.pdf"
+      ]
     },
     {
       "id": "5J",
@@ -1421,19 +1463,20 @@
       "dimensions_cm": null,
       "soft_carrier": null,
       "reservation_required": true,
-      "source": "https://www.emirates.com/us/english/help/faq-topics/baggage-and-lost-property/faq/what-is-my-allowance-for-cabin-baggage/",
-      "notes": "Ordinary pets are not admitted to cabin; animal may need manifested cargo. On flights ending in Dubai, animals must be cargo. Some Dubai-origin travel up to 17 hours may qualify as checked baggage.",
+      "source": "https://www.emirates.com/english/help/faq-topics/baggage-and-lost-property/",
+      "notes": "Ordinary pets do not travel in cabin. Dubai arrivals are cargo only. Checked baggage is possible on eligible Dubai departures when total journey time is under 17 hours, including transit.",
       "hold": {
         "allowed": true,
         "max_combined_kg": null,
         "dimensions_cm": null,
         "requires_hard_crate": true,
-        "source": "https://www.emirates.com/us/english/help/faq-topics/baggage-and-lost-property/faq/what-is-my-allowance-for-cabin-baggage/",
+        "source": "https://www.emirates.com/english/help/faq-topics/baggage-and-lost-property/",
         "snub_nosed_restricted": null,
         "notes": "For itineraries ending Dubai, cargo only. Checked hold only on eligible Dubai-origin itineraries with route/time limits; confirm in writing."
       },
       "route_rule": "emirates_hold_dubai_departure_only",
-      "reviewed_on": "2026-10-21"
+      "reviewed_on": "2026-11-18",
+      "notes_fa": "حیوان خانگی معمولی در کابین پذیرفته نمی‌شود. برای ورود به دبی فقط کارگو. بار تحویلی در خروجی‌های واجد شرایط از دبی و وقتی کل سفر با توقف‌ها کمتر از ۱۷ ساعت باشد ممکن است."
     },
     {
       "id": "ET",
@@ -1456,18 +1499,49 @@
       "id": "EY",
       "name": "Etihad Airways",
       "region": "Middle East",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
-      "cabin_max_kg": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 8,
       "dimensions_cm": null,
-      "source": null,
+      "source": "https://www.etihad.com/en-gr/plan/travel-companion/travelling-with-pets",
       "hold": {
         "allowed": null,
         "max_combined_kg": null,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": null,
+        "source": "https://www.etihad.com/en-gr/plan/travel-companion/travelling-with-pets",
+        "snub_nosed_restricted": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Dogs and cats: at least 16 weeks old and up to 8 kg including carrier. Under seat: 40 × 40 × 22 cm; purchased extra seat: 50 × 43 × 50 cm. Submit the form seven days ahead and documents 72 hours ahead. The official page lists airport-specific exclusions and excludes US flights in both directions.",
+      "reviewed_on": "2026-11-18",
+      "soft_carrier": null,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "سگ و گربهٔ حداقل ۱۶ هفته، مجموعاً تا ۸ کیلوگرم. زیر صندلی: ۴۰ × ۴۰ × ۲۲؛ با صندلی اضافه: ۵۰ × ۴۳ × ۵۰ سانتی‌متر. فرم را ۷ روز و مدارک را ۷۲ ساعت قبل بفرستید. پروازهای آمریکا در هر دو جهت و برخی فرودگاه‌های دیگر مستثنا هستند.",
+      "sources": [
+        "https://www.etihad.com/en-gr/plan/travel-companion/travelling-with-pets"
+      ],
+      "cabin_dimension_variants": [
+        {
+          "label": "Under the seat",
+          "dimensions_cm": [
+            40,
+            40,
+            22
+          ]
+        },
+        {
+          "label": "Purchased extra seat",
+          "dimensions_cm": [
+            50,
+            43,
+            50
+          ]
+        }
+      ],
+      "cabin_blocked_countries": [
+        "US"
+      ]
     },
     {
       "id": "EW",
@@ -1999,18 +2073,28 @@
       "id": "JL",
       "name": "Japan Airlines (JAL)",
       "region": "Asia",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": false,
       "cabin_max_kg": null,
       "dimensions_cm": null,
-      "source": null,
+      "source": "https://www.jal.co.jp/jp/en/inter/support/pet/index.html",
       "hold": {
-        "allowed": null,
+        "allowed": true,
         "max_combined_kg": null,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": true,
+        "source": "https://www.jal.co.jp/jp/en/inter/support/pet/index.html",
+        "snub_nosed_restricted": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Published international policy: pets travel in the hold, with advance booking. JAL checks crate dimensions and total weight against the aircraft before confirming. Check breed, season and destination conditions on the official page.",
+      "reviewed_on": "2026-11-18",
+      "soft_carrier": null,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "طبق سیاست پرواز بین‌المللی، حیوان در بار و با رزرو قبلی سفر می‌کند. ایرلاین اندازهٔ باکس و وزن کل را بر اساس هواپیما بررسی می‌کند. مقررات نژاد، فصل و مقصد را در منبع رسمی ببینید.",
+      "sources": [
+        "https://www.jal.co.jp/jp/en/inter/support/pet/index.html"
+      ]
     },
     {
       "id": "J9",
@@ -2203,18 +2287,46 @@
       "id": "KE",
       "name": "Korean Air",
       "region": "Asia",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
-      "cabin_max_kg": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 7,
       "dimensions_cm": null,
-      "source": null,
+      "source": "https://www.koreanair.com/contents/plan-your-travel/special-assistance/travel-with-pets/guide?hl=en",
       "hold": {
-        "allowed": null,
-        "max_combined_kg": null,
+        "allowed": true,
+        "max_combined_kg": 45,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": true,
+        "source": "https://www.koreanair.com/contents/plan-your-travel/special-assistance/travel-with-pets/guide?hl=en",
+        "snub_nosed_restricted": true
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Cabin: 7 kg including carrier. Standard 45 × 32 × 19 cm; soft carrier up to 25 cm high only if compressible to 19 cm. Hold: 45 kg including crate and excludes snub-nosed breeds; aircraft and seasonal restrictions apply.",
+      "reviewed_on": "2026-11-18",
+      "soft_carrier": null,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "کابین: مجموعاً ۷ کیلوگرم؛ ۴۵ × ۳۲ × ۱۹ سانتی‌متر. ارتفاع کیف نرم می‌تواند ۲۵ باشد اگر تا ۱۹ سانتی‌متر فشرده شود. بار: تا مجموع ۴۵ کیلوگرم؛ نژادهای پوزه‌کوتاه پذیرفته نمی‌شوند و نوع هواپیما و فصل محدودیت دارند.",
+      "sources": [
+        "https://www.koreanair.com/contents/plan-your-travel/special-assistance/travel-with-pets/guide?hl=en"
+      ],
+      "cabin_dimension_variants": [
+        {
+          "label": "Standard height",
+          "dimensions_cm": [
+            45,
+            32,
+            19
+          ]
+        },
+        {
+          "label": "Soft carrier only — must compress to 19 cm",
+          "dimensions_cm": [
+            45,
+            32,
+            25
+          ]
+        }
+      ]
     },
     {
       "id": "KU",
@@ -2546,19 +2658,19 @@
       ],
       "soft_carrier": null,
       "reservation_required": true,
-      "source": "https://www.flypgs.com/en/travelling-with-pets?V=1",
+      "source": "https://www.flypgs.com/en/travelling-with-pets",
       "notes": "Pet cabin up to 8 kg, 50×32×32 cm. Hold pets permitted only on domestic Turkey and North Cyprus flights, not normal international routes.",
       "hold": {
         "allowed": true,
         "max_combined_kg": null,
         "dimensions_cm": null,
         "requires_hard_crate": true,
-        "source": "https://www.flypgs.com/en/travelling-with-pets?V=1",
+        "source": "https://www.flypgs.com/en/travelling-with-pets",
         "snub_nosed_restricted": null,
         "notes": "No AVIH hold pets on international flights. Hold AVIH restricted to Turkish domestic / North Cyprus routes; confirm individually."
       },
       "route_rule": "hold_domestic_tr_only",
-      "reviewed_on": "2026-11-16",
+      "reviewed_on": "2026-11-18",
       "notes_fa": "کابین: حیوان و کیف مجموعاً تا ۸ کیلوگرم؛ ۵۰ × ۳۲ × ۳۲ سانتی‌متر. حمل حیوان در بار فقط در پروازهای داخلی ترکیه و قبرس شمالی ارائه می‌شود؛ در مسیرهای معمول بین‌المللی ارائه نمی‌شود."
     },
     {
@@ -2661,7 +2773,7 @@
       "soft_carrier": null,
       "reservation_required": true,
       "source": "https://www.qatarairways.com/en-at/baggage/animals.html",
-      "notes": "Ordinary pet cats/dogs not permitted in passenger cabin; service dogs and falcons have different conditions. Up to 75kg animal+crate as checked baggage on eligible routes, above that is freight; restricted breeds.",
+      "notes": "Ordinary pet cats/dogs not permitted in passenger cabin; service dogs and falcons have different conditions. Up to 75kg animal+crate as checked baggage on eligible routes, above that is freight; restricted breeds. Total crate dimensions may not exceed 300 cm. Some stations cap checked pets at 32 kg.",
       "hold": {
         "allowed": true,
         "max_combined_kg": 75,
@@ -2669,9 +2781,16 @@
         "requires_hard_crate": true,
         "source": "https://www.qatarairways.com/en-at/baggage/animals.html",
         "snub_nosed_restricted": true,
-        "notes": "The airline must confirm hold availability, breed, aircraft and route limitations."
+        "notes": "The airline must confirm hold availability, breed, aircraft and route limitations.",
+        "max_linear_cm": 300,
+        "weight_policy": "route_limits"
       },
-      "reviewed_on": "2026-10-21"
+      "reviewed_on": "2026-11-18",
+      "sources": [
+        "https://www.qatarairways.com/en-at/baggage/animals.html",
+        "https://www.qatarairways.com/tradeportal/en-us/specialservices/Carriage-of-live-animals.html"
+      ],
+      "notes_fa": "سگ و گربهٔ معمولی در کابین پذیرفته نمی‌شوند. بار تحویلی در مسیرهای واجد شرایط تا ۷۵ کیلوگرم با باکس و مجموع ابعاد ۳۰۰ سانتی‌متر است. برخی ایستگاه‌ها سقف ۳۲ کیلوگرم دارند و محدودیت نژاد اعمال می‌شود."
     },
     {
       "id": "AT",
@@ -2887,18 +3006,33 @@
       "id": "SQ",
       "name": "Singapore Airlines",
       "region": "Asia",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": false,
       "cabin_max_kg": null,
       "dimensions_cm": null,
-      "source": null,
+      "source": "https://www.singaporeair.com/fr_FR/fr/travel-info/special-assistance/travelling-with-pets/",
       "hold": {
-        "allowed": null,
-        "max_combined_kg": null,
+        "allowed": true,
+        "max_combined_kg": 32,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": true,
+        "source": "https://www.singaporeair.com/fr_FR/fr/travel-info/special-assistance/travelling-with-pets/",
+        "snub_nosed_restricted": null,
+        "blocked_destinations": [
+          "HK"
+        ],
+        "notes": "Crate maximum heights: A350 70 cm, A380 60 cm, B777 101 cm, B787 111 cm. The airline bars listed dog breeds and other short-nosed dogs.",
+        "snub_nosed_dogs_restricted": true
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Ordinary pets travel as checked baggage on eligible aircraft or as cargo. Up to 32 kg combined for checked baggage. No checked pets on Boeing 737. Aircraft-specific crate height, breed and destination rules apply.",
+      "reviewed_on": "2026-11-18",
+      "soft_carrier": null,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "حیوان خانگی معمولی در بارِ هواپیمای واجد شرایط یا کارگو سفر می‌کند. بار تحویلی تا ۳۲ کیلوگرم مجموعاً؛ در بوئینگ ۷۳۷ ارائه نمی‌شود. ارتفاع باکس، نژاد و مسیر را بررسی کنید. نژادهای پوزه‌کوتاه سگ در بار پذیرفته نمی‌شوند.",
+      "sources": [
+        "https://www.singaporeair.com/fr_FR/fr/travel-info/special-assistance/travelling-with-pets/"
+      ]
     },
     {
       "id": "H2",
@@ -3120,18 +3254,38 @@
       "id": "XQ",
       "name": "SunExpress",
       "region": "Europe",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
-      "cabin_max_kg": null,
-      "dimensions_cm": null,
-      "source": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 8,
+      "dimensions_cm": [
+        55,
+        40,
+        23
+      ],
+      "source": "https://www.sunexpress.com/en-gb/information/luggage-info/transporting-animals/",
       "hold": {
-        "allowed": null,
+        "allowed": true,
         "max_combined_kg": null,
         "dimensions_cm": null,
-        "source": null
+        "requires_hard_crate": true,
+        "source": "https://www.sunexpress.com/en-gb/information/luggage-info/transporting-animals/",
+        "snub_nosed_restricted": null,
+        "blocked_countries": [
+          "GB"
+        ]
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "One dog or cat in cabin up to 8 kg including carrier, 55 × 40 × 23 cm. Book at least three working days ahead. Pets are excluded in both modes on flights to or from the UK. Check the airline’s FAVN verification notice for international departures from Türkiye.",
+      "reviewed_on": "2026-11-18",
+      "soft_carrier": null,
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "notes_fa": "کابین: یک سگ یا گربه تا مجموع ۸ کیلوگرم و کیف ۵۵ × ۴۰ × ۲۳ سانتی‌متر. رزرو دست‌کم سه روز کاری قبل. در پرواز به یا از بریتانیا، حیوان خانگی در کابین یا بار پذیرفته نمی‌شود. برای خروج بین‌المللی از ترکیه اطلاعیهٔ تأیید FAVN را بررسی کنید.",
+      "sources": [
+        "https://www.sunexpress.com/en-gb/information/luggage-info/transporting-animals/"
+      ],
+      "cabin_blocked_countries": [
+        "GB"
+      ]
     },
     {
       "id": "LX",
@@ -3376,7 +3530,7 @@
       ],
       "soft_carrier": null,
       "reservation_required": true,
-      "source": "https://www.turkishairlines.com/en-at/any-questions/traveling-with-pets/",
+      "source": "https://www.turkishairlines.com/en-lu/traveling-with-pets/",
       "notes": "Cabin bag max length 40, width 30, height 23; check breed, route and codeshares. Hold total 50kg, crate 125×75×75 cm.",
       "hold": {
         "allowed": true,
@@ -3387,11 +3541,11 @@
           75
         ],
         "requires_hard_crate": true,
-        "source": "https://www.turkishairlines.com/en-at/any-questions/traveling-with-pets/",
+        "source": "https://www.turkishairlines.com/en-lu/traveling-with-pets/",
         "snub_nosed_restricted": null,
         "notes": "The airline must confirm hold availability, breed, aircraft and route limitations."
       },
-      "reviewed_on": "2026-11-16",
+      "reviewed_on": "2026-11-18",
       "notes_fa": "کابین: حیوان و کیف مجموعاً تا ۸ کیلوگرم؛ طول ۴۰، عرض ۳۰، ارتفاع ۲۳ سانتی‌متر. بار: حیوان و باکس مجموعاً تا ۵۰ کیلوگرم؛ باکس ۱۲۵ × ۷۵ × ۷۵ سانتی‌متر. مقررات نژاد و مسیر اعمال می‌شوند؛ ظرفیت جای حیوان باید رزرو شود."
     },
     {
@@ -3941,11 +4095,11 @@
   },
   "catalog_info": {
     "total": 164,
-    "reviewed": 45,
-    "unverified": 119,
+    "reviewed": 53,
+    "unverified": 111,
     "scope": "Major and regionally relevant passenger airlines; not an exhaustive list of all licensed airlines worldwide.",
-    "updated_on": "2026-11-16",
+    "updated_on": "2026-11-18",
     "filtering": "Client-side query by airline name, IATA code and region. Unsupported airlines explicitly show Policy not verified, never Not allowed by default."
   },
-  "updated_on": "2026-11-16"
+  "updated_on": "2026-11-18"
 }

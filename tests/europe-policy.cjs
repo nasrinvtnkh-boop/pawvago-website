@@ -4,7 +4,7 @@ const c={window:{},Intl};vm.runInNewContext(fs.readFileSync(path.join(root,'airl
 const find=id=>d.airlines.find(a=>a.id===id);
 assert.equal(find('OS').cabin_max_kg,8);assert.deepEqual(find('OS').dimensions_cm,[55,40,23]);
 assert.deepEqual(find('AF').dimensions_cm,[46,28,24]);assert.equal(find('BA').cargo_only,true);assert.equal(find('BA').hold.allowed,false);
-assert.equal(d.airlines.filter(a=>a.region==='Europe'&&a.policy_status==='reviewed').length,25);
+assert.equal(d.airlines.filter(a=>a.region==='Europe'&&a.policy_status==='reviewed').length,26);
 const base={petKg:4,cabinKg:1,crateKg:5,cabinDims:[40,25,20],crateDims:[70,50,50],breed:'Labrador',snub:false,from:'FR',to:'PT',placement:'hold'};
 const evaluate=(id,extra={})=>c.window.PawVagoAirMatcher.evaluate([find(id)],{...base,...extra}).entries[0];
 assert.equal(evaluate('TP',{petKg:30,crateKg:5}).hold.kind,'blocked');

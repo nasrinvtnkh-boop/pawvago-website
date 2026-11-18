@@ -1056,6 +1056,11 @@ async function loadTravelData() {
       notes_fa: a.notes_fa,
       reviewed_on: a.reviewed_on || policy.reviewed_on,
       policy_status: a.policy_status,
+      route_rule: a.route_rule,
+      cabin_blocked_countries: a.cabin_blocked_countries,
+      cabin_blocked_origins: a.cabin_blocked_origins,
+      cabin_blocked_destinations: a.cabin_blocked_destinations,
+      cabin_country_allowlist: a.cabin_country_allowlist,
       hold_policy: a.policy_status === "reviewed" ? (a.hold || null) : null,
       restricted_breeds: policy.brachycephalic_breeds || {},
       is_active: true,
@@ -1266,6 +1271,13 @@ function cabinVariants(rule) {
   return (rule?.carrier_variants || []).filter(v => Array.isArray(v.dimensions_cm) && v.dimensions_cm.length === 3 && v.dimensions_cm.every(n => Number(n) > 0));
 }
 
+function tripPolicyCountries() {
+  return {
+    from: tripCountryForDocuments(trip?.from, trip?.origin_country),
+    to: tripCountryForDocuments(trip?.to, trip?.destination_country)
+  };
+}
+
 function airlineResult(airline, rule) {
   const result = (status, cls, reason) => ({ status, cls, reason });
   const fail = (en, fa) => result('Not compatible', 'pv-bad', cabinText(en, fa));
@@ -1275,6 +1287,15 @@ function airlineResult(airline, rule) {
   if (!['dog','cat'].includes(String(pet?.species || '').toLowerCase())) return wait('This policy covers dogs and cats only.', 'این قوانین فقط برای سگ و گربه بررسی شده است.');
   const dest = String(trip?.destination_country || trip?.to || '').trim().toLowerCase();
   if (['united kingdom','great britain','uk','england','scotland','wales','london'].includes(dest)) return fail('Ordinary cabin pets are not accepted on standard commercial arrivals in Great Britain.', 'در پرواز تجاری معمول ورودی بریتانیای کبیر، حیوان خانگی معمولی در کابین پذیرفته نمی‌شود.');
+  const {from, to} = tripPolicyCountries();
+  const allowed = airline.cabin_country_allowlist;
+  const blocked = airline.cabin_blocked_countries || [];
+  if (blocked.includes(from) || blocked.includes(to) ||
+      (airline.cabin_blocked_origins || []).includes(from) ||
+      (airline.cabin_blocked_destinations || []).includes(to) ||
+      (Array.isArray(allowed) && from && to && (!allowed.includes(from) || !allowed.includes(to)))) {
+    return fail('The airline excludes cabin pets on this route.', 'این ایرلاین در این مسیر حیوان خانگی را در کابین نمی‌پذیرد.');
+  }
   const weight = petWeight();
   if (!(weight > 0)) return wait('Pet weight is missing.', 'وزن حیوان وارد نشده است.');
   const breed = String(pet?.breed || '').toLowerCase().replace(/[-_]/g, ' ');
@@ -1736,6 +1757,7 @@ function renderEngine() {
   /* Source-reviewed checked-hold comparison for signed-in dashboard.
      We cannot determine eligibility without crate weight, dimensions and
      approval by the operating airline, so never mark this as compatible. */
+  const {from: holdFrom, to: holdTo} = tripPolicyCountries();
   const holdCards = airlineData.filter(a => a.policy_status === "reviewed").map(a => {
     const h = a.hold_policy;
     const br = String(pet?.breed || '').toLowerCase().replace(/[-_]/g, ' ');
@@ -1743,12 +1765,19 @@ function renderEngine() {
     const snub = br && breedList.some(x => br.includes(String(x).toLowerCase().replace(/-/g, ' ')));
     const gbArrival = ['great britain','united kingdom','uk','england','scotland','wales','london']
       .includes(String(destination || '').trim().toLowerCase());
-    const rejected = gbArrival || h?.allowed === false || (h?.snub_nosed_restricted === true && snub);
+    const blockedCountries = h?.blocked_countries || [];
+    const routeBlocked = blockedCountries.includes(holdFrom) || blockedCountries.includes(holdTo) ||
+      (h?.blocked_destinations || []).includes(holdTo) ||
+      (a.route_rule === 'hold_domestic_tr_only' && holdFrom && holdTo && (holdFrom !== 'TR' || holdTo !== 'TR'));
+    const breedBlocked = snub && (h?.snub_nosed_restricted === true ||
+      (h?.snub_nosed_dogs_restricted === true && String(pet?.species || '').toLowerCase() === 'dog'));
+    const rejected = gbArrival || h?.allowed === false || routeBlocked || breedBlocked;
     const label = gbArrival
       ? 'GB arrival: air cargo normally required, not checked baggage'
       : h?.allowed === false ? 'Not offered by this airline'
       : h?.allowed !== true ? 'Hold eligibility requires individual confirmation'
-      : snub && h.snub_nosed_restricted ? 'This short-nosed breed is not accepted in the hold'
+      : routeBlocked ? cabinText('Checked hold is excluded or unverified for this route', 'بار تحویلی برای این مسیر مستثنا یا تأییدنشده است')
+      : breedBlocked ? 'This short-nosed breed is not accepted in the hold'
       : 'Hold option listed — airline and crate verification required';
     const source = /^https:\/\/[^\s]+$/i.test(h?.source || '') ? h.source : '';
     return `<div class="pv-airline" style="min-width:0">
@@ -1757,6 +1786,7 @@ function renderEngine() {
       <div class="pv-muted">Pet: ${escapeHtml(String(pet?.name || 'your pet'))}, ${escapeHtml(String(petWeight() || '?'))} kg;
       combined weight with rigid crate is not known.</div>
       <div class="pv-muted">Hold published maximum: ${h?.max_combined_kg ? escapeHtml(h.max_combined_kg) + ' kg including crate' : h?.allowed ? 'confirm with airline' : 'n/a'}</div>
+      ${h?.max_linear_cm ? `<div class="pv-muted">${cabinText('Combined crate dimensions', 'مجموع طول، عرض و ارتفاع باکس')}: ${escapeHtml(h.max_linear_cm)} cm</div>` : ''}
       <div class="pv-muted">IATA-style rigid transport crate and breed / route acceptance must be confirmed.</div>
       ${source ? `<a href="${escapeHtml(source)}" target="_blank" rel="noopener noreferrer">Official checked-hold policy →</a>` : ''}
     </div>`;

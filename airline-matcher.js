@@ -68,7 +68,7 @@
       return reject("The published checked-hold policy excludes this country pair; confirm with the airline.");
     if (airline.route_rule==="hold_domestic_tr_only" && !(p.from==="TR"&&p.to==="TR"))
       return reject("Checked hold service is restricted to eligible Turkish domestic / North Cyprus journeys; this route is not verified as eligible.");
-    if (p.snub && hold.snub_nosed_restricted===true)
+    if (p.snub && (hold.snub_nosed_restricted===true || (hold.snub_nosed_dogs_restricted===true && p.species==='dog')))
       return reject("Short-nosed dogs or cats are prohibited from the checked hold by this airline.");
     if (max!==null && p.petKg>max+0.000001)
       return reject("The animal alone weighs more than this airline's published checked-hold total maximum.");

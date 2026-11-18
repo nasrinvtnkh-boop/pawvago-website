@@ -271,7 +271,7 @@
         const routeScope = window.PawVagoRouteScope?.scope(selectedAirlines,from.code,to.code);
         const routeAirlines = routeScope?.airlines || selectedAirlines;
         const analysis = window.PawVagoAirMatcher.evaluate(routeAirlines,{
-          petKg, cabinKg:carrierKg, crateKg,
+          petKg, cabinKg:carrierKg, crateKg, species,
           cabinDims:dims, crateDims,
           cabinDimensionsPartial:dimensionsPartial,crateDimensionsPartial:crateDimsPartial,
           breed:ui.breed.value,snub,from:from.code,to:to.code,placement
