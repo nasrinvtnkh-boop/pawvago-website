@@ -345,7 +345,7 @@ body button:focus-visible,
 .site-nav .pv-menu-toggle {
   border-radius: 15px !important;
   background: linear-gradient(145deg, #fffdf9, #f4e8d8) !important;
-  color: #fff !important;
+  color: #173141 !important;
   border: 1px solid rgba(157,120,78,.38) !important;
   box-shadow: 0 5px 14px rgba(23, 45, 59, .09);
 }
@@ -407,7 +407,7 @@ body button:focus-visible,
   border: 1px solid #304f5a !important;
   border-radius: 999px !important;
   background: linear-gradient(122deg, #152d3b, #234657 68%, #315360) !important;
-  color: #173141 !important;
+  color: #fff !important;
   box-shadow: 0 9px 22px rgba(21,48,63,.2), inset 0 1px rgba(255,255,255,.2);
   font: 800 13px "DM Sans", sans-serif;
   letter-spacing: .01em;
