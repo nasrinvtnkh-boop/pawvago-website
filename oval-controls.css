@@ -345,7 +345,7 @@ body button:focus-visible,
 .site-nav .pv-menu-toggle {
   border-radius: 15px !important;
   background: linear-gradient(145deg, #fffdf9, #f4e8d8) !important;
-  color: #173141 !important;
+  color: #fff !important;
   border: 1px solid rgba(157,120,78,.38) !important;
   box-shadow: 0 5px 14px rgba(23, 45, 59, .09);
 }
@@ -404,11 +404,11 @@ body button:focus-visible,
   padding: 0 19px 0 43px;
   margin: 0;
   gap: 0;
-  border: 1px solid rgba(165, 128, 84, .42) !important;
+  border: 1px solid #304f5a !important;
   border-radius: 999px !important;
-  background: linear-gradient(135deg, #fffefa 0%, #f4e8d8 100%) !important;
+  background: linear-gradient(122deg, #152d3b, #234657 68%, #315360) !important;
   color: #173141 !important;
-  box-shadow: 0 6px 18px rgba(23,45,59,.07), inset 0 1px 0 rgba(255,255,255,.95);
+  box-shadow: 0 9px 22px rgba(21,48,63,.2), inset 0 1px rgba(255,255,255,.2);
   font: 800 13px "DM Sans", sans-serif;
   letter-spacing: .01em;
   cursor: pointer;
@@ -416,8 +416,8 @@ body button:focus-visible,
 }
 .site-nav .pv-menu-toggle:hover,
 .site-nav .pv-menu-toggle[aria-expanded="true"] {
-  background: linear-gradient(135deg, #fffefa 0%, #ecdbc4 100%) !important;
-  box-shadow: 0 9px 24px rgba(23,45,59,.13);
+  background: linear-gradient(122deg, #234251, #386275) !important;
+  box-shadow: 0 12px 28px rgba(21,48,63,.24);
   transform: translateY(-1px);
 }
 .site-nav .pv-menu-toggle > span {
@@ -427,7 +427,7 @@ body button:focus-visible,
   width: 17px;
   height: 2px;
   border-radius: 3px;
-  background: #173141;
+  background: currentColor;
   display: block;
   transform-origin: center;
   transition: transform .22s ease, opacity .22s ease;
@@ -442,7 +442,7 @@ body button:focus-visible,
   transform: translateY(-5px) rotate(-45deg);
 }
 .site-nav .pv-menu-toggle .pv-menu-label {
-  color: #173141;
+  color: inherit;
   font: 800 13px "DM Sans", sans-serif;
   letter-spacing: .01em;
 }
