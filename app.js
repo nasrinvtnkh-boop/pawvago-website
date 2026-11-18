@@ -1366,6 +1366,8 @@ function cleanRuleDescription(value) {
 }
 
 function buildDocuments() {
+  const euChecklist = euTripDocuments();
+  if (euChecklist) return euChecklist.rows;
   if (!countryRuleData.length) {
     return [{
       title: 'Destination rules not loaded',
@@ -1985,8 +1987,82 @@ function renderEngine() {
    DASHBOARD
 ========================================================= */
 
-function renderDocumentRows() {
-  return buildDocuments().map(({title, detail}) => `
+const euDocumentCountries = new Set('AT BE BG HR CY CZ DK EE FI FR DE GR HU IE IT LV LT LU MT NL PL PT RO SK SI ES SE'.split(' '));
+const euPetPassportPartners = new Set('AD CH FO GI GL IS LI MC NO SM VA'.split(' '));
+// Regulation (EU) 2026/636, Annex II including the June 2026 amendments.
+const euTitreExemptOrigins = new Set('AC AE AG AR AS AU AW BA BB BH BM BQ CA CL CW FJ FK GB GG GU HK IM JM JP JE KN KY LC ME MP MS MK MU MX MY NC NZ PF PM PR RS SG SH SX TT TW US VC VG VI VU WF'.split(' '));
+const euPetEntryRules = 'https://food.ec.europa.eu/animals/live-animal-movements/dogs-cats-and-ferrets/bringing-pet-eu-non-eu-country_en';
+const euPetTravelRules = 'https://europa.eu/youreurope/citizens/travel/carry/pets-and-other-animals/';
+const euPetEntryPoints = 'https://food.ec.europa.eu/animals/movement-pets/travellers-points-entry_en';
+const francePetEntryRules = 'https://www.douane.gouv.fr/demarche/vous-voyagez-avec-un-chien-chat-ou-furet';
+
+function tripCountryForDocuments(city, country) {
+  const geography = window.PawVagoRouteScope;
+  if (!geography) return countryCode(country) || '';
+  const parts = String(city || '').split(',');
+  const candidates = [...(parts.length > 1 ? [parts.at(-1)] : []), country, city];
+  if (candidates.some(value => /northern ireland|irlande du nord|ایرلند شمالی/i.test(String(value || '')))) return 'GB-NIR';
+  return candidates.map(value => geography.country(value))
+    .find(code => code?.length === 2 && geography.continents(code).length) || '';
+}
+
+function euTripDocuments() {
+  if (!trip || !['dog', 'cat'].includes(String(pet?.species || '').toLowerCase())) return null;
+  // The current rules apply from 22 April 2026.
+  if (!trip.date || trip.date < '2026-04-22') return null;
+  const from = tripCountryForDocuments(trip.from, trip.origin_country);
+  const to = tripCountryForDocuments(trip.to, trip.destination_country);
+  if (!from || from === to || !euDocumentCountries.has(to)) return null;
+
+  const doc = (en, fa, detailEn, detailFa) => ({
+    title: cabinText(en, fa), detail: cabinText(detailEn, detailFa)
+  });
+  const rows = [
+    doc('Microchip', 'میکروچیپ', 'Have the chip number recorded in the travel document. The rabies vaccination must be on or after identification.', 'شمارهٔ میکروچیپ باید در مدرک سفر درج شده باشد. واکسن هاری باید در روز شناسایی یا بعد از آن تزریق شده باشد.'),
+    doc('Valid rabies vaccination', 'واکسن معتبر هاری', 'Bring proof of vaccination. Allow at least 21 days after completion of the primary course. Keep boosters within the previous vaccine’s validity.', 'مدرک واکسن را همراه داشته باشید. پس از تکمیل واکسیناسیون اولیه دست‌کم ۲۱ روز صبر کنید و یادآوری‌ها را پیش از انقضا انجام دهید.')
+  ];
+  const passportRoute = euDocumentCountries.has(from) || euPetPassportPartners.has(from) || from === 'GB-NIR';
+  const links = [passportRoute ? euPetTravelRules : euPetEntryRules];
+  if (passportRoute) {
+    rows.push(doc('Valid pet passport', 'پاسپورت معتبر حیوان', 'Bring a valid pet passport accepted for this route, with identification and current vaccination entries.', 'پاسپورت معتبر حیوان که برای این مسیر پذیرفته می‌شود و مشخصات شناسایی و واکسن در آن ثبت شده را همراه داشته باشید.'));
+  } else {
+    const titreRequired = !euTitreExemptOrigins.has(from);
+    if (titreRequired) {
+      rows.push(doc('Rabies antibody titre report', 'گزارش آزمایش تیتر آنتی‌بادی هاری', 'Use an EU-designated laboratory. Sample at least 30 days after primary vaccination or during a valid vaccination series, and at least 90 days before certificate issue. The result must be at least 0.5 IU/mL. A satisfactory titre remains valid with timely boosters.', 'آزمایش را در آزمایشگاه مورد تأیید اتحادیه انجام دهید. نمونه‌گیری دست‌کم ۳۰ روز پس از واکسن اولیه یا در دورهٔ واکسیناسیون معتبر، و دست‌کم ۹۰ روز پیش از صدور گواهی انجام می‌شود. نتیجه باید حداقل ۰٫۵ واحد بین‌المللی در میلی‌لیتر باشد. با تزریق به‌موقع یادآورها، نتیجهٔ قابل‌قبول معتبر می‌ماند.'));
+    }
+    rows.push(
+      doc('EU animal health certificate', 'گواهی رسمی سلامت حیوان برای اتحادیه اروپا', 'Use the EU model. Have it issued or endorsed by the competent authority in the departure country. Present it at the first EU entry check within 10 days of official issue for air travel, with vaccination proof and any required titre report.', 'از فرم اتحادیه اروپا استفاده کنید و آن را از مرجع صلاحیت‌دار کشور مبدأ بگیرید یا تأیید کنید. در سفر هوایی، گواهی را ظرف ۱۰ روز از صدور رسمی در اولین نقطهٔ ورود به اتحادیه، همراه مدرک واکسن و در صورت الزام گزارش تیتر ارائه کنید.'),
+      doc('Non-commercial declaration and entry check', 'اظهارنامهٔ سفر غیرتجاری و کنترل ورود', 'Bring the signed declaration and present the pet and its documents at a designated point of entry. For an authorised companion, check the written authorisation and five-day rule.', 'اظهارنامهٔ امضاشده را همراه داشته باشید و حیوان و مدارک را در نقطهٔ مجاز ورود ارائه کنید. اگر فرد دیگری حیوان را همراهی می‌کند، مجوز کتبی و شرط پنج‌روزه را بررسی کنید.'),
+      doc('Return with an EU pet passport', 'بازگشت با پاسپورت اروپایی حیوان', titreRequired
+        ? 'A valid EU passport may replace the certificate and the 90-day wait may be waived when the required vaccination and successful titre were documented before departure from the EU. For France, a booster or titre performed abroad during the stay requires an official health certificate.'
+        : 'A valid EU passport may replace the certificate when it shows the required rabies vaccination was recorded before leaving the EU. Check the applicable conditions if the pet was revaccinated abroad.',
+      titreRequired
+        ? 'اگر واکسن لازم و نتیجهٔ قابل‌قبول تیتر پیش از خروج از اتحادیه در پاسپورت اروپایی ثبت شده باشد، ممکن است پاسپورت جایگزین گواهی شود و انتظار ۹۰روزه اعمال نشود. فرانسه در صورت تزریق یادآور یا انجام تیتر در کشور ثالث طی اقامت، گواهی رسمی سلامت می‌خواهد.'
+        : 'اگر واکسن لازم پیش از خروج از اتحادیه در پاسپورت معتبر اروپایی ثبت شده باشد، ممکن است پاسپورت جایگزین گواهی شود. اگر واکسن در کشور ثالث تکرار شده، شرایط مربوط را بررسی کنید.')
+    );
+    if (to !== 'FR' && titreRequired) {
+      const row = rows.at(-1);
+      row.detail = cabinText('For a pet normally resident in the EU, the passport may replace the certificate and the 90-day wait may be waived if compliance, including the successful titre, was documented before leaving the EU.', 'برای حیوانی که معمولاً در اتحادیه اروپا زندگی می‌کند، اگر شرایط از جمله نتیجهٔ قابل‌قبول تیتر پیش از خروج ثبت شده باشد، ممکن است پاسپورت جایگزین گواهی شود و انتظار ۹۰روزه اعمال نشود.');
+    }
+    links.push(euPetEntryPoints);
+    if (to === 'FR') links.unshift(francePetEntryRules);
+  }
+  if (String(pet.species).toLowerCase() === 'dog' && ['FI','IE','MT'].includes(to)) {
+    rows.push(doc('Tapeworm treatment', 'درمان انگل اکینوکوک', 'Have a vet administer and record the treatment 24 to 120 hours before entry. Special exemptions may apply on some routes.', 'دامپزشک باید درمان را ۲۴ تا ۱۲۰ ساعت پیش از ورود انجام دهد و ثبت کند. برخی مسیرها معافیت دارند.'));
+  }
+  return {rows, links};
+}
+
+function generalTripDocuments() {
+  return [
+    {title:cabinText('Identification and vaccination records', 'مدارک شناسایی و واکسیناسیون'), detail:cabinText('Check the accepted microchip standard, rabies vaccination and whether a blood test is needed.', 'استاندارد میکروچیپ، شرایط واکسن هاری و نیاز به آزمایش خون را بررسی کنید.')},
+    {title:cabinText('Entry forms and veterinary documents', 'فرم‌های ورود و مدارک دامپزشکی'), detail:cabinText('Check whether your destination requires a health certificate, pet passport, import permit, treatment or quarantine, and note the deadlines.', 'نیاز به گواهی سلامت، پاسپورت حیوان، مجوز ورود، درمان یا قرنطینه و مهلت‌های آن‌ها را بررسی کنید.')},
+    {title:cabinText('Transit and arrival', 'ترانزیت و ورود'), detail:cabinText('Check each transit country, the arrival point, and any documents requested by your operating carrier.', 'شرایط هر کشور ترانزیت، نقطهٔ ورود و مدارک موردنیاز شرکت حمل‌کننده را بررسی کنید.')}
+  ];
+}
+
+function renderDocumentRows(rows = buildDocuments()) {
+  return rows.map(({title, detail}) => `
     <div class="pv-row">
       <span class="pv-icon pv-warn" aria-hidden="true">○</span>
       <div><strong>${escapeHtml(title)}</strong><div class="pv-muted">${escapeHtml(detail)}</div></div>
@@ -1998,16 +2074,32 @@ function renderDocumentsView(content) {
   const heading = cabinText('Travel documents', 'مدارک سفر');
   const route = trip ? [trip.from, trip.to].filter(Boolean).map(place =>
     '<bdi>' + escapeHtml(place) + '</bdi>').join(' → ') : '';
-  const source = countryRuleData[0]?.source_url;
-  const officialLink = typeof source === 'string' && /^https:\/\//i.test(source)
-    ? `<p><a href="${escapeHtml(source)}" target="_blank" rel="noopener noreferrer">${cabinText('Official travel rules ↗', 'منبع رسمی قوانین سفر ↗')}</a></p>`
-    : '';
+  const euChecklist = euTripDocuments();
+  const verified = Boolean(euChecklist || countryRuleData.length);
+  const rows = euChecklist?.rows || (verified ? buildDocuments() : generalTripDocuments());
+  const sources = euChecklist?.links || (verified
+    ? [countryRuleData[0]?.source_url]
+    : ['https://www.iata.org/en/youandiata/travelers/traveling-with-pets/']);
+  const sourceNames = {
+    [euPetEntryRules]: ['European Commission · Entry rules', 'کمیسیون اروپا · مقررات ورود'],
+    [euPetEntryPoints]: ['European Commission · Entry points', 'کمیسیون اروپا · نقاط مجاز ورود'],
+    [euPetTravelRules]: ['European Union · Pet travel rules', 'اتحادیه اروپا · مقررات سفر حیوانات'],
+    [francePetEntryRules]: ['French Customs · Pet entry rules', 'گمرک فرانسه · مقررات ورود حیوانات']
+  };
+  const sourceLinks = sources.filter(source => typeof source === 'string' && /^https:\/\//i.test(source)).map(source => {
+    const label = sourceNames[source] || (verified
+      ? ['Official travel rules', 'منبع رسمی قوانین سفر'] : ['IATA · Pet travel guidance', 'یاتا · راهنمای سفر حیوانات']);
+    return `<p><a href="${escapeHtml(source)}" target="_blank" rel="noopener noreferrer">${cabinText(...label)} ↗</a></p>`;
+  }).join('');
+  const status = euChecklist
+    ? cabinText('Checklist for non-commercial travel with a dog or cat. Check transit and carrier requirements for your itinerary.', 'چک‌لیست سفر غیرتجاری با سگ یا گربه. شرایط ترانزیت و شرکت حمل‌کننده را برای برنامهٔ سفر خود بررسی کنید.')
+    : verified ? '' : cabinText('Preparation checklist. Destination-specific requirements still need confirmation from its veterinary authority.', 'چک‌لیست آماده‌سازی. الزامات ویژهٔ مقصد را از مرجع دامپزشکی کشور مقصد تأیید کنید.');
   content.innerHTML = `
     <section class="pv-card" aria-labelledby="dashboardDocumentsHeading">
       <h2 id="dashboardDocumentsHeading" tabindex="-1">${heading}</h2>
       ${trip
         ? `<p>${route} · ${escapeHtml(fmtDate(trip.date))}</p>
-           ${countryRuleData.length ? renderDocumentRows() + officialLink : `<p>${cabinText('PawVago has no verified document checklist for this route yet.', 'پاواگو هنوز فهرست تأییدشدهٔ مدارک برای این مسیر ندارد.')}</p>`}`
+           ${status ? `<p>${status}</p>` : ''}${renderDocumentRows(rows)}${sourceLinks}`
         : `<p>${cabinText('Plan a trip to see the required documents for your route.', 'سفرت را ثبت کن تا مدارک لازم برای مسیرت نمایش داده شود.')}</p>
            <button type="button" class="btn dark" id="documentsPlanTrip">${cabinText('Plan a trip', 'برنامه‌ریزی سفر')}</button>`}
     </section>`;

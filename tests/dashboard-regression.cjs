@@ -32,10 +32,11 @@ const context = vm.createContext({
     createElement:()=>node('created'),head:{appendChild(){}},body:{appendChild(){}}
   }
 });
+vm.runInContext(fs.readFileSync(__dirname+'/../route-scope.js','utf8'),context);
 vm.runInContext(fs.readFileSync(__dirname+'/../app.js','utf8'),context);
 async function run(){
   await new Promise(resolve=>setTimeout(resolve,0));
-  vm.runInContext("user={id:'test-user'}; pet={id:'pet-1'}; trip={id:'old-trip',from:'Paris',to:'Madrid',date:'2027-01-01'};",context);
+  vm.runInContext("user={id:'test-user'}; pet={id:'pet-1',species:'Dog'}; trip={id:'old-trip',from:'Paris',to:'Madrid',date:'2027-01-01'};",context);
   const content = node('dashboardContent');
   for (const lang of ['en', 'fa']) {
     context.document.documentElement.lang = lang;
@@ -43,12 +44,24 @@ async function run(){
     buttons[3].listeners.click();
     assert.match(content.innerHTML, /dashboardDocumentsHeading/);
     assert.match(content.innerHTML, lang === 'fa' ? /مدارک سفر/ : /Travel documents/);
-    assert.match(content.innerHTML, /Microchip/);
-    assert.match(content.innerHTML, /https:\/\/example\.test\/rules/);
+    assert.match(content.innerHTML, lang === 'fa' ? /میکروچیپ/ : /Microchip/);
+    assert.match(content.innerHTML, /youreurope/);
     vm.runInContext('countryRuleData=[]; render()',context);
-    assert.match(content.innerHTML, lang === 'fa' ? /فهرست تأییدشده/ : /no verified document checklist/);
+    assert.match(content.innerHTML, lang === 'fa' ? /چک‌لیست سفر غیرتجاری/ : /Checklist for non-commercial travel/);
   }
   context.document.documentElement.lang = 'en';
+  vm.runInContext("const savedRoute=trip; pet.species='Dog'; trip={from:'Istanbul, Türkiye',to:'Paris, France',date:'2026-11-21'}; render()",context);
+  assert.match(content.innerHTML,/Rabies antibody titre report/);
+  assert.match(content.innerHTML,/90 days before certificate issue/);
+  assert.match(content.innerHTML,/within 10 days/);
+  assert.match(content.innerHTML,/douane\.gouv\.fr/);
+  vm.runInContext("trip.from='Toronto, Canada'; render()",context);
+  assert.doesNotMatch(content.innerHTML,/Rabies antibody titre report/);
+  assert.match(content.innerHTML,/EU animal health certificate/);
+  vm.runInContext("trip.to='Sydney, Australia'; render()",context);
+  assert.match(content.innerHTML,/Preparation checklist/);
+  assert.match(content.innerHTML,/Import permit/i);
+  vm.runInContext('trip=savedRoute',context);
   vm.runInContext('const existingTrip = trip; trip=null; render()',context);
   assert.match(content.innerHTML, /documentsPlanTrip/);
   assert.equal(typeof node('documentsPlanTrip').listeners.click,'function');
