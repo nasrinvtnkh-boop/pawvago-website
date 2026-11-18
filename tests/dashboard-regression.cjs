@@ -7,7 +7,7 @@ function node(id) {
     id, value: '', textContent: '', innerHTML: '', dataset: {}, listeners: {},
     classList: { add(){}, remove(){}, contains(){return false;}, toggle(){} },
     addEventListener(name, fn){ this.listeners[name] = fn; },
-    querySelector(){return null;}, setAttribute(){}, removeAttribute(){}, scrollIntoView(){}
+    querySelector(){return null;}, setAttribute(){}, removeAttribute(){}, scrollIntoView(){}, focus(){}
   });
   return nodes.get(id);
 }
@@ -36,6 +36,25 @@ vm.runInContext(fs.readFileSync(__dirname+'/../app.js','utf8'),context);
 async function run(){
   await new Promise(resolve=>setTimeout(resolve,0));
   vm.runInContext("user={id:'test-user'}; pet={id:'pet-1'}; trip={id:'old-trip',from:'Paris',to:'Madrid',date:'2027-01-01'};",context);
+  const content = node('dashboardContent');
+  for (const lang of ['en', 'fa']) {
+    context.document.documentElement.lang = lang;
+    vm.runInContext('countryRuleData=[{requires_microchip:true,source_url:"https://example.test/rules"}]',context);
+    buttons[3].listeners.click();
+    assert.match(content.innerHTML, /dashboardDocumentsHeading/);
+    assert.match(content.innerHTML, lang === 'fa' ? /مدارک سفر/ : /Travel documents/);
+    assert.match(content.innerHTML, /Microchip/);
+    assert.match(content.innerHTML, /https:\/\/example\.test\/rules/);
+    vm.runInContext('countryRuleData=[]; render()',context);
+    assert.match(content.innerHTML, lang === 'fa' ? /فهرست تأییدشده/ : /no verified document checklist/);
+  }
+  context.document.documentElement.lang = 'en';
+  vm.runInContext('const existingTrip = trip; trip=null; render()',context);
+  assert.match(content.innerHTML, /documentsPlanTrip/);
+  assert.equal(typeof node('documentsPlanTrip').listeners.click,'function');
+  vm.runInContext('trip=existingTrip',context);
+  buttons[0].listeners.click();
+  assert.doesNotMatch(content.innerHTML, /dashboardDocumentsHeading/);
   buttons[2].listeners.click();
   assert.equal(node('tripFrom').value,'');
   assert.equal(vm.runInContext('tripEditingId',context),null);

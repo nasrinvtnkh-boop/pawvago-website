@@ -1760,45 +1760,6 @@ function renderEngine() {
     </div>`;
   }).join('');
 
-  /* DOCUMENTS */
-
-  const documents =
-    buildDocuments();
-
-  const documentRows =
-    documents
-      .map(doc => `
-
-        <div class="pv-row">
-
-          <span
-            class="pv-icon pv-warn"
-          >
-            ○
-          </span>
-
-          <div>
-
-            <strong>
-              ${escapeHtml(
-                doc.title
-              )}
-            </strong>
-
-            <div class="pv-muted">
-              ${escapeHtml(
-                doc.detail
-              )}
-            </div>
-
-          </div>
-
-        </div>
-
-      `)
-      .join('');
-
-
   /* TIMELINE */
 
   const timeline =
@@ -1948,7 +1909,7 @@ function renderEngine() {
 
         </p>
 
-        ${documentRows}
+        ${renderDocumentRows()}
 
       </div>
 
@@ -2024,6 +1985,37 @@ function renderEngine() {
    DASHBOARD
 ========================================================= */
 
+function renderDocumentRows() {
+  return buildDocuments().map(({title, detail}) => `
+    <div class="pv-row">
+      <span class="pv-icon pv-warn" aria-hidden="true">○</span>
+      <div><strong>${escapeHtml(title)}</strong><div class="pv-muted">${escapeHtml(detail)}</div></div>
+    </div>
+  `).join('');
+}
+
+function renderDocumentsView(content) {
+  const heading = cabinText('Travel documents', 'مدارک سفر');
+  const route = trip ? [trip.from, trip.to].filter(Boolean).map(place =>
+    '<bdi>' + escapeHtml(place) + '</bdi>').join(' → ') : '';
+  const source = countryRuleData[0]?.source_url;
+  const officialLink = typeof source === 'string' && /^https:\/\//i.test(source)
+    ? `<p><a href="${escapeHtml(source)}" target="_blank" rel="noopener noreferrer">${cabinText('Official travel rules ↗', 'منبع رسمی قوانین سفر ↗')}</a></p>`
+    : '';
+  content.innerHTML = `
+    <section class="pv-card" aria-labelledby="dashboardDocumentsHeading">
+      <h2 id="dashboardDocumentsHeading" tabindex="-1">${heading}</h2>
+      ${trip
+        ? `<p>${route} · ${escapeHtml(fmtDate(trip.date))}</p>
+           ${countryRuleData.length ? renderDocumentRows() + officialLink : `<p>${cabinText('PawVago has no verified document checklist for this route yet.', 'پاواگو هنوز فهرست تأییدشدهٔ مدارک برای این مسیر ندارد.')}</p>`}`
+        : `<p>${cabinText('Plan a trip to see the required documents for your route.', 'سفرت را ثبت کن تا مدارک لازم برای مسیرت نمایش داده شود.')}</p>
+           <button type="button" class="btn dark" id="documentsPlanTrip">${cabinText('Plan a trip', 'برنامه‌ریزی سفر')}</button>`}
+    </section>`;
+  $('documentsPlanTrip')?.addEventListener('click', () => openTrip());
+}
+
+let dashboardSection = 'dashboard';
+
 function render() {
 
   const content =
@@ -2063,6 +2055,11 @@ function render() {
     return;
   }
 
+
+  if (dashboardSection === 'documents') {
+    renderDocumentsView(content);
+    return;
+  }
 
   content.innerHTML = `
 
@@ -2438,7 +2435,7 @@ async function refresh() {
 
   $('dashBtn')?.addEventListener(
     'click',
-    () => show('dashboard')
+    () => dashboardAction('dashboard')
   );
 
 
@@ -2504,6 +2501,7 @@ function show(view) {
 
 
 function dashboardAction(action) {
+  dashboardSection = action;
   show('dashboard');
   document.querySelectorAll('.side-nav button').forEach(button => {
     const active = button.dataset.dashboardAction === action;
@@ -2514,10 +2512,7 @@ function dashboardAction(action) {
   if (action === 'pets') { openPet(); return; }
   if (action === 'trip') { openTrip(); return; }
   if (action === 'documents') {
-    if (!trip) { openTrip(); return; }
-    const cards = document.querySelectorAll('#dashboardContent .pv-card');
-    const target = [...cards].find(card => /Documents PawVago expects/.test(card.textContent));
-    target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    $('dashboardDocumentsHeading')?.focus({preventScroll:true});
     return;
   }
   if (action === 'places') {
