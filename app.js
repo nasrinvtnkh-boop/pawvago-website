@@ -2108,6 +2108,33 @@ function renderDocumentsView(content) {
 
 let dashboardSection = 'dashboard';
 
+function renderTripCard() {
+  const heading = cabinText('Trip intelligence', 'پیشنهادهای سفر');
+  return `
+    <section class="dash-card" aria-labelledby="dashboardTripHeading">
+      <h2 id="dashboardTripHeading" tabindex="-1">${heading}</h2>
+      ${trip ? `
+        <p><strong><bdi>${escapeHtml(trip.from)}</bdi> → <bdi>${escapeHtml(trip.to)}</bdi></strong>
+          · ${escapeHtml(fmtDate(trip.date))}</p>
+        <button type="button" class="btn dark" id="newTrip">${cabinText('Plan a new trip', 'برنامه‌ریزی سفر تازه')}</button>
+        <button type="button" class="btn outline" id="editTrip">${cabinText('Change trip', 'ویرایش سفر')}</button>
+        ${renderEngine()}
+      ` : `
+        <div class="empty">
+          <p>${cabinText('Add a route and travel date to see suggestions for your trip.', 'مسیر و تاریخ سفر را وارد کن تا پیشنهادها نمایش داده شوند.')}</p>
+          <button type="button" class="btn dark" id="trip">${cabinText('Analyze my trip', 'بررسی سفر من')}</button>
+        </div>
+      `}
+    </section>`;
+}
+
+function bindTripCard() {
+  bindCabinControls();
+  $('newTrip')?.addEventListener('click', () => openTrip());
+  $('trip')?.addEventListener('click', () => openTrip());
+  $('editTrip')?.addEventListener('click', () => openTrip(true));
+}
+
 function render() {
 
   const content =
@@ -2147,6 +2174,12 @@ function render() {
     return;
   }
 
+
+  if (dashboardSection === 'trip') {
+    content.innerHTML = renderTripCard();
+    bindTripCard();
+    return;
+  }
 
   if (dashboardSection === 'documents') {
     renderDocumentsView(content);
@@ -2250,103 +2283,14 @@ function render() {
     </div>
 
 
-    <div class="dash-card">
-
-      <h2>
-        Trip intelligence
-      </h2>
-
-      ${
-        trip
-
-          ? `
-
-            <p>
-
-              <strong>
-                ${escapeHtml(
-                  trip.from
-                )}
-
-                →
-
-                ${escapeHtml(
-                  trip.to
-                )}
-              </strong>
-
-              ·
-
-              ${fmtDate(
-                trip.date
-              )}
-
-            </p>
-
-            <button class="btn dark" id="newTrip">Plan a new trip</button>\n\n            ${renderEngine()}
-
-            <button
-              class="btn outline"
-              id="editTrip"
-            >
-              Change trip
-            </button>
-
-          `
-
-          : `
-
-            <div class="empty">
-
-              <p>
-                Tell PawVago where and when
-                you are travelling. The app will
-                generate airline compatibility,
-                documents, rules and destination
-                services from the database.
-              </p>
-
-              <button
-                class="btn dark"
-                id="trip"
-              >
-                Analyze my trip
-              </button>
-
-            </div>
-
-          `
-      }
-
-    </div>
+    ${renderTripCard()}
 
   `;
 
 
-  bindCabinControls();
-
-  $('newTrip')?.addEventListener('click', () => openTrip());
-
-  $('add')?.addEventListener(
-    'click',
-    openPet
-  );
-
-  $('edit')?.addEventListener(
-    'click',
-    openPet
-  );
-
-  $('trip')?.addEventListener(
-    'click',
-    () => openTrip()
-  );
-
-  $('editTrip')?.addEventListener(
-    'click',
-    () => openTrip(true)
-  );
-
+  bindTripCard();
+  $('add')?.addEventListener('click', openPet);
+  $('edit')?.addEventListener('click', openPet);
 }
 
 
@@ -2602,7 +2546,11 @@ function dashboardAction(action) {
     else button.removeAttribute('aria-current');
   });
   if (action === 'pets') { openPet(); return; }
-  if (action === 'trip') { openTrip(); return; }
+  if (action === 'trip') {
+    if (!trip) openTrip();
+    else $('dashboardTripHeading')?.focus({preventScroll:true});
+    return;
+  }
   if (action === 'documents') {
     $('dashboardDocumentsHeading')?.focus({preventScroll:true});
     return;
