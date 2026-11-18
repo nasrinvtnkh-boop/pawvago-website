@@ -976,21 +976,6 @@ async function loadTravelData() {
   const destinationCode =
     countryCode(destinationCountry);
 
-  /* AIRLINES + RULES */
-  let airlineQuery = await sb
-    .from('airlines')
-    .select(`
-      *,
-      airline_rules(*)
-    `);
-
-  if (airlineQuery.error) {
-    console.error('Airline loading error:', airlineQuery.error);
-  } else {
-    airlineData = (airlineQuery.data || [])
-      .filter(a => a.active !== false && a.is_active !== false);
-  }
-
   /* COUNTRY RULES
      First try the country code, then fall back to country name.
      This keeps the engine resilient if a deployment/database row
@@ -1037,9 +1022,7 @@ async function loadTravelData() {
     serviceData = servicesResult.data || [];
   }
 
-  /* Official-source snapshot is authoritative for supported EU/GB scenarios.
-     Legacy Supabase airline rows may be outdated; do not silently use stale
-     weight/dimension values in a travel eligibility decision. */
+  /* Use the reviewed airline snapshot and the supported EU/GB document rules. */
   try {
     const response = await fetch('/data/pet-policy-snapshot.json', { cache: 'no-store' });
     if (!response.ok) throw new Error('Official policy reference not available');
@@ -1047,24 +1030,30 @@ async function loadTravelData() {
     if (!Array.isArray(policy.airlines) || !Array.isArray(policy.countries)) {
       throw new Error('Invalid official policy reference');
     }
-    // Include every airline in the snapshot; only reviewed rules can be screened.
-    airlineData = policy.airlines.map(a => ({
+    airlineData = policy.airlines.filter(a => {
+      if (a.policy_status !== 'reviewed' || !a.reviewed_on) return false;
+      try {
+        return new URL(a.source).protocol === 'https:';
+      } catch {
+        return false;
+      }
+    }).map(a => ({
       id: a.id,
       region: a.region,
       name: a.name,
       notes: a.notes,
       notes_fa: a.notes_fa,
-      reviewed_on: a.reviewed_on || policy.reviewed_on,
+      reviewed_on: a.reviewed_on,
       policy_status: a.policy_status,
       route_rule: a.route_rule,
       cabin_blocked_countries: a.cabin_blocked_countries,
       cabin_blocked_origins: a.cabin_blocked_origins,
       cabin_blocked_destinations: a.cabin_blocked_destinations,
       cabin_country_allowlist: a.cabin_country_allowlist,
-      hold_policy: a.policy_status === "reviewed" ? (a.hold || null) : null,
+      hold_policy: a.hold || null,
       restricted_breeds: policy.brachycephalic_breeds || {},
       is_active: true,
-      airline_rules: a.policy_status !== "reviewed" ? [] : [{
+      airline_rules: [{
         is_active: true,
         cabin_allowed: a.cabin_allowed === true,
         max_combined_weight_kg: a.cabin_max_kg,
@@ -1081,7 +1070,7 @@ async function loadTravelData() {
         carrier_type: a.soft_carrier ? 'Soft-sided carrier' : '',
         requires_reservation: a.reservation_required,
         route_restrictions: 'Exact flight, operating carrier and pet-space acceptance must be confirmed',
-        rule_description: 'Official-source policy snapshot reviewed ' + (a.reviewed_on || policy.reviewed_on) +
+        rule_description: 'Official-source policy snapshot reviewed ' + a.reviewed_on +
           '. This does not confirm flight availability, route acceptance or booking.',
         source_url: a.source
       }]
@@ -1723,9 +1712,9 @@ function renderEngine() {
   if (!airlineData.length) {
     airlineCards = `
       <div class="pv-empty">
-        No airline data is available yet.
+        No published airline guide matches this route.
         <div class="pv-muted">
-          PawVago will calculate airline compatibility after airline rules are stored in the database.
+          Browse the airline guides to check the policies currently covered by PawVago.
         </div>
       </div>
     `;
@@ -1739,16 +1728,9 @@ function renderEngine() {
       };
     });
 
-    const compatibleCount = evaluatedAirlines.filter(item =>
-      item.result.status === 'Compatible' || item.result.status === 'Conditional'
-    ).length;
-
-    const reviewed = evaluatedAirlines.filter(({airline}) => airline.policy_status === 'reviewed');
     const rank = {'Compatible':0, 'Check':1, 'Not compatible':2};
-    reviewed.sort((a,b)=>(rank[a.result.status] ?? 1)-(rank[b.result.status] ?? 1));
-    airlineCards = reviewed.map(({airline,rule,result})=>renderCabinAirline(airline,rule,result)).join('');
-    const unknown = evaluatedAirlines.filter(({airline})=>airline.policy_status !== 'reviewed');
-    if (unknown.length) airlineCards += `<details class="pv-unverified-carriers" style="grid-column:1/-1"><summary>${cabinText('Unverified airlines — no eligibility result','ایرلاین‌های بررسی‌نشده — بدون نتیجهٔ پذیرش')} (${unknown.length})</summary><div class="pv-grid">${unknown.map(({airline})=>`<div class="pv-airline"><strong>${escapeHtml(airline.name)}</strong><p>${cabinText('Policy not verified','قوانین تأیید نشده')}</p></div>`).join('')}</div></details>`;
+    evaluatedAirlines.sort((a,b)=>(rank[a.result.status] ?? 1)-(rank[b.result.status] ?? 1));
+    airlineCards = evaluatedAirlines.map(({airline,rule,result})=>renderCabinAirline(airline,rule,result)).join('');
   }
 
 
@@ -2763,4 +2745,5 @@ ensureStyles();
 bindStaticEvents();
 
 refresh();
+
 

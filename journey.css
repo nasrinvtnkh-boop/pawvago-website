@@ -154,7 +154,7 @@
 @media(prefers-reduced-motion:reduce){.pvj-placement label>span{transition:none}}
 
 /* Global airline directory / searchable catalogue */
-.pvj-directory-toolbar{max-width:1260px;margin:0 auto 15px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}
+.pvj-directory-toolbar{max-width:1260px;margin:0 auto 15px;display:grid;grid-template-columns:2fr 1fr;gap:12px}
 .pvj-directory-toolbar label,.pvj-airline-picker>label{display:block;font-size:11px;font-weight:800;color:#597187;letter-spacing:.04em;text-transform:uppercase}
 .pvj-directory-toolbar input,.pvj-directory-toolbar select,.pvj-airline-picker input,.pvj-airline-picker select{display:block;width:100%;min-width:0;height:46px;padding:0 13px;border:1px solid #dce6ef;border-radius:12px;background:#f8fafc;color:#203a52;margin-top:7px;font:600 13px "DM Sans",sans-serif}
 .pvj-directory-toolbar input:focus-visible,.pvj-directory-toolbar select:focus-visible,.pvj-airline-picker input:focus-visible,.pvj-airline-picker select:focus-visible{outline:3px solid rgba(51,106,150,.35);outline-offset:1px}
@@ -237,11 +237,6 @@
   font-weight: 500;
   line-height: 1.65;
 }
-.pvj-match-overview { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.pvj-match-overview > div:last-child {
-  border-color: rgba(226,196,133,.4);
-  background: rgba(199,157,84,.1);
-}
 .pvj-match-card.pvj-match-unverified {
   border-color: rgba(221,185,120,.3);
   background: rgba(181,149,99,.09);
@@ -320,3 +315,4 @@
   .pvj-match-card-head { flex-wrap: wrap; }
   .pvj-unknown-footer { align-items: stretch; flex-direction: column; }
 }
+

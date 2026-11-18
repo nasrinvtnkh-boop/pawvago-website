@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const assert = require('node:assert/strict');
 const policy = JSON.parse(fs.readFileSync(__dirname+'/../data/pet-policy-snapshot.json','utf8'));
 const client = {from(){return {select(){return this},eq(){return this},limit(){return this},then(resolve){return Promise.resolve({data:[]}).then(resolve)}};}};
-const context = vm.createContext({console, Date, setTimeout, localStorage:{getItem(){return null;}},
+const context = vm.createContext({console, Date, URL, setTimeout, localStorage:{getItem(){return null;}},
  window:{PAWVAGO_CONFIG:{SUPABASE_URL:'test',SUPABASE_ANON_KEY:'test'},supabase:{createClient:()=>client}},
  document:{documentElement:{lang:'en'},getElementById(){return null;}},
  fetch:async()=>({ok:true,json:async()=>policy})});
@@ -14,6 +14,9 @@ async function main(){
  run("user={id:'u'};pet={id:'p',name:'Titi',species:'Dog',breed:'Shih Tzu',weight_kg:8};trip={from:'France',to:'Canada',destination_country:'Canada'}");
  await context.loadTravelData();
  const airline=id=>run(`airlineData.find(a=>a.id==='${id}')`);
+ for (const entry of policy.airlines.filter(a=>a.policy_status!=='reviewed')) {
+   assert.equal(airline(entry.id),undefined,`${entry.name} must stay out of dashboard travel results`);
+ }
  const verdict=id=>context.airlineResult(airline(id),context.getActiveRule(airline(id)));
  assert.equal(verdict('A3').status,'Not compatible','8 kg pet cannot meet 8 kg combined limit');
  assert.equal(verdict('VY').status,'Check','Missing bag cannot pass');
@@ -40,3 +43,4 @@ async function main(){
  console.log('PASS 16 cabin checks: exact combined limit, missing data, overweight, oversize, aircraft variants, breed cap, hard carrier, fit confirmation, GB arrival, species and Persian dimensions.');
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});
+

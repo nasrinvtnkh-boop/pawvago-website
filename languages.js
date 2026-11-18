@@ -38,10 +38,10 @@
   "My pet is flat-faced / short-nosed": "حیوان من پوزه‌کوتاه یا صورت‌تخت است",
   "Important for hold travel safety": "برای ایمنی سفر در قسمت بار مهم است",
   "e.g. Delta, United or another airline": "مثلاً دلتا، یونایتد یا ایرلاین دیگر",
-  "Leave blank to compare every listed airline. You can enter an airline outside the directory; its pet policy will be marked unverified.": "برای مقایسهٔ همهٔ ایرلاین‌های فهرست، این قسمت را خالی بگذارید. می‌توانید ایرلاین دیگری وارد کنید؛ قوانین حمل حیوان آن «تأییدنشده» نمایش داده می‌شود.",
-  "PawVago includes every listed carrier. Only source-reviewed rules can produce initial policy matches; others require airline confirmation.": "پاواگو همهٔ ایرلاین‌های فهرست را در نظر می‌گیرد. فقط قوانین بررسی‌شده می‌توانند تطابق اولیه نشان دهند؛ سایر موارد به تأیید ایرلاین نیاز دارند.",
+  "Leave blank to compare all source-reviewed airlines for this trip.": "برای مقایسهٔ همهٔ ایرلاین‌های دارای منبع بررسی‌شده برای این سفر، این قسمت را خالی بگذارید.",
+  "Compare published cabin and checked-hold policies for your pet.": "شرایط منتشرشدهٔ حمل حیوان در کابین و قسمت بار را مقایسه کنید.",
   "✦ Global airline comparison": "✦ مقایسهٔ جهانی ایرلاین‌ها",
-  "Screen the entire airline directory: verified conditions are assessed, and missing policies are clearly marked for direct airline confirmation.": "تمام فهرست ایرلاین‌ها بررسی می‌شود؛ شرایط تأییدشده ارزیابی و قوانین نامشخص برای دریافت تأیید مستقیم از ایرلاین مشخص می‌شوند.",
+  "Compare cabin and hold policies reviewed against official airline sources.": "قوانین کابین و بار را که با منابع رسمی ایرلاین‌ها بررسی شده‌اند، مقایسه کنید.",
   "Illustrative trip planning. Check the operating carrier, transit rules, pet spaces, and veterinary paperwork before booking.": "این برنامه‌ریزی راهنماست. پیش از رزرو، ایرلاین مجری، قوانین ترانزیت، ظرفیت حمل حیوان و مدارک دامپزشکی را بررسی کنید.",
   "JOURNEY PREVIEW": "پیش‌نمایش سفر",
   "AIR ROUTE": "مسیر هوایی",
@@ -65,7 +65,7 @@
   "KNOW BEFORE YOU GO": "پیش از سفر بدانید",
   "Airline rules, made": "قوانین ایرلاین‌ها،",
   "clearer.": "روشن‌تر از همیشه.",
-  "Search our expanding global airline directory. Reviewed pet rules are shown alongside clearly labelled airlines awaiting verification; no real-time pet-space availability is checked.": "در فهرست رو‌به‌گسترش ایرلاین‌های جهان جست‌وجو کنید. قوانین بررسی‌شده و ایرلاین‌های در انتظار بررسی، جداگانه مشخص شده‌اند؛ ظرفیت لحظه‌ای حمل حیوان بررسی نمی‌شود.",
+  "Search airline guides reviewed against official sources. Each guide shows its sources and review date.": "در راهنماهای بررسی‌شده با منابع رسمی جست‌وجو کنید. منبع و تاریخ بررسی در هر راهنما آمده است.",
   "Checking reference data…": "در حال بررسی اطلاعات مرجع…",
   "Official airline and government links included": "همراه با پیوندهای رسمی ایرلاین‌ها و نهادهای دولتی",
   "Airline directory filters": "فیلترهای فهرست ایرلاین‌ها",
@@ -80,7 +80,7 @@
   "Loading the airline catalogue…": "در حال بارگذاری فهرست ایرلاین‌ها…",
   "Loading official-source policy references…": "در حال بارگذاری قوانین از منابع رسمی…",
   "Show more airlines ↓": "نمایش ایرلاین‌های بیشتر ↓",
-  "The directory covers selected airlines worldwide, not every licensed airline. Unverified entries are informational only. Route-specific restrictions, animal age, breed, carrier compliance, capacity and veterinary paperwork can change. Always confirm with the carrier and official government source.": "این فهرست شامل ایرلاین‌های منتخب جهان است، نه تمام ایرلاین‌های دارای مجوز. موارد تأییدنشده صرفاً اطلاع‌رسانی هستند. محدودیت‌های مسیر، سن و نژاد حیوان، شرایط باکس، ظرفیت و مدارک دامپزشکی ممکن است تغییر کنند. همیشه از ایرلاین و منبع رسمی دولتی تأیید بگیرید.",
+  "Check the guide for your airline, including route, breed and carrier restrictions. Confirm pet space with the operating airline before booking.": "راهنمای ایرلاین، محدودیت‌های مسیر، نژاد و باکس را بررسی کنید. قبل از رزرو، ظرفیت حمل حیوان را از ایرلاین انجام‌دهندهٔ پرواز بپرسید.",
   "What PawVago helps you plan": "پاواگو در برنامه‌ریزی چه چیزهایی کمک می‌کند",
   "Airline rules": "قوانین ایرلاین‌ها",
   "Route-specific requirements": "الزامات ویژهٔ مسیر",
@@ -245,6 +245,14 @@
   "Cabin: your pet stays in a compliant under-seat carrier.": "کابین: حیوان شما در کیف استاندارد زیر صندلی می‌ماند.",
   "Hold (checked baggage / AVIH): your pet travels in a ventilated, climate-controlled compartment. A rigid IATA-compliant crate is required.": "قسمت بار (AVIH): حیوان در محفظه‌ای با تهویه و کنترل دما سفر می‌کند. باکس سخت مطابق استاندارد یاتا لازم است.",
   "Air cargo (freight): separate handling and booking through a qualified animal transport provider; not booked with ordinary checked baggage.": "کارگوی هوایی: پذیرش و رزرو جداگانه توسط شرکت متخصص حمل حیوان؛ با بار معمول مسافر رزرو نمی‌شود.",
+  "No published airline guide matches this search": "راهنمای منتشرشده‌ای مطابق این جست‌وجو پیدا نشد",
+  "Confirm your flight and pet space": "پرواز و ظرفیت حمل حیوان را بررسی کنید",
+  "Try a different carrier or clear the airline field to see the guides available for this trip.": "ایرلاین دیگری را امتحان کنید یا نام ایرلاین را پاک کنید تا راهنماهای موجود برای این سفر را ببینید.",
+  "No published airline guide matches this route.": "راهنمای منتشرشده‌ای برای ایرلاین‌های این مسیر پیدا نشد.",
+  "Browse the airline guides to check the policies currently covered by PawVago.": "برای دیدن قوانین موجود، راهنمای ایرلاین‌ها را مرور کنید.",
+  "See published carrier conditions": "شرایط منتشرشدهٔ کیف حمل را ببینید",
+  "Source-reviewed airline comparison": "مقایسهٔ ایرلاین‌ها با منابع بررسی‌شده",
+  "✦ Source-reviewed airline comparison": "✦ مقایسهٔ ایرلاین‌ها با منابع بررسی‌شده",
   "Source-reviewed reference": "مرجع بررسی‌شده با منبع",
   "Policy not yet verified": "قوانین هنوز تأیید نشده است",
   "Not yet reviewed": "هنوز بررسی نشده است",
@@ -839,4 +847,5 @@
   });
   }
 })();
+
 

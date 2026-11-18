@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="dashboard-premium.css">
   <link rel="stylesheet" href="mobile-preview.css">
   <link rel="stylesheet" href="motion.css">
-  <link rel="stylesheet" href="journey.css">
+  <link rel="stylesheet" href="journey.css?v=reviewed-guides-1">
   
   <link rel="stylesheet" href="professional.css">
   <link rel="stylesheet" href="travel-assistant.css">
@@ -89,11 +89,11 @@
                   <label for="pvj-airline-name">Check a specific airline <span class="pvj-optional">(optional)</span></label>
                   <input id="pvj-airline-name" type="search" maxlength="100" list="pvj-airline-names" placeholder="e.g. Delta, United or another airline" autocomplete="off">
                   <datalist id="pvj-airline-names"></datalist>
-                  <small>Leave blank to compare every listed airline. You can enter an airline outside the directory; its pet policy will be marked unverified.</small>
+                  <small>Leave blank to compare all source-reviewed airlines for this trip.</small>
                 </div>
-                <div class="pvj-placement-hint" id="pvj-placement-hint">PawVago includes every listed carrier. Only source-reviewed rules can produce initial policy matches; others require airline confirmation.</div>
+                <div class="pvj-placement-hint" id="pvj-placement-hint">Compare published cabin and checked-hold policies for your pet.</div>
               </div>
-              <div class="pvj-airline-auto-note" id="pvj-airline-box"><strong>✦ Global airline comparison</strong><span>Screen the entire airline directory: verified conditions are assessed, and missing policies are clearly marked for direct airline confirmation.</span></div>
+              <div class="pvj-airline-auto-note" id="pvj-airline-box"><strong>✦ Source-reviewed airline comparison</strong><span>Compare cabin and hold policies reviewed against official airline sources.</span></div>
               <button class="pvj-submit" type="submit">Compare airlines for my pet <span aria-hidden="true">↗</span></button>
               <p class="pvj-form-note">Illustrative trip planning. Check the operating carrier, transit rules, pet spaces, and veterinary paperwork before booking.</p>
             </form>
@@ -118,16 +118,16 @@
           <span class="pvj-airline-summary-toggle"><span class="pvj-airline-open-text">Search airlines</span><span class="pvj-airline-chevron" aria-hidden="true">⌄</span></span>
         </summary>
       <section class="pvj-library" id="policy-library" aria-labelledby="pvj-rules-title">
-        <div class="pvj-library-top"><div><div class="eyebrow">KNOW BEFORE YOU GO</div><h2 id="pvj-rules-title">Airline rules, made <span>clearer.</span></h2><p>Search our expanding global airline directory. Reviewed pet rules are shown alongside clearly labelled airlines awaiting verification; no real-time pet-space availability is checked.</p></div><div class="pvj-audit" id="pvj-audit"><strong>Checking reference data…</strong><span>Official airline and government links included</span></div></div>
+        <div class="pvj-library-top"><div><div class="eyebrow">KNOW BEFORE YOU GO</div><h2 id="pvj-rules-title">Airline rules, made <span>clearer.</span></h2><p>Search airline guides reviewed against official sources. Each guide shows its sources and review date.</p></div><div class="pvj-audit" id="pvj-audit"><strong>Checking reference data…</strong><span>Official airline and government links included</span></div></div>
         <div class="pvj-directory-toolbar" aria-label="Airline directory filters">
           <label>Search airline or IATA code<input type="search" id="pvj-directory-search" placeholder="e.g. KLM, Qatar, AF…" autocomplete="off"></label>
           <label>Region<select id="pvj-directory-region"><option value="all">All regions</option></select></label>
-          <label>Policy status<select id="pvj-directory-status"><option value="all">All airlines</option><option value="reviewed">Source-reviewed</option><option value="unverified">Awaiting verification</option></select></label>
+
         </div>
         <div class="pvj-directory-count" id="pvj-directory-count" aria-live="polite">Loading the airline catalogue…</div>
         <div id="pvj-rule-cards" class="pvj-rule-cards"><p>Loading official-source policy references…</p></div>
         <button id="pvj-directory-more" class="pvj-directory-more" type="button" hidden>Show more airlines ↓</button>
-        <p class="pvj-citation-note">The directory covers selected airlines worldwide, not every licensed airline. Unverified entries are informational only. Route-specific restrictions, animal age, breed, carrier compliance, capacity and veterinary paperwork can change. Always confirm with the carrier and official government source.</p>
+        <p class="pvj-citation-note">Check the guide for your airline, including route, breed and carrier restrictions. Confirm pet space with the operating airline before booking.</p>
       </section>
       </details>
       
@@ -247,8 +247,9 @@
   </main>
   <div class="modal hidden" id="authModal"><div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="authTitle"><button class="modal-close" id="closeModal" type="button" aria-label="Close account dialog">×</button><div class="eyebrow">PAWVAGO ACCOUNT</div><h2 id="authTitle">Create your account</h2><p id="authSubtitle">Start building your pet travel plan.</p><form id="authForm"><label>Email<input id="email" type="email" required autocomplete="email"></label><label>Password<input id="password" type="password" required minlength="6" autocomplete="current-password"></label><p class="auth-form-help">Use at least 6 characters. New accounts may need email verification.</p><button class="primary-btn full" id="authSubmit" type="submit">Create account</button><div id="authNotice" class="notice"></div></form><button class="switch-btn" id="switchAuth" type="button">Already have an account? Log in</button><p style="text-align:center;margin:10px 0"><a href="/reset-password.html">Forgot password?</a></p></div></div>
   <div class="modal hidden" id="petModal"><div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="petModalTitle"><button class="modal-close" id="closePet" type="button" aria-label="Close pet profile dialog">×</button><div class="eyebrow">PET PROFILE</div><h2 id="petModalTitle">Add your travel companion</h2><form id="petForm"><label>Pet name<input id="petName" required></label><div class="form-row"><label>Species<select id="species"><option>Dog</option><option>Cat</option><option>Other</option></select></label><label>Weight (kg)<input id="weight" type="number" step="0.1" required></label></div><label>Breed<input id="breed"></label><button class="primary-btn full" type="submit">Save pet profile</button></form></div></div>
-  <script src="languages.js?v=20261116-eu" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="route-scope.js?v=20261118"></script><script src="city-autocomplete.js?v=1"></script><script src="app.js?v=asia-policies-1"></script><script src="ui-fixes.js"></script><script src="mobile-preview.js" defer></script><script src="motion.js" defer></script><script src="airline-matcher.js?v=asia-policies-1" defer></script><script src="journey.js?v=asia-policies-1" defer></script>
+  <script src="languages.js?v=reviewed-guides-1" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="route-scope.js?v=20261118"></script><script src="city-autocomplete.js?v=1"></script><script src="app.js?v=reviewed-guides-1"></script><script src="ui-fixes.js"></script><script src="mobile-preview.js" defer></script><script src="motion.js" defer></script><script src="airline-matcher.js?v=asia-policies-1" defer></script><script src="journey.js?v=reviewed-guides-1" defer></script>
   <script src="travel-assistant.js" defer></script>
 </body></html>
+
 
