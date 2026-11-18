@@ -1039,6 +1039,7 @@ async function loadTravelData() {
     // Include every airline in the snapshot; only reviewed rules can be screened.
     airlineData = policy.airlines.map(a => ({
       id: a.id,
+      region: a.region,
       name: a.name,
       notes: a.notes,
       notes_fa: a.notes_fa,
@@ -1069,6 +1070,10 @@ async function loadTravelData() {
         source_url: a.source
       }]
     }));
+
+    const routeScope = window.PawVagoRouteScope?.scope(airlineData,
+      trip.origin_country || trip.from, trip.destination_country || trip.to);
+    if (routeScope?.filtered) airlineData = routeScope.airlines;
 
     const originCountry = countryFromDestination(trip.from) ||
       trip.origin_country || null;

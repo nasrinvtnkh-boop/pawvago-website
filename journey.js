@@ -65,7 +65,7 @@
   const reviewLabel = a => policyReviewed(a) ? "Source-reviewed reference" : "Policy not yet verified";
   const renderLibrary = () => {
     if (!policy) return;
-    const current = policy.airlines;
+    const current = window.PawVagoRouteScope?.scope(policy.airlines,ui.from.value,ui.to.value).airlines || policy.airlines;
     const reviewed = current.filter(policyReviewed).length;
     ui.audit.innerHTML = '<strong>' + reviewed + ' / ' + current.length + ' carrier policies reviewed</strong>' +
       '<span>Airline review dates are shown individually</span>';
@@ -268,7 +268,9 @@
         const selectedAirlines = normalizedAirlineName && !namedAirlines.length
           ? [{id:"CUSTOM",name:preferredName,region:"Not in directory",policy_status:"unverified"}]
           : namedAirlines;
-        const analysis = window.PawVagoAirMatcher.evaluate(selectedAirlines,{
+        const routeScope = window.PawVagoRouteScope?.scope(selectedAirlines,from.code,to.code);
+        const routeAirlines = routeScope?.airlines || selectedAirlines;
+        const analysis = window.PawVagoAirMatcher.evaluate(routeAirlines,{
           petKg, cabinKg:carrierKg, crateKg,
           cabinDims:dims, crateDims,
           cabinDimensionsPartial:dimensionsPartial,crateDimensionsPartial:crateDimsPartial,
@@ -302,6 +304,7 @@
           '<div><strong>' + review.length + '</strong><small>Need additional checks</small></div>' +
           '<div><strong>' + blocked.length + '</strong><small>Policy mismatches</small></div>' +
           '<div><strong>' + unverified.length + '</strong><small>Policies not verified</small></div></div>');
+        if (routeScope?.filtered) pieces.push('<p class="pvj-match-warning">' + (document.documentElement.lang==='fa' ? 'ایرلاین‌ها بر اساس قاره‌های مبدأ و مقصد فیلتر شده‌اند؛ این فهرست جست‌وجوی پرواز نیست.' : 'Airlines are filtered by departure and destination continents. This is not a flight search.') + '</p>');
         pieces.push('<p class="pvj-match-warning"><strong>Coverage:</strong> ' +
           analysis.total + ' ' + (analysis.total===1?'airline':'airlines') + ' considered' +
           (preferredName ? ' for your search' : ' from the current worldwide directory') + ': ' +
@@ -445,7 +448,19 @@
     event.preventDefault();
     if (form.reportValidity()) render();
   });
-  const rerender = () => {updatePreview();if(policy && form.checkValidity())render();};
+  const syncRouteRegions = () => {
+    if (!policy || !window.PawVagoRouteScope) return;
+    const scoped = window.PawVagoRouteScope.scope(policy.airlines,ui.from.value,ui.to.value);
+    const selected = ui.directoryRegion.value;
+    const regions = [...new Set(scoped.airlines.map(a=>a.region || 'Other'))].sort();
+    ui.directoryRegion.innerHTML = '<option value="all">' + (document.documentElement.lang==='fa' ? 'همهٔ مناطق مرتبط' : 'All relevant regions') + '</option>' + regions.map(region=>'<option value="'+safe(region)+'">'+safe(region)+'</option>').join('');
+    ui.directoryRegion.value = regions.includes(selected) ? selected : 'all';
+    if (ui.airlineNames) ui.airlineNames.innerHTML = scoped.airlines.slice().sort((a,b)=>a.name.localeCompare(b.name,'en')).map(a=>'<option value="'+safe(a.name)+'"></option>').join('');
+    catalogLimit=Number.POSITIVE_INFINITY;
+    renderLibrary();
+  };
+
+  const rerender = () => {syncRouteRegions();updatePreview();if(policy && form.checkValidity())render();else if(policy) ui.results.textContent = document.documentElement.lang==='fa' ? 'مشخصات سفر را کامل کنید تا نتیجهٔ متناسب با مبدأ و مقصد جدید نمایش داده شود.' : 'Complete the journey details to see results for the selected departure and destination.';};
   [ui.from,ui.to,ui.originCity,ui.destCity,ui.date,ui.species,ui.weight,
     ui.bag,ui.crateWeight,ui.breed,ui.snub,ui.airlineName,
     $("pvj-length"),$("pvj-width"),$("pvj-height"),
