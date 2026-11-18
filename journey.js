@@ -488,6 +488,8 @@
     rerender();
   });
 
+  window.PawVagoCitySearch?.bind(ui.originCity, ui.from);
+  window.PawVagoCitySearch?.bind(ui.destCity, ui.to);
   init();
 })();
 

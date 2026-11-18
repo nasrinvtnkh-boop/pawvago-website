@@ -1,0 +1,22 @@
+.city-suggestions[hidden] { display: none; }
+.city-suggestions {
+  list-style: none;
+  padding: .25rem;
+  margin: .3rem 0 0;
+  width: 100%;
+  box-sizing: border-box;
+  max-height: 13rem;
+  overflow: auto;
+  border: 1px solid #cbd5e1;
+  border-radius: .65rem;
+  background: #fff;
+  color: #142d42;
+}
+.city-suggestions [role="option"] {
+  padding: .6rem .7rem;
+  border-radius: .4rem;
+  cursor: pointer;
+  unicode-bidi: plaintext;
+}
+.city-suggestions [role="option"]:hover,
+.city-suggestions [aria-selected="true"] { background: #e9f2fa; }

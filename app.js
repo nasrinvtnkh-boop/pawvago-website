@@ -648,6 +648,8 @@ function ensureTripModal() {
   `;
 
   document.body.appendChild(modal);
+  window.PawVagoCitySearch?.bind($('tripFrom'));
+  window.PawVagoCitySearch?.bind($('tripTo'));
 
   $('closeTrip').onclick =
     closeTrip;
@@ -678,6 +680,8 @@ function openTrip(editExisting = false) {
   $('tripNotice').textContent = '';
   $('tripNotice').className = 'notice';
 
+  window.PawVagoCitySearch?.reset($('tripFrom'));
+  window.PawVagoCitySearch?.reset($('tripTo'));
   if (editExisting && trip) {
 
     $('tripFrom').value =
@@ -746,11 +750,18 @@ async function saveTrip(event) {
     return;
   }
 
+  const countryNames = new Intl.DisplayNames(['en'], {type:'region'});
+  const pickedCountry = id => {
+    const code = window.PawVagoCitySearch?.country($(id));
+    return code ? (code === 'GB' ? 'United Kingdom' : countryNames.of(code)) : '';
+  };
   const originCountry =
+    pickedCountry('tripFrom') ||
     countryFromDestination(from) ||
     from;
 
   const destinationCountry =
+    pickedCountry('tripTo') ||
     countryFromDestination(to) ||
     to;
 
