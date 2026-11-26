@@ -250,10 +250,19 @@
     const mainlandHawaiiRoute = domesticUs && departureState &&
       ((departureState === "Hawaii") !== (arrivalState === "Hawaii")) && arrivalState;
     const northAmerica = ['US','CA','MX'].includes(to.code);
-    const source = domesticUs && usDogArrival ? "https://www.aphis.usda.gov/pet-travel/state-to-state" : northAmerica ? policy.official_sources[to.code.toLowerCase()] :
+    const regionalEntry = ['Caribbean','South America'].includes(to.region);
+    const internationalRegionalEntry = regionalEntry && from.code !== to.code;
+    const entry = to.pet_entry;
+    const regionalItems = internationalRegionalEntry
+      ? (from.code === "US" && entry?.us_checklist) || entry?.checklist || []
+      : [];
+    const regionalSource = internationalRegionalEntry
+      ? entry?.source || (from.code === "US" ? entry?.us_source : null)
+      : null;
+    const source = regionalEntry ? regionalSource : domesticUs && usDogArrival ? "https://www.aphis.usda.gov/pet-travel/state-to-state" : northAmerica ? policy.official_sources[to.code.toLowerCase()] :
       to.region === "GB" ? policy.official_sources.gb : policy.official_sources.eu;
     const usToCanadaDog = from.code === "US" && to.code === "CA" && species === "dog";
-    const docItems = usToCanadaDog ? [
+    const docItems = regionalEntry ? [...regionalItems] : usToCanadaDog ? [
       "Personal dog travelling with you, aged 3 months or older: carry a current rabies vaccination certificate in English or French from a licensed veterinarian that identifies your dog",
       "Dog younger than 3 months: carry proof of age; rabies vaccination is not required for Canadian entry",
       "If the dog is travelling unaccompanied or for sale, adoption or another commercial purpose, check the separate Canadian import requirements"
@@ -268,7 +277,7 @@
     const euArrive = to.region === "EU" || to.region === "EU-associated";
     if (usDogArrival && !domesticUs) docItems.push("Complete the CDC Dog Import Form and check requirements based on the dog's last six months of travel");
     if (stateEntry?.[1] && !sameState && (domesticUs || toHawaii)) docItems.push(stateEntry[1]);
-    if (northAmerica) { /* Country-specific official tools above replace the EU checklist. */ }
+    if (northAmerica || regionalEntry) { /* Country-specific official tools above replace the EU checklist. */ }
     else if (euDepart && euArrive) docItems.push("Valid EU pet passport");
     else if (to.region === "GB") docItems.push("Valid approved pet travel document for Great Britain");
     else docItems.push("Check health certificate / pet passport requirements for your departure country");
@@ -294,7 +303,7 @@
     if (euArrive && !euDepart) notes.push("Entry from outside the EU can require an official health certificate and, depending on origin and history, a rabies antibody test. Check the official country-entry tool.");
     if (species === "dog" && to.dog_tapeworm_hours) notes.push("Tapeworm treatment must be done by a veterinarian in the 24–120 hours before entry.");
     const startDate = new Date(ui.date.value + "T12:00:00");
-    if (!northAmerica && (startDate.getTime() - Date.now()) / 86400000 < 21)
+    if (!northAmerica && !regionalEntry && (startDate.getTime() - Date.now()) / 86400000 < 21)
       notes.push("If this is a primary rabies vaccination, the minimum 21-day waiting period may affect this departure date.");
     if (to.region === "GB" && from.region !== "GB")
       notes.push("Great Britain requires an approved air route; ordinary pets entering GB on commercial flights normally travel as cargo, not passenger cabin or checked hold baggage.");
@@ -313,6 +322,13 @@
 
     pieces.push('<div class="pvj-results-head"><span>Personalised screening</span><span class="pvj-policy-chip">Reviewed ' + safe(policy.reviewed_on) + '</span></div>');
 
+
+    if (internationalRegionalEntry) {
+      const title = to.name + " entry documents";
+      status(title, regionalItems.length
+        ? "Review the destination checklist and verify the conditions for your pet and departure country in the official source."
+        : "PawVago does not yet have a verified checklist for this departure country and destination.");
+    }
 
     if (usDogArrival) {
       if (!arrivalState) {
@@ -421,7 +437,9 @@
       '<div id="pvj-doc-progress" class="pvj-doc-progress" aria-live="polite">0 of ' + docItems.length + ' items checked</div></div>');
 
     if (notes.length) pieces.push('<div class="pvj-diagnostic pvj-caution"><strong>Before you book</strong><p>' + notes.map(safe).join("<br>") + '</p></div>');
-    pieces.push(sourceLink(source, northAmerica ? "Destination official pet entry rules ↗" : to.region === "GB" ? "Great Britain official entry rules ↗" : "EU official pet travel rules ↗"));
+    if (source) pieces.push(sourceLink(source, regionalEntry ? to.name + " official entry guidance ↗" : northAmerica ? "Destination official pet entry rules ↗" : to.region === "GB" ? "Great Britain official entry rules ↗" : "EU official pet travel rules ↗"));
+    if (internationalRegionalEntry && from.code === "US" && entry?.us_source && entry.us_source !== source)
+      pieces.push(sourceLink(entry.us_source, "USDA guidance for travel from the United States ↗"));
     if (usToCanadaDog) pieces.push(sourceLink("https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-canada", "USDA guidance for dogs travelling to Canada ↗"));
     if (mode === "air" && toHawaii)
       pieces.push(sourceLink("https://www.delta.com/us/en/pet-travel/overview", "Delta pet travel to Hawaii ↗"));
@@ -463,7 +481,7 @@
       if (!data?.countries?.length || !data?.airlines?.length || !data.reviewed_on || !data.official_sources?.eu)
         throw new Error("Policy data invalid");
       policy = {...data, airlines:data.airlines.filter(policyReviewed)};
-      const countryOptions = data.countries.map(c =>
+      const countryOptions = [...data.countries].sort((a,b) => a.name.localeCompare(b.name, "en")).map(c =>
         '<option value="' + safe(c.code) + '">' + safe(c.name) + '</option>').join("");
       const chooseCountry = '<option value="" selected disabled>Select country</option>';
       ui.from.innerHTML = chooseCountry + countryOptions;

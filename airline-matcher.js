@@ -23,7 +23,12 @@
   }
 
   function testCabin(airline, p) {
-    const reasons=[],baseMax=valueKg(airline.cabin_max_kg);
+    const reasons=[];
+    let baseMax=valueKg(airline.cabin_max_kg);
+    for (const limit of airline.cabin_country_weight_limits || []) {
+      if (limit.countries.includes(p.from) || limit.countries.includes(p.to))
+        baseMax=Math.min(baseMax ?? Infinity,limit.max_combined_kg);
+    }
     const max=p.snub&&hasNumber(airline.cabin_snub_max_kg)?Math.min(baseMax??Infinity,Number(airline.cabin_snub_max_kg)):baseMax;
     const reject = msg => ({kind:"blocked",reasons:[msg],max,method:"cabin"});
     if (p.enteringGB) return reject("Standard commercial flights into Great Britain normally require cargo, not cabin pet travel.");
