@@ -238,7 +238,8 @@
       "notes_fa": "در کابین فقط کیف نرم و انعطاف‌پذیر. ابعاد به هواپیما و کلاس بستگی دارد؛ در اکونومی بسیاری از هواپیماها ۴۳ × ۴۰ × ۲۰ سانتی‌متر و در هواپیماهای منطقه‌ای و بیزنس متفاوت است. پریمیوم اکونومی و پروازهای اشتراکی محدودیت دارند. مجموع وزن حیوان و باکس بار حداکثر ۴۵ کیلوگرم و مجموع طول، عرض و ارتفاع ۲۹۲ سانتی‌متر است؛ نژاد، دما و مقصد باید تأیید شوند.",
       "review_scope": "Core published cabin and checked-baggage conditions; unspecified fields require airline confirmation.",
       "sources": [
-        "https://www.aircanada.com/ca/en/aco/home/plan/special-assistance/pets.html"
+        "https://www.aircanada.com/ca/en/aco/home/plan/special-assistance/pets.html",
+        "https://www.aircanada.com/uk/en/aco/home/plan/special-assistance/pets.html"
       ],
       "search_aliases": [
         "aircanada",
@@ -274,7 +275,34 @@
         }
       ],
       "cabin_weight_policy": "carrier_fit_only",
-      "cabin_dimension_source": "https://www.aircanada.com/ca/en/aco/home/plan/special-assistance/pets.html"
+      "cabin_dimension_source": "https://www.aircanada.com/ca/en/aco/home/plan/special-assistance/pets.html",
+      "short_nosed": {
+        "hold": {
+          "status": "restricted",
+          "source": "https://www.aircanada.com/uk/en/aco/home/plan/special-assistance/pets.html",
+          "excluded_breeds": {
+            "dog": [
+              "affenpinscher",
+              "boston terrier",
+              "boxer",
+              "brussels griffon",
+              "bulldog",
+              "apple-headed chihuahua",
+              "chow chow",
+              "english toy spaniel",
+              "japanese chin",
+              "lhasa apso",
+              "pekingese",
+              "pug",
+              "shar pei",
+              "shih tzu",
+              "zuchon",
+              "shichon",
+              "tibetan spaniel"
+            ]
+          }
+        }
+      }
     },
     {
       "id": "TX",
@@ -377,8 +405,19 @@
       "cabin_pet_max_kg": 8,
       "cabin_snub_max_kg": 8,
       "sources": [
-        "https://www.aireuropa.com/es/en/aea/informacion-para-volar/pasajeros/mascotas.html"
-      ]
+        "https://www.aireuropa.com/es/en/aea/informacion-para-volar/pasajeros/mascotas.html",
+        "https://www.aireuropa.com/uk/en/aea/faq.html"
+      ],
+      "short_nosed": {
+        "cabin": {
+          "status": "eligible",
+          "source": "https://www.aireuropa.com/uk/en/aea/faq.html"
+        },
+        "hold": {
+          "status": "blocked",
+          "source": "https://www.aireuropa.com/uk/en/aea/faq.html"
+        }
+      }
     },
     {
       "id": "AF",
@@ -412,7 +451,13 @@
       "sources": [
         "https://wwws.airfrance.fr/en/information/passagers/voyager-avec-son-animal-chien-chat",
         "https://img.static-af.com/m/7f1bd7d991219e4c/original/Travel-Pets-Checklist-FR.pdf"
-      ]
+      ],
+      "short_nosed": {
+        "hold": {
+          "status": "blocked",
+          "source": "https://wwws.airfrance.fr/en/information/passagers/voyager-avec-son-animal-chien-chat"
+        }
+      }
     },
     {
       "id": "AI",
@@ -654,14 +699,21 @@
         "IE"
       ],
       "sources": [
-        "https://www.airtransat.com/en-CA/travel-information/special-services/pets-and-service-dogs"
+        "https://www.airtransat.com/en-CA/travel-information/special-services/pets-and-service-dogs",
+        "https://www.airtransat.com/fr-FR/info-voyage/services-speciaux/animaux-de-compagnie-et-d-assistance"
       ],
       "search_aliases": [
         "transat",
         "ترانزات",
         "آمریکای شمالی",
         "north america"
-      ]
+      ],
+      "short_nosed": {
+        "hold": {
+          "status": "restricted",
+          "source": "https://www.airtransat.com/fr-FR/info-voyage/services-speciaux/animaux-de-compagnie-et-d-assistance"
+        }
+      }
     },
     {
       "id": "AK",
@@ -713,8 +765,15 @@
       "reservation_required": true,
       "notes_fa": "کابین: حیوان و کیف مجموعاً تا ۸ کیلوگرم؛ ۵۵ × ۴۰ × ۲۳ سانتی‌متر. بار: مجموعاً تا ۷۵ کیلوگرم؛ برای پرواز به یا از آمستردام سقف ۳۹ کیلوگرم. باکس سخت حداکثر ۸۴ × ۱۴۲ × ۸۴ سانتی‌متر (طول، عرض، ارتفاع). محمولهٔ بزرگ‌تر کارگوی جداست؛ رزرو جای حیوان لازم است.",
       "sources": [
-        "https://www.airbaltic.com/en/assisted-travel/travelling-with-pets"
-      ]
+        "https://www.airbaltic.com/en/assisted-travel/travelling-with-pets",
+        "https://www.airbaltic.com/cargo/requirements-for-transport-of-live-animals-on-airbaltic-flights.pdf"
+      ],
+      "short_nosed": {
+        "cargo": {
+          "status": "restricted",
+          "source": "https://www.airbaltic.com/cargo/requirements-for-transport-of-live-animals-on-airbaltic-flights.pdf"
+        }
+      }
     },
     {
       "id": "SB",
@@ -788,7 +847,13 @@
         "آلاسکا",
         "آمریکای شمالی",
         "north america"
-      ]
+      ],
+      "short_nosed": {
+        "hold": {
+          "status": "restricted",
+          "source": "https://www.alaskaair.com/content/travel-info/pets"
+        }
+      }
     },
     {
       "id": "NH",
@@ -954,7 +1019,13 @@
       "sources": [
         "https://www.austrian.com/al/en/plan/special-requirements/travelling-with-animals",
         "https://www.austrian.com/content/dam/aua/documents/plan/special-requirements/travelling-with-animals/Austrian-checklist-for-animal-transport.pdf"
-      ]
+      ],
+      "short_nosed": {
+        "hold": {
+          "status": "blocked",
+          "source": "https://www.austrian.com/content/dam/aua/documents/plan/special-requirements/travelling-with-animals/Austrian-checklist-for-animal-transport.pdf"
+        }
+      }
     },
     {
       "id": "AV",
@@ -984,7 +1055,41 @@
         "https://ayuda.avianca.com/hc/fr-fr/articles/13091527349787-Puis-je-voler-avec-mon-animal-de-compagnie"
       ],
       "reservation_required": true,
-      "route_rule": "confirm_operating_route"
+      "route_rule": "confirm_operating_route",
+      "short_nosed": {
+        "cabin": {
+          "status": "eligible",
+          "source": "https://ayuda.avianca.com/hc/fr-fr/articles/13091527349787-Puis-je-voler-avec-mon-animal-de-compagnie"
+        },
+        "hold": {
+          "status": "restricted",
+          "source": "https://ayuda.avianca.com/hc/fr-fr/articles/13091527349787-Puis-je-voler-avec-mon-animal-de-compagnie",
+          "excluded_breeds": {
+            "dog": [
+              "shar pei",
+              "boxer",
+              "dogue de bordeaux",
+              "bulldog",
+              "belgian griffon",
+              "brussels griffon",
+              "petit brabancon",
+              "japanese chin",
+              "boston terrier",
+              "tibetan spaniel",
+              "cavalier king charles spaniel",
+              "king charles spaniel",
+              "pekingese",
+              "pug"
+            ],
+            "cat": [
+              "birman",
+              "persian",
+              "exotic shorthair",
+              "himalayan"
+            ]
+          }
+        }
+      }
     },
     {
       "id": "J2",
@@ -1532,7 +1637,17 @@
       },
       "route_rule": "emirates_hold_dubai_departure_only",
       "reviewed_on": "2026-11-18",
-      "notes_fa": "حیوان خانگی معمولی در کابین پذیرفته نمی‌شود. برای ورود به دبی فقط کارگو. بار تحویلی در خروجی‌های واجد شرایط از دبی و وقتی کل سفر با توقف‌ها کمتر از ۱۷ ساعت باشد ممکن است."
+      "notes_fa": "حیوان خانگی معمولی در کابین پذیرفته نمی‌شود. برای ورود به دبی فقط کارگو. بار تحویلی در خروجی‌های واجد شرایط از دبی و وقتی کل سفر با توقف‌ها کمتر از ۱۷ ساعت باشد ممکن است.",
+      "short_nosed": {
+        "cargo": {
+          "status": "restricted",
+          "source": "https://www.skycargo.com/media/mwudvi4d/3502_eksc-emiratespets_leaflet_updates_v2.pdf"
+        }
+      },
+      "sources": [
+        "https://www.emirates.com/english/help/faq-topics/baggage-and-lost-property/",
+        "https://www.skycargo.com/media/mwudvi4d/3502_eksc-emiratespets_leaflet_updates_v2.pdf"
+      ]
     },
     {
       "id": "ET",
@@ -1990,7 +2105,13 @@
         "هاوایین",
         "آمریکای شمالی",
         "north america"
-      ]
+      ],
+      "short_nosed": {
+        "hold": {
+          "status": "restricted",
+          "source": "https://www.alaskaair.com/content/travel-info/pets"
+        }
+      }
     },
     {
       "id": "UO",
@@ -2053,7 +2174,25 @@
       },
       "reviewed_on": "2026-11-16",
       "notes_fa": "کابین: حیوان و کیف تا ۸ کیلوگرم؛ ۴۵ × ۳۵ × ۲۵ سانتی‌متر و مجموع ابعاد حداکثر ۱۰۵ سانتی‌متر. بار: مجموعاً ۴۵ کیلوگرم. باکس بار ایر نوستروم حداکثر ۸۳ × ۶۵ × ۵۶ سانتی‌متر. پوزه‌کوتاه‌ها در بار ممنوع‌اند. رزرو دست‌کم ۴۸ ساعت قبل؛ مدت اتصال بین ۹۰ دقیقه و ۴ ساعت.",
-      "cabin_max_linear_cm": 105
+      "cabin_max_linear_cm": 105,
+      "short_nosed": {
+        "cabin": {
+          "status": "eligible",
+          "source": "https://agencias.iberia.com/en-us/informacion-viaje/viajeros/viajar-con-animales/"
+        },
+        "hold": {
+          "status": "blocked",
+          "source": "https://agencias.iberia.com/en-us/informacion-viaje/viajeros/viajar-con-animales/"
+        },
+        "cargo": {
+          "status": "restricted",
+          "source": "https://agencias.iberia.com/en-us/informacion-viaje/viajeros/viajar-con-animales/"
+        }
+      },
+      "sources": [
+        "https://www.iberia.com/ie/fly-with-iberia/pets/",
+        "https://agencias.iberia.com/en-us/informacion-viaje/viajeros/viajar-con-animales/"
+      ]
     },
     {
       "id": "FI",
@@ -2320,7 +2459,7 @@
         "dimensions_cm": null,
         "requires_hard_crate": true,
         "source": "https://www.klm.com/information/pets/reservation",
-        "snub_nosed_restricted": true,
+        "snub_nosed_restricted": null,
         "notes": "Hold max 75 kg pet+kennel, subject to flight model, 3h connection limit and travel class rules.",
         "dimension_variants": [
           {
@@ -2342,7 +2481,51 @@
         ]
       },
       "reviewed_on": "2026-11-16",
-      "notes_fa": "کابین: حیوان و کیف مجموعاً ۸ کیلوگرم، ۴۶ × ۲۸ × ۲۴ سانتی‌متر؛ فقط اکونومی یا بیزنس اروپا. بار: مجموعاً ۷۵ کیلوگرم؛ باکس ۱۲۲ × ۸۱ × ۸۹ یا در بوئینگ ۷۳۷ و امبرائرِ مسیر اروپایی ۱۰۲ × ۶۹ × ۷۶ سانتی‌متر. در ۷۸۷-۹، ۷۸۷-۱۰، A321neo و جرمن ایرویز بار حیوان ارائه نمی‌شود. اتصال و ورود بریتانیا محدودیت دارند؛ رزرو دست‌کم ۴۸ ساعت قبل."
+      "notes_fa": "کابین: حیوان و کیف مجموعاً ۸ کیلوگرم، ۴۶ × ۲۸ × ۲۴ سانتی‌متر؛ فقط اکونومی یا بیزنس اروپا. بار: مجموعاً ۷۵ کیلوگرم؛ باکس ۱۲۲ × ۸۱ × ۸۹ یا در بوئینگ ۷۳۷ و امبرائرِ مسیر اروپایی ۱۰۲ × ۶۹ × ۷۶ سانتی‌متر. در ۷۸۷-۹، ۷۸۷-۱۰، A321neo و جرمن ایرویز بار حیوان ارائه نمی‌شود. اتصال و ورود بریتانیا محدودیت دارند؛ رزرو دست‌کم ۴۸ ساعت قبل.",
+      "short_nosed": {
+        "cabin": {
+          "status": "eligible",
+          "source": "https://saudi.klm.com/information/pets/reservation"
+        },
+        "hold": {
+          "status": "restricted",
+          "source": "https://bonaire.klm.com/en/information/pets/reservation",
+          "excluded_breeds": {
+            "dog": [
+              "affenpinscher",
+              "american bully",
+              "boston terrier",
+              "boxer",
+              "bulldog",
+              "mastiff",
+              "cane corso",
+              "pug",
+              "chow chow",
+              "great dane",
+              "brussels griffon",
+              "lhasa apso",
+              "pekingese",
+              "small brabant",
+              "shih tzu",
+              "shar pei",
+              "staffordshire bull terrier",
+              "tibetan spaniel",
+              "english toy spaniel",
+              "king charles spaniel",
+              "japanese chin"
+            ]
+          }
+        },
+        "cargo": {
+          "status": "restricted",
+          "source": "https://saudi.klm.com/information/pets/reservation"
+        }
+      },
+      "sources": [
+        "https://www.klm.com/information/pets/reservation",
+        "https://saudi.klm.com/information/pets/reservation",
+        "https://bonaire.klm.com/en/information/pets/reservation"
+      ]
     },
     {
       "id": "KM",
@@ -2404,7 +2587,13 @@
             25
           ]
         }
-      ]
+      ],
+      "short_nosed": {
+        "hold": {
+          "status": "blocked",
+          "source": "https://www.koreanair.com/contents/plan-your-travel/special-assistance/travel-with-pets/guide?hl=en"
+        }
+      }
     },
     {
       "id": "KU",
@@ -2449,10 +2638,21 @@
       "notes_fa": "کابین با کیف نرم ۴۰ × ۲۸ × ۲۵ سانتی‌متر. سقف سوت با نوع هواپیما و مدت پرواز فرق دارد و رزرو باید روی پروازهای عملیاتی LATAM باشد.",
       "sources": [
         "https://www.latamairlines.com/us/en/help-center/faq/pets/transport/airplaine-flight",
-        "https://www.latamairlines.com/us/en/experience/prepare-your-trip/pets-transportation/hold"
+        "https://www.latamairlines.com/us/en/experience/prepare-your-trip/pets-transportation/hold",
+        "https://web.latamcargo.com/en/products/live-animals"
       ],
       "reservation_required": true,
-      "route_rule": "confirm_operating_route"
+      "route_rule": "confirm_operating_route",
+      "short_nosed": {
+        "hold": {
+          "status": "restricted",
+          "source": "https://www.latamairlines.com/us/en/experience/prepare-your-trip/pets-transportation/hold"
+        },
+        "cargo": {
+          "status": "restricted",
+          "source": "https://web.latamcargo.com/en/products/live-animals"
+        }
+      }
     },
     {
       "id": "PZ",
@@ -2506,7 +2706,7 @@
         "dimensions_cm": null,
         "requires_hard_crate": true,
         "source": "https://www.lot.com/fr/fr/journey/special-services/traveling-with-pets",
-        "snub_nosed_restricted": true,
+        "snub_nosed_restricted": null,
         "notes": "The airline must confirm hold availability, breed, aircraft and route limitations.",
         "dimension_variants": [
           {
@@ -2546,7 +2746,17 @@
           ]
         }
       ],
-      "notes_fa": "کابین: حیوان و کیف مجموعاً تا ۸ کیلوگرم. B787، B777 و B737: کیف ۵۵ × ۴۰ × ۲۰؛ امبرائر: ۴۵ × ۳۰ × ۲۰ سانتی‌متر. بار: حیوان و باکس مجموعاً تا ۹۹ کیلوگرم؛ B787/B777: باکس ۱۲۲ × ۸۱ × ۸۹؛ B737، مکس و امبرائر: ۱۰۲ × ۶۹ × ۷۶ سانتی‌متر. نژادهای پوزه‌کوتاه در بار ممنوع‌اند."
+      "notes_fa": "کابین: حیوان و کیف مجموعاً تا ۸ کیلوگرم. B787، B777 و B737: کیف ۵۵ × ۴۰ × ۲۰؛ امبرائر: ۴۵ × ۳۰ × ۲۰ سانتی‌متر. بار: حیوان و باکس مجموعاً تا ۹۹ کیلوگرم؛ B787/B777: باکس ۱۲۲ × ۸۱ × ۸۹؛ B737، مکس و امبرائر: ۱۰۲ × ۶۹ × ۷۶ سانتی‌متر. نژادهای پوزه‌کوتاه در بار ممنوع‌اند.",
+      "short_nosed": {
+        "hold": {
+          "status": "restricted",
+          "source": "https://www.lot.com/fr/fr/help-center/animals-transport/travelling-with-brachycephalic-breeds"
+        }
+      },
+      "sources": [
+        "https://www.lot.com/fr/fr/journey/special-services/traveling-with-pets",
+        "https://www.lot.com/fr/fr/help-center/animals-transport/travelling-with-brachycephalic-breeds"
+      ]
     },
     {
       "id": "LH",
@@ -2580,8 +2790,23 @@
       "notes_fa": "کابین: سگ و گربه با کیف نرم، مجموعاً تا ۸ کیلوگرم؛ ۵۵ × ۴۰ × ۲۳ سانتی‌متر. بار: باکس سخت متناسب با حیوان؛ سقف وزن کل واحد در صفحهٔ حیوانات اعلام نشده است. نژادهای پوزه‌کوتاه در بار ممنوع‌اند. محدودیت هواپیما و اتصال اعمال می‌شود؛ الزامات تهویهٔ باکس از ۴ مهٔ ۲۰۲۶ به‌روزرسانی شده‌اند. اتصال بار حیوان از مونیخ پذیرفته نمی‌شود.",
       "sources": [
         "https://www.lufthansa.com/ca/en/tiere-als-handgepaeck",
-        "https://www.lufthansa.com/at/en/tiere-als-uebergepaeck"
-      ]
+        "https://www.lufthansa.com/at/en/tiere-als-uebergepaeck",
+        "https://www.lufthansa.com/fi/en/dangerous-dogs"
+      ],
+      "short_nosed": {
+        "cabin": {
+          "status": "eligible",
+          "source": "https://www.lufthansa.com/fi/en/dangerous-dogs"
+        },
+        "hold": {
+          "status": "blocked",
+          "source": "https://www.lufthansa.com/fi/en/dangerous-dogs"
+        },
+        "cargo": {
+          "status": "eligible",
+          "source": "https://www.lufthansa.com/fi/en/dangerous-dogs"
+        }
+      }
     },
     {
       "id": "LG",
@@ -2872,7 +3097,7 @@
         "dimensions_cm": null,
         "requires_hard_crate": true,
         "source": "https://www.qatarairways.com/en-at/baggage/animals.html",
-        "snub_nosed_restricted": true,
+        "snub_nosed_restricted": null,
         "notes": "The airline must confirm hold availability, breed, aircraft and route limitations.",
         "max_linear_cm": 300,
         "weight_policy": "route_limits"
@@ -2880,9 +3105,20 @@
       "reviewed_on": "2026-11-18",
       "sources": [
         "https://www.qatarairways.com/en-at/baggage/animals.html",
-        "https://www.qatarairways.com/tradeportal/en-us/specialservices/Carriage-of-live-animals.html"
+        "https://www.qatarairways.com/tradeportal/en-us/specialservices/Carriage-of-live-animals.html",
+        "https://www.qatarairways.com/tradeportal/en/specialservices/Carriage-of-live-animals.html"
       ],
-      "notes_fa": "سگ و گربهٔ معمولی در کابین پذیرفته نمی‌شوند. بار تحویلی در مسیرهای واجد شرایط تا ۷۵ کیلوگرم با باکس و مجموع ابعاد ۳۰۰ سانتی‌متر است. برخی ایستگاه‌ها سقف ۳۲ کیلوگرم دارند و محدودیت نژاد اعمال می‌شود."
+      "notes_fa": "سگ و گربهٔ معمولی در کابین پذیرفته نمی‌شوند. بار تحویلی در مسیرهای واجد شرایط تا ۷۵ کیلوگرم با باکس و مجموع ابعاد ۳۰۰ سانتی‌متر است. برخی ایستگاه‌ها سقف ۳۲ کیلوگرم دارند و محدودیت نژاد اعمال می‌شود.",
+      "short_nosed": {
+        "hold": {
+          "status": "restricted",
+          "source": "https://www.qatarairways.com/tradeportal/en/specialservices/Carriage-of-live-animals.html"
+        },
+        "cargo": {
+          "status": "restricted",
+          "source": "https://www.qatarairways.com/tradeportal/en/specialservices/Carriage-of-live-animals.html"
+        }
+      }
     },
     {
       "id": "AT",
@@ -2995,7 +3231,7 @@
         "dimensions_cm": null,
         "requires_hard_crate": true,
         "source": "https://www.flysas.com/fr-fr/informations-sur-le-voyage/voyager-avec-des-animaux/cabie",
-        "snub_nosed_restricted": true
+        "snub_nosed_restricted": null
       },
       "notes": "Cabin: 8 kg including soft carrier, 40 × 25 × 23 cm. Hold: 50 kg including rigid crate; crate dimensions depend on aircraft. Ordinary cabin pets excluded from Business on North America/Asia routes and SAS charters. Specified short-nosed breeds cannot travel in hold; cabin breed rules are also restricted in the conditions of carriage.",
       "reviewed_on": "2026-11-16",
@@ -3005,9 +3241,23 @@
       "sources": [
         "https://www.flysas.com/fr-fr/informations-sur-le-voyage/voyager-avec-des-animaux/cabie",
         "https://www.flysas.com/en/travel-info/travel-with-pets/in-hold",
-        "https://www.flysas.com/en/legal-info/conditions-of-carriage"
+        "https://www.flysas.com/en/legal-info/conditions-of-carriage",
+        "https://www.flysas.com/gb-en/travel-info/travel-with-pets/in-hold"
       ],
-      "cabin_snub_restricted": true
+      "cabin_snub_restricted": true,
+      "short_nosed": {
+        "hold": {
+          "status": "restricted",
+          "source": "https://www.flysas.com/gb-en/travel-info/travel-with-pets/in-hold",
+          "excluded_breeds": {
+            "dog": [
+              "bulldog",
+              "pug",
+              "pekingese"
+            ]
+          }
+        }
+      }
     },
     {
       "id": "SV",
@@ -3124,7 +3374,29 @@
       "notes_fa": "حیوان خانگی معمولی در بارِ هواپیمای واجد شرایط یا کارگو سفر می‌کند. بار تحویلی تا ۳۲ کیلوگرم مجموعاً؛ در بوئینگ ۷۳۷ ارائه نمی‌شود. ارتفاع باکس، نژاد و مسیر را بررسی کنید. نژادهای پوزه‌کوتاه سگ در بار پذیرفته نمی‌شوند.",
       "sources": [
         "https://www.singaporeair.com/fr_FR/fr/travel-info/special-assistance/travelling-with-pets/"
-      ]
+      ],
+      "short_nosed": {
+        "hold": {
+          "status": "restricted",
+          "source": "https://www.singaporeair.com/fr_FR/fr/travel-info/special-assistance/travelling-with-pets/",
+          "excluded_breeds": {
+            "dog": [
+              "affenpinscher",
+              "boston terrier",
+              "boxer",
+              "brussels griffon",
+              "bulldog",
+              "chow chow",
+              "japanese chin",
+              "lhasa apso",
+              "pekingese",
+              "pug",
+              "shar pei",
+              "shih tzu"
+            ]
+          }
+        }
+      }
     },
     {
       "id": "H2",
@@ -3419,7 +3691,17 @@
       "sources": [
         "https://www.swiss.com/xk/en/prepare/special-care/animals-travelling",
         "https://www.swiss.com/xk/en/prepare/special-care/animals-travelling"
-      ]
+      ],
+      "short_nosed": {
+        "cabin": {
+          "status": "eligible",
+          "source": "https://www.swiss.com/xk/en/prepare/special-care/animals-travelling"
+        },
+        "hold": {
+          "status": "blocked",
+          "source": "https://www.swiss.com/xk/en/prepare/special-care/animals-travelling"
+        }
+      }
     },
     {
       "id": "DT",
@@ -3479,7 +3761,13 @@
       "notes_fa": "کابین: حیوان و کیف نرم مجموعاً تا ۸ کیلوگرم؛ ۴۵ × ۳۰ × ۲۳ سانتی‌متر. بار همراه مسافر: در سفر به، از یا با توقف در آمریکا، مجارستان، فرانسه و هلند، مجموع حیوان و باکس تا ۳۲ کیلوگرم؛ برای سایر مقصدها تا ۴۵ کیلوگرم. نژادهای پوزه‌کوتاه در بار ممنوع‌اند. کابین بیزنس طولانی‌مدت حیوان معمول نمی‌پذیرد؛ ترانزیت نیز بر سقف بار اثر دارد.",
       "sources": [
         "https://www.flytap.com/fr-be/informations/voyager-avec-animaux/animaux-compagnie"
-      ]
+      ],
+      "short_nosed": {
+        "hold": {
+          "status": "blocked",
+          "source": "https://www.flytap.com/fr-be/informations/voyager-avec-animaux/animaux-compagnie"
+        }
+      }
     },
     {
       "id": "TG",
@@ -3530,7 +3818,21 @@
       "policy_status": "reviewed",
       "cabin_allowed": true,
       "reviewed_on": "2026-11-16",
-      "notes_fa": "کابین: حیوان و کیف نرم مجموعاً تا ۸ کیلوگرم؛ ۴۰ × ۳۰ × ۲۴ سانتی‌متر. بار: حیوان و باکس سخت مجموعاً تا ۷۵ کیلوگرم؛ ۱۰۲ × ۶۹ × ۷۶ سانتی‌متر. سگ و گربهٔ صورت‌تخت در بار ممنوع‌اند. مقررات شرکت مجری ترانزاویا اعمال می‌شود؛ مقصد و رزرو ظرفیت حیوان الزامات جدا دارند."
+      "notes_fa": "کابین: حیوان و کیف نرم مجموعاً تا ۸ کیلوگرم؛ ۴۰ × ۳۰ × ۲۴ سانتی‌متر. بار: حیوان و باکس سخت مجموعاً تا ۷۵ کیلوگرم؛ ۱۰۲ × ۶۹ × ۷۶ سانتی‌متر. سگ و گربهٔ صورت‌تخت در بار ممنوع‌اند. مقررات شرکت مجری ترانزاویا اعمال می‌شود؛ مقصد و رزرو ظرفیت حیوان الزامات جدا دارند.",
+      "short_nosed": {
+        "cabin": {
+          "status": "eligible",
+          "source": "https://www.transavia.com/help/en-nl/children-pets-groups/pets-on-board/snub-nosed-pets"
+        },
+        "hold": {
+          "status": "blocked",
+          "source": "https://www.transavia.com/help/en-nl/children-pets-groups/pets-on-board/snub-nosed-pets"
+        }
+      },
+      "sources": [
+        "https://www.transavia.com/help/en-fr/children-pets-groups/pets-on-board/cabin",
+        "https://www.transavia.com/help/en-nl/children-pets-groups/pets-on-board/snub-nosed-pets"
+      ]
     },
     {
       "id": "TO",
@@ -3564,7 +3866,21 @@
       "policy_status": "reviewed",
       "cabin_allowed": true,
       "reviewed_on": "2026-11-16",
-      "notes_fa": "کابین: حیوان و کیف نرم مجموعاً تا ۸ کیلوگرم؛ ۴۰ × ۳۰ × ۲۴ سانتی‌متر. بار: حیوان و باکس سخت مجموعاً تا ۷۵ کیلوگرم؛ ۱۰۲ × ۶۹ × ۷۶ سانتی‌متر. سگ و گربهٔ صورت‌تخت در بار ممنوع‌اند. مقررات شرکت مجری ترانزاویا اعمال می‌شود؛ مقصد و رزرو ظرفیت حیوان الزامات جدا دارند."
+      "notes_fa": "کابین: حیوان و کیف نرم مجموعاً تا ۸ کیلوگرم؛ ۴۰ × ۳۰ × ۲۴ سانتی‌متر. بار: حیوان و باکس سخت مجموعاً تا ۷۵ کیلوگرم؛ ۱۰۲ × ۶۹ × ۷۶ سانتی‌متر. سگ و گربهٔ صورت‌تخت در بار ممنوع‌اند. مقررات شرکت مجری ترانزاویا اعمال می‌شود؛ مقصد و رزرو ظرفیت حیوان الزامات جدا دارند.",
+      "short_nosed": {
+        "cabin": {
+          "status": "eligible",
+          "source": "https://www.transavia.com/help/en-fr/children-pets-groups/pets-on-board/snub-nosed-pets"
+        },
+        "hold": {
+          "status": "blocked",
+          "source": "https://www.transavia.com/help/en-fr/children-pets-groups/pets-on-board/snub-nosed-pets"
+        }
+      },
+      "sources": [
+        "https://www.transavia.com/help/en-fr/children-pets-groups/pets-on-board/cabin",
+        "https://www.transavia.com/help/en-fr/children-pets-groups/pets-on-board/snub-nosed-pets"
+      ]
     },
     {
       "id": "BY",
@@ -3647,7 +3963,25 @@
         "notes": "The airline must confirm hold availability, breed, aircraft and route limitations."
       },
       "reviewed_on": "2026-11-18",
-      "notes_fa": "کابین: حیوان و کیف مجموعاً تا ۸ کیلوگرم؛ طول ۴۰، عرض ۳۰، ارتفاع ۲۳ سانتی‌متر. بار: حیوان و باکس مجموعاً تا ۵۰ کیلوگرم؛ باکس ۱۲۵ × ۷۵ × ۷۵ سانتی‌متر. مقررات نژاد و مسیر اعمال می‌شوند؛ ظرفیت جای حیوان باید رزرو شود."
+      "notes_fa": "کابین: حیوان و کیف مجموعاً تا ۸ کیلوگرم؛ طول ۴۰، عرض ۳۰، ارتفاع ۲۳ سانتی‌متر. بار: حیوان و باکس مجموعاً تا ۵۰ کیلوگرم؛ باکس ۱۲۵ × ۷۵ × ۷۵ سانتی‌متر. مقررات نژاد و مسیر اعمال می‌شوند؛ ظرفیت جای حیوان باید رزرو شود.",
+      "short_nosed": {
+        "cabin": {
+          "status": "restricted",
+          "source": "https://www.turkishairlines.com/en-fr/terms-and-conditions-for-additional-services/"
+        },
+        "hold": {
+          "status": "restricted",
+          "source": "https://www.turkishairlines.com/en-fr/terms-and-conditions-for-additional-services/"
+        },
+        "cargo": {
+          "status": "restricted",
+          "source": "https://www.turkishairlines.com/en-fr/terms-and-conditions-for-additional-services/"
+        }
+      },
+      "sources": [
+        "https://www.turkishairlines.com/en-lu/traveling-with-pets/",
+        "https://www.turkishairlines.com/en-fr/terms-and-conditions-for-additional-services/"
+      ]
     },
     {
       "id": "UA",
@@ -3922,7 +4256,8 @@
         "JM"
       ],
       "sources": [
-        "https://www.westjet.com/en-ca/pets"
+        "https://www.westjet.com/en-ca/pets",
+        "https://www.westjet.com/content/dam/westjet/documents/en/tariffs/WSI_EN_FE_2026-10-27.pdf"
       ],
       "search_aliases": [
         "west jet",
@@ -3930,7 +4265,13 @@
         "وست‌جت",
         "آمریکای شمالی",
         "north america"
-      ]
+      ],
+      "short_nosed": {
+        "hold": {
+          "status": "restricted",
+          "source": "https://www.westjet.com/content/dam/westjet/documents/en/tariffs/WSI_EN_FE_2026-10-27.pdf"
+        }
+      }
     },
     {
       "id": "P5",
