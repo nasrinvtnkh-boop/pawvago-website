@@ -316,3 +316,29 @@
   .pvj-unknown-footer { align-items: stretch; flex-direction: column; }
 }
 
+
+.pvj-short-nosed {
+  display: grid;
+  gap: 8px;
+  margin-block: 8px;
+  color: #172d40;
+  background: #f2f6fa;
+  border: 1px solid #d9e5ef;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.pvj-short-nosed-title { overflow-wrap: anywhere; }
+.pvj-short-nosed ul { display: grid; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.pvj-short-nosed li { display: grid; gap: 4px; border-top: 1px solid #d9e5ef; padding-top: 8px; }
+.pvj-short-nosed-line { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 10px; }
+.pvj-short-nosed-status { padding: 3px 8px; border-radius: 6px; font-size: 13px; font-weight: 700; }
+.pvj-short-nosed-eligible { background: #d5efe0; color: #174d31; }
+.pvj-short-nosed-blocked { background: #f9dddd; color: #7b2328; }
+.pvj-short-nosed-restricted { background: #f7eacb; color: #614713; }
+.pvj-short-nosed-unknown { background: #e3eaf1; color: #30465b; }
+.pvj-short-nosed-reason { font-size: 13px; overflow-wrap: anywhere; }
+.pvj-short-nosed a.pvj-source-link { color: #174b72 !important; font-size: 13px; justify-self: start; }
+.pvj-short-nosed-details { color: #dbe8f2; font-size: 13px; }
+.pvj-short-nosed-details summary { cursor: pointer; margin-block: 4px; }

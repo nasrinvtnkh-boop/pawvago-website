@@ -121,17 +121,31 @@
     if (!window.PawVagoAirMatcher?.shortNosedPolicy) return "";
     const fa = document.documentElement.lang === "fa";
     const labels = fa
-      ? {eligible:"پذیرش طبق شرایط ایرلاین",blocked:"پذیرفته نمی‌شود",restricted:"محدودیت نژاد یا مسیر",unknown:"سیاست رسمی نژاد تأیید نشده"}
-      : {eligible:"Accepted under published conditions",blocked:"Not accepted",restricted:"Breed or route restrictions apply",unknown:"Official breed policy unverified"};
-    const modes = fa ? {cabin:"کابین",hold:"سوت همراه مسافر",cargo:"کارگو"} : {cabin:"Cabin",hold:"Checked hold",cargo:"Cargo"};
-    return '<div class="pvj-card-hold"><strong>' + (fa ? 'نژادهای پوزه‌کوتاه' : 'Short-nosed breeds') + '</strong>' +
+      ? {eligible:"مجاز با شرایط",blocked:"غیرمجاز",restricted:"محدودیت دارد",unknown:"تأیید نشده"}
+      : {eligible:"Allowed with conditions",blocked:"Not allowed",restricted:"Restricted",unknown:"Unverified"};
+    const explanations = fa
+      ? {eligible:"وزن، ابعاد باکس و شرایط پرواز را بررسی کنید.",restricted:"پذیرش را برای همین نژاد و مسیر در منبع ایرلاین بررسی کنید.",unknown:"پذیرش این نژاد برای این روش هنوز تأیید نشده است."}
+      : {eligible:"Check weight, carrier dimensions and flight conditions.",restricted:"Check the airline’s rules for the exact breed and route.",unknown:"Acceptance for this breed and transport method is unverified."};
+    const modes = fa
+      ? {cabin:"کابین کنار مسافر",hold:"سوت همراه مسافر",cargo:"کارگو با رزرو جدا"}
+      : {cabin:"Passenger cabin",hold:"Checked hold",cargo:"Cargo · separate booking"};
+    const title = fa ? "سفر با نژاد پوزه‌کوتاه" : "Short-nosed pet travel";
+    return '<div class="pvj-short-nosed"><strong class="pvj-short-nosed-title">' + safe(title) +
+      (breed?.trim() ? ' · ' + safe(breed.trim()) : '') + '</strong><ul>' +
       Object.entries(modes).map(([mode,name]) => {
         const rule = window.PawVagoAirMatcher.shortNosedPolicy(airline,mode,species,breed);
         const result = results?.[mode];
-        const status = result?.kind === "blocked" ? labels.blocked + " · " + result.reasons[0] : labels[rule.status];
-        return '<small><strong>' + safe(name) + '</strong> · ' + safe(status) +
-          (rule.source ? ' ' + sourceLink(rule.source,fa ? "منبع رسمی ↗" : "Official source ↗") : '') + '</small>';
-      }).join("") + '</div>';
+        const outcome = result?.kind === "blocked" ? "blocked" : rule.status;
+        const reason = outcome === "blocked" ? result?.reasons[0] : explanations[outcome];
+        const official = result?.kind === "blocked" && rule.status !== "blocked"
+          ? (mode === "hold" ? airline.hold?.source : airline.source)
+          : rule.source;
+        return '<li><div class="pvj-short-nosed-line"><strong>' + safe(name) +
+          '</strong><span class="pvj-short-nosed-status pvj-short-nosed-' + outcome + '">' +
+          safe(labels[outcome]) + '</span></div>' +
+          (reason ? '<span class="pvj-short-nosed-reason">' + safe(reason) + '</span>' : '') +
+          (official ? sourceLink(official,fa ? "منبع رسمی ↗" : "Official source ↗") : '') + '</li>';
+      }).join("") + '</ul></div>';
   };
 
   const renderLibrary = () => {
@@ -173,11 +187,11 @@
         '<div class="pvj-rule-card-name">' + safe(a.name) + '</div>' +
         '<small class="pvj-card-code">' + safe(a.id) + '</small>' +
         '<span class="pvj-card-region">' + safe(a.region) + '</span>' +
+        shortNosedRows(a) +
         '<div class="pvj-card-mode">CABIN</div><div class="pvj-rule-card-unknown">' + safe(cabinText) + '</div>' +
         '<div class="pvj-rule-card-dim">' + safe(cabinDetail) + '</div>' +
         '<div class="pvj-card-hold"><div class="pvj-card-mode">CHECKED HOLD</div><strong>' +
         safe(holdText) + '</strong><small>' + safe(holdDetail) + '</small></div>' +
-        shortNosedRows(a) +
         '<div class="pvj-rule-card-note">' +
         'Published weight includes pet and carrier. Flight pet-space reservation is separate.</div>' +
         (a.notes ? '<p class="pvj-rule-card-note">' + safe(a.notes) + '</p>' : '') +
@@ -419,14 +433,17 @@
             '<span class="pvj-match-mode-pill"><strong>Hold:</strong> ' + safe(showStatus(hold)) + '</span></div>' : "";
           const refUrl = best.method==="hold" ? (airline.hold?.source || airline.source) : airline.source;
           const otherNotes = best.reasons.slice(1,3).map(safe).join(" · ");
+          const explanation = '<p>' + safe(candidateSummary) + '</p>' +
+            (otherNotes ? '<p>' + otherNotes + '</p>' : '') + detail +
+            (airline.notes ? '<p class="pvj-match-warning">' + safe(airline.notes) + '</p>' : '');
           return '<article class="pvj-match-card pvj-match-' + safe(best.kind) + '">' +
             '<div class="pvj-match-card-head"><h4>' + safe(airline.name) + '</h4>' +
-          '<span class="pvj-match-card-tag">' + safe(modeName(best.method)) + ' · ' +
-            safe(showStatus(best)) + '</span></div>' +
-            '<p>' + safe(candidateSummary) + '</p>' +
-            (otherNotes ? '<p>' + otherNotes + '</p>' : '') + detail +
-            (snub ? shortNosedRows(airline,species,ui.breed.value,{cabin,hold}) : "") +
-            (airline.notes ? '<p class="pvj-match-warning">' + safe(airline.notes) + '</p>' : '') +
+            (snub ? "" : '<span class="pvj-match-card-tag">' + safe(modeName(best.method)) + ' · ' +
+              safe(showStatus(best)) + '</span>') + '</div>' +
+            (snub ? shortNosedRows(airline,species,ui.breed.value,{cabin,hold}) +
+              '<details class="pvj-short-nosed-details"><summary>' +
+              (document.documentElement.lang === "fa" ? "جزئیات وزن، باکس و پرواز" : "Weight, carrier and flight details") +
+              '</summary>' + explanation + '</details>' : explanation) +
             (airline.reviewed_on ? '<small class="pvj-policy-chip">Reviewed ' + safe(airline.reviewed_on) + '</small>' : '') +
             (refUrl ? sourceLink(refUrl,"Official " + airline.name + " animal transport rules ↗") : '') +
             '</article>';
