@@ -174,7 +174,12 @@
     const northAmerica = ['US','CA','MX'].includes(to.code);
     const source = northAmerica ? policy.official_sources[to.code.toLowerCase()] :
       to.region === "GB" ? policy.official_sources.gb : policy.official_sources.eu;
-    const docItems = northAmerica ? [
+    const usToCanadaDog = from.code === "US" && to.code === "CA" && species === "dog";
+    const docItems = usToCanadaDog ? [
+      "Personal dog travelling with you, aged 3 months or older: carry a current rabies vaccination certificate in English or French from a licensed veterinarian that identifies your dog",
+      "Dog younger than 3 months: carry proof of age; rabies vaccination is not required for Canadian entry",
+      "If the dog is travelling unaccompanied or for sale, adoption or another commercial purpose, check the separate Canadian import requirements"
+    ] : northAmerica ? [
       "Check official destination entry requirements for your pet's species, age, origin and travel history",
       "Confirm required health, vaccination and identification documents with the destination authority"
     ] : [
@@ -315,6 +320,7 @@
 
     if (notes.length) pieces.push('<div class="pvj-diagnostic pvj-caution"><strong>Before you book</strong><p>' + notes.map(safe).join("<br>") + '</p></div>');
     pieces.push(sourceLink(source, northAmerica ? "Destination official pet entry rules ↗" : to.region === "GB" ? "Great Britain official entry rules ↗" : "EU official pet travel rules ↗"));
+    if (usToCanadaDog) pieces.push(sourceLink("https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-canada", "USDA guidance for dogs travelling to Canada ↗"));
     if (to.region === "GB") pieces.push(sourceLink(policy.official_sources.gb_routes, "Approved routes into Great Britain ↗"));
     pieces.push('<p class="pvj-docs-footnote">Reference data last manually reviewed ' + safe(policy.reviewed_on) + '. Official sources may change without notice. No live inventory, veterinarian assessment, border clearance or booking is provided.</p>');
     ui.results.innerHTML = pieces.join("");
