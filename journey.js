@@ -5,8 +5,63 @@
   const form = $("pvj-form");
   if (!form) return;
 
+  // USDA APHIS state directory, with separately reviewed personal-dog entry summaries.
+  const usStates = {
+    "Alabama": ["https://agi.alabama.gov/animalindustries/animal-health/imports-requirements/", "Carry an official Certificate of Veterinary Inspection (CVI) documenting rabies vaccination when applicable. Alabama does not accept APHIS VS Form 7001 for this movement."],
+    "Alaska": ["https://dec.alaska.gov/eh/vet/import/dog-cat-ferret/", "Carry a CVI from a licensed, accredited veterinarian issued within 30 days before entry. Check rabies vaccination requirements and any local rules."],
+    "Arizona": ["https://agriculture.az.gov/sites/default/files/documents/AZ%20Dogs%20and%20Cats%20Entry%20Requirements_1.pdf", "Carry a CVI issued by an accredited veterinarian, valid for 30 days. It must document current rabies vaccination for dogs 12 weeks or older."],
+    "Arkansas": ["https://codeofarrules.arkansas.gov/Rules/Rule?chapterID=3&levelType=section&partID=221&sectionID=63217&subChapterID=10&subPartID=9394&titleID=2", "Carry an official CVI and proof of rabies vaccination. Check the rule for three-year vaccine recognition and puppy provisions."],
+    "California": ["https://www.cdfa.ca.gov/ahfss/Animal_Health/Entry_Requirements.html", "CDFA lists no additional import requirements for a pet dog that is not changing ownership. Check local rabies rules and any airline health certificate separately."],
+    "Colorado": ["https://ag.colorado.gov/animals/import-requirements"],
+    "Connecticut": ["https://portal.ct.gov/-/media/doag/state-vet/2024/ctimportrequirementsrevised2024.pdf", "Carry a veterinary health certificate issued no more than 30 days before entry and approved by the appropriate official in the state of origin."],
+    "Delaware": ["https://regulations.delaware.gov/AdminCode/title3/900/904.pdf"],
+    "Florida": ["https://www.fdacs.gov/Consumer-Resources/Animals/Animal-Movement/Dog-and-Cat-Movement-Requirements/Travel-of-Dogs-Cats-and-Pet-Birds-in-out-of-Florida-FAQ", "Florida lists a state health-certificate exemption for privately owned pets travelling with their owner. Check the state rabies requirements and whether the airline requires a CVI."],
+    "Georgia": ["https://www.agr.georgia.gov/bringing-animals-georgia", "Carry proof of current, approved rabies vaccination. Georgia lists a separate CVI requirement for animals entering for sale, trade or exchange."],
+    "Hawaii": ["https://hdoa.hawaii.gov/ai/aqs/aqs-info/", "For Direct Airport Release or 5 Day Or Less, prepare microchip identification, two rabies vaccination records, a passing FAVN rabies antibody test and its waiting period, a health certificate and import form AQS-279. Check the airport-specific checklist and submission deadlines. Direct release at Kona, Kahului or Lihue requires a Neighbor Island Inspection Permit."],
+    "Idaho": ["https://agri.idaho.gov/main/animals/small-animal-species/small-animal-imports/"],
+    "Illinois": ["https://agr.illinois.gov/animals/animalhealth/animal-import.html", "Carry a CVI issued within 30 days before entry. It must describe the dog and identify the destination. Follow the state rabies vaccination provisions."],
+    "Indiana": ["https://www.in.gov/boah/indiana-entry-health-requirements/"],
+    "Iowa": ["https://www.legis.iowa.gov/docs/iac/rule/02-05-2025.21.65.10.pdf", "Carry a CVI. Dogs aged 4 months or older must have a current rabies vaccination. The exhibition exception has separate conditions."],
+    "Kansas": ["https://sos.ks.gov/publications/KAR/2022/2022_KAR_Volumes_Book_1.pdf", "Carry a CVI covering health, rabies exposure and rabies vaccination. Dogs under 3 months are exempt from the rabies vaccination provision."],
+    "Kentucky": ["https://www.kyagr.com/statevet/animal-movement.html"],
+    "Louisiana": ["https://www.interstatelivestock.com/regulations/KS/LA/CAN/653/4129/8634", "Carry a CVI issued within 30 days before entry and rabies vaccination documentation for dogs over 3 months old."],
+    "Maine": ["https://www.maine.gov/dacf/ahw/animal_health/index.shtml"],
+    "Maryland": ["https://mda.maryland.gov/AnimalHealth/Documents/Maryland%20Animal%20Import%20Regulations%202018-19%20DC.pdf"],
+    "Massachusetts": ["https://www.mass.gov/info-details/importing-and-exporting-pets", "Carry a veterinary health certificate. For dogs over 6 months old, check the state vaccination requirements and timing."],
+    "Michigan": ["https://www.michigan.gov/mdard/animals/id-movement"],
+    "Minnesota": ["https://www.revisor.mn.gov/rules/1721.0500/", "Carry a CVI unless an exemption applies. Temporary entry with no ownership change is exempt when the dog leaves within 30 days."],
+    "Mississippi": ["https://www.mbah.ms.gov/regulations/chapter-12/", "Carry proof of current rabies vaccination for dogs 3 months or older. A routine owner-accompanied visit is exempt from CVI requirements. Exhibition, ownership transfer, adoption and unaccompanied travel have separate requirements."],
+    "Missouri": ["https://agriculture.mo.gov/animals/rules.php"],
+    "Montana": ["https://liv.mt.gov/Animal-Health/Import-Requirements/index", "Carry proof of current rabies vaccination. Montana does not require a state health certificate for a personal pet travelling with its owner."],
+    "Nebraska": ["https://nda.nebraska.gov/animal/imports/dogs-cats", "Carry a CVI issued by an accredited veterinarian within 30 days before entry. Check its rabies section, including the provisions for young puppies."],
+    "Nevada": ["https://agri.nv.gov/Animals/Animal_Disease/Import_Requirements/"],
+    "New Hampshire": ["https://www.gencourt.state.nh.us/rules/state_agencies/agr2100.html"],
+    "New Jersey": ["https://www.nj.gov/health/vph/documents/requirements_importation_aug2017.pdf", "Carry a CVI signed by a veterinarian licensed in the state of origin within 30 days of travel. Local dog licensing has separate rabies rules."],
+    "New Mexico": ["https://www.nmlbonline.com/import"],
+    "New York": ["https://agriculture.ny.gov/animals/companion-animals"],
+    "North Carolina": ["https://ncpublichealth.com/epi-sub/cd/diseases/importexport.html", "North Carolina does not require an interstate CVI for dogs. Age-eligible dogs must have current rabies vaccination at entry or receive it within one week of entry."],
+    "North Dakota": ["https://www.ndda.nd.gov/divisions/animal-health/animal-movement-and-importation-requirements/dogs-cats-ferrets", "Carry current rabies vaccination proof for dogs over 12 weeks. A CVI is required if the stay exceeds 30 days."],
+    "Ohio": ["https://codes.ohio.gov/ohio-administrative-code/rule-901:1-17-05", "Carry an interstate CVI. Dogs aged 12 weeks or older must be vaccinated against rabies and, if vaccinated, travel with the current NASPHV Form 51 certificate. Minimum age is 8 weeks with an exception for nursing puppies travelling with their mother."],
+    "Oklahoma": ["https://ag.ok.gov/wp-content/uploads/2025/12/Animal-Import-Requirements.pdf", "Carry a CVI. For dogs aged 12 weeks or older, the CVI must include rabies vaccination details."],
+    "Oregon": ["https://www.oregon.gov/oda/programs/AnimalHealthFeedsLivestockID/TravellingWithAnimals/Pages/Basics.aspx"],
+    "Pennsylvania": ["https://www.pacodeandbulletin.gov/secure/pacode/data/007/chapter3/s3.91.html", "Carry a health certificate from a licensed veterinarian covering infectious disease and rabies exposure. See the state rule for exact certificate wording."],
+    "Rhode Island": ["https://dem.ri.gov/natural-resources-bureau/agriculture-and-forest-environment/agriculture"],
+    "South Carolina": ["https://www.clemson.edu/public/lph/ahp/import/index.html"],
+    "South Dakota": ["https://aib.sd.gov/Dogs%20%26%20Cats%20Import%20Requirements.pdf", "South Dakota waives the CVI for dogs travelling with their owner and staying less than 30 days. Check vaccination documentation and restrictions in the state checklist."],
+    "Tennessee": ["https://www.tn.gov/agriculture/animals/animal-movement-requirements/import-requirements1.html"],
+    "Texas": ["https://www.dshs.texas.gov/notifiable-conditions/zoonosis-control/laws/animal-import-export-requirements", "Carry a current rabies certificate for dogs aged 12 weeks or older. Texas does not require a state CVI for dogs. Airlines may have separate certificate requirements."],
+    "Utah": ["https://ag.utah.gov/farmers/animal-industry/animal-health-program/animal-import-requirements/"],
+    "Vermont": ["https://agriculture.vermont.gov/"],
+    "Virginia": ["https://www.vdacs.virginia.gov/animals-animal-admissions.shtml"],
+    "Washington": ["https://app.leg.wa.gov/wac/default.aspx?cite=16-54-170", "Carry a CVI documenting rabies vaccination. The heartworm test exemption applies to dogs travelling with the same owner for over one month with no planned sale or ownership change."],
+    "West Virginia": ["https://agriculture.wv.gov/divisions/animal-health/health-requirements-imports-fairs/"],
+    "Wisconsin": ["https://datcp.wi.gov/Pages/Programs_Services/AnimalMovement.aspx"],
+    "Wyoming": ["https://wlsb.state.wy.us/public/animal-health"]
+  };
+
   const ui = {
     from: $("pvj-from"), to: $("pvj-to"), originCity: $("pvj-origin-city"),
+    fromState: $("pvj-from-state"), toState: $("pvj-to-state"),
     destCity: $("pvj-dest-city"), date: $("pvj-date"), species: $("pvj-species"),
     weight: $("pvj-weight"), bag: $("pvj-bag"),
     crateWeight: $("pvj-crate-weight"), crateBox: $("pvj-crate-box"),
@@ -119,7 +174,21 @@
       (matches.length - Math.min(matches.length,catalogLimit)) + " remaining) ↓";
   };
 
+  const stateOptions = '<option value="">Select state</option>' +
+    Object.keys(usStates).map(state => '<option>' + safe(state) + '</option>').join("");
+  [ui.fromState, ui.toState].forEach(select => { select.innerHTML = stateOptions; });
+  const syncUsStates = () => {
+    [[ui.from, ui.fromState], [ui.to, ui.toState]].forEach(([country, state]) => {
+      const show = country.value === "US" && ui.species.value === "dog";
+      state.closest("label").parentElement.hidden = !show;
+      state.disabled = !show;
+      if (!show) state.value = "";
+    });
+    $("pvj-us-states").hidden = ui.fromState.disabled && ui.toState.disabled;
+  };
+
   const updatePreview = () => {
+    syncUsStates();
     const countryFrom = policy?.countries.find(c => c.code === ui.from.value);
     const countryTo = policy?.countries.find(c => c.code === ui.to.value);
     const from = ui.originCity.value.trim() || countryFrom?.name || "Departure";
@@ -171,15 +240,24 @@
     }
     updatePreview();
 
+    const usDogArrival = to.code === "US" && species === "dog";
+    const domesticUs = from.code === "US" && to.code === "US";
+    const arrivalState = usDogArrival ? ui.toState.value : "";
+    const departureState = domesticUs ? ui.fromState.value : "";
+    const stateEntry = usStates[arrivalState];
+    const sameState = Boolean(arrivalState && arrivalState === departureState);
+    const toHawaii = arrivalState === "Hawaii" && !sameState;
+    const mainlandHawaiiRoute = domesticUs && departureState &&
+      ((departureState === "Hawaii") !== (arrivalState === "Hawaii")) && arrivalState;
     const northAmerica = ['US','CA','MX'].includes(to.code);
-    const source = northAmerica ? policy.official_sources[to.code.toLowerCase()] :
+    const source = domesticUs && usDogArrival ? "https://www.aphis.usda.gov/pet-travel/state-to-state" : northAmerica ? policy.official_sources[to.code.toLowerCase()] :
       to.region === "GB" ? policy.official_sources.gb : policy.official_sources.eu;
     const usToCanadaDog = from.code === "US" && to.code === "CA" && species === "dog";
     const docItems = usToCanadaDog ? [
       "Personal dog travelling with you, aged 3 months or older: carry a current rabies vaccination certificate in English or French from a licensed veterinarian that identifies your dog",
       "Dog younger than 3 months: carry proof of age; rabies vaccination is not required for Canadian entry",
       "If the dog is travelling unaccompanied or for sale, adoption or another commercial purpose, check the separate Canadian import requirements"
-    ] : northAmerica ? [
+    ] : domesticUs && usDogArrival ? [] : northAmerica ? [
       "Check official destination entry requirements for your pet's species, age, origin and travel history",
       "Confirm required health, vaccination and identification documents with the destination authority"
     ] : [
@@ -188,7 +266,8 @@
     ];
     const euDepart = from.region === "EU";
     const euArrive = to.region === "EU" || to.region === "EU-associated";
-    if(northAmerica && to.code === 'US' && species === 'dog') docItems.push("Complete the CDC Dog Import Form and check requirements based on the dog's last six months of travel");
+    if (usDogArrival && !domesticUs) docItems.push("Complete the CDC Dog Import Form and check requirements based on the dog's last six months of travel");
+    if (stateEntry?.[1] && !sameState && (domesticUs || toHawaii)) docItems.push(stateEntry[1]);
     if (northAmerica) { /* Country-specific official tools above replace the EU checklist. */ }
     else if (euDepart && euArrive) docItems.push("Valid EU pet passport");
     else if (to.region === "GB") docItems.push("Valid approved pet travel document for Great Britain");
@@ -215,7 +294,7 @@
     if (euArrive && !euDepart) notes.push("Entry from outside the EU can require an official health certificate and, depending on origin and history, a rabies antibody test. Check the official country-entry tool.");
     if (species === "dog" && to.dog_tapeworm_hours) notes.push("Tapeworm treatment must be done by a veterinarian in the 24–120 hours before entry.");
     const startDate = new Date(ui.date.value + "T12:00:00");
-    if ((startDate.getTime() - Date.now()) / 86400000 < 21)
+    if (!northAmerica && (startDate.getTime() - Date.now()) / 86400000 < 21)
       notes.push("If this is a primary rabies vaccination, the minimum 21-day waiting period may affect this departure date.");
     if (to.region === "GB" && from.region !== "GB")
       notes.push("Great Britain requires an approved air route; ordinary pets entering GB on commercial flights normally travel as cargo, not passenger cabin or checked hold baggage.");
@@ -235,7 +314,25 @@
     pieces.push('<div class="pvj-results-head"><span>Personalised screening</span><span class="pvj-policy-chip">Reviewed ' + safe(policy.reviewed_on) + '</span></div>');
 
 
+    if (usDogArrival) {
+      if (!arrivalState) {
+        status("Select the destination state", "State entry documents vary. Choose the U.S. destination state above.");
+      } else {
+        const [url, summary] = stateEntry;
+        const description = sameState ? "For a trip entirely within one state, check local and carrier rules."
+          : !domesticUs && !toHawaii ? "U.S. federal entry requirements apply. Use the state source below to verify any additional requirements for dogs arriving from abroad."
+          : summary ? "The checklist below covers personal dogs travelling with their owners. Verify any age, timing or purpose exceptions in the state source."
+          : "Open the official state source for the required documents. A state-specific checklist has yet to be verified.";
+        status(arrivalState + " dog travel documents", description);
+        pieces.push(sourceLink(url, arrivalState + " entry requirements ↗"));
+      }
+    }
+
     if (mode === "air") {
+      if (usDogArrival) status("Cabin and checked hold", "The operating airline sets transport rules for the flight, carrier and breed. State admission documents are required separately where applicable.", "pvj-caution");
+      if (toHawaii || mainlandHawaiiRoute) {
+        status("Hawaii flight restrictions", "Hawaii services have airline-specific route exceptions. Confirm the operating flight and pet space before booking.");
+      }
       if (placement === "cargo") {
         status("Air freight requires a separate service and booking",
           "Cargo involves a qualified animal freight operator. PawVago cannot match cargo flights, quotes or accepted breeds with the current data.",
@@ -257,7 +354,12 @@
           : exactCode.length ? exactCode
           : policy.airlines.filter(a => normalizeSearch([a.name,...(a.search_aliases||[])].join(' ')).includes(normalizedAirlineName));
         const routeScope = window.PawVagoRouteScope?.scope(namedAirlines,from.code,to.code);
-        const routeAirlines = routeScope?.airlines || namedAirlines;
+        const routeAirlines = (routeScope?.airlines || namedAirlines).map(airline => {
+          if (airline.id === "DL" && toHawaii) return {...airline, cabin_allowed: false};
+          if (airline.id === "WN" && mainlandHawaiiRoute)
+            return {...airline, cabin_allowed: false, hold: {...airline.hold, allowed: false}};
+          return airline;
+        });
         const analysis = window.PawVagoAirMatcher.evaluate(routeAirlines,{
           petKg, cabinKg:carrierKg, crateKg, species,
           cabinDims:dims, crateDims,
@@ -313,7 +415,7 @@
         "PawVago prepares the destination checklist. Exact operator policies, border crossings and route availability have not been verified.", "pvj-caution");
     }
 
-    pieces.push('<div class="pvj-docs"><h4>Document preparation checklist</h4><p>Tick items as you verify them; this checklist is saved only on this screen.</p>' +
+    if (docItems.length) pieces.push('<div class="pvj-docs"><h4>Document preparation checklist</h4><p>Tick items as you verify them; this checklist is saved only on this screen.</p>' +
       docItems.map((item, i) => '<label><input type="checkbox" data-pvj-doc="' + i + '"><span>' + safe(item) + '</span></label>').join("") +
       '<progress id="pvj-doc-meter" value="0" max="' + docItems.length + '" aria-label="Checklist progress"></progress>' +
       '<div id="pvj-doc-progress" class="pvj-doc-progress" aria-live="polite">0 of ' + docItems.length + ' items checked</div></div>');
@@ -321,6 +423,10 @@
     if (notes.length) pieces.push('<div class="pvj-diagnostic pvj-caution"><strong>Before you book</strong><p>' + notes.map(safe).join("<br>") + '</p></div>');
     pieces.push(sourceLink(source, northAmerica ? "Destination official pet entry rules ↗" : to.region === "GB" ? "Great Britain official entry rules ↗" : "EU official pet travel rules ↗"));
     if (usToCanadaDog) pieces.push(sourceLink("https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-canada", "USDA guidance for dogs travelling to Canada ↗"));
+    if (mode === "air" && toHawaii)
+      pieces.push(sourceLink("https://www.delta.com/us/en/pet-travel/overview", "Delta pet travel to Hawaii ↗"));
+    if (mode === "air" && mainlandHawaiiRoute)
+      pieces.push(sourceLink("https://support.southwest.com/helpcenter/article/traveling-with-pets-destination-information", "Southwest Hawaii pet restrictions ↗"));
     if (to.region === "GB") pieces.push(sourceLink(policy.official_sources.gb_routes, "Approved routes into Great Britain ↗"));
     pieces.push('<p class="pvj-docs-footnote">Reference data last manually reviewed ' + safe(policy.reviewed_on) + '. Official sources may change without notice. No live inventory, veterinarian assessment, border clearance or booking is provided.</p>');
     ui.results.innerHTML = pieces.join("");
@@ -400,7 +506,7 @@
   };
 
   const rerender = () => {syncRouteRegions();updatePreview();if(policy && form.checkValidity())render();else if(policy) ui.results.textContent = document.documentElement.lang==='fa' ? 'مشخصات سفر را کامل کنید تا نتیجهٔ متناسب با مبدأ و مقصد جدید نمایش داده شود.' : 'Complete the journey details to see results for the selected departure and destination.';};
-  [ui.from,ui.to,ui.originCity,ui.destCity,ui.date,ui.species,ui.weight,
+  [ui.from,ui.to,ui.fromState,ui.toState,ui.originCity,ui.destCity,ui.date,ui.species,ui.weight,
     ui.bag,ui.crateWeight,ui.breed,ui.snub,ui.airlineName,
     $("pvj-length"),$("pvj-width"),$("pvj-height"),
     $("pvj-crate-length"),$("pvj-crate-width"),$("pvj-crate-height")
