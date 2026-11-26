@@ -350,6 +350,13 @@
         status("Hawaii flight restrictions", "Hawaii services have airline-specific route exceptions. Confirm the operating flight and pet space before booking.");
       }
       if (placement === "cargo") {
+        const cargoCarrier = normalizeSearch(ui.airlineName?.value);
+        const provider = cargoCarrier && policy.airlines.find(a => a.cargo?.source &&
+          [a.id, a.name].some(name => normalizeSearch(name) === cargoCarrier));
+        if (provider) {
+          status(provider.name + " live-animal cargo", provider.cargo.notes);
+          pieces.push(sourceLink(provider.cargo.source, "Official " + provider.name + " cargo rules ↗"));
+        }
         status("Air freight requires a separate service and booking",
           "Cargo involves a qualified animal freight operator. PawVago cannot match cargo flights, quotes or accepted breeds with the current data.",
           "pvj-caution");
