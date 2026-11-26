@@ -1141,18 +1141,33 @@
       "id": "BW",
       "name": "Caribbean Airlines",
       "region": "Caribbean",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": false,
       "cabin_max_kg": null,
       "dimensions_cm": null,
-      "source": null,
+      "source": "https://www.caribbean-airlines.com/#/requests-and-special-assistance/traveling-with-live-animals",
       "hold": {
-        "allowed": null,
-        "max_combined_kg": null,
+        "allowed": true,
+        "max_combined_kg": 32,
         "dimensions_cm": null,
-        "source": null
+        "source": "https://www.caribbean-airlines.com/#/requests-and-special-assistance/traveling-with-live-animals",
+        "max_linear_cm": 292,
+        "max_length_cm": 191,
+        "requires_hard_crate": true
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Ordinary pets cannot travel in the passenger cabin. Dogs and cats may fly as accompanied checked baggage on eligible flights. Pet and rigid kennel combined: up to 32 kg. Kennel: up to 292 cm total (length + width + height), with length up to 191 cm. Request at passenger booking, at least 72 hours before travel. For animals exceeding the weight or size limits, contact the separate live-animal cargo service. Breed-specific hold acceptance requires confirmation.",
+      "reviewed_on": "2026-11-26",
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "sources": [
+        "https://www.caribbean-airlines.com/#/requests-and-special-assistance/traveling-with-live-animals",
+        "https://www.caribbean-airlines.com/#/baggage/checked-baggage"
+      ],
+      "notes_fa": "سگ و گربهٔ خانگی در کابین پذیرفته نمی‌شوند. در پروازهای واجد شرایط، حمل در سوت همراه مسافر تا ۳۲ کیلوگرم با باکس سخت ممکن است. مجموع ابعاد باکس حداکثر ۲۹۲ و طول حداکثر ۱۹۱ سانتی‌متر است. در زمان رزرو و دست‌کم ۷۲ ساعت قبل از سفر درخواست بدهید. برای وزن یا ابعاد بیشتر، کارگوی حیوانات زنده جداگانه رزرو می‌شود. پذیرش نژاد در سوت را تأیید کنید.",
+      "cargo": {
+        "source": "https://www.caribbean-airlines.com/#/requests-and-special-assistance/traveling-with-live-animals",
+        "notes": "Live-animal cargo requires confirmed space from origin to destination and at least 72 hours’ advance notice."
+      }
     },
     {
       "id": "CX",
@@ -4579,8 +4594,8 @@
   },
   "catalog_info": {
     "total": 164,
-    "reviewed": 62,
-    "unverified": 102,
+    "reviewed": 63,
+    "unverified": 101,
     "scope": "Major and regionally relevant passenger airlines; not an exhaustive list of all licensed airlines worldwide.",
     "updated_on": "2026-11-26",
     "filtering": "Client-side query by airline name, IATA code and region. Unsupported airlines explicitly show Policy not verified, never Not allowed by default."

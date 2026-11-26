@@ -85,6 +85,8 @@
       return reject("The rigid crate exceeds all published aircraft-specific hold size options.");
     if (p.crateDims && hasNumber(hold.max_linear_cm) && p.crateDims.reduce((a,b)=>a+b,0)>Number(hold.max_linear_cm))
       return reject("The rigid crate exceeds the published combined length, width and height limit.");
+    if (p.crateDims && hasNumber(hold.max_length_cm) && p.crateDims[0]>Number(hold.max_length_cm))
+      return reject("The rigid crate exceeds the published hold length limit.");
     if (p.crateDims && hasNumber(hold.max_height_cm) && p.crateDims[2]>Number(hold.max_height_cm))
       return reject("The rigid crate exceeds a published hold size limit.");
     if (hold.allowed!==true)
@@ -99,7 +101,7 @@
     if (p.crateKg===null) reasons.push("Add the hard crate weight; cabin bag weight cannot be used for the hold.");
     if (!p.crateDims) reasons.push("Add three rigid crate dimensions and confirm IATA live-animal requirements.");
     if (p.crateDimensionsPartial) reasons.push("Complete all three rigid crate dimensions.");
-    if (p.crateDims && !hold.dimensions_cm) reasons.push(hold.dimension_variants?.length ? "Published crate size limits vary by aircraft and are listed in the policy details." : "No universal rigid crate dimension cap verified; ask the airline.");
+    if (p.crateDims && !hold.dimensions_cm) reasons.push(hold.dimension_variants?.length ? "Published crate size limits vary by aircraft and are listed in the policy details." : hold.max_linear_cm ? "Check the published total size and individual side limits in the airline policy." : "No universal rigid crate dimension cap verified; ask the airline.");
     if (!p.breedKnown) reasons.push("Add the breed for short-nosed hold restrictions.");
     if (p.snub && hold.snub_nosed_restricted !== false)
       reasons.push("Flat-faced breeds have extra safety restrictions. Hold eligibility is not verified.");
