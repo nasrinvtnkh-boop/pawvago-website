@@ -117,6 +117,23 @@
   let catalogLimit = Number.POSITIVE_INFINITY;
   const policyReviewed = a => a.policy_status === "reviewed" && Boolean(a.reviewed_on) && safeUrl(a.source) !== "#";
   const normalizeSearch = value => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase().trim();
+  const shortNosedRows = (airline, species, breed, results) => {
+    if (!window.PawVagoAirMatcher?.shortNosedPolicy) return "";
+    const fa = document.documentElement.lang === "fa";
+    const labels = fa
+      ? {eligible:"پذیرش طبق شرایط ایرلاین",blocked:"پذیرفته نمی‌شود",restricted:"محدودیت نژاد یا مسیر",unknown:"سیاست رسمی نژاد تأیید نشده"}
+      : {eligible:"Accepted under published conditions",blocked:"Not accepted",restricted:"Breed or route restrictions apply",unknown:"Official breed policy unverified"};
+    const modes = fa ? {cabin:"کابین",hold:"سوت همراه مسافر",cargo:"کارگو"} : {cabin:"Cabin",hold:"Checked hold",cargo:"Cargo"};
+    return '<div class="pvj-card-hold"><strong>' + (fa ? 'نژادهای پوزه‌کوتاه' : 'Short-nosed breeds') + '</strong>' +
+      Object.entries(modes).map(([mode,name]) => {
+        const rule = window.PawVagoAirMatcher.shortNosedPolicy(airline,mode,species,breed);
+        const result = results?.[mode];
+        const status = result?.kind === "blocked" ? labels.blocked + " · " + result.reasons[0] : labels[rule.status];
+        return '<small><strong>' + safe(name) + '</strong> · ' + safe(status) +
+          (rule.source ? ' ' + sourceLink(rule.source,fa ? "منبع رسمی ↗" : "Official source ↗") : '') + '</small>';
+      }).join("") + '</div>';
+  };
+
   const renderLibrary = () => {
     if (!policy) return;
     const current = window.PawVagoRouteScope?.scope(policy.airlines,ui.from.value,ui.to.value).airlines || policy.airlines;
@@ -160,6 +177,7 @@
         '<div class="pvj-rule-card-dim">' + safe(cabinDetail) + '</div>' +
         '<div class="pvj-card-hold"><div class="pvj-card-mode">CHECKED HOLD</div><strong>' +
         safe(holdText) + '</strong><small>' + safe(holdDetail) + '</small></div>' +
+        shortNosedRows(a) +
         '<div class="pvj-rule-card-note">' +
         'Published weight includes pet and carrier. Flight pet-space reservation is separate.</div>' +
         (a.notes ? '<p class="pvj-rule-card-note">' + safe(a.notes) + '</p>' : '') +
@@ -351,9 +369,10 @@
       }
       if (placement === "cargo") {
         const cargoCarrier = normalizeSearch(ui.airlineName?.value);
-        const provider = cargoCarrier && policy.airlines.find(a => a.cargo?.source &&
+        const provider = cargoCarrier && policy.airlines.find(a =>
           [a.id, a.name].some(name => normalizeSearch(name) === cargoCarrier));
-        if (provider) {
+        if (provider && snub) pieces.push(shortNosedRows(provider,species,ui.breed.value));
+        if (provider?.cargo?.source) {
           status(provider.name + " live-animal cargo", provider.cargo.notes);
           pieces.push(sourceLink(provider.cargo.source, "Official " + provider.name + " cargo rules ↗"));
         }
@@ -406,6 +425,7 @@
             safe(showStatus(best)) + '</span></div>' +
             '<p>' + safe(candidateSummary) + '</p>' +
             (otherNotes ? '<p>' + otherNotes + '</p>' : '') + detail +
+            (snub ? shortNosedRows(airline,species,ui.breed.value,{cabin,hold}) : "") +
             (airline.notes ? '<p class="pvj-match-warning">' + safe(airline.notes) + '</p>' : '') +
             (airline.reviewed_on ? '<small class="pvj-policy-chip">Reviewed ' + safe(airline.reviewed_on) + '</small>' : '') +
             (refUrl ? sourceLink(refUrl,"Official " + airline.name + " animal transport rules ↗") : '') +

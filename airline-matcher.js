@@ -12,6 +12,27 @@
                         kind === "review" ? "Needs more checks" : kind === "unverified" ? "Policy not yet reviewed" : "Policy mismatch";
   const rank = kind => ({potential:3,review:2,blocked:1,unverified:0})[kind];
 
+  const breedKey = value => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+
+  function shortNosedPolicy(airline, mode, species, breed) {
+    const rule = airline.short_nosed?.[mode];
+    const source = rule?.source || (mode === "hold" ? airline.hold?.source : null) || airline.source;
+    const modeOffered = {cabin:airline.cabin_allowed,hold:airline.hold?.allowed,cargo:airline.cargo?.allowed}[mode];
+    if (modeOffered === false || (mode === "hold" && species === "dog" && airline.hold?.snub_nosed_dogs_restricted))
+      return {status:"blocked",source};
+    if (rule) {
+      const normalized = " " + breedKey(breed) + " ";
+      const excluded = (rule.excluded_breeds?.[species] || []).some(name => normalized.includes(" " + breedKey(name) + " "));
+      return {status:excluded ? "blocked" : rule.status,source};
+    }
+    if ((mode === "cabin" && airline.cabin_snub_restricted) ||
+        (mode === "hold" && (airline.hold?.snub_nosed_restricted || airline.hold?.snub_nosed_dogs_restricted)))
+      return {status:"restricted",source};
+    if (mode === "cabin" && Number(airline.cabin_snub_max_kg) > 0) return {status:"eligible",source};
+    return {status:"unknown",source:null};
+  }
+
   // Only enforce country exclusions explicitly recorded from official policies.
   // This does not determine flight operation, transit, state or airport restrictions.
   function cabinRouteBlocked(airline,p) {
@@ -33,7 +54,7 @@
     const reject = msg => ({kind:"blocked",reasons:[msg],max,method:"cabin"});
     if (p.enteringGB) return reject("Standard commercial flights into Great Britain normally require cargo, not cabin pet travel.");
     if (airline.cabin_allowed === false) return reject("The airline does not accept ordinary pets in the passenger cabin.");
-    if (p.snub && airline.cabin_snub_restricted===true) return reject("The published cabin policy excludes short-nosed breeds.");
+    if (p.snub && (airline.cabin_snub_restricted===true || shortNosedPolicy(airline,"cabin",p.species,p.breed).status==="blocked")) return reject("The published cabin policy excludes short-nosed breeds.");
     if (cabinRouteBlocked(airline,p)) return reject("The published cabin policy excludes this country pair; check the airline's route restrictions.");
     if (airline.cabin_allowed !== true) return {kind:"review",reasons:["Cabin pet acceptance has not been confirmed in PawVago."],max,method:"cabin"};
     if (max !== null && p.cabinTotal > max+0.000001)
@@ -73,7 +94,7 @@
       return reject("The published checked-hold policy excludes this country pair; confirm with the airline.");
     if (airline.route_rule==="hold_domestic_tr_only" && !(p.from==="TR"&&p.to==="TR"))
       return reject("Checked hold service is restricted to eligible Turkish domestic / North Cyprus journeys; this route is not verified as eligible.");
-    if (p.snub && (hold.snub_nosed_restricted===true || (hold.snub_nosed_dogs_restricted===true && p.species==='dog')))
+    if (p.snub && (hold.snub_nosed_restricted===true || shortNosedPolicy(airline,"hold",p.species,p.breed).status==="blocked"))
       return reject("Short-nosed dogs or cats are prohibited from the checked hold by this airline.");
     if (max!==null && p.petKg>max+0.000001)
       return reject("The animal alone weighs more than this airline's published checked-hold total maximum.");
@@ -153,6 +174,6 @@
       labels:{potential:label("potential"),review:label("review"),blocked:label("blocked"),unverified:label("unverified")}
     };
   }
-  root.PawVagoAirMatcher=Object.freeze({evaluate});
+  root.PawVagoAirMatcher=Object.freeze({evaluate,shortNosedPolicy});
 })(window);
 
