@@ -11,6 +11,7 @@
     Oceania:'AS AU CK FJ FM GU KI MH MP NC NF NR NU NZ PF PG PN PW SB TK TO TV UM VU WF WS',
     Antarctica:'AQ BV GS HM TF'
   };
+  const caribbean = new Set('AG AI AW BB BL BQ BS CU CW DM DO GD GP HT JM KN KY LC MF MQ MS PR SX TC TT VC VG VI'.split(' '));
   const byCountry = {};
   for (const [continent,codes] of Object.entries(groups)) for (const code of codes.split(' ')) byCountry[code]=[continent];
   // Transcontinental countries retain both sides of their geography.
@@ -34,11 +35,14 @@
     return s.toUpperCase();
   };
   const continents = value => byCountry[country(value)] || [];
-  const airlineContinent = region => region === 'Middle East' ? 'Asia' : region;
+  const airlineContinent = region => region === 'Middle East' ? 'Asia'
+    : ['Caribbean','Central America'].includes(region) ? 'North America' : region;
   function scope(airlines,from,to){
     const a=country(from),b=country(to);
     const allowed=[...new Set([...continents(a),...continents(b)])];
-    return {airlines:allowed.length?airlines.filter(item=>allowed.includes(airlineContinent(item.region))):airlines,
+    const serviceRegions = caribbean.has(a) || caribbean.has(b) ? [...allowed, 'Caribbean'] : allowed;
+    return {airlines:allowed.length?airlines.filter(item=>allowed.includes(airlineContinent(item.region)) ||
+      item.service_regions?.some(region => serviceRegions.includes(region))):airlines,
       filtered:allowed.length>0,from:a,to:b,continents:allowed};
   }
   root.PawVagoRouteScope=Object.freeze({scope,country,continents,airlineContinent});

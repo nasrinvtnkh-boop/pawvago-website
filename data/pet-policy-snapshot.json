@@ -2,7 +2,7 @@
   "schema_version": 3,
   "reviewed_on": "2026-10-21",
   "quality": "Selected global airline directory, NOT a complete registry of every operating airline; reviewed pet rules are strictly separated from unreviewed carriers. No real-time flight inventory, seat or pet-space availability.",
-  "source_scope": "Non-commercial personal dog/cat travel. Airline policies include Europe and North America; country entry coverage varies. Per-airline dates and official source links apply; null fields are not verified limits.",
+  "source_scope": "Non-commercial personal dog/cat travel. Country entry coverage varies. Per-airline dates and official sources apply; null fields are unverified.",
   "airlines": [
     {
       "id": "A3",
@@ -87,18 +87,28 @@
       "id": "AR",
       "name": "Aerolíneas Argentinas",
       "region": "South America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
-      "cabin_max_kg": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 9,
       "dimensions_cm": null,
-      "source": null,
+      "source": "https://www.aerolineas.com.ar/adicionales/mascota-a-bordo",
       "hold": {
-        "allowed": null,
+        "allowed": true,
         "max_combined_kg": null,
         "dimensions_cm": null,
-        "source": null
+        "source": "https://www.aerolineas.com.ar/informacion-util/mascotas",
+        "requires_hard_crate": true,
+        "weight_policy": "aircraft_dependent"
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Cabin: up to 9 kg including carrier. Checked hold offered on eligible flights; use the separate official guide for kennel, breed and aircraft conditions.",
+      "reviewed_on": "2026-11-26",
+      "notes_fa": "کابین تا ۹ کیلوگرم با کیف. حمل در سوت در پروازهای واجد شرایط و طبق مقررات باکس، نژاد و هواپیما.",
+      "sources": [
+        "https://www.aerolineas.com.ar/adicionales/mascota-a-bordo",
+        "https://www.aerolineas.com.ar/informacion-util/mascotas"
+      ],
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route"
     },
     {
       "id": "AM",
@@ -950,18 +960,31 @@
       "id": "AV",
       "name": "Avianca",
       "region": "South America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
-      "cabin_max_kg": null,
-      "dimensions_cm": null,
-      "source": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 10,
+      "dimensions_cm": [
+        55,
+        35,
+        25
+      ],
+      "source": "https://ayuda.avianca.com/hc/fr-fr/articles/13091527349787-Puis-je-voler-avec-mon-animal-de-compagnie",
       "hold": {
-        "allowed": null,
-        "max_combined_kg": null,
+        "allowed": true,
+        "max_combined_kg": 70,
         "dimensions_cm": null,
-        "source": null
+        "source": "https://ayuda.avianca.com/hc/fr-fr/articles/13091527349787-Puis-je-voler-avec-mon-animal-de-compagnie",
+        "requires_hard_crate": true,
+        "weight_policy": "aircraft_dependent"
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Cabin: 10 kg including soft bag. Checked hold: up to 70 kg including container on eligible aircraft with ventilated holds. Breed exclusions and flight-specific restrictions apply.",
+      "reviewed_on": "2026-11-26",
+      "notes_fa": "کابین تا ۱۰ کیلوگرم با کیف نرم. سوت تا ۷۰ کیلوگرم با باکس در هواپیمای دارای سوت تهویه‌دار، با محدودیت نژاد و مسیر.",
+      "sources": [
+        "https://ayuda.avianca.com/hc/fr-fr/articles/13091527349787-Puis-je-voler-avec-mon-animal-de-compagnie"
+      ],
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route"
     },
     {
       "id": "J2",
@@ -984,18 +1007,25 @@
       "id": "AD",
       "name": "Azul Brazilian Airlines",
       "region": "South America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
       "cabin_max_kg": null,
       "dimensions_cm": null,
-      "source": null,
+      "source": "https://www.voeazul.com.br/us/en/your-trip/pet-in-the-cabin",
       "hold": {
         "allowed": null,
         "max_combined_kg": null,
         "dimensions_cm": null,
         "source": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "In-cabin pet service on eligible flights. Verify the carrier and weight limit for the booked route.",
+      "reviewed_on": "2026-11-26",
+      "notes_fa": "حمل در کابین در پروازهای واجد شرایط. سقف وزن و ابعاد کیف را برای پرواز انتخابی بررسی کنید.",
+      "sources": [
+        "https://www.voeazul.com.br/us/en/your-trip/pet-in-the-cabin"
+      ],
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route"
     },
     {
       "id": "PG",
@@ -1110,7 +1140,7 @@
     {
       "id": "BW",
       "name": "Caribbean Airlines",
-      "region": "South America",
+      "region": "Caribbean",
       "policy_status": "unverified",
       "cabin_allowed": null,
       "cabin_max_kg": null,
@@ -1240,19 +1270,30 @@
     {
       "id": "CM",
       "name": "Copa Airlines",
-      "region": "South America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
-      "cabin_max_kg": null,
+      "region": "Central America",
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 10,
       "dimensions_cm": null,
-      "source": null,
+      "source": "https://www.copaair.com/en-us/travel-information/special-assistance/traveling-with-pets/",
       "hold": {
-        "allowed": null,
+        "allowed": false,
         "max_combined_kg": null,
         "dimensions_cm": null,
-        "source": null
+        "source": "https://www.copaair.com/assets/contrato-de-transporte-en-dot-octubre-2024.pdf"
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Cabin: up to 10 kg with carrier on eligible flights. Checked hold is not offered as accompanied baggage; Copa Mascotas is a separate cargo service.",
+      "reviewed_on": "2026-11-26",
+      "notes_fa": "کابین تا ۱۰ کیلوگرم با کیف در پرواز واجد شرایط. حمل در سوت به‌عنوان بار همراه ارائه نمی‌شود و Copa Mascotas سرویس جداگانهٔ کارگوست.",
+      "sources": [
+        "https://www.copaair.com/en-us/travel-information/special-assistance/traveling-with-pets/",
+        "https://www.copaair.com/assets/contrato-de-transporte-en-dot-octubre-2024.pdf"
+      ],
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "service_regions": [
+        "South America"
+      ]
     },
     {
       "id": "XC",
@@ -1834,18 +1875,33 @@
       "id": "G3",
       "name": "GOL",
       "region": "South America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
-      "cabin_max_kg": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 12,
       "dimensions_cm": null,
-      "source": null,
+      "source": "https://www.voegol.com.br/fr/nh/servicos-gol/viajando-com-animais",
       "hold": {
         "allowed": null,
         "max_combined_kg": null,
         "dimensions_cm": null,
         "source": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Cabin: 12 kg combined, with a 6 kg combined limit on Caracas services. See the carrier source for route, bag and service details.",
+      "reviewed_on": "2026-11-26",
+      "notes_fa": "کابین تا ۱۲ کیلوگرم با کیف؛ در پروازهای کاراکاس سقف ۶ کیلوگرم است.",
+      "sources": [
+        "https://www.voegol.com.br/fr/nh/servicos-gol/viajando-com-animais"
+      ],
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "cabin_country_weight_limits": [
+        {
+          "countries": [
+            "VE"
+          ],
+          "max_combined_kg": 6
+        }
+      ]
     },
     {
       "id": "GF",
@@ -2173,18 +2229,25 @@
       "id": "JA",
       "name": "JetSMART",
       "region": "South America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
-      "cabin_max_kg": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 10,
       "dimensions_cm": null,
-      "source": null,
+      "source": "https://home-assets.jetsmart.com/us/en/tyc/mascota",
       "hold": {
         "allowed": null,
         "max_combined_kg": null,
         "dimensions_cm": null,
         "source": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Cabin: 10 kg combined. Route, age, booking and carrier requirements apply.",
+      "reviewed_on": "2026-11-26",
+      "notes_fa": "کابین تا ۱۰ کیلوگرم با کیف، مشروط به مسیر، سن، رزرو و ضوابط کیف.",
+      "sources": [
+        "https://home-assets.jetsmart.com/us/en/tyc/mascota"
+      ],
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route"
     },
     {
       "id": "JQ",
@@ -2349,18 +2412,32 @@
       "id": "LA",
       "name": "LATAM Airlines",
       "region": "South America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
       "cabin_max_kg": null,
-      "dimensions_cm": null,
-      "source": null,
+      "dimensions_cm": [
+        40,
+        28,
+        25
+      ],
+      "source": "https://www.latamairlines.com/us/en/help-center/faq/pets/transport/airplaine-flight",
       "hold": {
-        "allowed": null,
+        "allowed": true,
         "max_combined_kg": null,
         "dimensions_cm": null,
-        "source": null
+        "source": "https://www.latamairlines.com/us/en/experience/prepare-your-trip/pets-transportation/hold",
+        "requires_hard_crate": true,
+        "weight_policy": "aircraft_dependent"
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Cabin soft carrier 40 × 28 × 25 cm. Checked-hold limits depend on aircraft and duration: eligible narrow-body flights up to four hours have a 32 kg combined maximum; four to five hours have a 23 kg maximum. Other aircraft and routes have separate limits. LATAM-operated itinerary required.",
+      "reviewed_on": "2026-11-26",
+      "notes_fa": "کابین با کیف نرم ۴۰ × ۲۸ × ۲۵ سانتی‌متر. سقف سوت با نوع هواپیما و مدت پرواز فرق دارد و رزرو باید روی پروازهای عملیاتی LATAM باشد.",
+      "sources": [
+        "https://www.latamairlines.com/us/en/help-center/faq/pets/transport/airplaine-flight",
+        "https://www.latamairlines.com/us/en/experience/prepare-your-trip/pets-transportation/hold"
+      ],
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route"
     },
     {
       "id": "PZ",
@@ -3038,18 +3115,27 @@
       "id": "H2",
       "name": "SKY Airline",
       "region": "South America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
-      "cabin_max_kg": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
+      "cabin_max_kg": 10,
       "dimensions_cm": null,
-      "source": null,
+      "source": "https://www.skyairline.com/es/peru/tarifario-de-productos",
       "hold": {
-        "allowed": null,
+        "allowed": true,
         "max_combined_kg": null,
         "dimensions_cm": null,
-        "source": null
+        "source": "https://www.skyairline.com/es/peru/tarifario-de-productos",
+        "requires_hard_crate": true,
+        "weight_policy": "aircraft_dependent"
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Cabin: up to 10 kg with soft carrier. Checked hold is offered on eligible services subject to capacity and kennel restrictions.",
+      "reviewed_on": "2026-11-26",
+      "notes_fa": "کابین تا ۱۰ کیلوگرم با کیف نرم. سوت در پروازهای واجد شرایط و بر اساس ظرفیت و ضوابط باکس.",
+      "sources": [
+        "https://www.skyairline.com/es/peru/tarifario-de-productos"
+      ],
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route"
     },
     {
       "id": "GQ",
@@ -3835,18 +3921,28 @@
       "id": "P5",
       "name": "Wingo",
       "region": "South America",
-      "policy_status": "unverified",
-      "cabin_allowed": null,
+      "policy_status": "reviewed",
+      "cabin_allowed": true,
       "cabin_max_kg": null,
       "dimensions_cm": null,
-      "source": null,
+      "source": "https://www.wingo.com/centro-de-ayuda/preguntas-frecuentes",
       "hold": {
         "allowed": null,
         "max_combined_kg": null,
         "dimensions_cm": null,
         "source": null
       },
-      "notes": "Pet policy not yet independently reviewed by PawVago. Contact the operating airline before making any travel decision."
+      "notes": "Dogs and cats can fly in cabin on eligible domestic and some international services. Check the route-specific pet policy before booking.",
+      "reviewed_on": "2026-11-26",
+      "notes_fa": "پذیرش سگ و گربه در کابین در مسیرهای داخلی واجد شرایط و بعضی پروازهای بین‌المللی.",
+      "sources": [
+        "https://www.wingo.com/centro-de-ayuda/preguntas-frecuentes"
+      ],
+      "reservation_required": true,
+      "route_rule": "confirm_operating_route",
+      "service_regions": [
+        "Caribbean"
+      ]
     },
     {
       "id": "W6",
@@ -4025,6 +4121,394 @@
       "code": "MX",
       "name": "Mexico",
       "region": "North America"
+    },
+    {
+      "code": "AR",
+      "name": "Argentina",
+      "region": "South America",
+      "pet_entry": {
+        "source": "https://www.argentina.gob.ar/senasa/informacion-al-viajero/ingresar-o-regresar-al-pais/ingresos-con-perros-yo-gatos",
+        "checklist": [
+          "Carry an International Veterinary Certificate (CVI) or a valid official passport endorsed by the veterinary authority of the country of departure.",
+          "Document rabies vaccination, parasite treatment and the veterinary health exam as required by SENASA."
+        ],
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-argentina"
+      }
+    },
+    {
+      "code": "BO",
+      "name": "Bolivia",
+      "region": "South America",
+      "pet_entry": {
+        "source": "https://vuce.gob.bo/es/SENASAG_importacion_perros_gatos_requisitos",
+        "checklist": [
+          "Obtain the SENASAG animal health import permit before departure. Prepare the supporting veterinary documents specified in the permit instructions."
+        ],
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-bolivia"
+      }
+    },
+    {
+      "code": "BR",
+      "name": "Brazil",
+      "region": "South America",
+      "pet_entry": {
+        "source": "https://www.gov.br/agricultura/pt-br/assuntos/vigilancia-agropecuaria/animais-estimacao/entrar-no-brasil",
+        "checklist": [
+          "Carry a compliant international veterinary certificate or official pet passport issued or endorsed through the departure country’s veterinary authority.",
+          "Use the certificate model approved for the departure country and check its vaccination, examination and treatment deadlines."
+        ],
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-brazil"
+      }
+    },
+    {
+      "code": "CL",
+      "name": "Chile",
+      "region": "South America",
+      "pet_entry": {
+        "source": "https://www.sag.gob.cl/tramites/solicitud-de-autorizacion-sanitaria-para-ingresar-chile-con-perros-y-gatos-mascotas",
+        "checklist": [
+          "Carry the official veterinary certificate from the departure country and present it to SAG for entry inspection. Check the certificate requirements for the exam, rabies and parasite treatment."
+        ],
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-chile"
+      }
+    },
+    {
+      "code": "CO",
+      "name": "Colombia",
+      "region": "South America",
+      "pet_entry": {
+        "source": "https://www.ica.gov.co/preguntas-frecuentes/impo-expo/animales-de-compania/que-se-debe-tener-en-cuenta-para-el-ingreso-de-per",
+        "checklist": [
+          "Carry the departure country’s veterinary health certificate and current vaccination records.",
+          "Submit the SISPAP request where applicable and present the pet, documents and payment records to ICA for inspection and issuance of the CIS where required."
+        ],
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-colombia"
+      }
+    },
+    {
+      "code": "EC",
+      "name": "Ecuador",
+      "region": "South America",
+      "pet_entry": {
+        "source": "https://www.agrocalidad.gob.ec/ingreso-al-ecuador-de-animales-de-compania-perros-y-gatos/",
+        "checklist": [
+          "Carry an official export animal health certificate in Spanish or English issued by the departure country’s veterinary service."
+        ],
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-ecuador"
+      }
+    },
+    {
+      "code": "FK",
+      "name": "Falkland Islands",
+      "region": "South America"
+    },
+    {
+      "code": "GF",
+      "name": "French Guiana",
+      "region": "South America",
+      "pet_entry": {
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-french-guyana"
+      }
+    },
+    {
+      "code": "GY",
+      "name": "Guyana",
+      "region": "South America",
+      "pet_entry": {
+        "source": "https://glda.gy/wp-content/uploads/2023/10/PROCEDURE-FOR-THE-IMPORTATION-OF-ANIMALS-INTO-GUYANA.pdf",
+        "checklist": [
+          "Apply to the Guyana Livestock Development Authority for an import permit and provide the pet’s health and vaccination records. Follow the origin-specific conditions on the issued permit."
+        ]
+      }
+    },
+    {
+      "code": "PE",
+      "name": "Peru",
+      "region": "South America",
+      "pet_entry": {
+        "source": "https://bienvenidoalperu.sunat.gob.pe/es.ingreso-al-peru-con-tus-mascotas.html",
+        "checklist": [
+          "Bring vaccination documentation and present the pet to SENASA at arrival for inspection. Check the full SENASA certificate requirements linked by customs."
+        ],
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-peru"
+      }
+    },
+    {
+      "code": "PY",
+      "name": "Paraguay",
+      "region": "South America",
+      "pet_entry": {
+        "source": "https://senacsa.gov.py/servicios/sanidad-animal-identidad-y-trazabilidad/cuarentena/viajar-con-mascotas/",
+        "checklist": [
+          "Bring an International Veterinary Certificate (CVI) and present it to the SENACSA veterinary inspector at entry for the document and animal checks."
+        ],
+        "us_source": "https://www.aphis.usda.gov/pet-travel-us-paraguay"
+      }
+    },
+    {
+      "code": "SR",
+      "name": "Suriname",
+      "region": "South America"
+    },
+    {
+      "code": "UY",
+      "name": "Uruguay",
+      "region": "South America",
+      "pet_entry": {
+        "source": "https://www.gub.uy/tramites/solicitud-ingreso-mascotas-uruguay",
+        "checklist": [
+          "Carry the official International Veterinary Certificate (CVI) showing the required health exam and other sanitary declarations. The exam must be within 10 days before the certificate is issued."
+        ],
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-uruguay"
+      }
+    },
+    {
+      "code": "VE",
+      "name": "Venezuela",
+      "region": "South America",
+      "pet_entry": {
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-venezuela"
+      }
+    },
+    {
+      "code": "AG",
+      "name": "Antigua and Barbuda",
+      "region": "Caribbean",
+      "pet_entry": {
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-antigua-barbuda"
+      }
+    },
+    {
+      "code": "AI",
+      "name": "Anguilla",
+      "region": "Caribbean",
+      "pet_entry": {
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-anguilla"
+      }
+    },
+    {
+      "code": "AW",
+      "name": "Aruba",
+      "region": "Caribbean",
+      "pet_entry": {
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-aruba"
+      }
+    },
+    {
+      "code": "BB",
+      "name": "Barbados",
+      "region": "Caribbean",
+      "pet_entry": {
+        "source": "https://gisbarbados.gov.bb/blog/guidelines-for-importing-cats-dogs/",
+        "checklist": [
+          "Obtain a Veterinary Services import permit and an export health certificate. Use the permit to confirm origin-specific requirements."
+        ],
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-barbados"
+      }
+    },
+    {
+      "code": "BL",
+      "name": "Saint Barthélemy",
+      "region": "Caribbean"
+    },
+    {
+      "code": "BQ",
+      "name": "Caribbean Netherlands",
+      "region": "Caribbean"
+    },
+    {
+      "code": "BS",
+      "name": "Bahamas",
+      "region": "Caribbean",
+      "pet_entry": {
+        "source": "https://cdn.bahamas.gov.bs/tenant/tenanttgotb/documents/TheBahamasAnimalImportRequirements-20250527063506.pdf",
+        "checklist": [
+          "Obtain a Bahamas pet import permit and carry the supporting veterinary documentation and vaccination records required by the permit."
+        ],
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-bahamas"
+      }
+    },
+    {
+      "code": "CU",
+      "name": "Cuba",
+      "region": "Caribbean"
+    },
+    {
+      "code": "CW",
+      "name": "Curaçao",
+      "region": "Caribbean",
+      "pet_entry": {
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-curacao"
+      }
+    },
+    {
+      "code": "DM",
+      "name": "Dominica",
+      "region": "Caribbean",
+      "pet_entry": {
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-dominica"
+      }
+    },
+    {
+      "code": "DO",
+      "name": "Dominican Republic",
+      "region": "Caribbean",
+      "pet_entry": {
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-dominican-republic",
+        "us_checklist": [
+          "Use the official veterinary health certificate for U.S. departures. For eligible pets at least 12 weeks old, rabies vaccination is required and at least 30 days must pass before travel."
+        ]
+      }
+    },
+    {
+      "code": "GD",
+      "name": "Grenada",
+      "region": "Caribbean",
+      "pet_entry": {
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-grenada"
+      }
+    },
+    {
+      "code": "GP",
+      "name": "Guadeloupe",
+      "region": "Caribbean",
+      "pet_entry": {
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-guadeloupe"
+      }
+    },
+    {
+      "code": "HT",
+      "name": "Haiti",
+      "region": "Caribbean"
+    },
+    {
+      "code": "JM",
+      "name": "Jamaica",
+      "region": "Caribbean",
+      "pet_entry": {
+        "source": "https://www.moa.gov.jm/sites/default/files/DECEMBER%202%202025%20update%20DOMESTIC%20IMPORT%20OF%20ANIMAL%20and%20animal%20products%20document%20for%20NMIA%20and%20MBJ.pdf",
+        "checklist": [
+          "Obtain a Veterinary Services Division import permit. Check origin eligibility and the health certificate conditions before booking."
+        ],
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-jamaica"
+      }
+    },
+    {
+      "code": "KN",
+      "name": "Saint Kitts and Nevis",
+      "region": "Caribbean",
+      "pet_entry": {
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-st-kitts-nevis"
+      }
+    },
+    {
+      "code": "KY",
+      "name": "Cayman Islands",
+      "region": "Caribbean",
+      "pet_entry": {
+        "source": "https://doa.gov.ky/wp-content/uploads/2026/09/Cayman-Islands-Importation-Conditions-DOGS-AND-CATS-2026-Final.pdf",
+        "checklist": [
+          "Obtain an import permit from the Department of Agriculture. Follow the applicable origin-specific microchip, vaccination, testing and certification conditions in the official guide."
+        ],
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-cayman-islands"
+      }
+    },
+    {
+      "code": "LC",
+      "name": "Saint Lucia",
+      "region": "Caribbean",
+      "pet_entry": {
+        "source": "https://www.govt.lc/services/veterinary-import-permit",
+        "checklist": [
+          "Apply for a veterinary import permit before travel. Check the supporting conditions for your departure country."
+        ],
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-st-lucia"
+      }
+    },
+    {
+      "code": "MF",
+      "name": "Saint Martin",
+      "region": "Caribbean",
+      "pet_entry": {
+        "us_source": "https://www.aphis.usda.gov/pet-travel/pet-travel-united-states-st-maarten-st-martin"
+      }
+    },
+    {
+      "code": "MQ",
+      "name": "Martinique",
+      "region": "Caribbean",
+      "pet_entry": {
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-martinique"
+      }
+    },
+    {
+      "code": "MS",
+      "name": "Montserrat",
+      "region": "Caribbean"
+    },
+    {
+      "code": "PR",
+      "name": "Puerto Rico",
+      "region": "Caribbean",
+      "pet_entry": {
+        "us_source": "https://docs.pr.gov/files/Agricultura/Secretaria%20Auxiliar/State%20Regulations%20for%20Imports%20to%20Puerto%20Rico%20-%20UPDATE%2011.11.24.pdf",
+        "us_checklist": [
+          "Carry the official veterinary health certificate for interstate entry into Puerto Rico. Check the required rabies and parasite treatment declarations and deadlines in the Department of Agriculture guide."
+        ]
+      }
+    },
+    {
+      "code": "SX",
+      "name": "Sint Maarten",
+      "region": "Caribbean",
+      "pet_entry": {
+        "us_source": "https://www.aphis.usda.gov/pet-travel/pet-travel-united-states-st-maarten-st-martin"
+      }
+    },
+    {
+      "code": "TC",
+      "name": "Turks and Caicos Islands",
+      "region": "Caribbean",
+      "pet_entry": {
+        "source": "https://borderforce.gov.tc/pets-food-plants",
+        "checklist": [
+          "Obtain an animal import permit from the Department of Agriculture. A first-time arrival requires a single-entry permit. Prepare the other documents specified by Border Force."
+        ],
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-turks-caico-islands"
+      }
+    },
+    {
+      "code": "TT",
+      "name": "Trinidad and Tobago",
+      "region": "Caribbean",
+      "pet_entry": {
+        "source": "https://agriculture.gov.tt/media-releases/pet-travel-into-trinidad-and-tobago/",
+        "checklist": [
+          "Obtain an import permit and follow its veterinary conditions. The government permits pets to arrive in the cabin, as checked baggage or as cargo, subject to airline acceptance."
+        ],
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-trinidad-tobago"
+      }
+    },
+    {
+      "code": "VC",
+      "name": "Saint Vincent and the Grenadines",
+      "region": "Caribbean",
+      "pet_entry": {
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-st-vincent-grenadines"
+      }
+    },
+    {
+      "code": "VG",
+      "name": "British Virgin Islands",
+      "region": "Caribbean",
+      "pet_entry": {
+        "us_source": "https://www.aphis.usda.gov/pet-travel/us-to-another-country-export/pet-travel-us-british-virgin-islands"
+      }
+    },
+    {
+      "code": "VI",
+      "name": "U.S. Virgin Islands",
+      "region": "Caribbean"
     }
   ],
   "official_sources": {
@@ -4095,11 +4579,11 @@
   },
   "catalog_info": {
     "total": 164,
-    "reviewed": 53,
-    "unverified": 111,
+    "reviewed": 62,
+    "unverified": 102,
     "scope": "Major and regionally relevant passenger airlines; not an exhaustive list of all licensed airlines worldwide.",
-    "updated_on": "2026-11-18",
+    "updated_on": "2026-11-26",
     "filtering": "Client-side query by airline name, IATA code and region. Unsupported airlines explicitly show Policy not verified, never Not allowed by default."
   },
-  "updated_on": "2026-11-18"
+  "updated_on": "2026-11-26"
 }
