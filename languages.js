@@ -240,6 +240,7 @@
   "The assistant is temporarily unavailable.": "دستیار موقتاً در دسترس نیست.",
   "Please try again.": "دوباره تلاش کنید.",
   "Select country": "انتخاب کشور",
+  "Type a country name": "نام کشور را تایپ کنید",
   "Cabin bag weight (kg)": "وزن کیف کابین (کیلوگرم)",
   "PawVago compares cabin and checked-hold airline policies automatically. Rigid crate details are separate from cabin bag details.": "پاواگو قوانین کابین و قسمت بار ایرلاین‌ها را خودکار مقایسه می‌کند. مشخصات باکس سخت از کیف کابین جداست.",
   "Cabin: your pet stays in a compliant under-seat carrier.": "کابین: حیوان شما در کیف استاندارد زیر صندلی می‌ماند.",

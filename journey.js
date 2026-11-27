@@ -117,6 +117,139 @@
   let catalogLimit = Number.POSITIVE_INFINITY;
   const policyReviewed = a => a.policy_status === "reviewed" && Boolean(a.reviewed_on) && safeUrl(a.source) !== "#";
   const normalizeSearch = value => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase().trim();
+  const countryAliases = {
+    AE: ["UAE", "امارات"], GB: ["UK", "Great Britain", "انگلیس", "بریتانیا"],
+    NL: ["Holland", "هلند"], TR: ["Turkey", "Türkiye"], US: ["USA", "US", "امریکا", "آمریکا"]
+  };
+  const normalizeCountry = value => value.toLowerCase().normalize("NFKD")
+    .replace(/\p{M}/gu, "").replace(/ي/g, "ی").replace(/ك/g, "ک").replace(/ı/g, "i")
+    .replace(/[^\p{L}\p{N}]/gu, "");
+
+  function bindCountrySearch(select, city, countries) {
+    const input = document.createElement("input");
+    const list = document.createElement("ul");
+    input.id = select.id + "-search";
+    input.type = "search";
+    input.required = true;
+    input.autocomplete = "off";
+    input.placeholder = "Type a country name";
+    input.setAttribute("aria-label", select.getAttribute("aria-label"));
+    input.setAttribute("role", "combobox");
+    input.setAttribute("aria-autocomplete", "list");
+    input.setAttribute("aria-controls", input.id + "-suggestions");
+    input.setAttribute("aria-expanded", "false");
+    list.id = input.id + "-suggestions";
+    list.className = "city-suggestions";
+    list.setAttribute("role", "listbox");
+    list.hidden = true;
+    select.before(input);
+    select.parentElement.after(list);
+    select.hidden = true;
+    select.required = false;
+    form.append(select);
+
+    const localizedNames = new Map();
+    const regionName = (code, lang) => {
+      if (!localizedNames.has(lang)) {
+        localizedNames.set(lang, typeof Intl.DisplayNames === "function" ?
+          new Intl.DisplayNames([lang], {type:"region", fallback:"none"}) : null);
+      }
+      return localizedNames.get(lang)?.of(code);
+    };
+    const displayName = country => regionName(country.code, document.documentElement.lang || "en") || country.name;
+    const entries = countries.map(country => ({
+      country,
+      names: [country.name, ...(countryAliases[country.code] || []),
+        ...["en", "fa", "fr", "es", "de", "tr", "ar"].map(lang => regionName(country.code, lang))
+      ].filter(Boolean).map(normalizeCountry)
+    }));
+    let matches = [], active = -1;
+
+    function close() {
+      list.hidden = true;
+      input.setAttribute("aria-expanded", "false");
+      input.removeAttribute("aria-activedescendant");
+    }
+    function validate() {
+      input.setCustomValidity(input.value && !select.value ?
+        (document.documentElement.lang === "fa" ? "کشور را از فهرست پیشنهادها انتخاب کنید." : "Choose a country from the suggestions.") : "");
+    }
+    function sync() {
+      const country = countries.find(entry => entry.code === select.value);
+      if (country) {
+        input.value = displayName(country);
+        close();
+      }
+      validate();
+    }
+    function pick(country) {
+      select.value = country.code;
+      sync();
+      select.dispatchEvent(new Event("change", {bubbles:true}));
+    }
+    function showMatches() {
+      const query = normalizeCountry(input.value);
+      const lang = document.documentElement.lang || "en";
+      matches = query ? entries.filter(entry => entry.names.some(name => name.startsWith(query)))
+        .sort((a, b) => Number(b.names.includes(query)) - Number(a.names.includes(query)) ||
+          displayName(a.country).localeCompare(displayName(b.country), lang))
+        .slice(0, 7).map(entry => entry.country) : [];
+      active = -1;
+      input.removeAttribute("aria-activedescendant");
+      list.replaceChildren(...matches.map((country, index) => {
+        const option = document.createElement("li");
+        option.id = list.id + "-" + index;
+        option.setAttribute("role", "option");
+        option.setAttribute("aria-selected", "false");
+        option.textContent = displayName(country);
+        option.addEventListener("pointerdown", event => event.preventDefault());
+        option.addEventListener("click", () => pick(country));
+        return option;
+      }));
+      list.hidden = !matches.length;
+      input.setAttribute("aria-expanded", String(matches.length > 0));
+    }
+
+    select.addEventListener("change", sync);
+    input.addEventListener("input", () => {
+      if (select.value) {
+        select.value = "";
+        city.value = "";
+        window.PawVagoCitySearch?.reset(city);
+        select.dispatchEvent(new Event("change", {bubbles:true}));
+      }
+      validate();
+      showMatches();
+    });
+    input.addEventListener("focus", () => { if (!select.value) showMatches(); });
+    input.addEventListener("blur", close);
+    input.addEventListener("keydown", event => {
+      if (list.hidden || event.isComposing) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        close();
+      } else if (event.key === "Enter") {
+        event.preventDefault();
+        if (active >= 0 || matches.length === 1) pick(matches[Math.max(active, 0)]);
+      } else if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        event.preventDefault();
+        const step = event.key === "ArrowDown" ? 1 : -1;
+        active = active < 0 && step < 0 ? matches.length - 1 : (active + step + matches.length) % matches.length;
+        Array.from(list.children).forEach((option, index) => option.setAttribute("aria-selected", String(active === index)));
+        input.setAttribute("aria-activedescendant", list.children[active].id);
+        list.children[active].scrollIntoView({block:"nearest"});
+      }
+    });
+    new MutationObserver(() => {
+      if (list.hidden) sync();
+      else {
+        validate();
+        showMatches();
+      }
+    }).observe(document.documentElement, {attributes:true, attributeFilter:["lang"]});
+    sync();
+  }
+
   const shortNosedRows = (airline, species, breed, results) => {
     if (!window.PawVagoAirMatcher?.shortNosedPolicy) return "";
     const fa = document.documentElement.lang === "fa";
@@ -532,6 +665,8 @@
       ui.to.innerHTML = chooseCountry + countryOptions;
       ui.from.value = "";
       ui.to.value = "";
+      bindCountrySearch(ui.from, ui.originCity, data.countries);
+      bindCountrySearch(ui.to, ui.destCity, data.countries);
       ui.directoryRegion.innerHTML = '<option value="all">All regions</option>' +
         [...new Set(policy.airlines.map(a => a.region || "Other"))].sort().map(region =>
           '<option value="' + safe(region) + '">' + safe(region) + '</option>').join("");
