@@ -134,6 +134,41 @@ test('deep links open the collapsed travel checker', async ({ page }) => {
   await expect(page.locator('#travel-tools')).toHaveAttribute('open', '');
   await expect(page.locator('#pvj-faq-title')).toBeVisible();
 });
+
+test('country autocomplete sets the route and scopes city suggestions', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('pawvago-language', 'fa'));
+  await page.route('**/api/geocode?*', route => route.fulfill({json:{results:[]}}));
+  await page.goto('/#journey-lab');
+
+  const origin = page.locator('#pvj-from-search');
+  const destination = page.locator('#pvj-to-search');
+  const city = page.locator('#pvj-origin-city');
+  await origin.fill('فر');
+  await page.getByRole('option', {name:'فرانسه', exact:true}).click();
+  await expect(origin).toHaveValue('فرانسه');
+  await expect(page.locator('#pvj-from')).toHaveValue('FR');
+
+  await destination.fill('Can');
+  await destination.press('ArrowDown');
+  await destination.press('Enter');
+  await expect(destination).toHaveValue('کانادا');
+  await expect(page.locator('#pvj-to')).toHaveValue('CA');
+
+  await city.fill('Na');
+  await page.getByRole('option', {name:/نانت/}).click();
+  await expect(city).toHaveValue('Nantes');
+
+  await origin.fill('invalid country');
+  await expect(city).toHaveValue('');
+  await expect(page.locator('#pvj-from')).toHaveValue('');
+  expect(await origin.evaluate(input => input.checkValidity())).toBe(false);
+
+  await origin.clear();
+  await city.fill('Istan');
+  await page.getByRole('option', {name:/استانبول/}).click();
+  await expect(origin).toHaveValue('ترکیه');
+  await expect(page.locator('#pvj-from')).toHaveValue('TR');
+});
 test('keyboard visitors can open and close travel tools', async ({ page }) => {
   await page.goto('/');
   const drawer = page.locator('#travel-tools');
