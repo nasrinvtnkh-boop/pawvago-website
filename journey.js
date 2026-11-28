@@ -254,31 +254,33 @@
     if (!window.PawVagoAirMatcher?.shortNosedPolicy) return "";
     const fa = document.documentElement.lang === "fa";
     const labels = fa
-      ? {eligible:"مجاز با شرایط",blocked:"غیرمجاز",restricted:"محدودیت دارد",unknown:"تأیید نشده"}
-      : {eligible:"Allowed with conditions",blocked:"Not allowed",restricted:"Restricted",unknown:"Unverified"};
+      ? {eligible:"مجاز با شرایط",blocked:"غیرمجاز",restricted:"محدودیت دارد"}
+      : {eligible:"Allowed with conditions",blocked:"Not allowed",restricted:"Restricted"};
     const explanations = fa
-      ? {eligible:"وزن، ابعاد باکس و شرایط پرواز را بررسی کنید.",restricted:"پذیرش را برای همین نژاد و مسیر در منبع ایرلاین بررسی کنید.",unknown:"پذیرش این نژاد برای این روش هنوز تأیید نشده است."}
-      : {eligible:"Check weight, carrier dimensions and flight conditions.",restricted:"Check the airline’s rules for the exact breed and route.",unknown:"Acceptance for this breed and transport method is unverified."};
+      ? {eligible:"وزن، ابعاد باکس و شرایط پرواز را بررسی کنید.",restricted:"پذیرش را برای همین نژاد و مسیر در منبع ایرلاین بررسی کنید."}
+      : {eligible:"Check weight, carrier dimensions and flight conditions.",restricted:"Check the airline’s rules for the exact breed and route."};
     const modes = fa
       ? {cabin:"کابین کنار مسافر",hold:"سوت همراه مسافر",cargo:"کارگو با رزرو جدا"}
       : {cabin:"Passenger cabin",hold:"Checked hold",cargo:"Cargo · separate booking"};
     const title = fa ? "سفر با نژاد پوزه‌کوتاه" : "Short-nosed pet travel";
+    const rows = Object.entries(modes).map(([mode,name]) => {
+      const rule = window.PawVagoAirMatcher.shortNosedPolicy(airline,mode,species,breed);
+      const result = results?.[mode];
+      const outcome = result?.kind === "blocked" ? "blocked" : rule.status;
+      if (outcome === "unknown") return "";
+      const reason = outcome === "blocked" ? result?.reasons[0] : explanations[outcome];
+      const official = result?.kind === "blocked" && rule.status !== "blocked"
+        ? (mode === "hold" ? airline.hold?.source : airline.source)
+        : rule.source;
+      return '<li><div class="pvj-short-nosed-line"><strong>' + safe(name) +
+        '</strong><span class="pvj-short-nosed-status pvj-short-nosed-' + outcome + '">' +
+        safe(labels[outcome]) + '</span></div>' +
+        (reason ? '<span class="pvj-short-nosed-reason">' + safe(reason) + '</span>' : '') +
+        (official ? sourceLink(official,fa ? "منبع رسمی ↗" : "Official source ↗") : '') + '</li>';
+    }).join("");
+    if (!rows) return "";
     return '<div class="pvj-short-nosed"><strong class="pvj-short-nosed-title">' + safe(title) +
-      (breed?.trim() ? ' · ' + safe(breed.trim()) : '') + '</strong><ul>' +
-      Object.entries(modes).map(([mode,name]) => {
-        const rule = window.PawVagoAirMatcher.shortNosedPolicy(airline,mode,species,breed);
-        const result = results?.[mode];
-        const outcome = result?.kind === "blocked" ? "blocked" : rule.status;
-        const reason = outcome === "blocked" ? result?.reasons[0] : explanations[outcome];
-        const official = result?.kind === "blocked" && rule.status !== "blocked"
-          ? (mode === "hold" ? airline.hold?.source : airline.source)
-          : rule.source;
-        return '<li><div class="pvj-short-nosed-line"><strong>' + safe(name) +
-          '</strong><span class="pvj-short-nosed-status pvj-short-nosed-' + outcome + '">' +
-          safe(labels[outcome]) + '</span></div>' +
-          (reason ? '<span class="pvj-short-nosed-reason">' + safe(reason) + '</span>' : '') +
-          (official ? sourceLink(official,fa ? "منبع رسمی ↗" : "Official source ↗") : '') + '</li>';
-      }).join("") + '</ul></div>';
+      (breed?.trim() ? ' · ' + safe(breed.trim()) : '') + '</strong><ul>' + rows + '</ul></div>';
   };
 
   const renderLibrary = () => {
